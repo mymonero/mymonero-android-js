@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 //const http = require('http');
 // const { URL } = require('url');
 // This module contains XMR.TO functionality. For more info, go to test.xmr.to
@@ -147,4 +147,4 @@ class ExchangeFunctions {
     // }
 }
 
-module.exports = ExchangeFunctions;
+export default function() { ExchangeFunctions };

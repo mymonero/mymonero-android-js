@@ -1,5 +1,5 @@
 // import function for Bitcoin address checking
-let validate = require('bitcoin-address-validation');
+import validate from 'bitcoin-address-validation';
 
 function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn) {
     return new Promise((resolve, reject) => {
@@ -176,4 +176,4 @@ function renderOrderStatus(order) {
         return true;
     }
 
-    module.exports = { validateBTCAddress, getTimeRemaining, isValidBase10Decimal, checkDecimals, renderOrderStatus, sendFunds };
+    export default { validateBTCAddress, getTimeRemaining, isValidBase10Decimal, checkDecimals, renderOrderStatus, sendFunds };

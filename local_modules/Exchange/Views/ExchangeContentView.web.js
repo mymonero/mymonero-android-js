@@ -75,9 +75,17 @@ class ExchangeContentView extends View {
         ecvSelf.observerIsSet = false;
 
         let interval = setInterval(function() {
+            console.log(this);
+            console.log(ecvSelf);
+            console.log(context);
+            console.log(context.walletsListController.records);
             // if wallets exist, setup the wallet selector for the exchange page
-            if (self.context.wallets !== undefined) {
-                ecvSelf._setup_walletExchangeOptions(self.context);
+            try {
+                if (context.walletsListController.records !== undefined) {
+                    //ecvSelf._setup_walletExchangeOptions(self.context);
+                }
+            } catch {
+                // wallet not instantiated yet, no need to display notices
             }
             ecvSelf._refresh_sending_fee();
         }, 4000);
@@ -92,52 +100,25 @@ class ExchangeContentView extends View {
         if (walletDiv === null) {
             return;
         }
-        
-        // if the user has selected a wallet, we update the balances for them
-        if (walletDiv.dataset.walletchosen == "true") {
-            let selectedWallet = document.getElementById('selected-wallet');
-            let selectorOffset = selectedWallet.dataset.walletoffset;
-            let selectorInt = parseInt(selectorOffset);
-            let wallet = self.context.wallets[selectorInt];
-            let walletBalance = document.getElementById('selected-wallet-balance'); 
-            walletBalance.innerText = `${self.UnlockedBalance_FormattedString(self.context.wallets[selectorOffset])} XMR available`;
-        } else {
-            let walletOptions = ``;
-            for (let i = 0; i < context.wallets.length; i++) {
-                let wallet = context.wallets[i];
-                let swatch = wallet.swatch.substr(1);
-                console.log('Get the wallet address, pass it as a data attr for refunds');
-                console.log(wallet);
-                walletOptions = walletOptions + `
-                <div data-walletLabel="${wallet.walletLabel}" data-walletoffset="${i}" data-swatch="${swatch}" data-walletbalance="${self.UnlockedBalance_FormattedString(wallet)}" data-walletid="${wallet._id}" data-walletpublicaddress="${wallet.public_address}" class="hoverable-cell utility optionCell" style="word-break: break-all; height: 66px; position: relative; left: 0px; top: 0px; box-sizing: border-box; width: 100%;">                    
-                    <div class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${swatch}@3x.png');"></div>                        
-                    <div class="walletLabel">${wallet.walletLabel}</div>
-                    <div class="description-label" style="position: relative; box-sizing: border-box; padding: 0px 38px 4px 66px; font-size: 13px; font-family: Native-Light, input, menlo, monospace; font-weight: 100; -webkit-font-smoothing: subpixel-antialiased; max-height: 32px; color: rgb(158, 156, 158); word-break: normal; overflow: hidden; text-overflow: ellipsis; cursor: default;">${self.UnlockedBalance_FormattedString(wallet)} XMR available</div>
+        // if the user has selected a wallet, we update the balances for the    
+        //console.log('wallet html ran options '+i)
+        // get oldest wallet based on how wallets are inserted into wallets as a zero element, changing indexes backwards
+        let defaultOffset = 0;
+        let defaultWallet = context.walletsListController.records[defaultOffset];
+        let walletSelectOptions = `
+        <div data-walletoffset="0" data-walletpublicaddress="${defaultWallet.public_address}" data-walletLabel="${defaultWallet.walletLabel}" data-swatch="${defaultWallet.swatch.substr(1)}" data-walletbalance="${self.UnlockedBalance_FormattedString(defaultWallet)}" data-walletid="${defaultWallet._id}" id="selected-wallet" class="hoverable-cell utility selectionDisplayCellView" style="">
+                <div id="selected-wallet-icon" class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${defaultWallet.swatch.substr(1)}@3x.png')"></div>
+                <div id="selected-wallet-label" class="walletName">${defaultWallet.walletLabel}</div>
+                <div id="selected-wallet-balance" class="description-label">${self.UnlockedBalance_FormattedString(defaultWallet)} XMR available</div>
+            </div>
+            <div id="wallet-options" class="options_containerView">
+                <div class="options_cellViews_containerView" style="position: relative; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 20; overflow-y: auto; max-height: 174.9px;">
                 </div>
-                `;
-            }         
-            //console.log('wallet html ran options '+i)
-            // get oldest wallet based on how wallets are inserted into wallets as a zero element, changing indexes backwards
-            let size = context.wallets.length;
-            size = size - 1;
-            let defaultOffset = 0;
-            let defaultWallet = context.wallets[defaultOffset];
-            let walletSelectOptions = `
-            <div data-walletoffset="0" data-walletpublicaddress="${defaultWallet.public_address}" data-walletLabel="${defaultWallet.walletLabel}" data-swatch="${defaultWallet.swatch.substr(1)}" data-walletbalance="${self.UnlockedBalance_FormattedString(defaultWallet)}" data-walletid="${defaultWallet._id}" id="selected-wallet" class="hoverable-cell utility selectionDisplayCellView" style="">
-                    <div id="selected-wallet-icon" class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${defaultWallet.swatch.substr(1)}@3x.png')"></div>
-                    <div id="selected-wallet-label" class="walletName">${defaultWallet.walletLabel}</div>
-                    <div id="selected-wallet-balance" class="description-label">${self.UnlockedBalance_FormattedString(defaultWallet)} XMR available</div>
-                </div>
-                <div id="wallet-options" class="options_containerView">
-                    <div class="options_cellViews_containerView" style="position: relative; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 20; overflow-y: auto; max-height: 174.9px;">
-                        ${walletOptions}
-                    </div>
-                </div>
-            `;
-            walletDiv.innerHTML = walletSelectOptions;
-        }
-
+            </div>
+        `;
+        walletDiv.innerHTML = walletSelectOptions;
     }
+
     _refresh_sending_fee() {
         const self = this;
         let tx_fee = document.getElementById('tx-fee');
@@ -447,18 +428,18 @@ class ExchangeContentView extends View {
         }
         {
             const layer = document.createElement("script");
+            layer.setAttribute('type', 'module'); 
             //layer.innerText = fs.readFileSync(__dirname + '/ExchangeScript.js', 'utf8');
-            layer.innerHTML = `(function() {
+            layer.innerHTML += `(function() {
                 console.log("ExchangeScript ran");
                 const XMRcurrencyInput = document.getElementById('XMRcurrencyInput');
                 const BTCcurrencyInput = document.getElementById('BTCcurrencyInput');
                 const validationMessages = document.getElementById('validation-messages');
             
-                let validate = require('bitcoin-address-validation');
-                let Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
-                let ExchangeLibrary = require('mymonero-exchange');
+                import Utils from '/Exchange/Javascript/ExchangeUtilityFunctions';
+                import ExchangeLibrary from '/Exchange/Javascript/ExchangeUtilityFunctions';
                 let ExchangeFunctions = new ExchangeLibrary();
-                let Listeners = require('../../Exchange/Javascript/ExchangeListeners');
+                import Listeners from 'Exchange/Javascript/ExchangeListeners';
                 let loaderPage = document.getElementById('loader');
                 let order = {};
                 let exchangePage = document.getElementById('orderStatusPage');

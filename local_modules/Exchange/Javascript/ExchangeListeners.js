@@ -1,4 +1,4 @@
-const Utils = require('../Javascript/ExchangeUtilityFunctions');
+import Utils from '/Exchange/Javascript/ExchangeUtilityFunctions';
 
 const validationMessages = document.getElementById('validation-messages');
 const addressValidation = document.getElementById('address-messages');
@@ -339,7 +339,7 @@ function clearCurrencies() {
 
 
 
-module.exports = { 
+export default { 
     BTCAddressInputListener,
     XMRCurrencyInputKeydownListener,
     BTCCurrencyKeydownListener,

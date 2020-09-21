@@ -1,5 +1,5 @@
 (function() {
-
+    console.log("ExchangeScript ran");
     const XMRcurrencyInput = document.getElementById('XMRcurrencyInput');
     const BTCcurrencyInput = document.getElementById('BTCcurrencyInput');
     const validationMessages = document.getElementById('validation-messages');
