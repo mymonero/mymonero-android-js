@@ -27,11 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
-
-const View = require('../../Views/View.web')
+const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
 const ExchangeContentView = require('./ExchangeContentView.web')
 
-class ExchangeTabContentView extends View
+class ExchangeTabContentView extends StackAndModalNavigationView
 {
 	constructor(options, context)
 	{
@@ -41,23 +40,22 @@ class ExchangeTabContentView extends View
 	{
 		super.setup() // we must call on super
 		const self = this
-		// { 
-		// 	const options = {}
+		{ 
+			const options = {}
 
-		// 	const view = new ExchangeContentView(options, self.context)
-		// 	self.exchange = view
-		// }
-		// self.SetStackViews(
-		// 	[
-		// 		self.exchangeContentView
-		// 	]
-		// )
+			const view = new ExchangeContentView(options, self.context)
+			console.log(view);
+			self.exchangeContentView = view
+		}
+		self.SetStackViews(
+			[
+				self.exchangeContentView
+			]
+		)
 	}
 
 	TabBarItem_layer_customStyle()
 	{
-		const self = this
-		self.TabBarItem_layer_customStyle = {};
 		return {}
 	}
 	TabBarItem_icon_customStyle()

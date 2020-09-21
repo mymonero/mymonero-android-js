@@ -40,57 +40,52 @@ const fs = require('fs');
 //const commonComponents_contactPicker = require('../../MMAppUICommonComponents/contactPicker.web')
 const jsQR = require('jsqr')
 const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
-
 let JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger // important: grab defined export
 const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
 const monero_openalias_utils = require('../../OpenAlias/monero_openalias_utils')
 const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
 const monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
 const documents = require('../../DocumentPersister/DocumentPersister_Interface.js');
+const ListBaseController = require('../../Lists/Controllers/ListBaseController')
+const commonComponents_emptyScreens = require('../../MMAppUICommonComponents/emptyScreens.web')
+
+
 
 class ExchangeContentView extends View {
     constructor(options, context) {
-        console.log(context);
-        options.listController = context.contactsListController
-        let self = context;
-        // ^- injecting dep so consumer of self doesn't have to
+        
+        
         super(options, context)
-        self.currentlyPresented_AddContactView = null // zeroing
-        self._setup_self_layer();
-        self._setup_views();
-        let passwordInput = document.getElementsByClassName('field_value');
-        // wait half a second for password controller to boot
-        // setTimeout(() => {
-        //     let passwordInput = document.getElementsByClassName('field_value');
-        //     let m = passwordInput[0];
-        //     setTimeout(() => {
-        //         let passwordInput = document.getElementsByClassName('field_value');
-        //         let m = passwordInput[0];
-        //         // pass default password to password field
-        //         m.value = "";
-        //     }, 500)
-        // }, 500)
-        // regularly update our selector component with latest wallet values
-        //setInterval()
+        const ecvSelf = this;
+		let self = context;
+
+		//
+		const view = new View({}, self.context)
+		const layer = view.layer
+		const margin_side = 16
+		const marginTop = 56
+		layer.style.marginTop = `${marginTop}px`
+		layer.style.marginLeft = margin_side + "px"
+		layer.style.width = `calc(100% - ${2 * margin_side}px)`
+		layer.style.height = `calc(100% - ${marginTop}px - 15px)`
+		
+
+        ecvSelf._setup_emptyStateContainerView()
+        ecvSelf._setup_views()
+        ecvSelf.observerIsSet = false;
+
+        let interval = setInterval(function() {
+            // if wallets exist, setup the wallet selector for the exchange page
+            if (self.context.wallets !== undefined) {
+                ecvSelf._setup_walletExchangeOptions(self.context);
+            }
+            ecvSelf._refresh_sending_fee();
+        }, 4000);
+        ecvSelf.keepExchangeOptionsUpdated = interval;
     }
 
-    _setup_self_layer()
-	{
-		const self = this
-		const layer = self.layer
-		layer.style.webkitUserSelect = "none" // disable selection here but enable selectively
-		layer.style.boxSizing = "border-box" // so we don't need to account for padding in w/h
-		layer.style.width = `100%`
-		layer.style.height = "100%"
-		layer.style.overflowY = "auto"
-		// layer.style.webkitOverflowScrolling = "touch"
-		const margin_h = 16
-		layer.style.padding = `0 ${margin_h}px 0px ${margin_h}px` // actually going to change paddingTop in self.viewWillAppear() if navigation controller
-		layer.style.backgroundColor = "#272527" // so we don't get a strange effect when pushing self on a stack nav view
-		layer.style.color = "#c0c0c0" // temporary
-		layer.style.wordBreak = "break-all" // to get the text to wrap	
-	}
     
+
     _setup_walletExchangeOptions(context) {
         let self = this;
         let walletDiv = document.getElementById('wallet-selector');
@@ -153,23 +148,20 @@ class ExchangeContentView extends View {
     }
 
     _setup_views() {
-        // to do -- clean up interval timers a bit.
-        const self = this
-        super._setup_views()
-        self._setup_emptyStateContainerView()
-        self.TabBarItem_layer_customStyle()
-        self.TabBarItem_icon_customStyle()
-        self.TabBarItem_icon_selected_customStyle()
-        self.observerIsSet = false;
+        // // to do -- clean up interval timers a bit.
+        // const self = this
+        // super._setup_views()
+        // self._setup_emptyStateContainerView()
+        // self.observerIsSet = false;
 
-        let interval = setInterval(function() {
-            // if wallets exist, setup the wallet selector for the exchange page
-            if (self.context.wallets !== undefined) {
-                self._setup_walletExchangeOptions(self.context);
-            }
-            self._refresh_sending_fee();
-        }, 4000);
-        self.keepExchangeOptionsUpdated = interval; // we use a named interval attached to the view so that we can stop it if we ever want to;
+        // let interval = setInterval(function() {
+        //     // if wallets exist, setup the wallet selector for the exchange page
+        //     if (self.context.wallets !== undefined) {
+        //         self._setup_walletExchangeOptions(self.context);
+        //     }
+        //     self._refresh_sending_fee();
+        // }, 4000);
+        // self.keepExchangeOptionsUpdated = interval; // we use a named interval attached to the view so that we can stop it if we ever want to;
     }
     
     _setup_emptyStateContainerView() {
@@ -200,7 +192,13 @@ class ExchangeContentView extends View {
             view.layer.appendChild(layer)
             contentContainerLayer = layer
             //layer.classList.add("xmr_input");
-            let html = fs.readFileSync(__dirname + '/Header.html', 'utf8');
+            let html = `
+            <div class="exchangeScreen exchange-page-panel">
+                <div class="content-container exchange-page-content-container">
+                    <div id="server-rates-messages"></div>
+                    <div id="loader" class="active">
+                        
+                    </div>`
             layer.innerHTML = html;
             //contentContainerLayer.appendChild(layer);
         }
@@ -268,7 +266,176 @@ class ExchangeContentView extends View {
             const layer = document.createElement("div");
             //layer.classList.add("xmr_input");
             let html = '    <div>';
-            html += fs.readFileSync(__dirname + '/Body.html', 'utf8');
+            //html += fs.readFileSync(__dirname + '/Body.html', 'utf8');
+            html = `
+            <div id="orderStatusPage">
+            <div id="wallet-selector" class="WalletSelectView ListCustomSelectView form_field">
+                        <!-- we insert this html dynamically from ECV.web.js -->
+            </div>
+            <div class="form_field" id="currency-table">
+                <table class="full-width">
+                    <tr>
+                        <td>   
+                            <div class="field_title form-field-title">XMR to send
+                                <div style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0;">
+                                    <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">AMOUNT</span>
+                                    <input id="XMRcurrencyInput" class="textInput currencyInput" type="text" placeholder="00.00" value="">
+                                    <select id="currencySelect"><option value="XMR" style="text-align: center;">XMR</option></select>    
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div id="BTCInputDiv" class="field_title form-field-title">BTC you will receive
+                                <div class="" style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0">
+                                    <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">AMOUNT</span>
+                                    <input id="BTCcurrencyInput" class="textInput currencyInput" type="text" placeholder="00.00" value="">
+                                    <select id="currencySelect"><option value="BTC" style="text-align: center;">BTC</option></select>    
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <input id="in_address" type="hidden" value="">
+                </table>
+            </div>
+            <div class="form_field" id="tx-fee">
+                    <span class="field_title form-field-title" style="margin-top: 8px; color: rgb(158, 156, 158); display: inline-block;">Loading ...</span>
+                </div>
+                
+    
+                <div class="form_field" id="btc-address">
+                    <span class="field_title form-field-title" style="margin-top: 17px;">DESTINATION BITCOIN ADDRESS
+                    </span>
+                    <div class="contactPicker" style="position: relative; width: 100%; user-select: none;">
+                        <input id="btcAddress" class="full-width longTextInput" type="text" placeholder="Destination BTC Address" autocomplete="off" autocapitalize="none" spellcheck="false" value="">
+                    </div>
+                </div>
+                <div id="validation-messages"></div>
+                <div id="address-messages"></div>
+                <div id="server-messages"></div>
+    
+            </div>
+                    
+            </div>
+            <div id="order-status">
+    
+            </div>
+        </div>
+        <div id="exchangePage">
+            <div class="field_title form-field-title">
+                <table>
+                    <tr>
+                        <td colspan="2" style="word-wrap: normal; word-break: normal;">Please note that MyMonero cannot provide support for any exchanges. For all issues, please contact XMR.to with your UUID, as they will be able to assist.</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="field_title form-field-title uppercase">
+                                <div style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0;">
+                                    <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">XMR.to UUID</span>
+                                    <div id="provider_order_id" class="textInput currencyOutput" type="text" placeholder="0.00"></div>
+                                    <div class="currencySelect"><option value="XMR" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;</option></select> 
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="field_title form-field-title uppercase">Time Remaining
+                                <div id="clock">
+                                    <span id="minutesRemaining"></span>
+                                    <span>:</span>
+                                    <span id="secondsRemaining"></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="field_title form-field-title">Remaining XMR payable
+                                <div style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0;">
+                                    <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">AMOUNT</span>
+                                    <div id="in_amount_remaining" class="textInput currencyOutput" type="text" placeholder="0.00">Loading</div>
+                                    <div class="currencySelect"><option value="XMR" style="text-align: center;">XMR</option>    
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="field_title form-field-title">BTC to be paid out
+                                <div class="" style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0">
+                                    <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">AMOUNT</span>
+                                    <div id="out_amount" class="textInput currencyOutput" type="text">Loading</div>
+                                    <div class="currencySelect"><option value="BTC" style="text-align: center;">BTC</option>    
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="field_title form-field-title uppercase label-spacing">
+                                <div class="" style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0">
+                                    <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">Order Status</span>
+                                    <div class="order-status textInput currencyOutput" id="status"></div>
+                                    <div class="currencySelect"><option value="XMR" style="text-align: center;">&nbsp;&nbsp;&nbsp;</option>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="field_title form-field-title hidden">
+                    <table class="full-width" style="display: none;">
+                        <tr>
+                            <td>
+                                <div class="field_title form-field-title">Receiving subaddress
+                                    <div style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0;">
+                                        <div id="receiving_subaddress" class="textInput currencyOutput" type="text">Loading</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+            </div>
+            <div id="monerod-updates" class="validationWindow">
+    
+            </div>
+                <table class="hidden">
+                    <tr>
+                        <td>btc_amount_partial</td>
+                        <td id="btc_amount_partial"> "0"</td>
+                    </tr>
+                    <tr>
+                        <td>btc_dest_address</td>
+                        <td id="in_address"> "2NBaUzuYqJvbThw77QVqq8NEXmkmDmSooy9"</td>
+                    </tr>
+    
+                    <tr>
+                        <td>expires_at</td>
+                        <td id="expires_at"> "2020-08-07T13:54:30Z"</td>
+                    </tr>
+                    <tr>
+                        <td>incoming_amount_total</td>
+                        <td id="in_amount"> "1"</td>
+                    </tr>
+    
+                    <tr>
+                        <td>incoming_price_btc</td>
+                        <td id="incoming_price_btc"> "0.00789659"</td>
+                    </tr>
+                    <tr>
+                        <td>receiving_subaddress</td>
+                        <td id="receiving_subaddress"> "72FsJzvGG4x97vvjwu9V6e8hBBfB3bhrqVEEoPsxrkjAVgQUnbA22cbgMmu5b4Lx6cQ75vnjPVs9HUB1L32yBMhaNsi7KrD"</td>
+                    </tr>
+                    <tr>
+                        <td>remaining_amount_incoming</td>
+                        <td id="remaining_amount_incoming"> "1"</td>
+                    </tr>
+                    <tr>
+                        <td>uuid</td>
+                        <td id="uuid"> "xmrto-NCXzGE"</td>
+                    </tr>
+                </table>            
+            </div>
+        </div>
+    </div>
+    `
             layer.innerHTML = html;
             contentContainerLayer.appendChild(layer);
         }
@@ -280,7 +447,217 @@ class ExchangeContentView extends View {
         }
         {
             const layer = document.createElement("script");
-            layer.innerText = fs.readFileSync(__dirname + '/ExchangeScript.js', 'utf8');
+            //layer.innerText = fs.readFileSync(__dirname + '/ExchangeScript.js', 'utf8');
+            layer.innerHTML = `(function() {
+                console.log("ExchangeScript ran");
+                const XMRcurrencyInput = document.getElementById('XMRcurrencyInput');
+                const BTCcurrencyInput = document.getElementById('BTCcurrencyInput');
+                const validationMessages = document.getElementById('validation-messages');
+            
+                let validate = require('bitcoin-address-validation');
+                let Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
+                let ExchangeLibrary = require('mymonero-exchange');
+                let ExchangeFunctions = new ExchangeLibrary();
+                let Listeners = require('../../Exchange/Javascript/ExchangeListeners');
+                let loaderPage = document.getElementById('loader');
+                let order = {};
+                let exchangePage = document.getElementById('orderStatusPage');
+                let orderBtn = document.getElementById("order-button");
+                let orderTimer = {};
+                let btcAddressInput = document.getElementById("btcAddress");
+                let walletSelector = document.getElementById('wallet-selector');
+                let walletOptions = document.getElementById('wallet-options');
+                let exchangeXmrDiv = document.getElementById('exchange-xmr');
+                let orderStarted = false;
+                let orderCreated = false;
+                let orderStatusPage = document.getElementById("orderStatusPage");
+                let backBtn = document.getElementsByClassName('nav-button-left-container')[0];    
+                backBtn.style.display = "none";
+                let addressValidation = document.getElementById('address-messages');
+                let serverValidation = document.getElementById('server-messages');
+                let explanatoryMessage = document.getElementById('explanatory-message');
+                const selectedWallet = document.getElementById('selected-wallet');
+                const serverRatesValidation = document.getElementById('server-rates-messages');
+            
+                Listeners.BTCAddressInputListener();
+            
+                function getRates() {
+                    serverRatesValidation.innerHTML = "";
+                    let retry = document.getElementById('retry-rates');
+                    let errorDiv = document.getElementById('retry-error');
+                    if (retry !== null) {
+                        retry.classList.add('hidden');
+                        errorDiv.classList.add('hidden');
+                    }
+                    ExchangeFunctions.getRatesAndLimits().then(() => {
+                        loaderPage.classList.remove('active');
+                        exchangePage.classList.add("active");
+                    }).catch((error) => {
+                        if (retry !== null) {
+                            retry.classList.remove('hidden');
+                            errorDiv.classList.remove('hidden');
+                        } else {            
+                            let errorDiv = document.createElement('div');
+                            errorDiv.innerText = "There was a problem with retrieving rates from the server. Please click the 'Retry' button to try connect again. The error message was: " + error.message;
+                            errorDiv.id = "retry-error";
+                            errorDiv.classList.add('message-label');
+                            let retryBtn = document.createElement('div');
+                            retryBtn.id = "retry-rates";
+                            retryBtn.classList.add('base-button');
+                            retryBtn.classList.add('hoverable-cell'); 
+                            retryBtn.classList.add('navigation-blue-button-enabled');
+                            retryBtn.classList.add('action');
+                            retryBtn.innerHTML = "Retry";
+                            retryBtn.addEventListener('click', getRates);
+                            explanatoryMessage.appendChild(errorDiv);
+                            explanatoryMessage.appendChild(retryBtn);
+                        }
+                    });
+                }
+            
+                getRates();
+            
+            
+                btcAddressInput.addEventListener('input', Listeners.BTCAddressInputListener);
+            
+                XMRcurrencyInput.addEventListener('keydown', Listeners.XMRCurrencyInputKeydownListener);
+            
+                walletSelector.addEventListener('click', Listeners.walletSelectorClickListener);
+            
+            
+                BTCcurrencyInput.addEventListener('keydown', Listeners.BTCCurrencyKeydownListener);
+            
+                XMRcurrencyInput.addEventListener('keyup', function(event) {
+                    validationMessages.innerHTML = '';
+                    if (XMRcurrencyInput.value.length > 0) {
+                        Listeners.xmrBalanceChecks(ExchangeFunctions);            
+                    }
+                });
+                
+            
+                function clearCurrencies() {
+                    XMRcurrencyInput.value = "";
+                    BTCcurrencyInput.value = "";
+                }
+            
+                BTCcurrencyInput.addEventListener('keyup', function(event) {
+                    validationMessages.innerHTML = '';
+                    if (BTCcurrencyInput.value.length > 0) {
+                        Listeners.btcBalanceChecks(ExchangeFunctions);            
+                    }
+                });
+            
+                 
+            
+                backBtn.addEventListener('click', backButtonClickListener);
+            
+            
+                let viewOrderBtn = document.createElement('div');
+                viewOrderBtn.id = "view-order";
+                viewOrderBtn.innerHTML = "View Order";
+                viewOrderBtn.addEventListener('click', function() {
+                    orderStatusPage.classList.add('active');
+                    orderStatusPage.classList.remove('active');
+                    let exchangePage = document.getElementById('exchangePage');
+                    exchangePage.classList.add('active');
+                    viewOrderBtn.style.display = "none";
+                });
+            
+            
+                let nav_right = document.getElementsByClassName('nav-button-right-container')[0];
+                nav_right.appendChild(viewOrderBtn);
+            
+                orderBtn.addEventListener('click', function() {
+                    let validationError = false;
+                    serverValidation.innerHTML = "";
+                    if (orderStarted == true) {
+                        return;
+                    } 
+                    if (validationMessages.firstChild !== null) {
+                        validationMessages.firstChild.style.color = "#ff0000";
+                        validationError = true;
+                        return;
+                    }
+                    if (addressValidation.firstChild !== null) {
+                        addressValidation.firstChild.style.color = "#ff0000";
+                        validationError = true;
+                        return;
+                    }
+                    let btc_dest_address = document.getElementById('btcAddress').value;
+                    
+                    orderBtn.style.display = "none";
+                    orderStarted = true;
+                    backBtn.style.display = "block";
+                    loaderPage.classList.add('active');
+            
+                    let out_amount = document.getElementById('BTCcurrencyInput').value;
+                    let in_currency = 'XMR';
+                    let out_currency = 'BTC';
+                    try {
+                        let offer = ExchangeFunctions.getOfferWithOutAmount(in_currency, out_currency, out_amount).then((error, response) => {
+                            console.log(error);
+                            console.log(response);
+                            console.log(ExchangeFunctions.offer);
+                        }).then((error, response) => {
+                            let selectedWallet = document.getElementById('selected-wallet');
+                            console.log(ExchangeFunctions);
+                            console.log(btc_dest_address);
+                            console.log(selectedWallet);
+                            ExchangeFunctions.createOrder(btc_dest_address, selectedWallet.dataset.walletpublicaddress).then((error, response) => {
+                                let orderStatusDiv = document.getElementById("exchangePage");
+                                document.getElementById("orderStatusPage").classList.remove('active');
+                                loaderPage.classList.remove('active');
+                                orderStatusDiv.classList.add('active');
+                                exchangeXmrDiv.classList.add('active');
+                                backBtn.innerHTML = \`<div class="base-button hoverable-cell utility grey-menu-button disableable left-back-button" style="cursor: default; -webkit-app-region: no-drag; position: absolute; opacity: 1; left: 0px;"></div>\`;
+                                orderTimer = setInterval(() => {
+                                    ExchangeFunctions.getOrderStatus().then(function (response) {
+                                        console.log(response);
+                                        Utils.renderOrderStatus(response);
+                                        let expiryTime = response.expires_at;
+                                        let secondsElement = document.getElementById('secondsRemaining');
+                                        let minutesElement = document.getElementById('minutesRemaining');
+                                        if (secondsElement !== null) {
+                                            
+                                            let minutesElement = document.getElementById('minutesRemaining');
+                                            let timeRemaining = Utils.getTimeRemaining(expiryTime);
+                                            minutesElement.innerHTML = timeRemaining.minutes;
+                                            if (timeRemaining.seconds <= 9) {
+                                                timeRemaining.seconds = "0" + timeRemaining.seconds;
+                                            }
+                                            secondsElement.innerHTML = timeRemaining.seconds;
+                                            let xmr_dest_address_elem = document.getElementById('in_address');
+                                            xmr_dest_address_elem.value = response.receiving_subaddress; 
+                                        }
+                                    })
+                                }, 1000);
+                                document.getElementById("orderStatusPage").classList.remove('active');
+                                loaderPage.classList.remove('active');
+                                orderStatusDiv.classList.add('active');
+                                exchangeXmrDiv.classList.add('active');
+                            }).catch((error) => {
+                                let errorDiv = document.createElement('div');
+                                errorDiv.classList.add('message-label');
+                                errorDiv.id = 'server-invalid';
+                                errorDiv.innerHTML = \`There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>\` + error;
+                                serverValidation.appendChild(errorDiv);
+                                orderBtn.style.display = "block";
+                                orderStarted = false;
+                            })
+                        }).catch((error) => {
+                            let errorDiv = document.createElement('div');
+                            errorDiv.classList.add('message-label');
+                            errorDiv.id = 'server-invalid';
+                            errorDiv.innerHTML = \`There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>\` + error;
+                            serverValidation.appendChild(errorDiv);
+                            orderBtn.style.display = "block";
+                            orderStarted = false;
+                        });
+                    } catch (Error) {
+                        console.log(Error);
+                    }
+                });
+            })()`;
             // we will probably need to handle the context.wallet stuff here
             contentContainerLayer.appendChild(layer);
         }
