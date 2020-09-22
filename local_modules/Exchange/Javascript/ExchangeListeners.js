@@ -1,4 +1,4 @@
-import Utils from '/Exchange/Javascript/ExchangeUtilityFunctions';
+import Utils from './ExchangeUtilityFunctions';
 
 const validationMessages = document.getElementById('validation-messages');
 const addressValidation = document.getElementById('address-messages');
@@ -12,7 +12,7 @@ let XMRcurrencyInput = document.getElementById('XMRcurrencyInput');
 let BTCcurrencyInput = document.getElementById('BTCcurrencyInput');
 let currencyInputTimer;
 
-BTCAddressInputListener = function() {
+let BTCAddressInputListener = function() {
     let div = document.getElementById('btc-invalid');
     let btcAddressInput = document.getElementById("btcAddress");
     console.log(Utils.validateBTCAddress(btcAddressInput.value));
@@ -29,24 +29,9 @@ BTCAddressInputListener = function() {
     }
 }
 
-XMRCurrencyInputKeydownListener = function(event) {
-    if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190) 
-    return;
 
-    if ( (event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) ) {
-        return;
-    }
 
-    if (!Utils.checkDecimals(XMRcurrencyInput.value, 12)) {
-        event.preventDefault();
-        return;
-    }
-
-    event.preventDefault();
-    return;
- }
-
- walletSelectorClickListener = function(event) {
+let walletSelectorClickListener = function(event) {
     let walletElement = document.getElementById('wallet-options');
     let selectedWallet = document.getElementById('selected-wallet');
     walletElement.classList.add('active');
@@ -77,7 +62,7 @@ XMRCurrencyInputKeydownListener = function(event) {
     } 
 }
 
-BTCCurrencyKeydownListener = function(event) {
+let CurrencyInputKeydownListener = function(event) {
 
     if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190) 
     return;
@@ -95,80 +80,7 @@ BTCCurrencyKeydownListener = function(event) {
 }
 
 
-xmrBalanceChecks = function(exchangeFunctions) {
-    console.log(exchangeFunctions);
-    serverValidation.innerHTML = "";
-    let BTCToReceive;
-    let XMRbalance = parseFloat(XMRcurrencyInput.value);
-    let in_amount = XMRbalance.toFixed(12);
-    console.log(currencyInputTimer);
-    BTCcurrencyInput.value = "Loading...";
-    if (currencyInputTimer !== undefined) {
-        clearTimeout(currencyInputTimer);
-    }
-    if (exchangeFunctions.currentRates.in_min > XMRbalance) {
-        let error = document.createElement('div');
-        error.classList.add('message-label');
-        error.id = 'xmrexceeded';
-        error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min} XMR`;
-        validationMessages.appendChild(error);
-        return;
-    }
-    if (exchangeFunctions.currentRates.in_max < XMRbalance) {
-        let error = document.createElement('div');
-        error.classList.add('message-label');
-        error.id = 'xmrexceeded';
-        error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max} XMR`;
-        validationMessages.appendChild(error);
-        return;
-    }
-    validationMessages.innerHTML = "";
-    serverValidation.innerHTML = "";
-    currencyInputTimer = setTimeout(() => {
-        exchangeFunctions.getOfferWithInAmount(exchangeFunctions.in_currency, exchangeFunctions.out_currency, in_amount)
-            .then((response) => {
-                console.log('async return', response);
-                BTCToReceive = parseFloat(response.out_amount);
-                let selectedWallet = document.getElementById('selected-wallet');
-                let tx_feeElem = document.getElementById('tx-fee');
-                let tx_fee = tx_feeElem.dataset.txFee;
-                let tx_fee_double = parseFloat(tx_fee);
-                let walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance);
-                let walletMaxSpend = walletMaxSpendDouble - tx_fee;
-                
-                if ((walletMaxSpend - XMRbalance) < 0) {
-                    let error = document.createElement('div');
-                    error.classList.add('message-label');
-                    error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
-                    validationMessages.appendChild(error);
-                }
-                if (BTCToReceive.toFixed(8) > exchangeFunctions.currentRates.out_max) {
-                    let error = document.createElement('div');
-                    error.classList.add('message-label');
-                    error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max.toFixed(12)} XMR`;
-                    validationMessages.appendChild(error);
-                }
-                if (BTCToReceive.toFixed(8) < exchangeFunctions.currentRates.lower_limit) {
-                    let error = document.createElement('div');
-                    error.classList.add('message-label');
-                    error.id = 'xmrtoolow';
-                    error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min.toFixed(12)} XMR.`;
-                    validationMessages.appendChild(error);
-                }
-                BTCcurrencyInput.value = BTCToReceive.toFixed(8);
-            }).catch((error) => {
-                let errorDiv = document.createElement('div');
-                errorDiv.classList.add('message-label');
-                errorDiv.id = 'server-invalid';
-                errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + error.message;
-                serverValidation.appendChild(errorDiv);
-            });
-    }, 1500);
-}
-
-btcBalanceChecks = function(exchangeFunctions) {
+let btcBalanceChecks = function(exchangeFunctions) {
     console.log(exchangeFunctions);
     
     let BTCToReceive;
@@ -247,7 +159,7 @@ btcBalanceChecks = function(exchangeFunctions) {
     }, 1500);
 }
 
-backButtonClickListener = function() {
+let backButtonClickListener = function() {
     let backBtn = document.getElementsByClassName('nav-button-left-container')[0];
     let viewOrderBtn = document.getElementById('view-order');
     orderCreated = false;
@@ -341,8 +253,7 @@ function clearCurrencies() {
 
 export default { 
     BTCAddressInputListener,
-    XMRCurrencyInputKeydownListener,
-    BTCCurrencyKeydownListener,
+    CurrencyInputKeydownListener,
     walletSelectorClickListener,
     xmrBalanceChecks,
     btcBalanceChecks
