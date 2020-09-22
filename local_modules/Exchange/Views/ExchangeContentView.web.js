@@ -30,21 +30,20 @@
 const Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
 const ExchangeLibrary = require('mymonero-exchange');
 const Listeners = require('../../Exchange/Javascript/ExchangeListeners');
-const View = require('../../Views/View.web')
-const ListView = require('../../Lists/Views/ListView.web')
-const emoji_web = require('../../Emoji/emoji_web')
-const ExchangeFunctions = require('../Javascript/ExchangeFunctions')
+const View = require('../../Views/View.web');
+const ListView = require('../../Lists/Views/ListView.web');
+const emoji_web = require('../../Emoji/emoji_web');
+const ExchangeFunctions = require('../Javascript/ExchangeFunctions');
 const ExchangeUtils = require('../Javascript/ExchangeUtilityFunctions');
 const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
 const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
 const commonComponents_tooltips = require('../../MMAppUICommonComponents/tooltips.web')
-let validate = require('bitcoin-address-validation');
 const WalletsSelectView = require('../../WalletsList/Views/WalletsSelectView.web')
 const fs = require('fs');
 //const commonComponents_contactPicker = require('../../MMAppUICommonComponents/contactPicker.web')
 const jsQR = require('jsqr')
 const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
-let JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger // important: grab defined export
+const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger // important: grab defined export
 const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
 const monero_openalias_utils = require('../../OpenAlias/monero_openalias_utils')
 const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
@@ -178,6 +177,9 @@ class ExchangeContentView extends View {
             contentContainerLayer = layer
             //layer.classList.add("xmr_input");
             let html = `
+            <style>
+                .NavigationBarView + div {}
+            </style>
             <div class="exchangeScreen exchange-page-panel">
                 <div class="content-container exchange-page-content-container">
                     <div id="server-rates-messages"></div>
@@ -192,7 +194,7 @@ class ExchangeContentView extends View {
             layer.classList.add("message-label")
             layer.classList.add("exchangeRate")
             layer.id = "explanatory-message";
-            layer.innerHTML = "You can exchange XMR to Bitcoin here.";
+            layer.innerHTML = "You can exchange XMR to Bitcoin here. Please wait while we load rates.";
             contentContainerLayer.appendChild(layer)
         }
         
@@ -423,12 +425,7 @@ class ExchangeContentView extends View {
             layer.innerHTML = html;
             contentContainerLayer.appendChild(layer);
         }
-        {
-            const layer = document.createElement("div");
-            layer.id = "exchange-wallet-options";
-            layer.innerHTML = self._setup_walletExchangeOptions(self.context);
-            contentContainerLayer.appendChild(layer);
-        }
+
         // {
         //     const layer = document.createElement("script");
         //     layer.setAttribute('type', 'module'); 
@@ -551,101 +548,6 @@ class ExchangeContentView extends View {
         //         let nav_right = document.getElementsByClassName('nav-button-right-container')[0];
         //         nav_right.appendChild(viewOrderBtn);
             
-        //         orderBtn.addEventListener('click', function() {
-        //             let validationError = false;
-        //             serverValidation.innerHTML = "";
-        //             if (orderStarted == true) {
-        //                 return;
-        //             } 
-        //             if (validationMessages.firstChild !== null) {
-        //                 validationMessages.firstChild.style.color = "#ff0000";
-        //                 validationError = true;
-        //                 return;
-        //             }
-        //             if (addressValidation.firstChild !== null) {
-        //                 addressValidation.firstChild.style.color = "#ff0000";
-        //                 validationError = true;
-        //                 return;
-        //             }
-        //             let btc_dest_address = document.getElementById('btcAddress').value;
-                    
-        //             orderBtn.style.display = "none";
-        //             orderStarted = true;
-        //             backBtn.style.display = "block";
-        //             loaderPage.classList.add('active');
-            
-        //             let out_amount = document.getElementById('BTCcurrencyInput').value;
-        //             let in_currency = 'XMR';
-        //             let out_currency = 'BTC';
-        //             try {
-        //                 let offer = ExchangeFunctions.getOfferWithOutAmount(in_currency, out_currency, out_amount).then((error, response) => {
-        //                     console.log(error);
-        //                     console.log(response);
-        //                     console.log(ExchangeFunctions.offer);
-        //                 }).then((error, response) => {
-        //                     let selectedWallet = document.getElementById('selected-wallet');
-        //                     console.log(ExchangeFunctions);
-        //                     console.log(btc_dest_address);
-        //                     console.log(selectedWallet);
-        //                     ExchangeFunctions.createOrder(btc_dest_address, selectedWallet.dataset.walletpublicaddress).then((error, response) => {
-        //                         let orderStatusDiv = document.getElementById("exchangePage");
-        //                         document.getElementById("orderStatusPage").classList.remove('active');
-        //                         loaderPage.classList.remove('active');
-        //                         orderStatusDiv.classList.add('active');
-        //                         exchangeXmrDiv.classList.add('active');
-        //                         backBtn.innerHTML = \`<div class="base-button hoverable-cell utility grey-menu-button disableable left-back-button" style="cursor: default; -webkit-app-region: no-drag; position: absolute; opacity: 1; left: 0px;"></div>\`;
-        //                         orderTimer = setInterval(() => {
-        //                             ExchangeFunctions.getOrderStatus().then(function (response) {
-        //                                 console.log(response);
-        //                                 Utils.renderOrderStatus(response);
-        //                                 let expiryTime = response.expires_at;
-        //                                 let secondsElement = document.getElementById('secondsRemaining');
-        //                                 let minutesElement = document.getElementById('minutesRemaining');
-        //                                 if (secondsElement !== null) {
-                                            
-        //                                     let minutesElement = document.getElementById('minutesRemaining');
-        //                                     let timeRemaining = Utils.getTimeRemaining(expiryTime);
-        //                                     minutesElement.innerHTML = timeRemaining.minutes;
-        //                                     if (timeRemaining.seconds <= 9) {
-        //                                         timeRemaining.seconds = "0" + timeRemaining.seconds;
-        //                                     }
-        //                                     secondsElement.innerHTML = timeRemaining.seconds;
-        //                                     let xmr_dest_address_elem = document.getElementById('in_address');
-        //                                     xmr_dest_address_elem.value = response.receiving_subaddress; 
-        //                                 }
-        //                             })
-        //                         }, 1000);
-        //                         document.getElementById("orderStatusPage").classList.remove('active');
-        //                         loaderPage.classList.remove('active');
-        //                         orderStatusDiv.classList.add('active');
-        //                         exchangeXmrDiv.classList.add('active');
-        //                     }).catch((error) => {
-        //                         let errorDiv = document.createElement('div');
-        //                         errorDiv.classList.add('message-label');
-        //                         errorDiv.id = 'server-invalid';
-        //                         errorDiv.innerHTML = \`There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>\` + error;
-        //                         serverValidation.appendChild(errorDiv);
-        //                         orderBtn.style.display = "block";
-        //                         orderStarted = false;
-        //                     })
-        //                 }).catch((error) => {
-        //                     let errorDiv = document.createElement('div');
-        //                     errorDiv.classList.add('message-label');
-        //                     errorDiv.id = 'server-invalid';
-        //                     errorDiv.innerHTML = \`There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>\` + error;
-        //                     serverValidation.appendChild(errorDiv);
-        //                     orderBtn.style.display = "block";
-        //                     orderStarted = false;
-        //                 });
-        //             } catch (Error) {
-        //                 console.log(Error);
-        //             }
-        //         });
-        //     })()`;
-        //     // we will probably need to handle the context.wallet stuff here
-        //     contentContainerLayer.appendChild(layer);
-        // }
-
         self.emptyStateMessageContainerView = view
         self.addSubview(view)
 
@@ -659,8 +561,8 @@ class ExchangeContentView extends View {
             if (typeof(loaderPage) == undefined) {
                 return;
             }
-            // const Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
-            // const ExchangeLibrary = require('mymonero-exchange');
+            const Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
+            const ExchangeLibrary = require('mymonero-exchange');
             const ExchangeFunctions = new ExchangeLibrary();
             console.log(ExchangeFunctions);
             // const Listeners = require('../../Exchange/Javascript/ExchangeListeners');
@@ -679,6 +581,7 @@ class ExchangeContentView extends View {
             let orderStarted = false;
             let orderCreated = false;
             let orderStatusPage = document.getElementById("orderStatusPage");
+            const validate = require('bitcoin-address-validation');
             //let backBtn = document.getElementsByClassName('nav-button-left-container')[0];    
             //backBtn.style.display = "none";
             let addressValidation = document.getElementById('address-messages');
@@ -694,6 +597,20 @@ class ExchangeContentView extends View {
             console.log(self.context);
             console.log(self.context.walletsListController);
             console.log(exchangePage);
+
+            function validateBTCAddress(address) {
+                if (validate(address) == false) {
+                    return false;
+                }
+                // TODO: check for and fail on testnet address? Force testnet address on ENABLE_TESTMODE?
+                return true;
+            }
+            
+            // function determineAddressNetwork(address) {
+            //     let info = validate(address);
+            //     return info.network;
+            // }
+            
             
             let BTCAddressInputListener = function() {
                 let div = document.getElementById('btc-invalid');
@@ -711,7 +628,7 @@ class ExchangeContentView extends View {
                 }
             }
 
-            let CurrencyInputKeydownListener = function(event) {
+            let XMRCurrencyInputKeydownListener = function(event) {
                 if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190) 
                 return;
             
@@ -719,7 +636,7 @@ class ExchangeContentView extends View {
                     return;
                 }
             
-                if (!Utils.checkDecimals(XMRcurrencyInput.value, 12)) {
+                if (!checkDecimals(XMRcurrencyInput.value, 12)) {
                     event.preventDefault();
                     return;
                 }
@@ -728,8 +645,24 @@ class ExchangeContentView extends View {
                 return;
             }
 
-            let btcBalanceChecks = function(exchangeFunctions) {
-                console.log(exchangeFunctions);
+            let BTCCurrencyInputKeydownListener = function(event) {
+                if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190) 
+                return;
+            
+                if ( (event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) ) {
+                    return;
+                }
+            
+                if (!checkDecimals(BTCcurrencyInput.value, 8)) {
+                    event.preventDefault();
+                    return;
+                }
+            
+                event.preventDefault();
+                return;
+            }
+
+            let btcBalanceChecks = function() {
                 
                 let BTCToReceive;
                 let BTCbalance = parseFloat(BTCcurrencyInput.value);
@@ -739,7 +672,7 @@ class ExchangeContentView extends View {
                     clearTimeout(currencyInputTimer);
                 }
             
-                if (exchangeFunctions.currentRates.out_min > BTCbalance) {
+                if (ExchangeFunctions.currentRates.out_min > BTCbalance) {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
                     error.id = 'xmrexceeded';
@@ -747,7 +680,7 @@ class ExchangeContentView extends View {
                     validationMessages.appendChild(error);
                     return;
                 }
-                if (exchangeFunctions.currentRates.out_max < BTCbalance) {
+                if (ExchangeFunctions.currentRates.out_max < BTCbalance) {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
                     error.id = 'xmrexceeded';
@@ -758,7 +691,7 @@ class ExchangeContentView extends View {
                 validationMessages.innerHTML = "";
                 serverValidation.innerHTML = "";
                 currencyInputTimer = setTimeout(() => {
-                    exchangeFunctions.getOfferWithOutAmount(exchangeFunctions.in_currency, exchangeFunctions.out_currency, out_amount)
+                    ExchangeFunctions.getOfferWithOutAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, out_amount)
                         .then((response) => {
                             let XMRtoReceive = parseFloat(response.in_amount);
                             let selectedWallet = document.getElementById('selected-wallet');
@@ -807,8 +740,8 @@ class ExchangeContentView extends View {
                 }, 1500);
             }
 
-            let xmrBalanceChecks = function(exchangeFunctions) {
-                console.log(exchangeFunctions);
+            let xmrBalanceChecks = function() {
+                
                 serverValidation.innerHTML = "";
                 let BTCToReceive;
                 let XMRbalance = parseFloat(XMRcurrencyInput.value);
@@ -818,26 +751,26 @@ class ExchangeContentView extends View {
                 if (currencyInputTimer !== undefined) {
                     clearTimeout(currencyInputTimer);
                 }
-                if (exchangeFunctions.currentRates.in_min > XMRbalance) {
+                if (ExchangeFunctions.currentRates.in_min > XMRbalance) {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
                     error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min} XMR`;
+                    error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.in_min} XMR`;
                     validationMessages.appendChild(error);
                     return;
                 }
-                if (exchangeFunctions.currentRates.in_max < XMRbalance) {
+                if (ExchangeFunctions.currentRates.in_max < XMRbalance) {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
                     error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max} XMR`;
+                    error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.in_max} XMR`;
                     validationMessages.appendChild(error);
                     return;
                 }
                 validationMessages.innerHTML = "";
                 serverValidation.innerHTML = "";
                 currencyInputTimer = setTimeout(() => {
-                    exchangeFunctions.getOfferWithInAmount(exchangeFunctions.in_currency, exchangeFunctions.out_currency, in_amount)
+                    ExchangeFunctions.getOfferWithInAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, in_amount)
                         .then((response) => {
                             console.log('async return', response);
                             BTCToReceive = parseFloat(response.out_amount);
@@ -855,18 +788,18 @@ class ExchangeContentView extends View {
                                 error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
                                 validationMessages.appendChild(error);
                             }
-                            if (BTCToReceive.toFixed(8) > exchangeFunctions.currentRates.out_max) {
+                            if (BTCToReceive.toFixed(8) > ExchangeFunctions.currentRates.out_max) {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
                                 error.id = 'xmrexceeded';
-                                error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max.toFixed(12)} XMR`;
+                                error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.in_max.toFixed(12)} XMR`;
                                 validationMessages.appendChild(error);
                             }
-                            if (BTCToReceive.toFixed(8) < exchangeFunctions.currentRates.lower_limit) {
+                            if (BTCToReceive.toFixed(8) < ExchangeFunctions.currentRates.lower_limit) {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
                                 error.id = 'xmrtoolow';
-                                error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min.toFixed(12)} XMR.`;
+                                error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.in_min.toFixed(12)} XMR.`;
                                 validationMessages.appendChild(error);
                             }
                             BTCcurrencyInput.value = BTCToReceive.toFixed(8);
@@ -896,6 +829,11 @@ class ExchangeContentView extends View {
                         retry.classList.remove('hidden');
                         errorDiv.classList.remove('hidden');
                     } else {            
+                        // KB: Remove this ---
+                        loaderPage.classList.remove('active');
+                        exchangePage.classList.add("active");
+                        // end remove
+
                         let errorDiv = document.createElement('div');
                         errorDiv.innerText = "There was a problem with retrieving rates from the server. Please click the 'Retry' button to try connect again. The error message was: " + error.message;
                         errorDiv.id = "retry-error";
@@ -986,24 +924,6 @@ function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validatio
         }
     });
 }
-
-
-function validateBTCAddress(address) {
-    console.log(validate(address));
-    if (validate(address) == false) {
-        return false;
-    }
-    // TODO: check for and fail on testnet address? Force testnet address on ENABLE_TESTMODE?
-
-
-    return true;
-}
-
-function determineAddressNetwork(address) {
-    let info = validate(address);
-    return info.network;
-}
-
 // end of functions to check Bitcoin address
 
 function renderOrderStatus(order) {    
@@ -1089,46 +1009,153 @@ function renderOrderStatus(order) {
         return true;
     }
 
-        function isValidBase10Decimal(number) {
-            let str = number.toString();
-            let strArr = str.split('.');
-            if (strArr.size > 1 && typeof(strArr) == Array) {
+    function isValidBase10Decimal(number) {
+        let str = number.toString();
+        let strArr = str.split('.');
+        if (strArr.size > 1 && typeof(strArr) == Array) {
+            return false;
+        }
+        for (let i = 0; i < 2; i++) {
+            if (isNaN(parseInt(strArr[i]))) {
                 return false;
             }
-            for (let i = 0; i < 2; i++) {
-                if (isNaN(parseInt(strArr[i]))) {
-                    return false;
-                }
+        }
+        if (strArr.size > 1) {
+            if (strArr[1].length == 0) {
+                return false;
             }
-            if (strArr.size > 1) {
-                if (strArr[1].length == 0) {
-                    return false;
-                }
-            }
-            return true;
-        }            
+        }
+        return true;
+    }            
 
-            btcAddressInput.addEventListener('input', BTCAddressInputListener);
-            XMRcurrencyInput.addEventListener('keydown', CurrencyInputKeydownListener);
-            BTCcurrencyInput.addEventListener('keydown', CurrencyInputKeydownListener);
+    function orderBtnClicked() {
+        let validationError = false;
+        serverValidation.innerHTML = "";
+        if (orderStarted == true) {
+            return;
+        } 
+        if (validationMessages.firstChild !== null) {
+            validationMessages.firstChild.style.color = "#ff0000";
+            validationError = true;
+            return;
+        }
+        if (addressValidation.firstChild !== null) {
+            addressValidation.firstChild.style.color = "#ff0000";
+            validationError = true;
+            return;
+        }
+        let btc_dest_address = document.getElementById('btcAddress').value;
         
-            //walletSelector.addEventListener('click', Listeners.walletSelectorClickListener);
-                        
-            BTCcurrencyInput.addEventListener('keyup', function(event) {
-                validationMessages.innerHTML = '';
-                if (BTCcurrencyInput.value.length > 0) {
-                    btcBalanceChecks(ExchangeFunctions);            
-                }
-            });            
+        orderBtn.style.display = "none";
+        orderStarted = true;
+        //backBtn.style.display = "block";
+        loaderPage.classList.add('active');
 
-            XMRcurrencyInput.addEventListener('keyup', function(event) {
-                validationMessages.innerHTML = '';
-                if (XMRcurrencyInput.value.length > 0) {
-                    xmrBalanceChecks(ExchangeFunctions);            
-                }
+        let out_amount = document.getElementById('BTCcurrencyInput').value;
+        let in_currency = 'XMR';
+        let out_currency = 'BTC';
+        try {
+            let offer = ExchangeFunctions.getOfferWithOutAmount(in_currency, out_currency, out_amount).then((error, response) => {
+                console.log(error);
+                console.log(response);
+                console.log(ExchangeFunctions.offer);
+            }).then((error, response) => {
+                let selectedWallet = document.getElementById('selected-wallet');
+                console.log(ExchangeFunctions);
+                console.log(btc_dest_address);
+                console.log(selectedWallet);
+                ExchangeFunctions.createOrder(btc_dest_address, selectedWallet.dataset.walletpublicaddress).then((error, response) => {
+                    let orderStatusDiv = document.getElementById("exchangePage");
+                    document.getElementById("orderStatusPage").classList.remove('active');
+                    loaderPage.classList.remove('active');
+                    orderStatusDiv.classList.add('active');
+                    exchangeXmrDiv.classList.add('active');
+                    //backBtn.innerHTML = `<div class="base-button hoverable-cell utility grey-menu-button disableable left-back-button" style="cursor: default; -webkit-app-region: no-drag; position: absolute; opacity: 1; left: 0px;"></div>`;
+                    orderTimer = setInterval(() => {
+                        ExchangeFunctions.getOrderStatus().then(function (response) {
+                            console.log(response);
+                            Utils.renderOrderStatus(response);
+                            let expiryTime = response.expires_at;
+                            let secondsElement = document.getElementById('secondsRemaining');
+                            let minutesElement = document.getElementById('minutesRemaining');
+                            if (secondsElement !== null) {
+                                
+                                let minutesElement = document.getElementById('minutesRemaining');
+                                let timeRemaining = Utils.getTimeRemaining(expiryTime);
+                                minutesElement.innerHTML = timeRemaining.minutes;
+                                if (timeRemaining.seconds <= 9) {
+                                    timeRemaining.seconds = "0" + timeRemaining.seconds;
+                                }
+                                secondsElement.innerHTML = timeRemaining.seconds;
+                                let xmr_dest_address_elem = document.getElementById('in_address');
+                                xmr_dest_address_elem.value = response.receiving_subaddress; 
+                            }
+                        })
+                    }, 1000);
+                    document.getElementById("orderStatusPage").classList.remove('active');
+                    loaderPage.classList.remove('active');
+                    orderStatusDiv.classList.add('active');
+                    exchangeXmrDiv.classList.add('active');
+                }).catch((error) => {
+                    // KB TO REMOVE
+                    loaderPage.classList.remove('active');
+                    orderStatusDiv.classList.add('active');
+                    exchangeXmrDiv.classList.add('active');
+                    // END REMOVE
+                    let errorDiv = document.createElement('div');
+                    errorDiv.classList.add('message-label');
+                    errorDiv.id = 'server-invalid';
+                    errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + error;
+                    serverValidation.appendChild(errorDiv);
+                    orderBtn.style.display = "block";
+                    orderStarted = false;
+                })
+            }).catch((error) => {
+                let errorDiv = document.createElement('div');
+                errorDiv.classList.add('message-label');
+                errorDiv.id = 'server-invalid';
+                errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + error;
+                serverValidation.appendChild(errorDiv);
+                orderBtn.style.display = "block";
+                orderStarted = false;
             });
-            getRates();
-            clearInterval(exchangeInitTimer);
+        } catch (Error) {
+            console.log(Error);
+        }
+    }
+            let exchangeRendered = document.getElementById('orderStatusPage'); 
+            console.log(exchangeRendered);
+            console.log(typeof(exchangeRendered))
+            if (exchangeRendered == null) {
+                console.log('We have not shown the order status page');
+                return;
+            } else {
+                console.log(exchangeRendered);
+                console.log('We are ready to init');
+                btcAddressInput.addEventListener('input', BTCAddressInputListener);
+                XMRcurrencyInput.addEventListener('keydown', XMRCurrencyInputKeydownListener);
+                BTCcurrencyInput.addEventListener('keydown', BTCCurrencyInputKeydownListener);
+                orderBtn.addEventListener('click', orderBtnClicked);
+                //walletSelector.addEventListener('click', Listeners.walletSelectorClickListener);
+                            
+                BTCcurrencyInput.addEventListener('keyup', function(event) {
+                    validationMessages.innerHTML = '';
+                    if (BTCcurrencyInput.value.length > 0) {
+                        btcBalanceChecks();            
+                    }
+                });            
+
+                XMRcurrencyInput.addEventListener('keyup', function(event) {
+                    validationMessages.innerHTML = '';
+                    if (XMRcurrencyInput.value.length > 0) {
+                        xmrBalanceChecks();            
+                    }
+                });
+                getRates();
+
+                clearInterval(exchangeInitTimer);
+                initialized = true;
+            }
         }, 5000);
     }
 

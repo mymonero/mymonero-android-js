@@ -79,6 +79,78 @@ let CurrencyInputKeydownListener = function(event) {
     return;
 }
 
+let xmrBalanceChecks = function(exchangeFunctions) {
+    console.log(exchangeFunctions);
+    serverValidation.innerHTML = "";
+    let BTCToReceive;
+    let XMRbalance = parseFloat(XMRcurrencyInput.value);
+    let in_amount = XMRbalance.toFixed(12);
+    console.log(currencyInputTimer);
+    BTCcurrencyInput.value = "Loading...";
+    if (currencyInputTimer !== undefined) {
+        clearTimeout(currencyInputTimer);
+    }
+    if (exchangeFunctions.currentRates.in_min > XMRbalance) {
+        let error = document.createElement('div');
+        error.classList.add('message-label');
+        error.id = 'xmrexceeded';
+        error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min} XMR`;
+        validationMessages.appendChild(error);
+        return;
+    }
+    if (exchangeFunctions.currentRates.in_max < XMRbalance) {
+        let error = document.createElement('div');
+        error.classList.add('message-label');
+        error.id = 'xmrexceeded';
+        error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max} XMR`;
+        validationMessages.appendChild(error);
+        return;
+    }
+    validationMessages.innerHTML = "";
+    serverValidation.innerHTML = "";
+    currencyInputTimer = setTimeout(() => {
+        exchangeFunctions.getOfferWithInAmount(exchangeFunctions.in_currency, exchangeFunctions.out_currency, in_amount)
+            .then((response) => {
+                console.log('async return', response);
+                BTCToReceive = parseFloat(response.out_amount);
+                let selectedWallet = document.getElementById('selected-wallet');
+                let tx_feeElem = document.getElementById('tx-fee');
+                let tx_fee = tx_feeElem.dataset.txFee;
+                let tx_fee_double = parseFloat(tx_fee);
+                let walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance);
+                let walletMaxSpend = walletMaxSpendDouble - tx_fee;
+                
+                if ((walletMaxSpend - XMRbalance) < 0) {
+                    let error = document.createElement('div');
+                    error.classList.add('message-label');
+                    error.id = 'xmrexceeded';
+                    error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
+                    validationMessages.appendChild(error);
+                }
+                if (BTCToReceive.toFixed(8) > exchangeFunctions.currentRates.out_max) {
+                    let error = document.createElement('div');
+                    error.classList.add('message-label');
+                    error.id = 'xmrexceeded';
+                    error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max.toFixed(12)} XMR`;
+                    validationMessages.appendChild(error);
+                }
+                if (BTCToReceive.toFixed(8) < exchangeFunctions.currentRates.lower_limit) {
+                    let error = document.createElement('div');
+                    error.classList.add('message-label');
+                    error.id = 'xmrtoolow';
+                    error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min.toFixed(12)} XMR.`;
+                    validationMessages.appendChild(error);
+                }
+                BTCcurrencyInput.value = BTCToReceive.toFixed(8);
+            }).catch((error) => {
+                let errorDiv = document.createElement('div');
+                errorDiv.classList.add('message-label');
+                errorDiv.id = 'server-invalid';
+                errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + error.message;
+                serverValidation.appendChild(errorDiv);
+            });
+    }, 1500);
+}
 
 let btcBalanceChecks = function(exchangeFunctions) {
     console.log(exchangeFunctions);
