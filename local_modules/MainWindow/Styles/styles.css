@@ -1733,7 +1733,7 @@ table.side-padding {
     padding: 0px 15px;
 }
 
-@media screen and (max-height: 650px) {
+@media screen and (max-width: 450px) {
     .form-field-title {
         max-width: 100%;
         margin: 0px 0 5px 0 !important;
@@ -1741,8 +1741,38 @@ table.side-padding {
     #exchangePage div.currencySelect {
         display: none !important;
     }
+    #currencySelect {
+        position: absolute;
+        left: 117.5px;
+        width: 56px;
+        height: 29.5px;
+        border: 0px;
+        padding: 0px;
+        border-radius: 0px 4px 4px 0px;
+        -webkit-appearance: none;
+        top: 20px !important;
+    }
+    #exchangePage .currencyOutput {
+        /* width: calc(100% - 72px); */
+        /* max-width: calc(100% - 72px); */
+        padding: 0px 0px;
+        text-indent: 148px;
+        position: relative;
+        /* right: -85px; */
+        left: -4px;
+        padding: 5px 8px 0 0;
+        margin-right: 20px;
+        text-indent: 20px;
+        height: 24px;
+        top: 0px;
+        width: calc(100% - 4px);
+    }
+    #clock {
+        min-width: unset !important;
+        width: calc(100% - 20px) !important;
+    }
 }
-@media screen and (max-width: 5305px) {
+
     .empty-page-panel {
         margin: 19px auto;
         word-break: break-word;
@@ -1835,4 +1865,3 @@ table.side-padding {
         padding: 0px 0px 0px 0px !important;
     }
     
-}

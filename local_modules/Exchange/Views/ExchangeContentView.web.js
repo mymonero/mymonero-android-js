@@ -79,10 +79,6 @@ class ExchangeContentView extends View {
         ecvSelf.observerIsSet = false;
 
         let interval = setInterval(function() {
-            console.log(this);
-            console.log(ecvSelf);
-            console.log(context);
-            console.log(context.walletsListController.records);
             // if wallets exist, setup the wallet selector for the exchange page
             try {
                 if (context.walletsListController.records !== undefined) {
@@ -92,7 +88,7 @@ class ExchangeContentView extends View {
                 // wallet not instantiated yet, no need to display notices
             }
             ecvSelf._refresh_sending_fee();
-        }, 4000);
+        }, 2000);
         ecvSelf.keepExchangeOptionsUpdated = interval;
     }
 
@@ -105,7 +101,7 @@ class ExchangeContentView extends View {
             return;
         }
         // if the user has selected a wallet, we update the balances for the    
-        //console.log('wallet html ran options '+i)
+
         // get oldest wallet based on how wallets are inserted into wallets as a zero element, changing indexes backwards
         let defaultOffset = 0;
         let defaultWallet = context.walletsListController.records[defaultOffset];
@@ -250,29 +246,12 @@ class ExchangeContentView extends View {
 
                 function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, context) {
                         if (context.walletsListController.orderSent == true) {
-                            console.log('blocked that sucker');
+                            console.log('Duplicate order');
                         } else {
                             try {
                                 return new Promise((resolve, reject) => {
-                                    context.walletsListController.orderSent = true;
-                                    console.log(xmr_send_address);
-                                    console.log(xmr_amount);
+                                    context.walletsListController.orderSent = true;  
 
-                                        // for debug, we use our own xmr_wallet and we send a tiny amount of XMR. Change this once we can send funds
-                                        if (process.env.EXCHANGE_TESTMODE == "true") {
-                                            xmr_send_address = process.env.EXCHANGE_TESTADDRESS; // an XMR wallet address under your control
-                                            xmr_amount = 0.000001;    
-                                        } else {
-                                
-                                        }
-
-                                        xmr_send_address = process.env.EXCHANGE_TESTADDRESS; // an XMR wallet address under your control
-                                        xmr_amount = 0.000001;    
-
-                                        // for testing transactions for now
-                                        xmr_send_address = '45am3uVv3gNGUWmMzafgcrAbuw8FmLmtDhaaNycit7XgUDMBAcuvin6U2iKohrjd6q2DLUEzq5LLabkuDZFgNrgC9i3H4Tm'; // an XMR wallet address under your control
-                                        xmr_amount = 0.000001;    
-                                
                                         let enteredAddressValue = xmr_send_address; //;
                                         let resolvedAddress = "";
                                         let manuallyEnteredPaymentID = "";
@@ -288,24 +267,6 @@ class ExchangeContentView extends View {
                                         let raw_amount_string = xmr_amount; // XMR amount in double
                                         let sweeping = sweep_wallet;
                                         let simple_priority = 1;
-                                
-                                        return;
-
-                                        console.log(enteredAddressValue);
-                                        console.log(resolvedAddress);
-                                        console.log(manuallyEnteredPaymentID);
-                                        console.log(resolvedPaymentID);
-                                        console.log(hasPickedAContact);
-                                        console.log(manuallyEnteredPaymentID_fieldIsVisible);
-                                        console.log(resolvedPaymentID_fieldIsVisible);
-                                        console.log(resolvedAddress_fieldIsVisible);
-                                        console.log(contact_payment_id);
-                                        console.log(cached_OAResolved_address);
-                                        console.log(contact_hasOpenAliasAddress);
-                                        console.log(contact_address);
-                                        console.log(raw_amount_string);
-                                        console.log(sweeping);
-                                        console.log(simple_priority);
                                 
                                         wallet.SendFunds(
                                             enteredAddressValue,
@@ -344,10 +305,9 @@ class ExchangeContentView extends View {
                 let sweep_wallet = false; // TODO: Add sweeping functionality
                 try {
                     if (context.walletsListController.hasOwnProperty('orderSent')) {
-                        console.log('yeppers');
+                        console.log('Order already sent previously');
                     } else {
                         context.walletsListController.orderSent = false;
-                        console.log('nopers');
                     }
                     sendFunds(context.walletsListController.records[0], xmr_amount_str, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, context);
                 } catch (error) {
@@ -542,7 +502,7 @@ class ExchangeContentView extends View {
         self.addSubview(view)
 
         let a = document.getElementById("server-invalid");
-        console.log(a);
+
 
         let initialized = false;
 
@@ -580,45 +540,8 @@ class ExchangeContentView extends View {
             var orderTimer = {};
             let currencyInputTimer;
             let orderStatusDiv = document.getElementById("exchangePage");
-            //let backBtn = document.getElementsByClassName('nav-button-left-container')[0];    
-            //backBtn.style.display = "none";
-            
-            console.log(options);
-            console.log(self.context);
-            console.log(self.context.walletsListController);
-            console.log(exchangePage);
 
             function validateBTCAddress(address, ValidationLibrary) {
-                // try {
-                //     console.log(ValidationLibrary);
-                //     console.log(ValidationLibrary.strictValidation(address));
-                //     // if (validate(address) == false) {
-                //     //     return false;
-                //     // }
-                // } catch (Error) {
-                //     console.log(Error);
-                //     console.log('1');
-                // }
-                // try {
-                //     console.log(ValidationLibrary.validate('nonsense'));
-                //     // if (validate(address) == false) {
-                //     //     return false;
-                //     // }
-                // } catch (Error) {
-                //     console.log(Error);
-                //     console.log('2');
-                // }
-                // try {
-                //     console.log(validate.strictValidation)
-                    
-                //     // if (validate(address) == false) {
-                //     //     return false;
-                //     // }
-                // } catch (Error) {
-                //     console.log(Error);
-                //     console.log('3');
-                // }
-                
                 try {
                     if (ValidationLibrary.validate(address) == false) {
                         console.log(ValidationLibrary.validate(address));
@@ -626,18 +549,8 @@ class ExchangeContentView extends View {
                     }
                 } catch (Error) {
                     console.log(Error);
-                    console.log('4');
                 }
                 console.log(ValidationLibrary.validate(address));
-                // try {
-                //     if (ValidationLibrary(address) == false) {
-                //         return false;
-                //     }
-                // } catch (Error) {
-                //     console.log(Error);
-                //     console.log('5');
-                // }
-
                 return true;
             }
             
@@ -1008,14 +921,10 @@ function renderOrderStatus(order) {
         let out_currency = 'BTC';
         try {
             let offer = ExchangeFunctions.getOfferWithOutAmount(in_currency, out_currency, out_amount).then((error, response) => {
-                console.log(error);
-                console.log(response);
-                console.log(ExchangeFunctions.offer);
+                
             }).then((error, response) => {
                 let selectedWallet = document.getElementById('selected-wallet');
-                console.log(ExchangeFunctions);
-                console.log(btc_dest_address);
-                console.log(selectedWallet);
+                
                 ExchangeFunctions.createOrder(btc_dest_address, selectedWallet.dataset.walletpublicaddress).then((error, response) => {
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
@@ -1069,19 +978,15 @@ function renderOrderStatus(order) {
         }
     }
             let exchangeRendered = document.getElementById('orderStatusPage'); 
-            console.log(exchangeRendered);
-            console.log(typeof(exchangeRendered))
             if (exchangeRendered == null) {
                 console.log('We have not shown the order status page');
                 return;
             } else {
-                console.log(exchangeRendered);
-                console.log('We are ready to init');
+                
                 btcAddressInput.addEventListener('input', BTCAddressInputListener);
                 XMRcurrencyInput.addEventListener('keydown', XMRCurrencyInputKeydownListener);
                 BTCcurrencyInput.addEventListener('keydown', BTCCurrencyInputKeydownListener);
                 orderBtn.addEventListener('click', orderBtnClicked);
-                //walletSelector.addEventListener('click', Listeners.walletSelectorClickListener);
                             
                 BTCcurrencyInput.addEventListener('keyup', function(event) {
                     validationMessages.innerHTML = '';

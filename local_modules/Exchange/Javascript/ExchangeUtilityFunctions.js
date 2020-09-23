@@ -6,12 +6,6 @@ function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validatio
     return new Promise((resolve, reject) => {
 
         // for debug, we use our own xmr_wallet and we send a tiny amount of XMR. Change this once we can send funds
-        if (process.env.EXCHANGE_TESTMODE == "true") {
-            xmr_send_address = process.env.EXCHANGE_TESTADDRESS; // an XMR wallet address under your control
-            xmr_amount = 0.000001;    
-        } else {
-
-        }
 
         let enteredAddressValue = xmr_send_address; //;
         let resolvedAddress = "";
@@ -28,24 +22,6 @@ function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validatio
         let raw_amount_string = xmr_amount; // XMR amount in double
         let sweeping = sweep_wallet;
         let simple_priority = 1;
-
-        console.log("enteredAddressValue:" + xmr_send_address); //);
-        console.log("resolvedAddress:" + "");
-        console.log("manuallyEnteredPaymentID:" + "");
-        console.log("resolvedPaymentID:" + "");
-        console.log("hasPickedAContact:" + false);
-        console.log("manuallyEnteredPaymentID_fieldIsVisible:" + false);
-        console.log("resolvedPaymentID_fieldIsVisible:" + false);
-        console.log("resolvedAddress_fieldIsVisible:" + false);
-        console.log("contact_payment_id:" + undefined);
-        console.log("cached_OAResolved_address:" + undefined);
-        console.log("contact_hasOpenAliasAddress:" + undefined);
-        console.log("contact_address:" + undefined);
-        console.log("raw_amount_string:" + xmr_amount); // XMR amount in doubl);
-        console.log("sweeping:" + sweep_wallet);
-        console.log("simple_priority:" + 1);
-
-        return;
 
         wallet.SendFunds(
             enteredAddressValue,
