@@ -248,15 +248,15 @@ class ExchangeContentView extends View {
                     * We declare sendfunds here to have access to the context object
                     */
 
-                function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, orderSent) {
-                        if (orderSent == true) {
+                function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, context) {
+                        if (context.walletsListController.orderSent == true) {
                             console.log('blocked that sucker');
                         } else {
                             try {
                                 return new Promise((resolve, reject) => {
+                                    context.walletsListController.orderSent = true;
                                     console.log(xmr_send_address);
                                     console.log(xmr_amount);
-                                    orderSent = true;
 
                                         // for debug, we use our own xmr_wallet and we send a tiny amount of XMR. Change this once we can send funds
                                         if (process.env.EXCHANGE_TESTMODE == "true") {
@@ -329,6 +329,7 @@ class ExchangeContentView extends View {
                                         );
                                     })
                                 } catch (error) {
+                                    context.walletsListController.orderSent = false;
                                     console.log(error);
                                 }
                         } 
@@ -342,7 +343,13 @@ class ExchangeContentView extends View {
                 let selectorOffset = selectedWallet.dataset.walletoffset;
                 let sweep_wallet = false; // TODO: Add sweeping functionality
                 try {
-                    sendFunds(context.walletsListController.records[0], xmr_amount_str, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, orderSent);
+                    if (context.walletsListController.hasOwnProperty('orderSent')) {
+                        console.log('yeppers');
+                    } else {
+                        context.walletsListController.orderSent = false;
+                        console.log('nopers');
+                    }
+                    sendFunds(context.walletsListController.records[0], xmr_amount_str, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, context);
                 } catch (error) {
                     console.log(error);
                 }
@@ -643,15 +650,17 @@ class ExchangeContentView extends View {
             let BTCAddressInputListener = function() {
                 let div = document.getElementById('btc-invalid');
                 let btcAddressInput = document.getElementById("btcAddress");
+                if (div !== null) {
+                    div.remove;
+                }
 
                 if (validateBTCAddress(btcAddressInput.value, ValidationLibrarya) == false) {
+                    
                     let error = document.createElement('div');
                     error.classList.add('message-label');
                     error.id = 'btc-invalid';
                     error.innerHTML = `Your BTC address is not valid.`;
-                    if (div.innerText.length == 0) {
-                        addressValidation.appendChild(error);
-                    }
+                    addressValidation.appendChild(error);
                 } 
             }
 
