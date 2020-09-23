@@ -556,15 +556,9 @@ class ExchangeContentView extends View {
             const ExchangeLibrary = require('mymonero-exchange');
             const ExchangeFunctions = new ExchangeLibrary();
             const ExchangeUtils = require('../Javascript/ExchangeUtilityFunctions');
-
-
-            const ValidationLibrary = require('bitcoin-address-validation');
-            const ValidationLibrarya = require('wallet-address-validator');
-
+            const ValidationLibrary = require('wallet-address-validator');
             const order = {};
             const exchangePage = document.getElementById('orderStatusPage');
-
-
             const btcAddressInput = document.getElementById("btcAddress");
             let walletSelector = document.getElementById('wallet-selector');
             let walletOptions = document.getElementById('wallet-options');
@@ -648,20 +642,17 @@ class ExchangeContentView extends View {
             }
             
             let BTCAddressInputListener = function() {
-                let div = document.getElementById('btc-invalid');
                 let btcAddressInput = document.getElementById("btcAddress");
-                if (div !== null) {
-                    div.remove;
-                }
+                addressValidation.innerHTML = "";
 
-                if (validateBTCAddress(btcAddressInput.value, ValidationLibrarya) == false) {
-                    
-                    let error = document.createElement('div');
-                    error.classList.add('message-label');
-                    error.id = 'btc-invalid';
-                    error.innerHTML = `Your BTC address is not valid.`;
-                    addressValidation.appendChild(error);
+                if (validateBTCAddress(btcAddressInput.value, ValidationLibrary) == false) {
+                        let error = document.createElement('div');
+                        error.classList.add('message-label');
+                        error.id = 'btc-invalid';
+                        error.innerHTML = `Your BTC address is not valid.`;
+                        addressValidation.appendChild(error);
                 } 
+                return;
             }
 
             let XMRCurrencyInputKeydownListener = function(event) {
