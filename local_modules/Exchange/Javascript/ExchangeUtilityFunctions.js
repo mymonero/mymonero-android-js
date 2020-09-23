@@ -1,5 +1,6 @@
 // import function for Bitcoin address checking
 import validate from 'bitcoin-address-validation';
+console.log(validate);
 
 function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn) {
     return new Promise((resolve, reject) => {
@@ -27,6 +28,24 @@ function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validatio
         let raw_amount_string = xmr_amount; // XMR amount in double
         let sweeping = sweep_wallet;
         let simple_priority = 1;
+
+        console.log("enteredAddressValue:" + xmr_send_address); //);
+        console.log("resolvedAddress:" + "");
+        console.log("manuallyEnteredPaymentID:" + "");
+        console.log("resolvedPaymentID:" + "");
+        console.log("hasPickedAContact:" + false);
+        console.log("manuallyEnteredPaymentID_fieldIsVisible:" + false);
+        console.log("resolvedPaymentID_fieldIsVisible:" + false);
+        console.log("resolvedAddress_fieldIsVisible:" + false);
+        console.log("contact_payment_id:" + undefined);
+        console.log("cached_OAResolved_address:" + undefined);
+        console.log("contact_hasOpenAliasAddress:" + undefined);
+        console.log("contact_address:" + undefined);
+        console.log("raw_amount_string:" + xmr_amount); // XMR amount in doubl);
+        console.log("sweeping:" + sweep_wallet);
+        console.log("simple_priority:" + 1);
+
+        return;
 
         wallet.SendFunds(
             enteredAddressValue,

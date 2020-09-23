@@ -27,14 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //"use strict"
+
 const Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
 const ExchangeLibrary = require('mymonero-exchange');
+const ValidationLibrary = require('wallet-address-validator');
 const Listeners = require('../../Exchange/Javascript/ExchangeListeners');
 const View = require('../../Views/View.web');
 const ListView = require('../../Lists/Views/ListView.web');
 const emoji_web = require('../../Emoji/emoji_web');
 const ExchangeFunctions = require('../Javascript/ExchangeFunctions');
-const ExchangeUtils = require('../Javascript/ExchangeUtilityFunctions');
 const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
 const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
 const commonComponents_tooltips = require('../../MMAppUICommonComponents/tooltips.web')
@@ -73,7 +74,7 @@ class ExchangeContentView extends View {
 		layer.style.height = `calc(100% - ${marginTop}px - 15px)`
 		
 
-        ecvSelf._setup_emptyStateContainerView()
+        ecvSelf._setup_emptyStateContainerView(context)
         ecvSelf._setup_views()
         ecvSelf.observerIsSet = false;
 
@@ -110,7 +111,7 @@ class ExchangeContentView extends View {
         let defaultWallet = context.walletsListController.records[defaultOffset];
         let walletSelectOptions = `
         <div data-walletoffset="0" data-walletpublicaddress="${defaultWallet.public_address}" data-walletLabel="${defaultWallet.walletLabel}" data-swatch="${defaultWallet.swatch.substr(1)}" data-walletbalance="${self.UnlockedBalance_FormattedString(defaultWallet)}" data-walletid="${defaultWallet._id}" id="selected-wallet" class="hoverable-cell utility selectionDisplayCellView" style="">
-                <div id="selected-wallet-icon" class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${defaultWallet.swatch.substr(1)}@3x.png')"></div>
+                <div id="selected-wallet-icon" class="walletIcon medium-32" style="background-image: url(MMAppUICommonComponents/Resources/wallet-00C6FF@3x.png)"></div>
                 <div id="selected-wallet-label" class="walletName">${defaultWallet.walletLabel}</div>
                 <div id="selected-wallet-balance" class="description-label">${self.UnlockedBalance_FormattedString(defaultWallet)} XMR available</div>
             </div>
@@ -148,9 +149,10 @@ class ExchangeContentView extends View {
         // self.keepExchangeOptionsUpdated = interval; // we use a named interval attached to the view so that we can stop it if we ever want to;
     }
     
-    _setup_emptyStateContainerView() {
+    _setup_emptyStateContainerView(context) {
         // TODO: wrap this in a promise so that we can execute logic after this
         const self = this;
+        
         // We run this on an interval because of the way DOM elements are instantiated. Our Exchange DOM only renders once a user clicks the XMR->BTC menu tab
         let initialExchangeInit = setInterval(() => {
             let walletDiv = document.getElementById('wallet-selector');
@@ -206,34 +208,132 @@ class ExchangeContentView extends View {
             layer.classList.add(...buttonClasses);  
             layer.id = "exchange-xmr";
             layer.innerText = "Exchange XMR";
-            layer.addEventListener('click', function() {
-                
-                /* 
-                * We define the status update and the response handling function here, since we need to update the DOM with status feedback from the monero-daemon. 
-                * We pass them as the final argument to ExchangeUtils.sendFunds
-                * It performs the necessary DOM-based status updates in this file so that we don't tightly couple DOM updates to a Utility module.
-                */
-                function validation_status_fn(str)
-                {
+            var orderSent = false;
+            layer.addEventListener('click', function(orderSent) {
 
-                    let monerodUpdates = document.getElementById('monerod-updates')
-                    monerodUpdates.innerText = str;
-                }
-                /* 
-                * We perform the necessary DOM-based status updates in this file so that we don't tightly couple DOM updates to a Utility module.
-                */
-                function handle_response_fn(err, mockedTransaction)
-                {
-                    let str;
-                    let monerodUpdates = document.getElementById('monerod-updates');
-                    if (err) {
-                        str = typeof err === 'string' ? err : err.message;
+                let exchangeXmrDiv = document.getElementById('exchange-xmr');
+                exchangeXmrDiv.classList.remove('active');
+                
+                    /* 
+                    * We define the status update and the response handling function here, since we need to update the DOM with status feedback from the monero-daemon. 
+                    * We pass them as the final argument to ExchangeUtils.sendFunds
+                    * It performs the necessary DOM-based status updates in this file so that we don't tightly couple DOM updates to a Utility module.
+                    */
+                    function validation_status_fn(str)
+                    {
+
+                        let monerodUpdates = document.getElementById('monerod-updates')
                         monerodUpdates.innerText = str;
-                        return
                     }
-                    str = "Sent successfully.";
-                    monerodUpdates.innerText = str;
-                }
+                    /* 
+                    * We perform the necessary DOM-based status updates in this file so that we don't tightly couple DOM updates to a Utility module.
+                    */
+                    function handle_response_fn(err, mockedTransaction)
+                    {
+                        let str;
+                        let monerodUpdates = document.getElementById('monerod-updates');
+                        if (err) {
+                            str = typeof err === 'string' ? err : err.message;
+                            monerodUpdates.innerText = str;
+                            return
+                        }
+                        str = "Sent successfully.";
+                        monerodUpdates.innerText = str;
+                    }
+                    // No cancel handler code since we don't provide a cancel method
+                    function cancelled_fn() { // canceled_fn    
+                        // No cancel handler code since we don't provide a cancel method 
+                    }
+                    /*
+                    * We declare sendfunds here to have access to the context object
+                    */
+
+                function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, orderSent) {
+                        if (orderSent == true) {
+                            console.log('blocked that sucker');
+                        } else {
+                            try {
+                                return new Promise((resolve, reject) => {
+                                    console.log(xmr_send_address);
+                                    console.log(xmr_amount);
+                                    orderSent = true;
+
+                                        // for debug, we use our own xmr_wallet and we send a tiny amount of XMR. Change this once we can send funds
+                                        if (process.env.EXCHANGE_TESTMODE == "true") {
+                                            xmr_send_address = process.env.EXCHANGE_TESTADDRESS; // an XMR wallet address under your control
+                                            xmr_amount = 0.000001;    
+                                        } else {
+                                
+                                        }
+
+                                        xmr_send_address = process.env.EXCHANGE_TESTADDRESS; // an XMR wallet address under your control
+                                        xmr_amount = 0.000001;    
+
+                                        // for testing transactions for now
+                                        xmr_send_address = '45am3uVv3gNGUWmMzafgcrAbuw8FmLmtDhaaNycit7XgUDMBAcuvin6U2iKohrjd6q2DLUEzq5LLabkuDZFgNrgC9i3H4Tm'; // an XMR wallet address under your control
+                                        xmr_amount = 0.000001;    
+                                
+                                        let enteredAddressValue = xmr_send_address; //;
+                                        let resolvedAddress = "";
+                                        let manuallyEnteredPaymentID = "";
+                                        let resolvedPaymentID = "";
+                                        let hasPickedAContact = false;
+                                        let manuallyEnteredPaymentID_fieldIsVisible = false;
+                                        let resolvedPaymentID_fieldIsVisible = false;
+                                        let resolvedAddress_fieldIsVisible = false;
+                                        let contact_payment_id = undefined;
+                                        let cached_OAResolved_address = undefined;
+                                        let contact_hasOpenAliasAddress = undefined;
+                                        let contact_address = undefined;
+                                        let raw_amount_string = xmr_amount; // XMR amount in double
+                                        let sweeping = sweep_wallet;
+                                        let simple_priority = 1;
+                                
+                                        return;
+
+                                        console.log(enteredAddressValue);
+                                        console.log(resolvedAddress);
+                                        console.log(manuallyEnteredPaymentID);
+                                        console.log(resolvedPaymentID);
+                                        console.log(hasPickedAContact);
+                                        console.log(manuallyEnteredPaymentID_fieldIsVisible);
+                                        console.log(resolvedPaymentID_fieldIsVisible);
+                                        console.log(resolvedAddress_fieldIsVisible);
+                                        console.log(contact_payment_id);
+                                        console.log(cached_OAResolved_address);
+                                        console.log(contact_hasOpenAliasAddress);
+                                        console.log(contact_address);
+                                        console.log(raw_amount_string);
+                                        console.log(sweeping);
+                                        console.log(simple_priority);
+                                
+                                        wallet.SendFunds(
+                                            enteredAddressValue,
+                                            resolvedAddress,
+                                            manuallyEnteredPaymentID,
+                                            resolvedPaymentID,
+                                            hasPickedAContact,
+                                            resolvedAddress_fieldIsVisible,
+                                            manuallyEnteredPaymentID_fieldIsVisible,
+                                            resolvedPaymentID_fieldIsVisible,
+                                            contact_payment_id,
+                                            cached_OAResolved_address,
+                                            contact_hasOpenAliasAddress,
+                                            contact_address,
+                                            raw_amount_string,
+                                            sweeping,
+                                            simple_priority,
+                                            validation_status_fn,
+                                            cancelled_fn,
+                                            handle_response_fn
+                                        );
+                                    })
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                        } 
+                    } // end of function
+                
                 let xmr_amount = document.getElementById('in_amount_remaining').innerHTML;
                 let xmr_send_address = document.getElementById('receiving_subaddress').innerHTML;
                 let xmr_amount_str = "" + xmr_amount;
@@ -241,7 +341,11 @@ class ExchangeContentView extends View {
                 let selectedWallet = document.getElementById('selected-wallet');
                 let selectorOffset = selectedWallet.dataset.walletoffset;
                 let sweep_wallet = false; // TODO: Add sweeping functionality
-                ExchangeUtils.sendFunds(self.context.wallets[selectorOffset], xmr_amount_str, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn);
+                try {
+                    sendFunds(context.walletsListController.records[0], xmr_amount_str, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, orderSent);
+                } catch (error) {
+                    console.log(error);
+                }
             });
 
 
@@ -426,128 +530,7 @@ class ExchangeContentView extends View {
             contentContainerLayer.appendChild(layer);
         }
 
-        // {
-        //     const layer = document.createElement("script");
-        //     layer.setAttribute('type', 'module'); 
-        //     //layer.innerText = fs.readFileSync(__dirname + '/ExchangeScript.js', 'utf8');
-        //     layer.innerHTML += `(function() {
-        //         console.log("ExchangeScript ran");
-        //         
-            
-        //         import Utils from '/Exchange/Javascript/ExchangeUtilityFunctions';
-        //         import ExchangeLibrary from '/Exchange/Javascript/ExchangeUtilityFunctions';
-        //         let ExchangeFunctions = new ExchangeLibrary();
-        //         import Listeners from 'Exchange/Javascript/ExchangeListeners';
-        //         let loaderPage = document.getElementById('loader');
-        //         let order = {};
-        //         let exchangePage = document.getElementById('orderStatusPage');
-        //         let orderBtn = document.getElementById("order-button");
-        //         let orderTimer = {};
-        //         let btcAddressInput = document.getElementById("btcAddress");
-        //         let walletSelector = document.getElementById('wallet-selector');
-        //         let walletOptions = document.getElementById('wallet-options');
-        //         let exchangeXmrDiv = document.getElementById('exchange-xmr');
-        //         let orderStarted = false;
-        //         let orderCreated = false;
-        //         let orderStatusPage = document.getElementById("orderStatusPage");
-        //         let backBtn = document.getElementsByClassName('nav-button-left-container')[0];    
-        //         backBtn.style.display = "none";
-        //         let addressValidation = document.getElementById('address-messages');
-        //         let serverValidation = document.getElementById('server-messages');
-        //         let explanatoryMessage = document.getElementById('explanatory-message');
-        //         const selectedWallet = document.getElementById('selected-wallet');
-        //         const serverRatesValidation = document.getElementById('server-rates-messages');
-        //         const XMRcurrencyInput = document.getElementById('XMRcurrencyInput');
-        //         const BTCcurrencyInput = document.getElementById('BTCcurrencyInput');
-        //         const validationMessages = document.getElementById('validation-messages');    
-        //         Listeners.BTCAddressInputListener();
-            
-        //         function getRates() {
-        //             serverRatesValidation.innerHTML = "";
-        //             let retry = document.getElementById('retry-rates');
-        //             let errorDiv = document.getElementById('retry-error');
-        //             if (retry !== null) {
-        //                 retry.classList.add('hidden');
-        //                 errorDiv.classList.add('hidden');
-        //             }
-        //             ExchangeFunctions.getRatesAndLimits().then(() => {
-        //                 loaderPage.classList.remove('active');
-        //                 exchangePage.classList.add("active");
-        //             }).catch((error) => {
-        //                 if (retry !== null) {
-        //                     retry.classList.remove('hidden');
-        //                     errorDiv.classList.remove('hidden');
-        //                 } else {            
-        //                     let errorDiv = document.createElement('div');
-        //                     errorDiv.innerText = "There was a problem with retrieving rates from the server. Please click the 'Retry' button to try connect again. The error message was: " + error.message;
-        //                     errorDiv.id = "retry-error";
-        //                     errorDiv.classList.add('message-label');
-        //                     let retryBtn = document.createElement('div');
-        //                     retryBtn.id = "retry-rates";
-        //                     retryBtn.classList.add('base-button');
-        //                     retryBtn.classList.add('hoverable-cell'); 
-        //                     retryBtn.classList.add('navigation-blue-button-enabled');
-        //                     retryBtn.classList.add('action');
-        //                     retryBtn.innerHTML = "Retry";
-        //                     retryBtn.addEventListener('click', getRates);
-        //                     explanatoryMessage.appendChild(errorDiv);
-        //                     explanatoryMessage.appendChild(retryBtn);
-        //                 }
-        //             });
-        //         }
-            
-        //         getRates();
-            
-            
-        //         btcAddressInput.addEventListener('input', Listeners.BTCAddressInputListener);
-            
-        //         XMRcurrencyInput.addEventListener('keydown', Listeners.XMRCurrencyInputKeydownListener);
-            
-        //         walletSelector.addEventListener('click', Listeners.walletSelectorClickListener);
-            
-            
-        //         BTCcurrencyInput.addEventListener('keydown', Listeners.BTCCurrencyKeydownListener);
-            
-        //         XMRcurrencyInput.addEventListener('keyup', function(event) {
-        //             validationMessages.innerHTML = '';
-        //             if (XMRcurrencyInput.value.length > 0) {
-        //                 Listeners.xmrBalanceChecks(ExchangeFunctions);            
-        //             }
-        //         });
-                
-            
-        //         function clearCurrencies() {
-        //             XMRcurrencyInput.value = "";
-        //             BTCcurrencyInput.value = "";
-        //         }
-            
-        //         BTCcurrencyInput.addEventListener('keyup', function(event) {
-        //             validationMessages.innerHTML = '';
-        //             if (BTCcurrencyInput.value.length > 0) {
-        //                 Listeners.btcBalanceChecks(ExchangeFunctions);            
-        //             }
-        //         });
-            
-                 
-            
-        //         backBtn.addEventListener('click', backButtonClickListener);
-            
-            
-        //         let viewOrderBtn = document.createElement('div');
-        //         viewOrderBtn.id = "view-order";
-        //         viewOrderBtn.innerHTML = "View Order";
-        //         viewOrderBtn.addEventListener('click', function() {
-        //             orderStatusPage.classList.add('active');
-        //             orderStatusPage.classList.remove('active');
-        //             let exchangePage = document.getElementById('exchangePage');
-        //             exchangePage.classList.add('active');
-        //             viewOrderBtn.style.display = "none";
-        //         });
-            
-            
-        //         let nav_right = document.getElementsByClassName('nav-button-right-container')[0];
-        //         nav_right.appendChild(viewOrderBtn);
-            
+                    
         self.emptyStateMessageContainerView = view
         self.addSubview(view)
 
@@ -562,26 +545,26 @@ class ExchangeContentView extends View {
                 return;
             }
             const Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
+            console.log(Utils);
             const ExchangeLibrary = require('mymonero-exchange');
             const ExchangeFunctions = new ExchangeLibrary();
-            console.log(ExchangeFunctions);
-            // const Listeners = require('../../Exchange/Javascript/ExchangeListeners');
-            console.log(Listeners);
-            console.log(Utils);
-            
-            let order = {};
-            let exchangePage = document.getElementById('orderStatusPage');
-            let orderBtn = document.getElementById("order-button");
-            let orderTimer = {};
-            let currencyInputTimer;
-            let btcAddressInput = document.getElementById("btcAddress");
+            const ExchangeUtils = require('../Javascript/ExchangeUtilityFunctions');
+
+
+            const ValidationLibrary = require('bitcoin-address-validation');
+            const ValidationLibrarya = require('wallet-address-validator');
+
+            const order = {};
+            const exchangePage = document.getElementById('orderStatusPage');
+
+
+            const btcAddressInput = document.getElementById("btcAddress");
             let walletSelector = document.getElementById('wallet-selector');
             let walletOptions = document.getElementById('wallet-options');
             let exchangeXmrDiv = document.getElementById('exchange-xmr');
             let orderStarted = false;
             let orderCreated = false;
             let orderStatusPage = document.getElementById("orderStatusPage");
-            const validate = require('bitcoin-address-validation');
             //let backBtn = document.getElementsByClassName('nav-button-left-container')[0];    
             //backBtn.style.display = "none";
             let addressValidation = document.getElementById('address-messages');
@@ -591,41 +574,85 @@ class ExchangeContentView extends View {
             const serverRatesValidation = document.getElementById('server-rates-messages');
             const XMRcurrencyInput = document.getElementById('XMRcurrencyInput');
             const BTCcurrencyInput = document.getElementById('BTCcurrencyInput');
-            const validationMessages = document.getElementById('validation-messages');    
+            const validationMessages = document.getElementById('validation-messages');   
+            var orderBtn = document.getElementById("order-button");
+            var orderTimer = {};
+            let currencyInputTimer;
+            let orderStatusDiv = document.getElementById("exchangePage");
+            //let backBtn = document.getElementsByClassName('nav-button-left-container')[0];    
+            //backBtn.style.display = "none";
             
             console.log(options);
             console.log(self.context);
             console.log(self.context.walletsListController);
             console.log(exchangePage);
 
-            function validateBTCAddress(address) {
-                if (validate(address) == false) {
-                    return false;
+            function validateBTCAddress(address, ValidationLibrary) {
+                // try {
+                //     console.log(ValidationLibrary);
+                //     console.log(ValidationLibrary.strictValidation(address));
+                //     // if (validate(address) == false) {
+                //     //     return false;
+                //     // }
+                // } catch (Error) {
+                //     console.log(Error);
+                //     console.log('1');
+                // }
+                // try {
+                //     console.log(ValidationLibrary.validate('nonsense'));
+                //     // if (validate(address) == false) {
+                //     //     return false;
+                //     // }
+                // } catch (Error) {
+                //     console.log(Error);
+                //     console.log('2');
+                // }
+                // try {
+                //     console.log(validate.strictValidation)
+                    
+                //     // if (validate(address) == false) {
+                //     //     return false;
+                //     // }
+                // } catch (Error) {
+                //     console.log(Error);
+                //     console.log('3');
+                // }
+                
+                try {
+                    if (ValidationLibrary.validate(address) == false) {
+                        console.log(ValidationLibrary.validate(address));
+                        return false;
+                    }
+                } catch (Error) {
+                    console.log(Error);
+                    console.log('4');
                 }
-                // TODO: check for and fail on testnet address? Force testnet address on ENABLE_TESTMODE?
+                console.log(ValidationLibrary.validate(address));
+                // try {
+                //     if (ValidationLibrary(address) == false) {
+                //         return false;
+                //     }
+                // } catch (Error) {
+                //     console.log(Error);
+                //     console.log('5');
+                // }
+
                 return true;
             }
-            
-            // function determineAddressNetwork(address) {
-            //     let info = validate(address);
-            //     return info.network;
-            // }
-            
             
             let BTCAddressInputListener = function() {
                 let div = document.getElementById('btc-invalid');
                 let btcAddressInput = document.getElementById("btcAddress");
-                if ((validateBTCAddress(btcAddressInput.value) == false) && div == null) {
+
+                if (validateBTCAddress(btcAddressInput.value, ValidationLibrarya) == false) {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
                     error.id = 'btc-invalid';
                     error.innerHTML = `Your BTC address is not valid.`;
-                    addressValidation.appendChild(error);
-                } else {
-                    if (!(div == null)) {
-                        div.remove();
+                    if (div.innerText.length == 0) {
+                        addressValidation.appendChild(error);
                     }
-                }
+                } 
             }
 
             let XMRCurrencyInputKeydownListener = function(event) {
@@ -676,7 +703,7 @@ class ExchangeContentView extends View {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
                     error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.out_min} BTC`;
+                    error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.out_min} BTC`;
                     validationMessages.appendChild(error);
                     return;
                 }
@@ -684,7 +711,7 @@ class ExchangeContentView extends View {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
                     error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.out_max} BTC`;
+                    error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.out_max} BTC`;
                     validationMessages.appendChild(error);
                     return;
                 }
@@ -713,19 +740,19 @@ class ExchangeContentView extends View {
                                 validationMessages.appendChild(error);
                             }
             
-                            if (BTCCurrencyValue.toFixed(12) > exchangeFunctions.currentRates.upper_limit) {
+                            if (BTCCurrencyValue.toFixed(12) > ExchangeFunctions.currentRates.upper_limit) {
                                 let error = document.createElement('div');
                                 error.id = 'xmrexceeded';
                                 error.classList.add('message-label');
-                                let btc_amount = parseFloat(exchangeFunctions.currentRates.upper_limit);
+                                let btc_amount = parseFloat(ExchangeFunctions.currentRates.upper_limit);
                                 error.innerHTML = `You cannot exchange more than ${btc_amount} BTC.`;
                                 validationMessages.appendChild(error);
                             }
-                            if (BTCCurrencyValue.toFixed(8) < exchangeFunctions.currentRates.lower_limit) {
+                            if (BTCCurrencyValue.toFixed(8) < ExchangeFunctions.currentRates.lower_limit) {
                                 let error = document.createElement('div');
                                 error.id = 'xmrtoolow';
                                 error.classList.add('message-label');
-                                let btc_amount = parseFloat(exchangeFunctions.currentRates.lower_limit);
+                                let btc_amount = parseFloat(ExchangeFunctions.currentRates.lower_limit);
                                 error.innerHTML = `You cannot exchange less than ${btc_amount} BTC.`;
                                 validationMessages.appendChild(error);
                             }
@@ -830,8 +857,7 @@ class ExchangeContentView extends View {
                         errorDiv.classList.remove('hidden');
                     } else {            
                         // KB: Remove this ---
-                        loaderPage.classList.remove('active');
-                        exchangePage.classList.add("active");
+                        
                         // end remove
 
                         let errorDiv = document.createElement('div');
@@ -851,80 +877,6 @@ class ExchangeContentView extends View {
                     }
                 });
             }
-
-function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn) {
-    return new Promise((resolve, reject) => {
-
-        // for debug, we use our own xmr_wallet and we send a tiny amount of XMR. Change this once we can send funds
-        if (process.env.EXCHANGE_TESTMODE == "true") {
-            xmr_send_address = process.env.EXCHANGE_TESTADDRESS; // an XMR wallet address under your control
-            xmr_amount = 0.000001;    
-        } else {
-
-        }
-        // for testing transactions for now
-        xmr_send_address = process.env.EXCHANGE_TESTADDRESS; // an XMR wallet address under your control
-        xmr_amount = 0.000001;    
-
-        let enteredAddressValue = xmr_send_address; //;
-        let resolvedAddress = "";
-        let manuallyEnteredPaymentID = "";
-        let resolvedPaymentID = "";
-        let hasPickedAContact = false;
-        let manuallyEnteredPaymentID_fieldIsVisible = false;
-        let resolvedPaymentID_fieldIsVisible = false;
-        let resolvedAddress_fieldIsVisible = false;
-        let contact_payment_id = undefined;
-        let cached_OAResolved_address = undefined;
-        let contact_hasOpenAliasAddress = undefined;
-        let contact_address = undefined;
-        let raw_amount_string = xmr_amount; // XMR amount in double
-        let sweeping = sweep_wallet;
-        let simple_priority = 1;
-
-        console.log(enteredAddressValue);
-        console.log(resolvedAddress);
-        console.log(manuallyEnteredPaymentID);
-        console.log(resolvedPaymentID);
-        console.log(hasPickedAContact);
-        console.log(manuallyEnteredPaymentID_fieldIsVisible);
-        console.log(resolvedPaymentID_fieldIsVisible);
-        console.log(resolvedAddress_fieldIsVisible);
-        console.log(contact_payment_id);
-        console.log(cached_OAResolved_address);
-        console.log(contact_hasOpenAliasAddress);
-        console.log(contact_address);
-        console.log(raw_amount_string);
-        console.log(sweeping);
-        console.log(simple_priority);
-
-        wallet.SendFunds(
-            enteredAddressValue,
-            resolvedAddress,
-            manuallyEnteredPaymentID,
-            resolvedPaymentID,
-            hasPickedAContact,
-            resolvedAddress_fieldIsVisible,
-            manuallyEnteredPaymentID_fieldIsVisible,
-            resolvedPaymentID_fieldIsVisible,
-            contact_payment_id,
-            cached_OAResolved_address,
-            contact_hasOpenAliasAddress,
-            contact_address,
-            raw_amount_string,
-            sweeping,
-            simple_priority,
-            validation_status_fn,
-            cancelled_fn,
-            handle_response_fn
-        );
-
-        function cancelled_fn() { // canceled_fn    
-            // TODO: Karl: I haven't diven deep enough to determine what state would invoke this function yet
-        }
-    });
-}
-// end of functions to check Bitcoin address
 
 function renderOrderStatus(order) {    
 
@@ -1065,23 +1017,21 @@ function renderOrderStatus(order) {
                 console.log(btc_dest_address);
                 console.log(selectedWallet);
                 ExchangeFunctions.createOrder(btc_dest_address, selectedWallet.dataset.walletpublicaddress).then((error, response) => {
-                    let orderStatusDiv = document.getElementById("exchangePage");
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
-                    exchangeXmrDiv.classList.add('active');
                     //backBtn.innerHTML = `<div class="base-button hoverable-cell utility grey-menu-button disableable left-back-button" style="cursor: default; -webkit-app-region: no-drag; position: absolute; opacity: 1; left: 0px;"></div>`;
                     orderTimer = setInterval(() => {
-                        ExchangeFunctions.getOrderStatus().then(function (response) {
-                            console.log(response);
-                            Utils.renderOrderStatus(response);
+                        ExchangeFunctions.getOrderStatus().then(function (response) {                            
+                            renderOrderStatus(response);
+                            exchangeXmrDiv.classList.add('active');
                             let expiryTime = response.expires_at;
                             let secondsElement = document.getElementById('secondsRemaining');
                             let minutesElement = document.getElementById('minutesRemaining');
                             if (secondsElement !== null) {
                                 
                                 let minutesElement = document.getElementById('minutesRemaining');
-                                let timeRemaining = Utils.getTimeRemaining(expiryTime);
+                                let timeRemaining = getTimeRemaining(expiryTime);
                                 minutesElement.innerHTML = timeRemaining.minutes;
                                 if (timeRemaining.seconds <= 9) {
                                     timeRemaining.seconds = "0" + timeRemaining.seconds;
@@ -1095,13 +1045,8 @@ function renderOrderStatus(order) {
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
-                    exchangeXmrDiv.classList.add('active');
+                    //exchangeXmrDiv.classList.add('active');
                 }).catch((error) => {
-                    // KB TO REMOVE
-                    loaderPage.classList.remove('active');
-                    orderStatusDiv.classList.add('active');
-                    exchangeXmrDiv.classList.add('active');
-                    // END REMOVE
                     let errorDiv = document.createElement('div');
                     errorDiv.classList.add('message-label');
                     errorDiv.id = 'server-invalid';
