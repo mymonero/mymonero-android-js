@@ -218,8 +218,7 @@ class WalletsListView extends ListView
 			const logo_w = 30
 			const logo_h = 20
 			var backgroundCSS = "background-image: url(\""
-				+ self.context.crossPlatform_appBundledIndexRelativeAssetsRootPath
-				+ "MainWindow/Resources/www_logo@3x.png\");"
+				+ "../../assets/img/www_logo@3x.png\");"
 			backgroundCSS += `background-size: ${logo_w}px ${logo_h}px;`
 			backgroundCSS += `background-position: 0 10px;`
 			backgroundCSS += `background-repeat: no-repeat;`

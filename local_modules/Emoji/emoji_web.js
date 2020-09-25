@@ -37,7 +37,7 @@ const emoji_set = require('./emoji_set')
 const Views__cssRules = require('../Views/cssRules.web')
 function stylesheetPaths_generatorFn(context)
 {
-	const assetsPath = context.crossPlatform_appBundledIndexRelativeAssetsRootPath
+	const assetsPath = "../../"
 	const stylesheetPaths =
 	[
 		`${assetsPath}Emoji/Vendor/emojione.min.css`,
@@ -65,7 +65,7 @@ function PreLoadAndSetUpEmojiOne(context)
 				i
 			) {
 				const key = categoryDescription.key
-				const pathBase = context.crossPlatform_appBundledIndexRelativeAssetsRootPath 
+				const pathBase = "../../" 
 					+ "Emoji/Vendor/emojione-sprite-32-" 
 					+ key
 				//
