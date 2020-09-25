@@ -50,13 +50,15 @@
 			object-src 'none'; 
 			font-src 'self' https://js.intercomcdn.com/fonts/;  
 			img-src 'self' data: https://downloads.intercomcdn.com/i/o/  https://js.intercomcdn.com/images/ https://static.intercomassets.com/ https://www.google-analytics.com/r/collect https://www.google-analytics.com/collect https://stats.g.doubleclick.net/r/collect; 
-			connect-src 'self' https://api.mymonero.com:8443 https://api-iam.intercom.io https://cloudflare-dns.com data: blob:;">
+			connect-src 'self' https://thingproxy.freeboard.io https://api.mymonero.com:8443 https://api-iam.intercom.io https://cloudflare-dns.com data: blob:;">
 			<!-- script-src of unsafe-eval required to load wasm files at present but actual eval is disabled in renderer_setup_utils -->
 		<meta name="apple-itunes-app" content="app-id=1372508199">
 
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
+
+		    <link rel="stylesheet" type="text/css" href="MainWindow/Styles/styles.css">
         <link rel="stylesheet" type="text/css" href="assets/css/clear.browser.css">
         <script>
 			window.INTERCOM__APP_ID = /*production*/"hi3rzlw0"  // "qa83i5n9"/*development*/  // TODO: select this via webpack env
