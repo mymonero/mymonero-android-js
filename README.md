@@ -57,7 +57,7 @@ Please don't use the Issues tracker for general support or inquiries. You can al
 
 ### Download & Install
 
-1. First, ensure that you have recent versions of `node` and `npm` installed.
+1. First, ensure that you have recent versions of `node` and `npm` installed. You will also require a recent version of Android Studio to build the app
 
 2. Clone or otherwise download this repository. Then, in your terminal, `cd` into the repo directory.
 
@@ -65,15 +65,13 @@ Please don't use the Issues tracker for general support or inquiries. You can al
 
 4. Install all required `node_modules` by executing `npm install`.
 
-5. Building for Android
+5. npx cap copy
 
-.6 npx cap copy
+6. npx cap add android
 
-7. npx cap  add android
+7. Open Android Studio — can be done from CLI by running “npx cap open android”
 
-8. Open Android Studio — can be done from CLI by running “npx cap open android”
-
-9. In the new project, build and run it on an appropriate emulator
+8. In Android Studio, build and run it on an appropriate emulator
 
 
 ## Repo Contents Overview
