@@ -1,4 +1,4 @@
-# Web Wallet 
+# Android Wallet
 
 ![Logo](https://raw.githubusercontent.com/mymonero/mymonero-app-js/master/docs/assets/icon_100.png "Logo")
 
@@ -38,7 +38,7 @@ To get set up with the source code, please see **Getting the Source Code** below
 
 ### Where is user data saved?
 
-* Browser: None (no data is saved)
+* In this version, no user data is saved. The app has been fast-tracked to address issues with fake MyMonero apps being published to Google's Play Store (no data is saved)
 
 
 ## Reporting Bugs & Making Feature Requests
@@ -65,6 +65,16 @@ Please don't use the Issues tracker for general support or inquiries. You can al
 
 4. Install all required `node_modules` by executing `npm install`.
 
+5. Building for Android
+
+.6 npx cap copy
+
+7. npx cap  add android
+
+8. Open Android Studio — can be done from CLI by running “npx cap open android”
+
+9. In the new project, build and run it on an appropriate emulator
+
 
 ## Repo Contents Overview
 * Local, application source code is located in `local_modules/`. This includes bundled/static third-party "Vendor" libraries such as [EmojiOne](http://emojione.com).
@@ -73,20 +83,16 @@ Please don't use the Issues tracker for general support or inquiries. You can al
 
 * App package and build process info is located in `package.json`.
 
+* After building for Android, build files will be exported to the "android" folder in the project root.
+
 * This readme is located at `README.md`, and the license is located at `LICENSE.txt`.
 
 
 ## Building for Production
 
-If you want to run the browser build which is provided in the releases, simply unzip it, `cd` into the browser_build directory, then run `python -m SimpleHTTPServer 9100` (replacing the port with one of your choice if needed). Then, open your browser of choice and navigate to `http://localhost:9100`.
+1. Open the project located in the Android folder generated in step 7 using Android Studio.
 
-
-### Browser (Web wallet)
-
-`npm run start`
-
-*Note:* This will run the command `python -m SimpleHTTPServer 9100` to serve `./browser_build`. After this command completes, open your browser of choice and navigate to `http://localhost:9100`.
-
+2. Build and run the project from Android Studio
 
 ## Contributing
 
