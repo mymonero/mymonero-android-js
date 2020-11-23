@@ -13,6 +13,9 @@
     "node": "12.4.0"
   },
   "dependencies": {
+    "@capacitor/android": "^2.4.2",
+    "@capacitor/cli": "^2.4.2",
+    "@capacitor/core": "^2.4.2",
     "async": "3.1.0",
     "bitcoin-address-validation": "^1.0.2",
     "fastclick": "1.0.6",
