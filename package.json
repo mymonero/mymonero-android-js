@@ -7,6 +7,7 @@
   "repository": "https://github.com/mymonero/mymonero-web-js",
   "scripts": {
     "start": "bin/start_dev_browser",
+    "watch": "webpack --config webpack.browser.dev.config.js --display-modules --watch",
     "postinstall": "bin/update_submodules"
   },
   "engines": {
