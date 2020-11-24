@@ -67,7 +67,7 @@ Please don't use the Issues tracker for general support or inquiries. You can al
 
 5. npx cap copy
 
-6. npx cap  add android
+6. npx cap add android
 
 7. Open Android Studio — can be done from CLI by running “npx cap open android”
 
@@ -84,6 +84,28 @@ Please don't use the Issues tracker for general support or inquiries. You can al
 * After building for Android, build files will be exported to the "android" folder in the project root.
 
 * This readme is located at `README.md`, and the license is located at `LICENSE.txt`.
+
+## Suggested development workflow
+
+As the application is essentially a web application which gets transpiled into Java by Capacitor, rather than transpile and build each time, we do most of our development work by running a server that serves the browser_build folder, and accessing it in Chrome. Barring unusual cases, changes made and tested on Chrome will function properly once transpiled.
+
+When developing in this fashion, one can run a server with hot-reload enabled by using the `npm run watch` command
+
+## Debugging the Android application
+
+Should you run into any issues with the transpiled application, you are able to debug the application by making use of Android WebView debugging and the Chrome browser. In order to do so, follow the instructions below: 
+
+1. Add the following code snippet to the app/java/com.mymonero.android/MainActivity.java file
+
+```
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+    WebView.setWebContentsDebuggingEnabled(true);
+}
+```
+2. Open Chrome
+3. Navigate to chrome://inspect/#devices
+4. Under "Remote Target", you should see a WebView titled "WebView in com.mymonero.android"
+5. Click "inspect" to open the WebView in DevTools
 
 
 ## Building for Production
