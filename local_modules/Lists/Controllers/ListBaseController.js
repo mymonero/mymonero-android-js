@@ -627,6 +627,7 @@ class ListBaseController extends EventEmitter
 	{
 		const self = this
 		const collectionName = self.override_CollectionName()
+		console.log(collectionName)
 		self.context.persister.RemoveAllDocuments(
 			collectionName, 
 			function(err)

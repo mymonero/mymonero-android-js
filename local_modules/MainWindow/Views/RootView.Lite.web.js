@@ -51,6 +51,27 @@ class RootView extends RootView_Base
 	}
 	setup_passwordEntryViewController()
 	{// overridden and not calling on super
+		const self = this
+		const passwordController = self.context.passwordController
+		const PasswordEntryViewController = require('../../Passwords/Controllers/PasswordEntryViewController.web')
+		const passwordEntryViewController = new PasswordEntryViewController(self.tabBarViewAndContentView, passwordController)
+		self.passwordEntryViewController = passwordEntryViewController
+		{
+			passwordEntryViewController.on(
+				passwordEntryViewController.EventName_willDismissView(),
+				function()
+				{
+					self.tabBarViewAndContentView.SetTabBarItemButtonsInteractivityNeedsUpdateFromProviders()
+				}
+			)
+			passwordEntryViewController.on(
+				passwordEntryViewController.EventName_willPresentInView(),
+				function()
+				{
+					self.tabBarViewAndContentView.DisableTabBarItemButtons()
+				}
+			)
+		}
 	}
 }
 module.exports = RootView

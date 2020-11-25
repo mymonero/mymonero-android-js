@@ -28,6 +28,7 @@
 //
 "use strict"
 //
+console.log("BackgroundDocumentPersister.Files.child.js imported")
 const child_ipc = require('../Concurrency/ipc.electron.child')
 //
 const databaseFileParentDirectory = process.argv[2]

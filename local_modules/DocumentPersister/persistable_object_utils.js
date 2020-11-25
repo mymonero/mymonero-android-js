@@ -27,16 +27,19 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //
+
 const uuidV1 = require('uuid/v1')
 const string_cryptor = require('../symmetric_cryptor/symmetric_string_cryptor')
+
 //
 function read(
 	string_cryptor__background,
-	persister,
+	persister, // DocumentPersister.SecureStorage
 	CollectionName,
 	persistableObject, // you must set ._id on this before call
 	fn // (err?, plaintextDocument?)
 ) {
+	console.log("Persistable_object_utils: read")
 	const self = persistableObject
 	persister.DocumentsWithIds(
 		CollectionName,
@@ -56,6 +59,8 @@ function read(
 				return
 			}
 			const encryptedDocument = docs[0]
+			console.log("Persistable_object_utils: __proceedTo_decryptEncryptedDocument about to invoke")
+			console.log(encryptedDocument)
 			__proceedTo_decryptEncryptedDocument(encryptedDocument)
 		}
 	)
@@ -66,6 +71,7 @@ function read(
 			self.persistencePassword,
 			function(err, plaintextString)
 			{
+				console.log("Persistable_object_utils: New_DecryptedString__Async invoked")
 				if (err) {
 					console.error("❌  Decryption err: " + err.toString())
 					fn(err)
@@ -74,6 +80,8 @@ function read(
 				var plaintextDocument;
 				try {
 					plaintextDocument = JSON.parse(plaintextString)
+					console.log('sucessfully decrypted document')
+					console.log(plaintextDocument)
 				} catch (e) {
 					let errStr = "Error while parsing JSON: " + e
 					console.error("❌  " + errStr)
@@ -96,6 +104,7 @@ function write(
 	persistencePassword,
 	fn
 ) {
+	console.log("Persistable_object_utils: write")
 	const self = persistableObject
 	var _id = plaintextDocument._id
 	if (typeof _id === 'undefined' || _id == null || _id == "") {
@@ -103,11 +112,15 @@ function write(
 		plaintextDocument._id = _id
 	}
 	const plaintextJSONString = JSON.stringify(plaintextDocument)
-	string_cryptor__background.New_EncryptedBase64String__Async(
+	//string_cryptor__background.New_EncryptedBase64String__Async(
+
+	string_cryptor.New_EncryptedBase64String__Async(
 		plaintextJSONString,
 		persistencePassword,
 		function(err, encryptedBase64String)
 		{
+			console.log("Persistable_object_utils: New_EncryptedBase64String__Async invoked (encryption callback) -- encrypted string:")
+			console.log(encryptedBase64String);
 			if (err) {
 				console.error("Error while saving :", err)
 				fn(err)
@@ -116,12 +129,16 @@ function write(
 			if (self._id === null) {
 				_proceedTo_insertNewDocument(encryptedBase64String)
 			} else {
+				console.log('sucessfully decrypted document')
 				_proceedTo_updateExistingDocument(encryptedBase64String)
 			}
 		}
 	)
 	function _proceedTo_insertNewDocument(encryptedBase64String)
 	{
+		console.log("Persistable_object_utils: InsertNewDocument invoked")
+		console.log("CollectionName:")
+		console.log(CollectionName)
 		persister.InsertDocument(
 			CollectionName,
 			plaintextDocument._id,
@@ -140,6 +157,7 @@ function write(
 	}
 	function _proceedTo_updateExistingDocument(encryptedBase64String)
 	{
+		console.log("Persistable_object_utils: updateExistingDocument invoked")
 		persister.UpdateDocumentWithId(
 			CollectionName,
 			self._id,

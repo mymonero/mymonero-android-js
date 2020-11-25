@@ -128,6 +128,7 @@ class Wallet extends EventEmitter
 	}
 	__setup_fetchExistingDoc_andAwaitBoot()
 	{
+		console.log("Wallet.__setup_fetchExistingDoc_andAwaitBoot")
 		const self = this
 		self.context.persister.DocumentsWithIds(
 			wallet_persistence_utils.CollectionName,
@@ -155,9 +156,11 @@ class Wallet extends EventEmitter
 	}
 	__setup_andAwaitBootAndLogInAndDocumentCreation()
 	{
+		console.log("Wallet.__setup_andAwaitBootAndLogInAndDocumentCreation")
 		const self = this
 		//
 		// need to create new document. gather metadata & state we need to do so
+		console.log("need to create new document")
 		self.isLoggedIn = false
 		self.wallet_currency = self.options.wallet_currency || wallet_currencies.xmr // default
 		if (self.options.generateNewWallet !== true) { // if not generating new mnemonic seed -- which we will pick this up later in the corresponding Boot_*

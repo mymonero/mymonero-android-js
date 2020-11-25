@@ -83,6 +83,7 @@ class ExchangeContentView extends View {
             try {
                 if (context.walletsListController.records !== undefined) {
                     //ecvSelf._setup_walletExchangeOptions(self.context);
+                    
                 }
             } catch {
                 // wallet not instantiated yet, no need to display notices
@@ -512,7 +513,6 @@ class ExchangeContentView extends View {
                 return;
             }
             const Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
-            console.log(Utils);
             const ExchangeLibrary = require('mymonero-exchange');
             const ExchangeFunctions = new ExchangeLibrary();
             const ExchangeUtils = require('../Javascript/ExchangeUtilityFunctions');
@@ -686,7 +686,6 @@ class ExchangeContentView extends View {
                 let BTCToReceive;
                 let XMRbalance = parseFloat(XMRcurrencyInput.value);
                 let in_amount = XMRbalance.toFixed(12);
-                console.log(currencyInputTimer);
                 BTCcurrencyInput.value = "Loading...";
                 if (currencyInputTimer !== undefined) {
                     clearTimeout(currencyInputTimer);
@@ -712,7 +711,7 @@ class ExchangeContentView extends View {
                 currencyInputTimer = setTimeout(() => {
                     ExchangeFunctions.getOfferWithInAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, in_amount)
                         .then((response) => {
-                            console.log('async return', response);
+                            
                             BTCToReceive = parseFloat(response.out_amount);
                             let selectedWallet = document.getElementById('selected-wallet');
                             let tx_feeElem = document.getElementById('tx-fee');
@@ -979,7 +978,6 @@ function renderOrderStatus(order) {
     }
             let exchangeRendered = document.getElementById('orderStatusPage'); 
             if (exchangeRendered == null) {
-                console.log('We have not shown the order status page');
                 return;
             } else {
                 

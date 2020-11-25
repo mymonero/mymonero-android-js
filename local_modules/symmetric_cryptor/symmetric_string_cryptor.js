@@ -34,6 +34,7 @@
 //
 var crypto = require('crypto');
 //
+console.log("symmetric string cryptor included")
 var currentVersionCryptorFormatVersion = 3;
 var cryptor_settings = 
 {
@@ -60,6 +61,7 @@ function New_EncryptedBase64String__Async(
 	password,
 	fn
 ) {
+	console.log("sym-string-crpytor: New encrypted string attempt")
 	if (typeof plaintext_msg === 'undefined') {
 		return undefined
 	}

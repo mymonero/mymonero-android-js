@@ -65,25 +65,26 @@ class RootTabBarAndContentView_Lite extends RootTabBarAndContentView_Base
 			const view = new ContactsTabContentView(options, context)
 			self.contactsTabContentView = view
 		}
-		{ // SettingsView
-			const SettingsTabContentView = require('../../Settings/Views/SettingsTabContentView.web')
-			const view = new SettingsTabContentView({}, context)
-			self.settingsTabContentView = view
-		}
 		{ // ExchangeView
 			const ExchangeTabContentView = require('../../Exchange/Views/ExchangeTabContentView.web')
 			const view = new ExchangeTabContentView({}, context)
 			console.log(view);
 			self.exchangeTabContentView = view
 		}
+		{ // SettingsView
+			const SettingsTabContentView = require('../../Settings/Views/SettingsTabContentView.web')
+			const view = new SettingsTabContentView({}, context)
+			self.settingsTabContentView = view
+		}
+
 		self.SetTabBarContentViews(
 			[
 				self.walletsTabContentView,
 				self.sendTabContentView,
 				self.requestTabContentView,
 				self.contactsTabContentView,
-				self.settingsTabContentView,
 				self.exchangeTabContentView,
+				self.settingsTabContentView,
 			]
 		)
 	}

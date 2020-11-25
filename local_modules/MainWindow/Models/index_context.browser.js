@@ -80,7 +80,7 @@ function NewHydratedContext(initialContext)
 			options: {}
 		},
 		{
-			module: require("../../DocumentPersister/DocumentPersister.InMemory"),
+			module: require("../../DocumentPersister/DocumentPersister.SecureStorage"),
 			instance_key: "persister",
 			options: {
 			}
