@@ -42,4 +42,4 @@ class Locale_Abstract
 		throw "Override Locale in " + self.constructor.name
 	}
 }
-module.exports = Locale_Abstract
+export default Locale_Abstract;

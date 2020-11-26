@@ -27,12 +27,16 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const async = require('async')
-const EventEmitter = require('events')
-const uuidV1 = require('uuid/v1')
+import async from 'async';
+
+import EventEmitter from 'events';
+import uuidV1 from 'uuid/v1';
+
 //
-const symmetric_string_cryptor = require('../../symmetric_cryptor/symmetric_string_cryptor')
+import symmetric_string_cryptor from '../../symmetric_cryptor/symmetric_string_cryptor';
+
 //
 const CollectionName = "PasswordMeta"
 const plaintextMessageToSaveForUnlockChallenges = "this is just a string that we'll use for checking whether a given password can unlock an encrypted version of this very message"
@@ -1171,4 +1175,4 @@ class PasswordController_Base extends EventEmitter
 		self._startObserving_userIdleInWindowController()
 	}
 }
-module.exports = PasswordController_Base
+export default PasswordController_Base;

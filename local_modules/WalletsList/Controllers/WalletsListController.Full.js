@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
 //
-const WalletsListController_Base = require('./WalletsListController_Base')
+import WalletsListController_Base from './WalletsListController_Base';
+
 //
 class WalletsListController extends WalletsListController_Base
 {
@@ -38,4 +40,4 @@ class WalletsListController extends WalletsListController_Base
 		super(options, context)
 	}
 }
-module.exports = WalletsListController
+export default WalletsListController;

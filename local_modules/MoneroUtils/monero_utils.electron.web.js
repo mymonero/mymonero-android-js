@@ -29,8 +29,10 @@
 "use strict";
 //
 const wants_electronRemote = true // becaus we're only ever including this in the electron renderer process
+
 //
-const fn_names = require('./__bridged_fns_spec.electron').bridgedFn_names;
+import { bridgedFn_names as fn_names } from './__bridged_fns_spec.electron';
+
 const moneroUtils_promise_fn = function(options)
 {
 	options = options || {}
@@ -293,6 +295,7 @@ function __IPCbridge_call_cb_key__success(call_id)
 {
 	return `IPCbridge_call_cb-success-${call_id}`;
 }
+
 //
 //
 // Since we actually are constructing bridge functions we technically have the export ready 
@@ -300,4 +303,4 @@ function __IPCbridge_call_cb_key__success(call_id)
 //
 // TODO: in future, possibly return function which takes options instead to support better env.
 //
-module.exports = moneroUtils_promise_fn;
+export default moneroUtils_promise_fn;

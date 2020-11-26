@@ -27,11 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Views__cssRules = require('../Views/cssRules.web')
-const commonComponents_forms = require('./forms.web')
+import Views__cssRules from '../Views/cssRules.web';
+
+import commonComponents_forms from './forms.web';
+
 //
-const emoji_web = require('../Emoji/emoji_web')
+import emoji_web from '../Emoji/emoji_web';
+
 //
 const NamespaceName = "contactPicker"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -351,7 +355,7 @@ function New_contactPickerLayer(
 	//
 	return containerLayer
 }
-exports.New_contactPickerLayer = New_contactPickerLayer
+export { New_contactPickerLayer };
 //
 function _new_inputLayer(placeholderText, context)
 {

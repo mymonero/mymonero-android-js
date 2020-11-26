@@ -29,7 +29,7 @@
 "use strict"
 //
 console.log("BackgroundDocumentPersister.Files.child.js imported")
-const child_ipc = require('../Concurrency/ipc.electron.child')
+import child_ipc from '../Concurrency/ipc.electron.child';
 //
 const databaseFileParentDirectory = process.argv[2]
 if (typeof databaseFileParentDirectory === 'undefined' || !databaseFileParentDirectory) {
@@ -39,12 +39,15 @@ const reporting_appVersion = process.argv[3]
 if (typeof reporting_appVersion === 'undefined' || !reporting_appVersion) {
 	throw "BackgroundDocumentPersister.Files.child.js requires argv[3] reporting_appVersion"
 }
+
 //	
-const DocumentPersister_Files = require('./DocumentPersister.Files')
+import DocumentPersister_Files from './DocumentPersister.Files';
+
+import fs from 'fs';
 const options =
 {
 	userDataAbsoluteFilepath: databaseFileParentDirectory,
-	fs: require('fs')
+	fs
 }
 const persister = new DocumentPersister_Files(options)
 //

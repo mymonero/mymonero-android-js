@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const ContactsTabContentView_Base = require('./ContactsTabContentView_Base.web')
+import ContactsTabContentView_Base from './ContactsTabContentView_Base.web';
+
 //
 class ContactsTabContentView extends ContactsTabContentView_Base
 {
@@ -53,4 +55,4 @@ class ContactsTabContentView extends ContactsTabContentView_Base
 		)
 	}
 }
-module.exports = ContactsTabContentView
+export default ContactsTabContentView;

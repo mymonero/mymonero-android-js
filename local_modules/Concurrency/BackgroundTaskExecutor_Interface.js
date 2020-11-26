@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const uuidV1 = require('uuid/v1')
+import uuidV1 from 'uuid/v1';
+
 //
 class BackgroundTaskExecutor
 {
@@ -177,4 +179,4 @@ class BackgroundTaskExecutor
 		}
 	}
 }
-module.exports = BackgroundTaskExecutor
+export default BackgroundTaskExecutor;

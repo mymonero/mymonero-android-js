@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
-const async = require('async')
+import EventEmitter from 'events';
+
+import async from 'async';
 //
 class ListBaseController extends EventEmitter
 {	
@@ -665,4 +667,4 @@ class ListBaseController extends EventEmitter
 		}
 	}
 }
-module.exports = ListBaseController
+export default ListBaseController;

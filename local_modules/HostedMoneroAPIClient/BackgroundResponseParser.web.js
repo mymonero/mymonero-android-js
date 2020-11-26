@@ -27,10 +27,12 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
 // In the future this could implement web workers
-const response_parser_utils = require('../mymonero_libapp_js/mymonero-core-js/hostAPI/response_parser_utils')
-const monero_keyImage_cache_utils = require('../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_keyImage_cache_utils')
+import response_parser_utils from '../mymonero_libapp_js/mymonero-core-js/hostAPI/response_parser_utils';
+
+import monero_keyImage_cache_utils from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_keyImage_cache_utils';
 //
 class BackgroundResponseParser
 {
@@ -100,4 +102,4 @@ class BackgroundResponseParser
 		}
 	}
 }
-module.exports = BackgroundResponseParser
+export default BackgroundResponseParser;

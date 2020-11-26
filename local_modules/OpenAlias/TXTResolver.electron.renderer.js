@@ -27,12 +27,16 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const {ipcRenderer} = require('electron')
-const uuidV1 = require('uuid/v1')
+import { ipcRenderer } from 'electron';
+
+import uuidV1 from 'uuid/v1';
+
 //
-const TXTResolver_Interface = require('./TXTResolver_Interface')
-const DNSResolverHandle = require('./DNSResolverHandle.node')
+import TXTResolver_Interface from './TXTResolver_Interface';
+
+import DNSResolverHandle from './DNSResolverHandle.node';
 //
 class TXTResolver extends TXTResolver_Interface
 {
@@ -98,4 +102,4 @@ class TXTResolver extends TXTResolver_Interface
 	}
 
 }
-module.exports = TXTResolver
+export default TXTResolver;

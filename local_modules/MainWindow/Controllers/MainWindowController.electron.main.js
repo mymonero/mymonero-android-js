@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const electron = require('electron')
+import electron from 'electron';
+
 //
 class MainWindowController
 {
@@ -221,4 +223,4 @@ class MainWindowController
 	////////////////////////////////////////////////////////////////////////////////
 	// Delegation - Private - Windows
 }
-module.exports = MainWindowController
+export default MainWindowController;

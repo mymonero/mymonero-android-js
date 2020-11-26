@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+
 //
 class RequestTabContentView extends StackAndModalNavigationView
 {
@@ -92,4 +94,4 @@ class RequestTabContentView extends StackAndModalNavigationView
 		return shallDisable
 	}
 }
-module.exports = RequestTabContentView
+export default RequestTabContentView;

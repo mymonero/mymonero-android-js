@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const AddContactView = require('../../Contacts/Views/AddContactView.web')
+import AddContactView from '../../Contacts/Views/AddContactView.web';
+
 //
 class AddContactFromContactsTabView extends AddContactView
 {
@@ -65,4 +67,4 @@ class AddContactFromContactsTabView extends AddContactView
 		super._didSaveNewContact(contact) // this will cause self to be dismissed!! so, last-ish
 	}
 }
-module.exports = AddContactFromContactsTabView
+export default AddContactFromContactsTabView;

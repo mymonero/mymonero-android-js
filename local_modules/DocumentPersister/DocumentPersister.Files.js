@@ -27,11 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const async = require('async')
+import async from 'async';
+
 //
 //
-const DocumentPersister_Interface = require('./DocumentPersister_Interface')
+import DocumentPersister_Interface from './DocumentPersister_Interface';
+
 //
 class DocumentPersister extends DocumentPersister_Interface
 {
@@ -372,4 +375,4 @@ class DocumentPersister extends DocumentPersister_Interface
 	}
 
 }
-module.exports = DocumentPersister
+export default DocumentPersister;

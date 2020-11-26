@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const FilesystemUI_Abstract = require('./FilesystemUI_Abstract')
+import FilesystemUI_Abstract from './FilesystemUI_Abstract';
+
 //
 class FilesytemUI extends FilesystemUI_Abstract
 {
@@ -86,4 +88,4 @@ class FilesytemUI extends FilesystemUI_Abstract
 		alert("Code fault: PresentDialogToOpenOneImageFile not yet implemented")
 	}
 }
-module.exports = FilesytemUI
+export default FilesytemUI;

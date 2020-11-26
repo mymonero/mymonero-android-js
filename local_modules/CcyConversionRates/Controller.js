@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const EventEmitter = require('events')
-const Currencies = require('./Currencies')
+import EventEmitter from 'events';
+
+import Currencies from './Currencies';
 //
 class Controller extends EventEmitter
 {
@@ -174,4 +176,4 @@ class Controller extends EventEmitter
 		)
 	}
 }
-module.exports = Controller
+export default Controller;

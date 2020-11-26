@@ -27,11 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const ListBaseController = require('../../Lists/Controllers/ListBaseController')
+import ListBaseController from '../../Lists/Controllers/ListBaseController';
+
 //
-const Contact = require('../Models/Contact')
-const contact_persistence_utils = require('../Models/contact_persistence_utils')
+import Contact from '../Models/Contact';
+
+import contact_persistence_utils from '../Models/contact_persistence_utils';
 //
 class ContactsListController extends ListBaseController
 {
@@ -154,4 +157,4 @@ class ContactsListController extends ListBaseController
 		)
 	}
 }
-module.exports = ContactsListController
+export default ContactsListController;

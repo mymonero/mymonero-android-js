@@ -28,8 +28,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const RootTabBarAndContentView_Base = require('./RootTabBarAndContentView_Base.web')
+import RootTabBarAndContentView_Base from './RootTabBarAndContentView_Base.web';
+
 //
 class RootTabBarAndContentView_Lite extends RootTabBarAndContentView_Base
 {
@@ -89,4 +91,4 @@ class RootTabBarAndContentView_Lite extends RootTabBarAndContentView_Base
 		)
 	}
 }
-module.exports = RootTabBarAndContentView_Lite
+export default RootTabBarAndContentView_Lite;

@@ -27,12 +27,12 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //
-const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
-const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
+import persistable_object_utils from '../../DocumentPersister/persistable_object_utils';
+
+import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
 //
 const CollectionName = "Wallets"
 console.log("Wallet persistence loaded")
-exports.CollectionName = CollectionName
 //
 // Utility functions
 function HydrateInstance(
@@ -138,7 +138,6 @@ function HydrateInstance(
 	//
 	self.spent_outputs = plaintextDocument.spent_outputs // no || [] because we always persist at least []
 }
-exports.HydrateInstance = HydrateInstance
 //
 //
 function SaveToDisk(
@@ -260,7 +259,6 @@ function SaveToDisk(
 		fn
 	);
 }
-exports.SaveToDisk = SaveToDisk
 //
 function DeleteFromDisk(
 	instance,
@@ -290,4 +288,4 @@ function DeleteFromDisk(
 		}
 	)
 }
-exports.DeleteFromDisk = DeleteFromDisk
+export { CollectionName, HydrateInstance, SaveToDisk, DeleteFromDisk };

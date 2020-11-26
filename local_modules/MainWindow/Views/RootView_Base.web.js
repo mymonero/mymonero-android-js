@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_assetPreloader = require('../../MMAppUICommonComponents/assetPreloader')
+import View from '../../Views/View.web';
+
+import commonComponents_assetPreloader from '../../MMAppUICommonComponents/assetPreloader';
 //
 class RootView extends View
 {
@@ -116,4 +118,4 @@ class RootView extends View
 	}
 }
 
-module.exports = RootView
+export default RootView;

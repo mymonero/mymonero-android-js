@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
+import View from '../../Views/View.web';
+
 //
 class BarButtonBaseView extends View
 {
@@ -69,4 +71,4 @@ class BarButtonBaseView extends View
 		self.didConfigureInteractivity_fn(self)
 	}
 }
-module.exports = BarButtonBaseView
+export default BarButtonBaseView;

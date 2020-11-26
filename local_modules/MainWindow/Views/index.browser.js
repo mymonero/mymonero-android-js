@@ -30,6 +30,9 @@
 //
 "use strict"
 //
+import RootView from '../Views/RootView.Lite.web' // electron uses .web files as it has a web DOM
+import setup_utils from '../../MMAppRendererSetup/renderer_setup.browser'
+
 window.BootApp = function()
 { // encased in a function to prevent scope being lost/freed on mobile
 	const isDebug = false
@@ -55,7 +58,7 @@ window.BootApp = function()
 	var isTouchDevice = ('ontouchstart' in document.documentElement);
 	const isMobile = isTouchDevice // an approximation for 'mobile'
 	//
-	const setup_utils = require('../../MMAppRendererSetup/renderer_setup.browser')
+	
 	setup_utils({
 		appVersion: app.getVersion(),
 		reporting_processName: "BrowserWindow"
@@ -120,7 +123,7 @@ window.BootApp = function()
 			}
 		}
 		{ // root view
-			const RootView = require('../Views/RootView.Lite.web') // electron uses .web files as it has a web DOM
+			
 			const rootView = new RootView({}, context) // hang onto reference
 			rootView.superview = null // just to be explicit; however we will set a .superlayer
 			// manually attach the rootView to the DOM and specify view's usual managed reference(s)

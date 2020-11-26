@@ -28,8 +28,9 @@
 //
 //
 
-const uuidV1 = require('uuid/v1')
-const string_cryptor = require('../symmetric_cryptor/symmetric_string_cryptor')
+import uuidV1 from 'uuid/v1';
+
+import string_cryptor from '../symmetric_cryptor/symmetric_string_cryptor';
 
 //
 function read(
@@ -93,7 +94,6 @@ function read(
 		)
 	}
 }
-exports.read = read
 //
 function write(
 	string_cryptor__background,
@@ -175,4 +175,4 @@ function write(
 		)
 	}
 }
-exports.write = write
+export { read, write };

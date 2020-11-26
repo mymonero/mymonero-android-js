@@ -27,13 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const monero_amount_format_utils = require("../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils");
-const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
 //
 class TransactionDetailsView extends View
 {
@@ -529,4 +531,4 @@ class TransactionDetailsView extends View
 		super.viewDidAppear()
 	}
 }
-module.exports = TransactionDetailsView
+export default TransactionDetailsView;

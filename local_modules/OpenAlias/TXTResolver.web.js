@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const TXTResolver_Interface = require('./TXTResolver_Interface')
-const request = require('xhr')
+import TXTResolver_Interface from './TXTResolver_Interface';
+
+import request from 'xhr';
 //
 class TXTResolver extends TXTResolver_Interface
 {
@@ -89,4 +91,4 @@ class TXTResolver extends TXTResolver_Interface
 	}
 
 }
-module.exports = TXTResolver
+export default TXTResolver;

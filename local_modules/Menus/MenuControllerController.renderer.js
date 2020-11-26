@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const {ipcRenderer} = require('electron')
+import { ipcRenderer } from 'electron';
+
 //
 class MenuControllerController
 {	// Silly as it sounds, this class exists to integrate the main process menuController with event emissions from the renderer side so that integratees can remain able to operate independently
@@ -123,4 +125,4 @@ class MenuControllerController
 		)
 	}
 }
-module.exports = MenuControllerController
+export default MenuControllerController;

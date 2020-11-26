@@ -38,7 +38,7 @@ if (!ENVIRONMENT_IS_NODE || ENVIRONMENT_IS_WEB) {
 }
 var coreBridge_instance = null;
 const local_fns = {};
-const fn_names = require('./__bridged_fns_spec.electron').bridgedFn_names;
+import { bridgedFn_names as fn_names } from './__bridged_fns_spec.electron';
 for (const i in fn_names) {
 	const name = fn_names[i]
 	local_fns[name] = function()
@@ -178,11 +178,14 @@ for (const i in fn_names) {
 //
 // Cannot export a promise, though, because this must be safe for IPC to electron 'remote'...
 local_fns.isReady = false;
+
 //
-module.exports = local_fns;
+export default local_fns;
+
 //
 //
-const coreBridgeLoading_promise = require('./MyMoneroLibAppBridge_Singleton.electron')
+import coreBridgeLoading_promise from './MyMoneroLibAppBridge_Singleton.electron';
+
 coreBridgeLoading_promise.then(function(this__coreBridge_instance)
 {
 	coreBridge_instance = this__coreBridge_instance;

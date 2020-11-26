@@ -27,10 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
+import EventEmitter from 'events';
+
 //
-const PasswordEntryView = require('../Views/PasswordEntryView.web')
+import PasswordEntryView from '../Views/PasswordEntryView.web';
+
 //
 class PasswordEntryViewController extends EventEmitter
 {
@@ -263,4 +266,4 @@ class PasswordEntryViewController extends EventEmitter
 		return view
 	}
 }
-module.exports = PasswordEntryViewController
+export default PasswordEntryViewController;

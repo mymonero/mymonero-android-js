@@ -27,12 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const SendFundsView_Base = require('./SendFundsView_Base.web')
-const commonComponents_contactPicker = require('../../MMAppUICommonComponents/contactPicker.web')
-const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
-const AddContactFromSendTabView = require('../../Contacts/Views/AddContactFromSendTabView.web')
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
+import SendFundsView_Base from './SendFundsView_Base.web';
+
+import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web';
+import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
+import AddContactFromSendTabView from '../../Contacts/Views/AddContactFromSendTabView.web';
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
 //
 class SendFundsView extends SendFundsView_Base
 {
@@ -148,4 +150,4 @@ class SendFundsView extends SendFundsView_Base
 		}
 	}
 }
-module.exports = SendFundsView
+export default SendFundsView;

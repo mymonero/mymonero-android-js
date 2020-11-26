@@ -27,13 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const async = require('async')
-const EventEmitter = require('events')
-const uuidV1 = require('uuid/v1')
+import async from 'async';
+
+import EventEmitter from 'events';
+import uuidV1 from 'uuid/v1';
 //
 const CollectionName = "Settings"
-let Currencies = require('../../CcyConversionRates/Currencies')
+import Currencies from '../../CcyConversionRates/Currencies';
 //
 let k_defaults_record = 
 {
@@ -387,4 +389,4 @@ class SettingsController extends EventEmitter
 		)
 	}
 }
-module.exports = SettingsController
+export default SettingsController;

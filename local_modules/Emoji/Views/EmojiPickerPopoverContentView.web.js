@@ -27,14 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const emoji_set = require('../emoji_set')
-const emoji_web = require('../emoji_web')
+import View from '../../Views/View.web';
+
+import emoji_set from '../emoji_set';
+import emoji_web from '../emoji_web';
 //
 const EmojiButtonView_height = 40
+
 //
-const Views__cssRules = require('../../Views/cssRules.web')
+import Views__cssRules from '../../Views/cssRules.web';
+
 const NamespaceName = "EmojiPickerPopoverContentView"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 const cssRules =
@@ -208,4 +212,4 @@ class EmojiPickerPopoverContentView extends View
 	}
 	
 }
-module.exports = EmojiPickerPopoverContentView
+export default EmojiPickerPopoverContentView;

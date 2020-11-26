@@ -27,10 +27,12 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
-const BarButtonBaseView = require('../StackNavigation/Views/BarButtonBaseView.web')
-const commonComponents_hoverableCells = require('./hoverableCells.web')
+import View from '../Views/View.web';
+
+import BarButtonBaseView from '../StackNavigation/Views/BarButtonBaseView.web';
+import commonComponents_hoverableCells from './hoverableCells.web';
 //	
 function _New_ButtonBase_View(context, optl_didConfigureInteractivity_fn)
 {
@@ -62,7 +64,7 @@ function _New_ButtonBase_View(context, optl_didConfigureInteractivity_fn)
 	//
 	return view
 }
-exports.New_ButtonBase_View = _New_ButtonBase_View
+export const New_ButtonBase_View = _New_ButtonBase_View;
 //
 function New_GreyButtonView(context)
 {
@@ -88,7 +90,6 @@ function New_GreyButtonView(context)
 	layer.classList.add(commonComponents_hoverableCells.ClassFor_Disableable()) // allowing this to be auto-styled as disabled
 	return view
 }
-exports.New_GreyButtonView = New_GreyButtonView
 //
 function New_BlueButtonView(context)
 {
@@ -125,7 +126,6 @@ function New_BlueButtonView(context)
 	
 	return view
 }
-exports.New_BlueButtonView = New_BlueButtonView
 //
 function New_LeftSide_BackButtonView(context)
 {
@@ -142,7 +142,6 @@ function New_LeftSide_BackButtonView(context)
 	layer.style.backgroundPosition = "8px 5px"
 	return view
 }
-exports.New_LeftSide_BackButtonView = New_LeftSide_BackButtonView
 //
 function New_RightSide_AddButtonView(context)
 {
@@ -157,7 +156,6 @@ function New_RightSide_AddButtonView(context)
 	layer.style.backgroundPosition = "center"
 	return view
 }
-exports.New_RightSide_AddButtonView = New_RightSide_AddButtonView
 //
 function New_LeftSide_CancelButtonView(context, title_orUndefinedForDefaultCancel)
 {
@@ -176,7 +174,6 @@ function New_LeftSide_CancelButtonView(context, title_orUndefinedForDefaultCance
 	//
 	return view
 }
-exports.New_LeftSide_CancelButtonView = New_LeftSide_CancelButtonView
 //
 function New_RightSide_SaveButtonView(context)
 {
@@ -187,7 +184,6 @@ function New_RightSide_SaveButtonView(context)
 	layer.style.marginTop = "10px"
 	return view
 }
-exports.New_RightSide_SaveButtonView = New_RightSide_SaveButtonView
 //
 function New_RightSide_EditButtonView(context)
 {
@@ -199,7 +195,6 @@ function New_RightSide_EditButtonView(context)
 	layer.style.marginTop = "10px"
 	return view	
 }
-exports.New_RightSide_EditButtonView = New_RightSide_EditButtonView
 //
 function New_RightSide_ValueDisplayLabelButtonView(context)
 {
@@ -221,4 +216,4 @@ function New_RightSide_ValueDisplayLabelButtonView(context)
 	}
 	return view	
 }
-exports.New_RightSide_ValueDisplayLabelButtonView = New_RightSide_ValueDisplayLabelButtonView
+export { New_GreyButtonView, New_BlueButtonView, New_LeftSide_BackButtonView, New_RightSide_AddButtonView, New_LeftSide_CancelButtonView, New_RightSide_SaveButtonView, New_RightSide_EditButtonView, New_RightSide_ValueDisplayLabelButtonView };

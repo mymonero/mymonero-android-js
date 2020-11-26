@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const RequestTabContentView_Base = require('./RequestTabContentView_Base.web')
+import RequestTabContentView_Base from './RequestTabContentView_Base.web';
+
 //
 class RequestTabContentView extends RequestTabContentView_Base
 {
@@ -55,4 +57,4 @@ class RequestTabContentView extends RequestTabContentView_Base
 		}
 	}
 }
-module.exports = RequestTabContentView
+export default RequestTabContentView;

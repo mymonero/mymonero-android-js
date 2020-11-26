@@ -27,19 +27,23 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_labeledRangeInputs = require('../../MMAppUICommonComponents/labeledRangeInputs.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_switchToggles = require('../../MMAppUICommonComponents/switchToggles.web')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
-const commonComponents_ccySelect = require('../../MMAppUICommonComponents/ccySelect.web')
-const commonComponents_hoverableCells = require('../../MMAppUICommonComponents/hoverableCells.web')
-const commonComponents_tooltips = require('../../MMAppUICommonComponents/tooltips.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_labeledRangeInputs from '../../MMAppUICommonComponents/labeledRangeInputs.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_switchToggles from '../../MMAppUICommonComponents/switchToggles.web';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+import commonComponents_ccySelect from '../../MMAppUICommonComponents/ccySelect.web';
+import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
+import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web';
+
 //
-const config__MyMonero = require('../../HostedMoneroAPIClient/config__MyMonero')
+import config__MyMonero from '../../HostedMoneroAPIClient/config__MyMonero';
+
 //
 class SettingsView extends View
 {
@@ -924,4 +928,4 @@ class SettingsView extends View
 		fn() // this MUST get called
 	}
 }
-module.exports = SettingsView
+export default SettingsView;

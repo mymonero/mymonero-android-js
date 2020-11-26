@@ -27,10 +27,12 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const commonComponents_walletIcons = require('./walletIcons.web')
-const Views__cssRules = require('../Views/cssRules.web')
-const commonComponents_hoverableCells = require('./hoverableCells.web')
+import commonComponents_walletIcons from './walletIcons.web';
+
+import Views__cssRules from '../Views/cssRules.web';
+import commonComponents_hoverableCells from './hoverableCells.web';
 //
 // CSS rules
 const NamespaceName = "walletColorPicker"
@@ -218,5 +220,5 @@ function New_1OfN_WalletColorPickerInputView(context, selectHexColorString_orUnd
 	}
 	return view
 }
-exports.New_1OfN_WalletColorPickerInputView = New_1OfN_WalletColorPickerInputView
+export { New_1OfN_WalletColorPickerInputView };
 

@@ -56,4 +56,9 @@ function PreLoadImages(context)
 		cached_preloadedImages.push(image)
 	}
 }
-exports.PreLoadImages = PreLoadImages
+
+let obj = {
+	PreLoadImages
+}
+
+export default obj;

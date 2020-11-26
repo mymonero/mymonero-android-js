@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const SendTabContentView_Base = require('./SendTabContentView_Base.web')
+import SendTabContentView_Base from './SendTabContentView_Base.web';
+
 //
 class SendTabContentView extends SendTabContentView_Base
 {
@@ -41,4 +43,4 @@ class SendTabContentView extends SendTabContentView_Base
 		return require('./SendFundsView.Full.web')
 	}
 }
-module.exports = SendTabContentView
+export default SendTabContentView;

@@ -27,13 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-const ContactQRDisplayModalView = require('./ContactQRDisplayModalView.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+import ContactQRDisplayModalView from './ContactQRDisplayModalView.web';
 //
 class ContactDetailsView extends View
 {
@@ -578,4 +580,4 @@ class ContactDetailsView extends View
 	}
 
 }
-module.exports = ContactDetailsView
+export default ContactDetailsView;

@@ -28,8 +28,7 @@
 //
 // This file is here merely to share configuration
 //
-exports.bridgedFn_names =
-[
+export const bridgedFn_names = [
 	"is_subaddress",
 	"is_integrated_address",
 	"new_payment_id",

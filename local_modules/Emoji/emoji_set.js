@@ -27,11 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const emojione = require('./Vendor/emojione.min')
+import emojione from './Vendor/emojione.min';
+
 //
 // Load emojis
-var emojiDescriptionsByKey = require("./Vendor/emoji.json")
+import emojiDescriptionsByKey from './Vendor/emoji.json';
+
 const emojiCategories =
 [ // TODO/FIXME: source this from emojione
 	{"key":"people","label":"Smileys & People"},
@@ -85,9 +88,11 @@ for (let i = 0 ; i < numberOf_emojiCategories ; i++) {
 		all_emojiChars.push(emojiChar)
 	}
 }
+
 //
-exports.Emojis = all_emojiChars
-exports.EmojiCategories = emojiCategories;
+export const Emojis = all_emojiChars;
+
+export const EmojiCategories = emojiCategories;
 //
 function unicodeCodePointOrPairToChar(unicode)
 {
@@ -116,5 +121,5 @@ function unicodeCodePointOrPairToChar(unicode)
 		return (String.fromCharCode(hi) + String.fromCharCode(lo));
 	}
 	return String.fromCharCode(s);
-};
+}
 

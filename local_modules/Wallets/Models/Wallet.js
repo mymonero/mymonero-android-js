@@ -27,22 +27,28 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const async = require('async')
-const EventEmitter = require('events')
-const extend = require('util')._extend
-const uuidV1 = require('uuid/v1')
+import async from 'async';
+
+import EventEmitter from 'events';
+import { _extend as extend } from 'util';
+import uuidV1 from 'uuid/v1';
+
 //
-const monero_txParsing_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_txParsing_utils')
-const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
-const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
-const monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
-const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
-const mnemonic_languages = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages')
+import monero_txParsing_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_txParsing_utils';
+
+import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils';
+import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+import mnemonic_languages from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages';
+
 //
-const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
-const wallet_persistence_utils = require('./wallet_persistence_utils')
-const WalletHostPollingController = require('../Controllers/WalletHostPollingController')
+import persistable_object_utils from '../../DocumentPersister/persistable_object_utils';
+
+import wallet_persistence_utils from './wallet_persistence_utils';
+import WalletHostPollingController from '../Controllers/WalletHostPollingController';
 //
 const wallet_currencies =
 {
@@ -699,7 +705,7 @@ class Wallet extends EventEmitter
 	{
 		const self = this;
 		var didChangeAny = false;
-		const oneDayAndABit_ms = 60 * 60 * (24 + 1/*bit=1hr*/) * 1000;/*ms time*/ // and a bit to avoid possible edge cases
+		const oneDayAndABit_ms = 60 * 60 * ((24 + 1)/*bit=1hr*/) * 1000;/*ms time*/ // and a bit to avoid possible edge cases
 		const timeNow = (new Date()).getTime();
 		const n_transactions = (self.transactions || []).length;
 		for (let i = 0 ; i < n_transactions ; i++) {
@@ -1936,4 +1942,4 @@ class Wallet extends EventEmitter
 		}
 	}
 }
-module.exports = Wallet
+export default Wallet;

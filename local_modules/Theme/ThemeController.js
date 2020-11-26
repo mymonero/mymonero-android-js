@@ -27,10 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const commonComponents_navigationBarButtons = require('../MMAppUICommonComponents/navigationBarButtons.web')
+import commonComponents_navigationBarButtons from '../MMAppUICommonComponents/navigationBarButtons.web';
+
 //
-const Views__cssRules = require('../Views/cssRules.web')
+import Views__cssRules from '../Views/cssRules.web';
+
 const NamespaceName = "ThemeController"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
@@ -297,4 +300,4 @@ class ThemeController
 		return view
 	}
 }
-module.exports = ThemeController
+export default ThemeController;

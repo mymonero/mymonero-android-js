@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const BackgroundTaskExecutor_Interface = require('./BackgroundTaskExecutor_Interface')
+import BackgroundTaskExecutor_Interface from './BackgroundTaskExecutor_Interface';
+
 //
 class BackgroundTaskExecutor extends BackgroundTaskExecutor_Interface
 {
@@ -64,4 +66,4 @@ class BackgroundTaskExecutor extends BackgroundTaskExecutor_Interface
 		self.worker.postMessage(payload)
 	}
 }
-module.exports = BackgroundTaskExecutor
+export default BackgroundTaskExecutor;

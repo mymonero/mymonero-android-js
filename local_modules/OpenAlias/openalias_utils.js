@@ -69,7 +69,6 @@ function ValidatedOARecordsFromTXTRecordsWithOpenAliasPrefix(
 	//
 	return validated_oaRecords
 }
-exports.ValidatedOARecordsFromTXTRecordsWithOpenAliasPrefix = ValidatedOARecordsFromTXTRecordsWithOpenAliasPrefix
 //
 //
 function New_ParsedDescriptionFromOpenAliasRecordWithOpenAliasPrefix(
@@ -103,7 +102,6 @@ function New_ParsedDescriptionFromOpenAliasRecordWithOpenAliasPrefix(
 	//
 	return parsedDescription
 }
-exports.New_ParsedDescriptionFromOpenAliasRecordWithOpenAliasPrefix = New_ParsedDescriptionFromOpenAliasRecordWithOpenAliasPrefix
 //
 //
 function DoesRecordHaveValidOpenAliasPrefix(
@@ -116,4 +114,4 @@ function DoesRecordHaveValidOpenAliasPrefix(
 	}
 	return true
 }
-exports.DoesRecordHaveValidOpenAliasPrefix = DoesRecordHaveValidOpenAliasPrefix
+export { ValidatedOARecordsFromTXTRecordsWithOpenAliasPrefix, New_ParsedDescriptionFromOpenAliasRecordWithOpenAliasPrefix, DoesRecordHaveValidOpenAliasPrefix };

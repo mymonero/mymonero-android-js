@@ -27,8 +27,28 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const TXTRecordResolver = require("../../OpenAlias/TXTResolver.web")
+import TXTRecordResolver from '../../OpenAlias/TXTResolver.web';
+import Pasteboard from '../../Pasteboard/Pasteboard.browser';
+import URLBrowser from"../../URLBrowser/URLBrowser.browser";
+import FilesystemUI from"../../FilesystemUI/FilesystemUI.browser";
+import WindowDialogs from"../../WindowDialogs/WindowDialogs.browser";
+import CcyConversionRates from"../../CcyConversionRates/Controller";
+import Locale from"../../Locale/Locale.browser";
+import symmetric_cryptor from"../../symmetric_cryptor/BackgroundStringCryptor.noOp";
+import DocumentPersister from"../../DocumentPersister/DocumentPersister.SecureStorage";
+//import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/BackgroundResponseParser.web";
+import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite";
+import OpenAlias from"../../OpenAlias/OpenAliasResolver";
+import Theme from"../../Theme/ThemeController";
+import Passwords from"../../Passwords/Controllers/PasswordController.Lite";
+import Settings from"../../Settings/Controllers/SettingsController";
+import UserIdle from"../../UserIdle/UserIdleInWindowController";
+import WalletsList from"../../WalletsList/Controllers/WalletsListController.Lite";
+import WalletAppCoordinator from"../../WalletAppCoordinator/WalletAppCoordinator";
+import runtimeContext from "../../runtime_context/runtime_context";
+
 const txtRecordResolver = new TXTRecordResolver({})
 function NewHydratedContext(initialContext)
 {
@@ -43,57 +63,57 @@ function NewHydratedContext(initialContext)
 	[
 		// using module+require instead of module_path+string b/c browserify/webpack can't handle dynamic requires
 		{
-			module: require("../../Pasteboard/Pasteboard.browser"),
+			module: Pasteboard,
 			instance_key: "pasteboard",
 			options: {}
 		},
 		{
-			module: require("../../URLBrowser/URLBrowser.browser"),
+			module: URLBrowser,
 			instance_key: "urlBrowser",
 			options: {}
 		},
 		{
-			module: require("../../FilesystemUI/FilesystemUI.browser"),
+			module: FilesystemUI,
 			instance_key: "filesystemUI",
 			options: {}
 		},
 		{
-			module: require("../../WindowDialogs/WindowDialogs.browser"),
+			module: WindowDialogs,
 			instance_key: "windowDialogs",
 			options: {}
 		},
 		//
 		// services
 		{
-			module: require("../../CcyConversionRates/Controller"),
+			module: CcyConversionRates,
 			instance_key: "CcyConversionRates_Controller_shared",
 			options: {}
 		},
 		{
-			module: require("../../Locale/Locale.browser"),
+			module: Locale,
 			instance_key: "locale",
 			options: {}
 		},
 		{ // is not actually background, at the moment
-			module: require("../../symmetric_cryptor/BackgroundStringCryptor.noOp"),
+			module: symmetric_cryptor,
 			instance_key: "string_cryptor__background",
 			options: {}
 		},
 		{
-			module: require("../../DocumentPersister/DocumentPersister.SecureStorage"),
+			module: DocumentPersister,
 			instance_key: "persister",
 			options: {
 			}
 		},
 		{
-			module: require("../../HostedMoneroAPIClient/BackgroundResponseParser.web"),
+			module: HostedMoneroAPIClient,
 			instance_key: "backgroundAPIResponseParser",
 			options: {
 				coreBridge_instance: initialContext.monero_utils // the same as coreBridge_instance
 			}
 		},
 		{
-			module: require("../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"),
+			module: HostedMoneroAPIClient,
 			instance_key: "hostedMoneroAPIClient",
 			options: {
 				appUserAgent_product: app.getName(),
@@ -102,42 +122,42 @@ function NewHydratedContext(initialContext)
 			}
 		},
 		{
-			module: require("../../OpenAlias/OpenAliasResolver"),
+			module: OpenAlias,
 			instance_key: "openAliasResolver",
 			options: {
 				txtRecordResolver: txtRecordResolver
 			}
 		},
 		{
-			module: require("../../Theme/ThemeController"),
+			module: Theme,
 			instance_key: "themeController",
 			options: {}
 		},
 		//
 		// app controllers
 		{
-			module: require("../../Passwords/Controllers/PasswordController.Lite"),
+			module: Passwords,
 			instance_key: "passwordController",
 			options: {}
 		},
 		{
-			module: require("../../Settings/Controllers/SettingsController"),
+			module: Settings,
 			instance_key: "settingsController",
 			options: {}
 		},
 		{
-			module: require("../../UserIdle/UserIdleInWindowController"),
+			module: UserIdle,
 			instance_key: "userIdleInWindowController",
 			options: {}
 		},
 		// The following should go after the passwordController, persister, etc
 		{
-			module: require("../../WalletsList/Controllers/WalletsListController.Lite"),
+			module: WalletsList,
 			instance_key: "walletsListController",
 			options: {}
 		},
 		{
-			module: require("../../WalletAppCoordinator/WalletAppCoordinator"),
+			module: WalletAppCoordinator,
 			instance_key: "walletAppCoordinator",
 			options: {}
 		},
@@ -148,9 +168,11 @@ function NewHydratedContext(initialContext)
 		}
 	]	
 	//
-	return require("../../runtime_context/runtime_context").NewHydratedContext(
-		context_object_instantiation_descriptions, 
-		initialContext
-	)
+	// return runtimeContext.NewHydratedContext(
+	// 	context_object_instantiation_descriptions, 
+	// 	initialContext
+	// )
+	console.log(runtimeContext);
+	
 }
-module.exports.NewHydratedContext = NewHydratedContext
+export { NewHydratedContext };

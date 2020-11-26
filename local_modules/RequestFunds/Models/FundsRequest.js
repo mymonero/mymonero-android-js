@@ -27,14 +27,19 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
+import EventEmitter from 'events';
+
 //
-const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
-const fundsRequest_persistence_utils = require('./fundsRequest_persistence_utils')
+import persistable_object_utils from '../../DocumentPersister/persistable_object_utils';
+
+import fundsRequest_persistence_utils from './fundsRequest_persistence_utils';
+
 //
-const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
-const QRCode = require('qrcode')
+import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
+
+import QRCode from 'qrcode';
 //
 class FundsRequest extends EventEmitter
 {
@@ -332,4 +337,4 @@ class FundsRequest extends EventEmitter
 		)
 	}
 }
-module.exports = FundsRequest
+export default FundsRequest;

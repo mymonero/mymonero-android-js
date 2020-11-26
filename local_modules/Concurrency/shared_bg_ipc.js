@@ -44,8 +44,7 @@ function CallBack(
 		returnValue: returnValue
 	}
 	backgroundToFore_postingImplFn(payload)
-}	
-exports.CallBack = CallBack
+}
 //
 // Internal - Delegation
 function _didReceiveIPCPayload(tasksByName, payload)
@@ -63,4 +62,4 @@ function _didReceiveIPCPayload(tasksByName, payload)
 		argsToCallWith
 	)
 }
-exports._didReceiveIPCPayload = _didReceiveIPCPayload
+export { CallBack, _didReceiveIPCPayload };

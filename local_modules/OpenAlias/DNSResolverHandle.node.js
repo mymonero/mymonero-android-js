@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const DNSResolverHandle_Interface = require('./DNSResolverHandle_Interface')
+import DNSResolverHandle_Interface from './DNSResolverHandle_Interface';
+
 //
 class DNSResolverHandle extends DNSResolverHandle_Interface
 {
@@ -46,4 +48,4 @@ class DNSResolverHandle extends DNSResolverHandle_Interface
 	}
 
 }
-module.exports = DNSResolverHandle
+export default DNSResolverHandle;

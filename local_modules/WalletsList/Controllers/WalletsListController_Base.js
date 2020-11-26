@@ -27,14 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const async = require('async')
+import async from 'async';
+
 //
 //
-const ListBaseController = require('../../Lists/Controllers/ListBaseController')
+import ListBaseController from '../../Lists/Controllers/ListBaseController';
+
 //
-const Wallet = require('../../Wallets/Models/Wallet')
-const wallet_persistence_utils = require('../../Wallets/Models/wallet_persistence_utils')
+import Wallet from '../../Wallets/Models/Wallet';
+
+import wallet_persistence_utils from '../../Wallets/Models/wallet_persistence_utils';
 //
 const blue_hexColorString = "#00C6FF"
 const hexColorStrings = 
@@ -523,4 +527,4 @@ class WalletsListController extends ListBaseController
 		)
 	}
 }
-module.exports = WalletsListController
+export default WalletsListController;

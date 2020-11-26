@@ -51,4 +51,4 @@ class URLBrowser_Abstract
 		throw `Implement OpenURLInSystemBrowser(url) in ${self.constructor.name}`
 	}
 }
-module.exports = URLBrowser_Abstract
+export default URLBrowser_Abstract;

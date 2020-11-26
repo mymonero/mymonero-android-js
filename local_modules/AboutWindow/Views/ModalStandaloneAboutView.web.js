@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const RootView = require('./RootView.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
+import RootView from './RootView.web';
+
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
 //
 class ModalStandaloneAboutView extends RootView
 {
@@ -63,4 +65,4 @@ class ModalStandaloneAboutView extends RootView
 		return view
 	}
 }
-module.exports = ModalStandaloneAboutView
+export default ModalStandaloneAboutView;

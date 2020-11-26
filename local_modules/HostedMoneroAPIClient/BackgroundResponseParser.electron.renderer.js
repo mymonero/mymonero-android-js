@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const {ipcRenderer} = require('electron')
-const uuidV1 = require('uuid/v1')
+import { ipcRenderer } from 'electron';
+
+import uuidV1 from 'uuid/v1';
 //
 class BackgroundResponseParser
 {
@@ -131,4 +133,4 @@ class BackgroundResponseParser
 		)
 	}
 }
-module.exports = BackgroundResponseParser
+export default BackgroundResponseParser;

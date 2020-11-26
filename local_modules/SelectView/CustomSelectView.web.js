@@ -27,10 +27,12 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
-const Views__cssRules = require('../Views/cssRules.web')
-const dom_traversal = require('../Views/dom_traversal.web')
+import View from '../Views/View.web';
+
+import Views__cssRules from '../Views/cssRules.web';
+import dom_traversal from '../Views/dom_traversal.web';
 //
 const NamespaceName = "customSelect"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -443,4 +445,4 @@ class CustomSelectView extends View
 		self.options_containerView.layer.style.display = "none"
 	}
 }
-module.exports = CustomSelectView
+export default CustomSelectView;

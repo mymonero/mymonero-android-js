@@ -27,14 +27,19 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //	
-const emojione = require('./Vendor/emojione.min')
+import emojione from './Vendor/emojione.min';
+
 emojione.imageType = "png" // png instead of svg as svg appear too slow to display en-masse
 emojione.sprites = true
+
 //
-const emoji_set = require('./emoji_set')
+import emoji_set from './emoji_set';
+
 //
-const Views__cssRules = require('../Views/cssRules.web')
+import Views__cssRules from '../Views/cssRules.web';
+
 function stylesheetPaths_generatorFn(context)
 {
 	const assetsPath = "../../"
@@ -81,7 +86,6 @@ function PreLoadAndSetUpEmojiOne(context)
 		__injectCSS_ifNecessary(context) // good time to do this
 	}
 }
-exports.PreLoadAndSetUpEmojiOne = PreLoadAndSetUpEmojiOne
 // 
 //
 // Interface - Accessors - Transforms
@@ -93,8 +97,7 @@ function NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText(
 	}
 	return nativeEmojiText
 }
-exports.NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText 
-	= NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText
+export { PreLoadAndSetUpEmojiOne, NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText };
 function nativeEmojiTextToImageBackedEmojiText(nativeEmojiText)
 {
 	if (typeof nativeEmojiText !== "string") { // to protect against numbers and such

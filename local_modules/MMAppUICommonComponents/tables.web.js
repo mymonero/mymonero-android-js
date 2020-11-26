@@ -27,12 +27,16 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
-const Views__cssRules = require('../Views/cssRules.web')
+import View from '../Views/View.web';
+
+import Views__cssRules from '../Views/cssRules.web';
+
 //
-const activityIndicators = require('./activityIndicators.web')
-const commonComponents_forms = require('./forms.web')
+import activityIndicators from './activityIndicators.web';
+
+import commonComponents_forms from './forms.web';
 //
 const NamespaceName = "Tables"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -128,7 +132,6 @@ function New_fieldContainerLayer(context)
 	//
 	return layer
 }
-exports.New_fieldContainerLayer = New_fieldContainerLayer
 //
 function New_clickableLinkButtonView(
 	buttonTitle, 
@@ -200,7 +203,6 @@ function New_clickableLinkButtonView(
 	//
 	return view
 }
-exports.New_clickableLinkButtonView = New_clickableLinkButtonView
 //
 function New_fieldTitle_labelLayer(labelText, context)
 {
@@ -216,7 +218,6 @@ function New_fieldTitle_labelLayer(labelText, context)
 	//
 	return layer
 }
-exports.New_fieldTitle_labelLayer = New_fieldTitle_labelLayer
 //
 function New_fieldValue_labelLayer(labelText, context)
 {
@@ -238,7 +239,6 @@ function New_fieldValue_labelLayer(labelText, context)
 	//
 	return layer
 }
-exports.New_fieldValue_labelLayer = New_fieldValue_labelLayer
 //
 function New_fieldValue_base64DataImageLayer(imageData_base64String, context)
 {
@@ -255,7 +255,6 @@ function New_fieldValue_base64DataImageLayer(imageData_base64String, context)
 	//
 	return layer
 }
-exports.New_fieldValue_base64DataImageLayer = New_fieldValue_base64DataImageLayer
 //
 function New_separatorLayer(context)
 {
@@ -268,7 +267,6 @@ function New_separatorLayer(context)
 	//
 	return layer
 }
-exports.New_separatorLayer = New_separatorLayer
 //
 function New_customButton_aLayer(context, buttonTitleText, enabled_orTrue, clicked_fn)
 {
@@ -328,7 +326,6 @@ function New_customButton_aLayer(context, buttonTitleText, enabled_orTrue, click
 	)
 	return layer
 }
-exports.New_customButton_aLayer = New_customButton_aLayer
 //
 function New_copyButton_aLayer(context, value__orValuesByContentType, enabled_orTrue, pasteboard)
 { // defaults to 'text' content type
@@ -375,7 +372,6 @@ function New_copyButton_aLayer(context, value__orValuesByContentType, enabled_or
 	}
 	return layer
 }
-exports.New_copyButton_aLayer = New_copyButton_aLayer
 //
 function New_redTextButtonView(text, context)
 {
@@ -430,7 +426,6 @@ function New_redTextButtonView(text, context)
 	//
 	return view
 }
-exports.New_redTextButtonView = New_redTextButtonView
 //
 function New_deleteRecordNamedButtonView(humanReadable_recordName, context, optl_replacementVerbString, optl_completeTitleOverrideString)
 {
@@ -440,7 +435,6 @@ function New_deleteRecordNamedButtonView(humanReadable_recordName, context, optl
 
 	return view
 }
-exports.New_deleteRecordNamedButtonView = New_deleteRecordNamedButtonView
 //
 function New_createNewRecordNamedButtonView(
 	lowercased_humanReadable_recordName,
@@ -454,7 +448,6 @@ function New_createNewRecordNamedButtonView(
 	const layer = New_clickableLinkButtonView(text, context, clicked_fn)
 	return layer
 }
-exports.New_createNewRecordNamedButtonView = New_createNewRecordNamedButtonView
 //
 function New_clearingBreakLayer()
 {
@@ -463,7 +456,6 @@ function New_clearingBreakLayer()
 	//
 	return layer
 }
-exports.New_clearingBreakLayer = New_clearingBreakLayer
 //
 function New_spacerLayer()
 {
@@ -473,7 +465,6 @@ function New_spacerLayer()
 	//
 	return layer
 }
-exports.New_spacerLayer = New_spacerLayer
 //
 function New_inlineMessageDialogLayer(context, messageString, optl_immediatelyVisible, optl_wantsXButtonHidden)
 {
@@ -532,7 +523,6 @@ function New_inlineMessageDialogLayer(context, messageString, optl_immediatelyVi
 	}
 	return layer
 }
-exports.New_inlineMessageDialogLayer = New_inlineMessageDialogLayer
 //
 function New_copyable_longStringValueField_component_fieldContainerLayer(
 	context,
@@ -633,7 +623,6 @@ function New_copyable_longStringValueField_component_fieldContainerLayer(
 	}
 	return div
 }
-exports.New_copyable_longStringValueField_component_fieldContainerLayer = New_copyable_longStringValueField_component_fieldContainerLayer
 //
 function New_tableCell_accessoryChevronLayer(context)
 {
@@ -651,7 +640,6 @@ function New_tableCell_accessoryChevronLayer(context)
 	layer.style.top = `calc(50% - ${h / 2}px)`
 	return layer
 }
-exports.New_tableCell_accessoryChevronLayer = New_tableCell_accessoryChevronLayer
 //
 function New_tableCell_accessoryActivityIndicatorLayer(isOnAccentBackground)
 {
@@ -665,7 +653,6 @@ function New_tableCell_accessoryActivityIndicatorLayer(isOnAccentBackground)
 	layer.style.top = `calc(50% - ${h / 2}px)`
 	return layer
 }
-exports.New_tableCell_accessoryActivityIndicatorLayer = New_tableCell_accessoryActivityIndicatorLayer
 //
 function New_tableCell_separatorLayer()
 {
@@ -680,4 +667,4 @@ function New_tableCell_separatorLayer()
 	layer.style.visibility = "visible" // to be configured
 	return layer
 }
-exports.New_tableCell_separatorLayer = New_tableCell_separatorLayer
+export { New_fieldContainerLayer, New_clickableLinkButtonView, New_fieldTitle_labelLayer, New_fieldValue_labelLayer, New_fieldValue_base64DataImageLayer, New_separatorLayer, New_customButton_aLayer, New_copyButton_aLayer, New_redTextButtonView, New_deleteRecordNamedButtonView, New_createNewRecordNamedButtonView, New_clearingBreakLayer, New_spacerLayer, New_inlineMessageDialogLayer, New_copyable_longStringValueField_component_fieldContainerLayer, New_tableCell_accessoryChevronLayer, New_tableCell_accessoryActivityIndicatorLayer, New_tableCell_separatorLayer };

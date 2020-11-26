@@ -27,14 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_walletColorPicker = require('../../MMAppUICommonComponents/walletColorPicker.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_walletColorPicker from '../../MMAppUICommonComponents/walletColorPicker.web';
+
 //
-const emoji_selection = require('../../Emoji/emoji_selection')
+import emoji_selection from '../../Emoji/emoji_selection';
+
 //
 class EditWalletView extends View
 {
@@ -398,4 +402,4 @@ class EditWalletView extends View
 		self.set_submitButtonNeedsUpdate()
 	}
 }
-module.exports = EditWalletView
+export default EditWalletView;

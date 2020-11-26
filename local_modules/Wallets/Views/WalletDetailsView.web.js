@@ -27,28 +27,37 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
-const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
+import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+
+import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+
 //
-const View = require('../../Views/View.web')
+import View from '../../Views/View.web';
+
 //
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
-const commonComponents_emptyScreens = require('../../MMAppUICommonComponents/emptyScreens.web')
-const commonComponents_hoverableCells = require('../../MMAppUICommonComponents/hoverableCells.web')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
-const InfoDisclosingView = require('../../InfoDisclosingView/Views/InfoDisclosingView.web')
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
+import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web';
+import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+import InfoDisclosingView from '../../InfoDisclosingView/Views/InfoDisclosingView.web';
+
 //
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-const TransactionDetailsView = require("./TransactionDetailsView.web")
-const ImportTransactionsModalView = require('./ImportTransactionsModalView.web')
-const FundsRequestQRDisplayView = require('../../RequestFunds/Views/FundsRequestQRDisplayView.web')
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+
+import TransactionDetailsView from './TransactionDetailsView.web';
+import ImportTransactionsModalView from './ImportTransactionsModalView.web';
+import FundsRequestQRDisplayView from '../../RequestFunds/Views/FundsRequestQRDisplayView.web';
+
 //
-let Currencies = require('../../CcyConversionRates/Currencies')
-const monero_amount_format_utils = require("../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils");
+import Currencies from '../../CcyConversionRates/Currencies';
+
+import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
 //
 class WalletDetailsView extends View
 {
@@ -1406,4 +1415,4 @@ class WalletDetailsView extends View
 		self.pushDetailsViewFor_transaction(transaction)
 	}
 }
-module.exports = WalletDetailsView
+export default WalletDetailsView;

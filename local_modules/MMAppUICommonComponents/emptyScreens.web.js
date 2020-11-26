@@ -27,15 +27,19 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
-const emoji_web = require('../Emoji/emoji_web')
+import View from '../Views/View.web';
+
+import emoji_web from '../Emoji/emoji_web';
 //
 const default__margin_h = 16
 const default__margin_v = 18
+
 //
 // CSS rules
-const Views__cssRules = require('../Views/cssRules.web')
+import Views__cssRules from '../Views/cssRules.web';
+
 const NamespaceName = "emptyScreens"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 const cssRules =
@@ -141,4 +145,4 @@ function New_EmptyStateMessageContainerView(
 	}
 	return view
 }
-exports.New_EmptyStateMessageContainerView = New_EmptyStateMessageContainerView
+export { New_EmptyStateMessageContainerView };

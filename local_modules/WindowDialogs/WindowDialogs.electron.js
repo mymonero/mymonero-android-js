@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const WindowDialogs_Abstract = require('./WindowDialogs_Abstract')
+import WindowDialogs_Abstract from './WindowDialogs_Abstract';
+
 //
 class WindowDialogs extends WindowDialogs_Abstract
 {
@@ -66,4 +68,4 @@ class WindowDialogs extends WindowDialogs_Abstract
 		fn(null, didChooseYes)
 	}
 }
-module.exports = WindowDialogs
+export default WindowDialogs;

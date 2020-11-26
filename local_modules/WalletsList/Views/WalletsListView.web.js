@@ -27,17 +27,23 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const ListView = require('../../Lists/Views/ListView.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_emptyScreens = require('../../MMAppUICommonComponents/emptyScreens.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
+import View from '../../Views/View.web';
+
+import ListView from '../../Lists/Views/ListView.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web';
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
+
 //
-const WalletsListCellView = require('./WalletsListCellView.web')
-const WalletDetailsView = require('../../Wallets/Views/WalletDetailsView.web')
+import WalletsListCellView from './WalletsListCellView.web';
+
+import WalletDetailsView from '../../Wallets/Views/WalletDetailsView.web';
+
 //
-const AddWallet_WizardController = require('../../WalletWizard/Controllers/AddWallet_WizardController.web')
+import AddWallet_WizardController from '../../WalletWizard/Controllers/AddWallet_WizardController.web';
+
 //
 class WalletsListView extends ListView
 {
@@ -311,4 +317,4 @@ class WalletsListView extends ListView
 		}
 	}
 }
-module.exports = WalletsListView
+export default WalletsListView;

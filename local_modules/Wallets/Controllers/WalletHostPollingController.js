@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
+import EventEmitter from 'events';
+
 //
 const manualRefreshCoolDownMinimumTimeInterval_s = 10
 const pollingPeriodTimeInterval_s = 30
@@ -373,4 +375,4 @@ class WalletHostPollingController
 		}
 	}
 }
-module.exports = WalletHostPollingController
+export default WalletHostPollingController;

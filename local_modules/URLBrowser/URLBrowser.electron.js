@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const URLBrowser_Abstract = require('./URLBrowser_Abstract')
-const shell = require('electron').shell
+import URLBrowser_Abstract from './URLBrowser_Abstract';
+
+import { shell } from 'electron';
 //
 class URLBrowser extends URLBrowser_Abstract
 {
@@ -43,4 +45,4 @@ class URLBrowser extends URLBrowser_Abstract
 		shell.openExternal(urlString)
 	}
 }
-module.exports = URLBrowser
+export default URLBrowser;

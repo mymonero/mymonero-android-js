@@ -35,7 +35,7 @@ import 'capacitor-secure-storage-plugin';
 import { Plugins } from '@capacitor/core';
 const { SecureStoragePlugin } = Plugins; // Initialises the Secure Storage Capacitor plugin
 
-const DocumentPersister_Interface = require('./DocumentPersister_Interface')
+import DocumentPersister_Interface from './DocumentPersister_Interface';
 //
 class DocumentPersister extends DocumentPersister_Interface
 {
@@ -197,4 +197,4 @@ class DocumentPersister extends DocumentPersister_Interface
 		})
 	}
 }
-module.exports = DocumentPersister
+export default DocumentPersister;

@@ -27,14 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const ContactFormView = require('./ContactFormView.web')
-const monero_paymentID_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
+import ContactFormView from './ContactFormView.web';
+
+import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
+
 //
-const jsQR = require('jsqr')
-const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
+import jsQR from 'jsqr';
+
+import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
 //
 //
 class AddContactView extends ContactFormView
@@ -474,4 +478,4 @@ class AddContactView extends ContactFormView
 		)
 	}
 }
-module.exports = AddContactView
+export default AddContactView;

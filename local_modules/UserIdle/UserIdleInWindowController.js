@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
+import EventEmitter from 'events';
+
 //
 class UserIdleInWindowController extends EventEmitter
 {
@@ -186,4 +188,4 @@ class UserIdleInWindowController extends EventEmitter
 		self.emit(self.EventName_userDidBecomeIdle())
 	}
 }
-module.exports = UserIdleInWindowController
+export default UserIdleInWindowController;

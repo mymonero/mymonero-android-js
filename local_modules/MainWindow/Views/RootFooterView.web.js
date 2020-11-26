@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
+import View from '../../Views/View.web';
+
 //
 class RootFooterView extends View
 {
@@ -122,4 +124,4 @@ class RootFooterView extends View
 		return td
 	}
 }
-module.exports = RootFooterView
+export default RootFooterView;

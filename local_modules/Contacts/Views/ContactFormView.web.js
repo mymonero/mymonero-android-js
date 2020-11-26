@@ -27,14 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const EmojiPickerControlView = require('../../Emoji/Views/EmojiPickerControlView.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
+import View from '../../Views/View.web';
+
+import EmojiPickerControlView from '../../Emoji/Views/EmojiPickerControlView.web';
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+
 //
-const emoji_selection = require('../../Emoji/emoji_selection')
+import emoji_selection from '../../Emoji/emoji_selection';
+
 //
 class ContactFormView extends View
 {
@@ -435,4 +439,4 @@ class ContactFormView extends View
 		}
 	}
 }
-module.exports = ContactFormView
+export default ContactFormView;

@@ -46,4 +46,4 @@ function NewHydratedContext()
 
 	return require("../../runtime_context/runtime_context").NewHydratedContext(context_object_instantiation_descriptions, initialContext)
 }
-module.exports.NewHydratedContext = NewHydratedContext
+export { NewHydratedContext };

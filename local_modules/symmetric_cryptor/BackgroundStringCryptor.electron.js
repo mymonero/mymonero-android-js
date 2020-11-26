@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const BackgroundTaskExecutor = require('../Concurrency/BackgroundTaskExecutor.electron')
+import BackgroundTaskExecutor from '../Concurrency/BackgroundTaskExecutor.electron';
+
 //
 class BackgroundStringCryptor extends BackgroundTaskExecutor
 {
@@ -80,4 +82,4 @@ class BackgroundStringCryptor extends BackgroundTaskExecutor
 		)
 	}
 }
-module.exports = BackgroundStringCryptor
+export default BackgroundStringCryptor;

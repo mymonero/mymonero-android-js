@@ -47,4 +47,4 @@ class TXTResolver_Interface
 	}
 
 }
-module.exports = TXTResolver_Interface
+export default TXTResolver_Interface;

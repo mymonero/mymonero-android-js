@@ -59,4 +59,4 @@ class BackgroundStringCryptor
 		})
 	}
 }
-module.exports = BackgroundStringCryptor
+export default BackgroundStringCryptor;

@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const BackgroundTaskExecutor = require('../Concurrency/BackgroundTaskExecutor.electron')
+import BackgroundTaskExecutor from '../Concurrency/BackgroundTaskExecutor.electron';
+
 //
 class BackgroundDocumentPersister extends BackgroundTaskExecutor
 {
@@ -162,4 +164,4 @@ class BackgroundDocumentPersister extends BackgroundTaskExecutor
 		)
 	}
 }
-module.exports = BackgroundDocumentPersister
+export default BackgroundDocumentPersister;

@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const string_cryptor = require('./symmetric_string_cryptor')
+import string_cryptor from './symmetric_string_cryptor';
+
 //
 class BackgroundStringCryptor 
 { // NOTE: This is not really a "background" processor - just a way to access the same functionality for tests in Node.JS
@@ -69,4 +71,4 @@ class BackgroundStringCryptor
 		)
 	}
 }
-module.exports = BackgroundStringCryptor
+export default BackgroundStringCryptor;

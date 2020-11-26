@@ -56,7 +56,6 @@ function InjectCSSRules_ifNecessary(
 		document[haveCSSRulesBeenInjected_documentKey] = true
 	}
 }
-exports.InjectCSSRules_ifNecessary = InjectCSSRules_ifNecessary
 //
 function InjectCSSFile_ifNecessary(stylesheetHref)
 {
@@ -74,7 +73,6 @@ function InjectCSSFile_ifNecessary(stylesheetHref)
 		document[key] = true
 	}
 }
-exports.InjectCSSFile_ifNecessary = InjectCSSFile_ifNecessary
 //
 function InjectCSSFiles_ifNecessary(
 	stylesheetHrefs__orGeneratorFn,
@@ -94,4 +92,4 @@ function InjectCSSFiles_ifNecessary(
 		InjectCSSFile_ifNecessary(stylesheetHref)
 	}
 }
-exports.InjectCSSFiles_ifNecessary = InjectCSSFiles_ifNecessary
+export { InjectCSSRules_ifNecessary, InjectCSSFile_ifNecessary, InjectCSSFiles_ifNecessary };

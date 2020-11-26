@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+
 //
 class SendTabContentView_Base extends StackAndModalNavigationView
 {
@@ -137,4 +139,4 @@ class SendTabContentView_Base extends StackAndModalNavigationView
 		self.sendFundsView._proxied_ondrop(e)
 	}
 }
-module.exports = SendTabContentView_Base
+export default SendTabContentView_Base;

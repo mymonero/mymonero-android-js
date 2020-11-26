@@ -27,15 +27,20 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
 // const View = require('../Views/View.web')
-const Views__cssRules = require('../Views/cssRules.web')
+import Views__cssRules from '../Views/cssRules.web';
+
 //
-const commonComponents_tables = require('./tables.web')
-const commonComponents_forms = require('./forms.web')
-const commonComponents_ccySelect = require('./ccySelect.web')
+import commonComponents_tables from './tables.web';
+
+import commonComponents_forms from './forms.web';
+import commonComponents_ccySelect from './ccySelect.web';
+
 //
-const monero_config = require('../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
+import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+
 //
 const NamespaceName = "Forms.Amounts"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -319,4 +324,4 @@ function New_AmountInputFieldPKG(
 		max_buttonView: max_buttonView
 	}
 }
-exports.New_AmountInputFieldPKG = New_AmountInputFieldPKG
+export { New_AmountInputFieldPKG };

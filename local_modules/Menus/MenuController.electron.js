@@ -27,11 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const {Menu, shell, ipcMain} = require('electron')
+import { Menu, shell, ipcMain } from 'electron';
+
 const isMacOS = process.platform === 'darwin'
+
 //
-const MenuController_Abstract = require('./MenuController_Abstract')
+import MenuController_Abstract from './MenuController_Abstract';
+
 //
 class MenuController extends MenuController_Abstract
 {
@@ -415,4 +419,4 @@ class MenuController extends MenuController_Abstract
 	////////////////////////////////////////////////////////////////////////////////
 	// Runtime - Delegation
 }
-module.exports = MenuController
+export default MenuController;

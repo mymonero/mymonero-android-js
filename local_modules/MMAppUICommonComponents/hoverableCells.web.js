@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Views__cssRules = require('../Views/cssRules.web')
+import Views__cssRules from '../Views/cssRules.web';
+
 //
 const NamespaceName = "hoverableCell"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -56,28 +58,32 @@ function __injectCSSRules_ifNecessary()
 	Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules)
 }
 
-exports.ClassFor_HoverableCell = function()
+export const ClassFor_HoverableCell = function()
 {
 	__injectCSSRules_ifNecessary() 
 	return "hoverable-cell"
-}
-exports.ClassFor_GreyCell = function()
+};
+
+export const ClassFor_GreyCell = function()
 {
 	__injectCSSRules_ifNecessary()
 	return "utility"
-}
-exports.ClassFor_BlueCell = function()
+};
+
+export const ClassFor_BlueCell = function()
 {
 	__injectCSSRules_ifNecessary()
 	return "action"
-}
-exports.ClassFor_RedCell = function()
+};
+
+export const ClassFor_RedCell = function()
 {
 	__injectCSSRules_ifNecessary()
 	return "destructive"
-}
-exports.ClassFor_Disableable = function()
+};
+
+export const ClassFor_Disableable = function()
 {
 	__injectCSSRules_ifNecessary() 
 	return "disableable"
-}
+};

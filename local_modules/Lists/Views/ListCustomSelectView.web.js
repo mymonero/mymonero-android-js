@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Views__cssRules = require('../../Views/cssRules.web')
-const CustomSelectView = require('../../SelectView/CustomSelectView.web')
+import Views__cssRules from '../../Views/cssRules.web';
+
+import CustomSelectView from '../../SelectView/CustomSelectView.web';
 //
 const NamespaceName = "ListCustomSelectView"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -136,4 +138,4 @@ class ListCustomSelectView extends CustomSelectView
 		self.ConfigureWithRowItems(rowItems) // on super
 	}
 }
-module.exports = ListCustomSelectView
+export default ListCustomSelectView;

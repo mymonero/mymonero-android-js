@@ -135,4 +135,4 @@ class DocumentPersister_Interface
 	// Runtime - Delegation - Private
 
 }
-module.exports = DocumentPersister_Interface
+export default DocumentPersister_Interface;

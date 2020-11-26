@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const PasswordController_Base = require('./PasswordController_Base')
+import PasswordController_Base from './PasswordController_Base';
+
 //
 class PasswordController extends PasswordController_Base
 {
@@ -135,4 +137,4 @@ class PasswordController extends PasswordController_Base
 		}
 	}
 }
-module.exports = PasswordController
+export default PasswordController;

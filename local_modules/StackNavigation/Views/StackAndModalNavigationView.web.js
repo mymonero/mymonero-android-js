@@ -27,10 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Animate = require('velocity-animate')
+import Animate from 'velocity-animate';
+
 //
-const StackNavigationView = require('./StackNavigationView.web')
+import StackNavigationView from './StackNavigationView.web';
+
 //
 class StackAndModalNavigationView extends StackNavigationView
 {
@@ -447,4 +450,4 @@ class StackAndModalNavigationView extends StackNavigationView
 		super.TabBarAndContentView_wasToldToResetAllTabContentViewsToRootState(isAnimated)
 	}
 }
-module.exports = StackAndModalNavigationView
+export default StackAndModalNavigationView;

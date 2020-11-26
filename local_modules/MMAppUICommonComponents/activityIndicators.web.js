@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Views__cssRules = require('../Views/cssRules.web')
+import Views__cssRules from '../Views/cssRules.web';
+
 //
 const className_onNormalBackground = "on-normal-background"
 const className_onAccentBackground = "on-accent-background"
@@ -125,7 +127,6 @@ function New_Graphic_ActivityIndicatorLayer(isOnAccentBackground)
 	//
 	return layer		
 }
-exports.New_Graphic_ActivityIndicatorLayer = New_Graphic_ActivityIndicatorLayer
 //
 function New_Graphic_ActivityIndicatorLayer_htmlString(customCSSByKey, isOnAccentBackground)
 {
@@ -152,7 +153,6 @@ function New_Graphic_ActivityIndicatorLayer_htmlString(customCSSByKey, isOnAccen
 	//
 	return htmlString
 }
-exports.New_Graphic_ActivityIndicatorLayer_htmlString = New_Graphic_ActivityIndicatorLayer_htmlString
 //
 function New_GraphicAndLabel_ActivityIndicatorLayer(messageText, context)
 { // no support for isOnAccentBackground yet  
@@ -175,7 +175,6 @@ function New_GraphicAndLabel_ActivityIndicatorLayer(messageText, context)
 	//
 	return layer		
 }
-exports.New_GraphicAndLabel_ActivityIndicatorLayer = New_GraphicAndLabel_ActivityIndicatorLayer
 function New_Resolving_ActivityIndicatorLayer(context)
 {
 	const layer = New_GraphicAndLabel_ActivityIndicatorLayer( // will call `__inject…`
@@ -184,4 +183,4 @@ function New_Resolving_ActivityIndicatorLayer(context)
 	)
 	return layer
 }
-exports.New_Resolving_ActivityIndicatorLayer = New_Resolving_ActivityIndicatorLayer
+export { New_Graphic_ActivityIndicatorLayer, New_Graphic_ActivityIndicatorLayer_htmlString, New_GraphicAndLabel_ActivityIndicatorLayer, New_Resolving_ActivityIndicatorLayer };

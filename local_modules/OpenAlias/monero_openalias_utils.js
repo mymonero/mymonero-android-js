@@ -27,11 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const monero_config = require('../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
+import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+
 // ^-- TODO: remove this
 //
-const openalias_utils = require('./openalias_utils')
+import openalias_utils from './openalias_utils';
+
 //
 const currency_openAliasPrefix = monero_config.openAliasPrefix
 //
@@ -43,7 +46,6 @@ function DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleO
 	}
 	return false
 }
-exports.DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress = DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress
 //
 function ResolvedMoneroAddressInfoFromOpenAliasAddress( 
 	openAliasAddress,
@@ -128,4 +130,4 @@ function ResolvedMoneroAddressInfoFromOpenAliasAddress(
 	)
 	return resolverHandle
 }
-exports.ResolvedMoneroAddressInfoFromOpenAliasAddress = ResolvedMoneroAddressInfoFromOpenAliasAddress
+export { DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress, ResolvedMoneroAddressInfoFromOpenAliasAddress };

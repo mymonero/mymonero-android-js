@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const TabBarAndContentView = require('../../TabBarView/TabBarAndContentView.web')
+import TabBarAndContentView from '../../TabBarView/TabBarAndContentView.web';
+
 //
 class RootTabBarAndContentView extends TabBarAndContentView
 {
@@ -285,4 +287,4 @@ class RootTabBarAndContentView extends TabBarAndContentView
 		self._selectTab_withContentView(self.settingsTabContentView)
 	}
 }
-module.exports = RootTabBarAndContentView
+export default RootTabBarAndContentView;

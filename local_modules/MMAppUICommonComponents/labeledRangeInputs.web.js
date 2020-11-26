@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
-const Views__cssRules = require('../Views/cssRules.web')
+import View from '../Views/View.web';
+
+import Views__cssRules from '../Views/cssRules.web';
 //
 const k_knobWidth = 12
 const k_visibleTrackHeight = 2
@@ -322,7 +324,6 @@ function New_fieldValue_labeledRangeInputView(params, context)
 	//
 	return view
 }
-exports.New_fieldValue_labeledRangeInputView = New_fieldValue_labeledRangeInputView
 //
 function New_fieldValue_timeBasedLabeledRangeInputView(params, context)
 {
@@ -343,5 +344,4 @@ function New_fieldValue_timeBasedLabeledRangeInputView(params, context)
 	const view = New_fieldValue_labeledRangeInputView(params, context)
 	return view
 }
-exports.New_fieldValue_timeBasedLabeledRangeInputView = New_fieldValue_timeBasedLabeledRangeInputView
-//
+export { New_fieldValue_labeledRangeInputView, New_fieldValue_timeBasedLabeledRangeInputView };

@@ -27,10 +27,12 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const ListCellView = require('../../Lists/Views/ListCellView.web')
-const WalletCellContentsView = require('../../Wallets/Views/WalletCellContentsView.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
+import ListCellView from '../../Lists/Views/ListCellView.web';
+
+import WalletCellContentsView from '../../Wallets/Views/WalletCellContentsView.web';
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
 //
 class WalletsListCellView extends ListCellView
 {
@@ -172,4 +174,4 @@ class WalletsListCellView extends ListCellView
 		}
 	}
 }
-module.exports = WalletsListCellView
+export default WalletsListCellView;

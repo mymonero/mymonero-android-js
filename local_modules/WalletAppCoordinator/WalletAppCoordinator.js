@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const EventEmitter = require('events')
+import EventEmitter from 'events';
+
 //
 class WalletAppCoordinator extends EventEmitter
 {
@@ -121,4 +123,4 @@ class WalletAppCoordinator extends EventEmitter
 		)
 	}
 }
-module.exports = WalletAppCoordinator
+export default WalletAppCoordinator;

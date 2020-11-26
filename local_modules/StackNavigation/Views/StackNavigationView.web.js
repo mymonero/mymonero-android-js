@@ -27,11 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const uuidV1 = require('uuid/v1')
-const Animate = require('velocity-animate')
+import uuidV1 from 'uuid/v1';
+
+import Animate from 'velocity-animate';
+
 //
-const View = require('../../Views/View.web')
+import View from '../../Views/View.web';
+
 //
 class StackNavigationView extends View
 {
@@ -522,4 +526,4 @@ class StackNavigationView extends View
 		self.PopToRootView(isAnimated)
 	}
 }
-module.exports = StackNavigationView
+export default StackNavigationView;

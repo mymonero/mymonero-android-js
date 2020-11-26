@@ -27,13 +27,17 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
+import View from '../../Views/View.web';
+
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+
 //
-const ForgotPasswordView = require('./ForgotPasswordView.web')
+import ForgotPasswordView from './ForgotPasswordView.web';
+
 //
 class EnterExistingPasswordView extends View
 {
@@ -383,4 +387,4 @@ class EnterExistingPasswordView extends View
 		}, 440)
 	}
 }
-module.exports = EnterExistingPasswordView
+export default EnterExistingPasswordView;

@@ -32,7 +32,8 @@
 // but it uses the native Node.JS crypto, generates keys asynchronously, and changes
 // cryptor_settings.pbkdf2.iterations from 10000 to 157 as an optimization.
 //
-var crypto = require('crypto');
+import crypto from 'crypto';
+
 //
 console.log("symmetric string cryptor included")
 var currentVersionCryptorFormatVersion = 3;
@@ -139,7 +140,6 @@ function New_EncryptedBase64String__Async(
 		}
 	)
 }
-module.exports.New_EncryptedBase64String__Async = New_EncryptedBase64String__Async;
 //
 // Decryption
 function New_DecryptedString__Async(
@@ -195,7 +195,7 @@ function New_DecryptedString__Async(
 		}
 	)
 }
-module.exports.New_DecryptedString__Async = New_DecryptedString__Async;
+export { New_EncryptedBase64String__Async, New_DecryptedString__Async };
 //
 // Shared
 function _new_encrypted_base64_unpacked_components_object(b64str) 

@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
+import View from '../../Views/View.web';
+
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
 //
 const passwordEntryTaskModes =
 {
@@ -493,4 +495,4 @@ class PasswordEntryView extends StackAndModalNavigationView
 		}
 	}
 }
-module.exports = PasswordEntryView
+export default PasswordEntryView;

@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
+import View from '../../Views/View.web';
+
 //
 class ListCellView extends View
 {
@@ -159,4 +161,4 @@ class ListCellView extends View
 		fn()
 	}
 }
-module.exports = ListCellView
+export default ListCellView;

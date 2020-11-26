@@ -27,16 +27,22 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Animate = require('velocity-animate')
+import Animate from 'velocity-animate';
+
 //
-const View = require('../../Views/View.web')
-const BarButtonBaseView = require('./BarButtonBaseView.web')
+import View from '../../Views/View.web';
+
+import BarButtonBaseView from './BarButtonBaseView.web';
+
 //
-const emoji_web = require('../../Emoji/emoji_web')
+import emoji_web from '../../Emoji/emoji_web';
+
 //
 // CSS rules
-const Views__cssRules = require('../../Views/cssRules.web')
+import Views__cssRules from '../../Views/cssRules.web';
+
 const NamespaceName = "NavigationBarView"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 const cssRules =
@@ -647,4 +653,4 @@ class NavigationBarView extends View
 		}
 	}
 }
-module.exports = NavigationBarView
+export default NavigationBarView;

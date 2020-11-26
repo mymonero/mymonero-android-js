@@ -27,8 +27,8 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-const ExchangeContentView = require('./ExchangeContentView.web')
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+import ExchangeContentView from './ExchangeContentView.web';
 
 class ExchangeTabContentView extends StackAndModalNavigationView
 {
@@ -99,4 +99,4 @@ class ExchangeTabContentView extends StackAndModalNavigationView
 		return shallDisable
 	}
 }
-module.exports = ExchangeTabContentView
+export default ExchangeTabContentView;

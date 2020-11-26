@@ -30,8 +30,10 @@
 //
 const animationDuration_s = 0.5
 const displayDelay_s = 20
+
 //
-const Views__cssRules = require('../../Views/cssRules.web')
+import Views__cssRules from '../../Views/cssRules.web';
+
 const NamespaceName = "ExceptionAlerting"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
@@ -178,4 +180,4 @@ class ExceptionAlerting
 		})
 	}
 }
-module.exports = ExceptionAlerting
+export default ExceptionAlerting;

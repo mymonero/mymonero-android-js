@@ -27,10 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const fs = require('fs')
+import fs from 'fs';
+
 //
-const FilesystemUI_Abstract = require('./FilesystemUI_Abstract')
+import FilesystemUI_Abstract from './FilesystemUI_Abstract';
+
 //
 class FilesytemUI extends FilesystemUI_Abstract
 {
@@ -174,4 +177,4 @@ class FilesytemUI extends FilesystemUI_Abstract
 		fn(null, path)
 	}
 }
-module.exports = FilesytemUI
+export default FilesytemUI;

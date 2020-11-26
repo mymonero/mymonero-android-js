@@ -27,14 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
-const commonComponents_walletIcons = require('../../MMAppUICommonComponents/walletIcons.web')
-const commonComponents_hoverableCells = require('../../MMAppUICommonComponents/hoverableCells.web')
+import View from '../../Views/View.web';
+
+import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import commonComponents_walletIcons from '../../MMAppUICommonComponents/walletIcons.web';
+import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
+
 //
-let Currencies = require('../../CcyConversionRates/Currencies')
-let monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
+import Currencies from '../../CcyConversionRates/Currencies';
+
+import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
 //
 class WalletCellContentsView extends View
 {
@@ -454,4 +458,4 @@ class WalletCellContentsView extends View
 		}
 	}
 }
-module.exports = WalletCellContentsView
+export default WalletCellContentsView;

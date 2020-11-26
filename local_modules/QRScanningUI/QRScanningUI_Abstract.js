@@ -52,4 +52,4 @@ class QRScanningUI_Abstract
 		throw errStr // to break development builds
 	}
 }
-module.exports = QRScanningUI_Abstract
+export default QRScanningUI_Abstract;

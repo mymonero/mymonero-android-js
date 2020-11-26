@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const HostedMoneroAPIClient_Base = require('./HostedMoneroAPIClient_Base')
+import HostedMoneroAPIClient_Base from './HostedMoneroAPIClient_Base';
+
 //
 class HostedMoneroAPIClient extends HostedMoneroAPIClient_Base
 {
@@ -39,4 +41,4 @@ class HostedMoneroAPIClient extends HostedMoneroAPIClient_Base
 		super(options, context)
 	}
 }
-module.exports = HostedMoneroAPIClient
+export default HostedMoneroAPIClient;

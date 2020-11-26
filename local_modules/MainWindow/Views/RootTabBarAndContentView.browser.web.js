@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const RootTabBarAndContentView_Lite = require('./RootTabBarAndContentView.Lite.web')
+import RootTabBarAndContentView_Lite from './RootTabBarAndContentView.Lite.web';
+
 //
 class RootTabBarAndContentView extends RootTabBarAndContentView_Lite
 {
@@ -42,4 +44,4 @@ class RootTabBarAndContentView extends RootTabBarAndContentView_Lite
 		super._setup_startObserving()
 	}
 }
-module.exports = RootTabBarAndContentView
+export default RootTabBarAndContentView;
