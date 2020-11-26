@@ -38,6 +38,7 @@ class BackgroundResponseParser
 {
 	constructor(options, context)
 	{
+		console.log("Imported backgroundResponseParder.web.js");
 		if (typeof options.coreBridge_instance == 'undefined' || options.coreBridge_instance == null) {
 			throw "BackgroundResponseParser.web expected options.coreBridge_instance"
 		}

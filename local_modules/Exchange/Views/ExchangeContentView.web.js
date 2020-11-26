@@ -44,7 +44,7 @@ import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents
 //import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web
 //import jsQR from 'jsqr'
 //import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
-//import JSBigInt from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'.BigInteger // important: grab defined expo
+import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger' // important: grab defined expo
 //import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils'
 //import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils'
 //import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config'
@@ -57,6 +57,7 @@ import ExchangeLibrary from 'mymonero-exchange';
 //import ExchangeUtils from '../Javascript/ExchangeUtilityFunctions';
 import ValidationLibrary from 'wallet-address-validator';
 
+//let JSBigInt = BigIntLib.BigInteger;
 
 class ExchangeContentView extends View {
     constructor(options, context) {
@@ -1008,20 +1009,20 @@ function renderOrderStatus(order) {
 
     Balance_JSBigInt(wallet)
     {
-        // const self = this;
-        // var total_received = wallet.total_received
-        // var total_sent = wallet.total_sent
-        // if (typeof total_received === 'undefined') {
-        //     total_received = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
-        // }
-        // if (typeof total_sent === 'undefined') {
-        //     total_sent = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
-        // }
-        // const balance_JSBigInt = total_received.subtract(total_sent)
-        // if (balance_JSBigInt.compare(0) < 0) {
-        //     return new JSBigInt(0)
-        // }
-        // return balance_JSBigInt
+        const self = this;
+        var total_received = wallet.total_received
+        var total_sent = wallet.total_sent
+        if (typeof total_received === 'undefined') {
+            total_received = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
+        }
+        if (typeof total_sent === 'undefined') {
+            total_sent = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
+        }
+        const balance_JSBigInt = total_received.subtract(total_sent)
+        if (balance_JSBigInt.compare(0) < 0) {
+            return new JSBigInt(0)
+        }
+        return balance_JSBigInt
     }
     UnlockedBalance_FormattedString(wallet)
 	{ // provided for convenience mainly so consumers don't have to require monero_utils

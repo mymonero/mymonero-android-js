@@ -38,8 +38,8 @@ import CcyConversionRates from"../../CcyConversionRates/Controller";
 import Locale from"../../Locale/Locale.browser";
 import symmetric_cryptor from"../../symmetric_cryptor/BackgroundStringCryptor.noOp";
 import DocumentPersister from"../../DocumentPersister/DocumentPersister.SecureStorage";
-//import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/BackgroundResponseParser.web";
-import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite";
+import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/BackgroundResponseParser.web";
+//import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
 import OpenAlias from"../../OpenAlias/OpenAliasResolver";
 import Theme from"../../Theme/ThemeController";
 import Passwords from"../../Passwords/Controllers/PasswordController.Lite";
@@ -188,10 +188,7 @@ function rcNewHydratedContext(context_object_instantiation_descriptions, initial
 	console.log(initialContext_orNilForNew)
 	var context = initialContext_orNilForNew != null ? initialContext_orNilForNew : {}
 	for (let i in context_object_instantiation_descriptions) {
-		console.log(i)
-		console.log(context_object_instantiation_descriptions);
 		var description = context_object_instantiation_descriptions[i]
-		console.log(description);
 		let module_path = description.module_path
 		let description_module = description.module
 		if (module_path && typeof module_path !== 'string') {
@@ -203,8 +200,6 @@ function rcNewHydratedContext(context_object_instantiation_descriptions, initial
 			throw "runtime_context found invalid description 'module' key value type"
 		}
 		var module = description_module || require("" + module_path)
-		console.log(module)
-		console.log(typeof module)
 		if (typeof module === 'undefined' || module === null) {
 			console.error("Unable to require " + description.module_path + ". Skipping.")
 			continue
@@ -212,6 +207,34 @@ function rcNewHydratedContext(context_object_instantiation_descriptions, initial
 		var instance;
 		if (i != 8){
 			try {
+				instance = new module(description.options, context)
+			} catch (e) {
+				console.error("Code fault while loading ", JSON.stringify(description, null, '  '))
+				throw e
+			}
+			if (typeof instance === 'undefined' || instance === null) {
+				console.error("Unable to create an instance of " + description.module_path + ". Skipping.")
+				throw "runtime_context: Unable to create an instance"
+			}
+			context[description.instance_key] = instance
+			//
+			const aliases = description.aliases || []
+			for (var idx in aliases) {
+				const alias = aliases[idx]
+				context[alias] = instance
+			}
+		} else if (i == 8) {
+			// TODO: Remove this -- code is here for debugging BackgroundAPIResponseParser
+			try {
+				console.log("Debugging backgroundResponseParser")
+				console.log(i)
+				console.log(context_object_instantiation_descriptions);
+				console.log(description);
+		
+				console.log(module)
+				console.log(typeof module)		
+				console.log(description.options)
+				console.log(context)
 				instance = new module(description.options, context)
 			} catch (e) {
 				console.error("Code fault while loading ", JSON.stringify(description, null, '  '))
