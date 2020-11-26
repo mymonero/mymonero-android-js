@@ -228,4 +228,4 @@ function New_fieldValue_switchToggleView(params, context)
 
 	return view
 }
-export { New_fieldValue_switchToggleView };
+export default { New_fieldValue_switchToggleView };

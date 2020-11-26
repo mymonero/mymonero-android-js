@@ -150,7 +150,7 @@ function New_contactPickerLayer_Lite(
 	//
 	return containerLayer
 }
-export { New_contactPickerLayer_Lite };
+
 //
 function _new_inputLayer(placeholderText, context)
 {
@@ -159,3 +159,5 @@ function _new_inputLayer(placeholderText, context)
 	})
 	return layer
 }
+
+export default { New_contactPickerLayer_Lite };

@@ -355,7 +355,7 @@ function New_contactPickerLayer(
 	//
 	return containerLayer
 }
-export { New_contactPickerLayer };
+
 //
 function _new_inputLayer(placeholderText, context)
 {
@@ -528,3 +528,4 @@ function _new_pickedContactLayer(context, contact, didClickCloseBtn_fn)
 	}
 	return layer
 }
+export default { New_contactPickerLayer };

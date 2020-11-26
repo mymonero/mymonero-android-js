@@ -210,4 +210,5 @@ function New_ActionButtonView(
 	)
 	return view
 }
-export { ActionButtonsContainerView_bottomMargin, ActionButtonsContainerView_h, New_ActionButtonsContainerView, New_Stacked_ActionButtonsContainerView, New_ActionButtonView };
+let obj = { ActionButtonsContainerView_bottomMargin, ActionButtonsContainerView_h, New_ActionButtonsContainerView, New_Stacked_ActionButtonsContainerView, New_ActionButtonView }
+export default obj;

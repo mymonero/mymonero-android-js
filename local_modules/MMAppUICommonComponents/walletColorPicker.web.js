@@ -220,5 +220,5 @@ function New_1OfN_WalletColorPickerInputView(context, selectHexColorString_orUnd
 	}
 	return view
 }
-export { New_1OfN_WalletColorPickerInputView };
+export default { New_1OfN_WalletColorPickerInputView };
 

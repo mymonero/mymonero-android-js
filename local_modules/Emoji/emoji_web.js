@@ -34,6 +34,17 @@ import emojione from './Vendor/emojione.min';
 emojione.imageType = "png" // png instead of svg as svg appear too slow to display en-masse
 emojione.sprites = true
 
+const emojiCategories =
+[ // TODO/FIXME: source this from emojione
+	{"key":"people","label":"Smileys & People"},
+	{"key":"nature","label":"Animals & Nature"},
+	{"key":"food","label":"Food & Drink"},
+	{"key":"activity","label":"Activity"},
+	{"key":"travel","label":"Travel & Places"},
+	{"key":"objects","label":"Objects"},
+	{"key":"symbols","label":"Symbols"},
+	{"key":"flags","label":"Flags"}
+]
 //
 import emoji_set from './emoji_set';
 
@@ -52,10 +63,11 @@ function stylesheetPaths_generatorFn(context)
 }
 function __injectCSS_ifNecessary(context) 
 {
-	Views__cssRules.InjectCSSFiles_ifNecessary(
-		stylesheetPaths_generatorFn,
-		context
-	) 
+	// Wtaf, again? TODO: Move css to stylesheets
+	// Views__cssRules.InjectCSSFiles_ifNecessary(
+	// 	stylesheetPaths_generatorFn,
+	// 	context
+	// ) 
 }
 //
 var cached_spritesheetImages = [];
@@ -63,7 +75,7 @@ function PreLoadAndSetUpEmojiOne(context)
 { // ^ be sure to call this in order to inject the stylesheets
 	// preload sprites to prevent delay
 	if (context.Emoji_renderWithNativeEmoji !== true) {
-		const categories = emoji_set.EmojiCategories
+		const categories = emojiCategories
 		categories.forEach(
 			function(
 				categoryDescription, 
@@ -92,12 +104,18 @@ function PreLoadAndSetUpEmojiOne(context)
 //
 function NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText(context, nativeEmojiText)
 {
-	if (context.Emoji_renderWithNativeEmoji !== true) {
-		return nativeEmojiTextToImageBackedEmojiText(nativeEmojiText)
+	if (typeof nativeEmojiText !== "string") { // to protect against numbers and such
+		nativeEmojiText = "" + nativeEmojiText
 	}
-	return nativeEmojiText
+	const text = emojione.unicodeToImage(nativeEmojiText)
+	//
+	return text
+	// if (context.Emoji_renderWithNativeEmoji !== true) {
+	// 	return nativeEmojiTextToImageBackedEmojiText(nativeEmojiText)
+	// }
+	// return nativeEmojiText
 }
-export { PreLoadAndSetUpEmojiOne, NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText };
+
 function nativeEmojiTextToImageBackedEmojiText(nativeEmojiText)
 {
 	if (typeof nativeEmojiText !== "string") { // to protect against numbers and such
@@ -107,3 +125,7 @@ function nativeEmojiTextToImageBackedEmojiText(nativeEmojiText)
 	//
 	return text
 }
+
+let obj = { PreLoadAndSetUpEmojiOne, NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText, stylesheetPaths_generatorFn, nativeEmojiTextToImageBackedEmojiText }
+
+export default obj;

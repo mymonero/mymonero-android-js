@@ -344,4 +344,4 @@ function New_fieldValue_timeBasedLabeledRangeInputView(params, context)
 	const view = New_fieldValue_labeledRangeInputView(params, context)
 	return view
 }
-export { New_fieldValue_labeledRangeInputView, New_fieldValue_timeBasedLabeledRangeInputView };
+export default { New_fieldValue_labeledRangeInputView, New_fieldValue_timeBasedLabeledRangeInputView };

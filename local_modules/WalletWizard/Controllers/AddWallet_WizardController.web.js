@@ -27,8 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const mnemonic_languages = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages')
+import mnemonic_languages from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages';
+import PickCreateOrUseExisting_Landing_View from '../Views/PickCreateOrUseExisting_Landing_View.web';
+import UseExisting_MetaInfo_View from '../Views/UseExisting_MetaInfo_View.web';
+import CreateWallet_MetaInfo_View from '../Views/CreateWallet_MetaInfo_View.web';
+import CreateWallet_Instructions_View from '../Views/CreateWallet_Instructions_View.web';
+import CreateWallet_InformOfMnemonic_View from '../Views/CreateWallet_InformOfMnemonic_View.web';
+import CreateWallet_ConfirmMnemonic_View from '../Views/CreateWallet_ConfirmMnemonic_View.web';
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web'
+import UseExisting from '../Views/UseExisting_MetaInfo_View.web'
+
 //
 const WizardTask_Modes =
 {
@@ -48,15 +58,17 @@ const WizardTaskStepScreenViewFilePrefix_By_WizardTaskModeName =
 	AfterPick_CreateWallet: 	"CreateWallet",
 	AfterPick_UseExisting: 		"UseExisting"
 }
+
 const StaticCacheForBundling_WizardTaskStepScreenViewModules_byViewFilename = 
 {
-	"PickCreateOrUseExisting_Landing_View.web": require("../Views/PickCreateOrUseExisting_Landing_View.web"),
-	"UseExisting_MetaInfo_View.web": 			require("../Views/UseExisting_MetaInfo_View.web"),
-	"CreateWallet_MetaInfo_View.web": 			require("../Views/CreateWallet_MetaInfo_View.web"),
-	"CreateWallet_Instructions_View.web": 		require("../Views/CreateWallet_Instructions_View.web"),
-	"CreateWallet_InformOfMnemonic_View.web": 	require("../Views/CreateWallet_InformOfMnemonic_View.web"),
-	"CreateWallet_ConfirmMnemonic_View.web": 	require("../Views/CreateWallet_ConfirmMnemonic_View.web")
+	"PickCreateOrUseExisting_Landing_View.web": PickCreateOrUseExisting_Landing_View,
+	"UseExisting_MetaInfo_View.web": 			UseExisting_MetaInfo_View,
+	"CreateWallet_MetaInfo_View.web": 			CreateWallet_MetaInfo_View,
+	"CreateWallet_Instructions_View.web": 		CreateWallet_Instructions_View,
+	"CreateWallet_InformOfMnemonic_View.web": 	CreateWallet_InformOfMnemonic_View,
+	"CreateWallet_ConfirmMnemonic_View.web": 	CreateWallet_ConfirmMnemonic_View
 }
+
 //
 class AddWallet_WizardController
 {
@@ -212,7 +224,9 @@ class AddWallet_WizardController
 		const self = this
 		const viewFilePrefix = WizardTaskStepScreenViewFilePrefix_By_WizardTaskModeName[self.current_wizardTaskModeName]
 		const viewModuleFilename = `${viewFilePrefix}_${self.current_wizardTaskMode_stepName}_View.web`
+		
 		// now we access the module not by dynamic inclusion but statically (see webpack)
+
 		const viewConstructor = StaticCacheForBundling_WizardTaskStepScreenViewModules_byViewFilename[viewModuleFilename]
 		if (!viewConstructor || typeof viewConstructor === 'undefined') {
 			throw "Unable to find the file at " + viewModuleFilename
@@ -245,7 +259,7 @@ class AddWallet_WizardController
 			}
 			self._configureRuntimeStateForTaskModeName(taskModeName) // default to step idx 0
 		}
-		const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
+		
 		const navigationView = new StackAndModalNavigationView({}, self.context)
 		{
 			const initialView = self._new_current_wizardTaskMode_stepView()
@@ -380,4 +394,4 @@ class AddWallet_WizardController
 		})
 	}
 }
-module.exports = AddWallet_WizardController
+export default AddWallet_WizardController

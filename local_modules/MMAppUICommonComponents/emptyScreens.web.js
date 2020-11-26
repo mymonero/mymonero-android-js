@@ -145,4 +145,8 @@ function New_EmptyStateMessageContainerView(
 	}
 	return view
 }
-export { New_EmptyStateMessageContainerView };
+
+let obj = {
+	New_EmptyStateMessageContainerView
+}
+export default obj;

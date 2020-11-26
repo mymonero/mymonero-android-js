@@ -27,12 +27,16 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
+import View from '../../Views/View.web';
+
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+
 //
-const BaseView_AWalletWizardScreen = require('./BaseView_AWalletWizardScreen.web')
+import BaseView_AWalletWizardScreen from './BaseView_AWalletWizardScreen.web';
+
 //
 class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 {
@@ -347,4 +351,4 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 		)
 	}
 }
-module.exports = CreateWallet_Instructions_View
+export default CreateWallet_Instructions_View;

@@ -30,7 +30,7 @@
 
 //
 import RootView_Base from './RootView_Base.web';
-
+import PasswordEntryViewController from '../../Passwords/Controllers/PasswordEntryViewController.web';
 import RootFooterView from './RootFooterView.web';
 //
 class RootView extends RootView_Base
@@ -55,7 +55,7 @@ class RootView extends RootView_Base
 	{// overridden and not calling on super
 		const self = this
 		const passwordController = self.context.passwordController
-		const PasswordEntryViewController = require('../../Passwords/Controllers/PasswordEntryViewController.web')
+		
 		const passwordEntryViewController = new PasswordEntryViewController(self.tabBarViewAndContentView, passwordController)
 		self.passwordEntryViewController = passwordEntryViewController
 		{

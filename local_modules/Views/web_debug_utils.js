@@ -65,4 +65,4 @@ function RandomColorHexString()
 {
 	return `#${Math.floor(Math.random() * 16777215).toString(16)}`
 }
-export { DEBUG_BorderSubviews, DEBUG_BorderChildLayers, RandomColorHexString };	
+export default { DEBUG_BorderSubviews, DEBUG_BorderChildLayers, RandomColorHexString };	

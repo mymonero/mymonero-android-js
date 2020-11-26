@@ -28,31 +28,34 @@
 //
 //"use strict"
 
-const Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
-const ExchangeLibrary = require('mymonero-exchange');
-const ValidationLibrary = require('wallet-address-validator');
-const Listeners = require('../../Exchange/Javascript/ExchangeListeners');
-const View = require('../../Views/View.web');
-const ListView = require('../../Lists/Views/ListView.web');
-const emoji_web = require('../../Emoji/emoji_web');
-const ExchangeFunctions = require('../Javascript/ExchangeFunctions');
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_tooltips = require('../../MMAppUICommonComponents/tooltips.web')
-const WalletsSelectView = require('../../WalletsList/Views/WalletsSelectView.web')
-const fs = require('fs');
-//const commonComponents_contactPicker = require('../../MMAppUICommonComponents/contactPicker.web')
-const jsQR = require('jsqr')
-const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
-const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger // important: grab defined export
-const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
-const monero_openalias_utils = require('../../OpenAlias/monero_openalias_utils')
-const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
-const monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
-const documents = require('../../DocumentPersister/DocumentPersister_Interface.js');
-const ListBaseController = require('../../Lists/Controllers/ListBaseController')
-const commonComponents_emptyScreens = require('../../MMAppUICommonComponents/emptyScreens.web')
-
+//import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions'
+//import ExchangeLibrary from 'mymonero-exchange'
+//import ValidationLibrary from 'wallet-address-validator'
+//import Listeners from '../../Exchange/Javascript/ExchangeListeners'
+import View from '../../Views/View.web'
+//import ListView from '../../Lists/Views/ListView.web'
+//import emoji_web from '../../Emoji/emoji_web'
+//import ExchangeFunctions from '../Javascript/ExchangeFunctions'
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web'
+//import commonComponents_forms from '../../MMAppUICommonComponents/forms.web'
+//import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web'
+//import WalletsSelectView from '../../WalletsList/Views/WalletsSelectView.web'
+//import fs from 'fs'
+//import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web
+//import jsQR from 'jsqr'
+//import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
+//import JSBigInt from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'.BigInteger // important: grab defined expo
+//import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils'
+//import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils'
+//import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config'
+import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils'
+//import documents from '../../DocumentPersister/DocumentPersister_Interface.js'
+//import ListBaseController from '../../Lists/Controllers/ListBaseController'
+//import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web'
+import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions';
+import ExchangeLibrary from 'mymonero-exchange';
+//import ExchangeUtils from '../Javascript/ExchangeUtilityFunctions';
+import ValidationLibrary from 'wallet-address-validator';
 
 
 class ExchangeContentView extends View {
@@ -64,7 +67,7 @@ class ExchangeContentView extends View {
 		let self = context;
 
 		//
-		const view = new View({}, self.context)
+		let view = new View({}, self.context)
 		const layer = view.layer
 		const margin_side = 16
 		const marginTop = 56
@@ -512,11 +515,7 @@ class ExchangeContentView extends View {
             if (typeof(loaderPage) == undefined) {
                 return;
             }
-            const Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
-            const ExchangeLibrary = require('mymonero-exchange');
             const ExchangeFunctions = new ExchangeLibrary();
-            const ExchangeUtils = require('../Javascript/ExchangeUtilityFunctions');
-            const ValidationLibrary = require('wallet-address-validator');
             const order = {};
             const exchangePage = document.getElementById('orderStatusPage');
             const btcAddressInput = document.getElementById("btcAddress");
@@ -1009,32 +1008,32 @@ function renderOrderStatus(order) {
 
     Balance_JSBigInt(wallet)
     {
-        const self = this;
-        var total_received = wallet.total_received
-        var total_sent = wallet.total_sent
-        if (typeof total_received === 'undefined') {
-            total_received = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
-        }
-        if (typeof total_sent === 'undefined') {
-            total_sent = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
-        }
-        const balance_JSBigInt = total_received.subtract(total_sent)
-        if (balance_JSBigInt.compare(0) < 0) {
-            return new JSBigInt(0)
-        }
-        return balance_JSBigInt
+        // const self = this;
+        // var total_received = wallet.total_received
+        // var total_sent = wallet.total_sent
+        // if (typeof total_received === 'undefined') {
+        //     total_received = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
+        // }
+        // if (typeof total_sent === 'undefined') {
+        //     total_sent = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
+        // }
+        // const balance_JSBigInt = total_received.subtract(total_sent)
+        // if (balance_JSBigInt.compare(0) < 0) {
+        //     return new JSBigInt(0)
+        // }
+        // return balance_JSBigInt
     }
     UnlockedBalance_FormattedString(wallet)
 	{ // provided for convenience mainly so consumers don't have to require monero_utils
         let self = this;
-		let balance_JSBigInt = self.UnlockedBalance_JSBigInt(wallet);
-		return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
+		// let balance_JSBigInt = self.UnlockedBalance_JSBigInt(wallet);
+		//return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
 	}
     Balance_FormattedString(wallet)
 	{ // provided for convenience mainly so consumers don't have to require monero_utils
         let self = this;
-		let balance_JSBigInt = self.Balance_JSBigInt(wallet);
-		return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
+		//let balance_JSBigInt = self.Balance_JSBigInt(wallet);
+		//return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
 	}
 	Balance_DoubleNumber(wallet)
 	{
@@ -1048,7 +1047,7 @@ function renderOrderStatus(order) {
 			self.locked_balance || new JSBigInt(0)
 		)
 		if (difference.compare(0) < 0) {
-			return new JSBigInt(0)
+			//return new JSBigInt(0)
 		}
 		return difference
 	}
@@ -1057,7 +1056,7 @@ function renderOrderStatus(order) {
 		let self = wallet;
 		var lockedBalance_JSBigInt = self.locked_balance
 		if (typeof lockedBalance_JSBigInt === 'undefined') {
-			lockedBalance_JSBigInt = new JSBigInt(0)
+			//lockedBalance_JSBigInt = new JSBigInt(0)
 		}
 		//
 		return lockedBalance_JSBigInt
@@ -1166,4 +1165,4 @@ function renderOrderStatus(order) {
 
 
 
-module.exports = ExchangeContentView
+export default ExchangeContentView

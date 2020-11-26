@@ -262,5 +262,6 @@ function New_TooltipSpawningButtonView(tooltipText, context)
 	tooltip.setContent(tooltipText)
 	return view 
 }
-export { New_TooltipSpawningButtonView };
+let obj = { New_TooltipSpawningButtonView };
+export default obj;
 

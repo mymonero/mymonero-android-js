@@ -100,11 +100,12 @@ function cssRules_generatorFn(context)
 }
 function __injectCSSRules_ifNecessary(context) 
 {
-	Views__cssRules.InjectCSSRules_ifNecessary(
-		haveCSSRulesBeenInjected_documentKey, 
-		cssRules_generatorFn,
-		context
-	)
+	// This is just an absolute wtf, and it's breaking ES6 migration
+	// Views__cssRules.InjectCSSRules_ifNecessary(
+	// 	haveCSSRulesBeenInjected_documentKey, 
+	// 	cssRules_generatorFn,
+	// 	context
+	// )
 }
 //
 class ExceptionAlerting

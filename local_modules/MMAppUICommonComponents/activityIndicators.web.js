@@ -183,4 +183,5 @@ function New_Resolving_ActivityIndicatorLayer(context)
 	)
 	return layer
 }
-export { New_Graphic_ActivityIndicatorLayer, New_Graphic_ActivityIndicatorLayer_htmlString, New_GraphicAndLabel_ActivityIndicatorLayer, New_Resolving_ActivityIndicatorLayer };
+let obj = { New_Graphic_ActivityIndicatorLayer, New_Graphic_ActivityIndicatorLayer_htmlString, New_GraphicAndLabel_ActivityIndicatorLayer, New_Resolving_ActivityIndicatorLayer };
+export default obj;

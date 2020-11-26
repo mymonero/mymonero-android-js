@@ -27,15 +27,19 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_tooltips = require('../../MMAppUICommonComponents/tooltips.web')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
+import View from '../../Views/View.web';
+
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+
 //
-const BaseView_Wallet_MetaInfo = require('./BaseView_Wallet_MetaInfo.web')
+import BaseView_Wallet_MetaInfo from './BaseView_Wallet_MetaInfo.web';
+
 //
 const Modes_LoginWith =
 {
@@ -667,4 +671,4 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 		}
 	}
 }
-module.exports = UseExisting_MetaInfo_View
+export default UseExisting_MetaInfo_View;

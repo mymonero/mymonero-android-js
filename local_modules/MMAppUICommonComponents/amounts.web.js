@@ -324,4 +324,5 @@ function New_AmountInputFieldPKG(
 		max_buttonView: max_buttonView
 	}
 }
-export { New_AmountInputFieldPKG };
+let obj = { New_AmountInputFieldPKG };
+export default obj;

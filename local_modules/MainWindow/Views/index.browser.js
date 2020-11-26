@@ -32,6 +32,11 @@
 //
 import RootView from '../Views/RootView.Lite.web' // electron uses .web files as it has a web DOM
 import setup_utils from '../../MMAppRendererSetup/renderer_setup.browser'
+import MyMoneroLibAppBridge from '../../mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge'
+import indexContextBrowser from '../Models/index_context.browser'
+import cryptonoteUtilsNetType from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype'
+import emoji_web from '../../Emoji/emoji_web'
+import RootTabBarAndContentView from './RootTabBarAndContentView.browser.web'
 
 window.BootApp = function()
 { // encased in a function to prevent scope being lost/freed on mobile
@@ -66,10 +71,12 @@ window.BootApp = function()
 	//
 	// context
 	var isHorizontalBar = isMobile;
-	require('../../mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge')({}).then(function(coreBridge_instance) // we can just use this directly in the browser version
+	MyMoneroLibAppBridge({}).then(function(coreBridge_instance) // we can just use this directly in the browser version
 	{
-		const context = require('../Models/index_context.browser').NewHydratedContext({
-			nettype: require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype').network_type.MAINNET, // critical setting
+		const context = indexContextBrowser.NewHydratedContext({
+		//const context = require('../Models/index_context.browser').NewHydratedContext({
+			//nettype: require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype').network_type.MAINNET, // critical setting
+			nettype: cryptonoteUtilsNetType.network_type.MAINNET,
 			app: app,
 			isDebug: isDebug,
 			isLiteApp: true, // used sparingly for to disable (but not redact) functionality
@@ -78,7 +85,8 @@ window.BootApp = function()
 			Cordova_isMobile: false, // (this can be renamed or maybe deprecated)
 			crossPlatform_appBundledIndexRelativeAssetsRootPath: "",
 			crossPlatform_indexContextRelativeAssetsRootPathSuffix: "../../", // b/c index_context is in MainWindow/Views; must end up /
-			platformSpecific_RootTabBarAndContentView: require('./RootTabBarAndContentView.browser.web'), // slightly messy place to put this but it works
+			//platformSpecific_RootTabBarAndContentView: require('./RootTabBarAndContentView.browser.web'), // slightly messy place to put this but it works
+			platformSpecific_RootTabBarAndContentView: RootTabBarAndContentView, // slightly messy place to put this but it works
 			TabBarView_thickness: isHorizontalBar ? 48 : 79,
 			rootViewFooterHeight: 32,
 			TabBarView_isHorizontalBar: isHorizontalBar,
@@ -98,7 +106,6 @@ window.BootApp = function()
 		//
 		if (isMobile == false) { // then we don't have guaranteed native emoji support
 			{ // since we're using emoji, now that we have the context, we can call PreLoadAndSetUpEmojiOne
-				const emoji_web = require('../../Emoji/emoji_web')
 				emoji_web.PreLoadAndSetUpEmojiOne(context)
 			}
 		}

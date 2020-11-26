@@ -48,6 +48,7 @@ import UserIdle from"../../UserIdle/UserIdleInWindowController";
 import WalletsList from"../../WalletsList/Controllers/WalletsListController.Lite";
 import WalletAppCoordinator from"../../WalletAppCoordinator/WalletAppCoordinator";
 import runtimeContext from "../../runtime_context/runtime_context";
+import exceptionAlerting from "../Controllers/ExceptionAlerting.browser.web.js"
 
 const txtRecordResolver = new TXTRecordResolver({})
 function NewHydratedContext(initialContext)
@@ -162,7 +163,7 @@ function NewHydratedContext(initialContext)
 			options: {}
 		},
 		{
-			module: require("../Controllers/ExceptionAlerting.browser.web.js"),
+			module: exceptionAlerting, 
 			instance_key: "exceptionAlerting",
 			options: {}
 		}
@@ -173,6 +174,78 @@ function NewHydratedContext(initialContext)
 	// 	initialContext
 	// )
 	console.log(runtimeContext);
-	
+
+	//
+	return rcNewHydratedContext(
+		context_object_instantiation_descriptions, 
+		initialContext
+	)
 }
-export { NewHydratedContext };
+
+function rcNewHydratedContext(context_object_instantiation_descriptions, initialContext_orNilForNew) {
+	console.log("runtime_context inside index_context -- NewHydratedContext")
+	console.log(context_object_instantiation_descriptions)
+	console.log(initialContext_orNilForNew)
+	var context = initialContext_orNilForNew != null ? initialContext_orNilForNew : {}
+	for (let i in context_object_instantiation_descriptions) {
+		console.log(i)
+		console.log(context_object_instantiation_descriptions);
+		var description = context_object_instantiation_descriptions[i]
+		console.log(description);
+		let module_path = description.module_path
+		let description_module = description.module
+		if (module_path && typeof module_path !== 'string') {
+			console.error("Invalid description.module_path: ", JSON.stringify(description, null, '  '))
+			throw "runtime_context found invalid description 'module_path' key value type"
+		}
+		if (description_module && typeof description_module === 'string') {
+			console.error("Invalid description.module: ", JSON.stringify(description, null, '  '))
+			throw "runtime_context found invalid description 'module' key value type"
+		}
+		var module = description_module || require("" + module_path)
+		console.log(module)
+		console.log(typeof module)
+		if (typeof module === 'undefined' || module === null) {
+			console.error("Unable to require " + description.module_path + ". Skipping.")
+			continue
+		}
+		var instance;
+		if (i != 8){
+			try {
+				instance = new module(description.options, context)
+			} catch (e) {
+				console.error("Code fault while loading ", JSON.stringify(description, null, '  '))
+				throw e
+			}
+			if (typeof instance === 'undefined' || instance === null) {
+				console.error("Unable to create an instance of " + description.module_path + ". Skipping.")
+				throw "runtime_context: Unable to create an instance"
+			}
+			context[description.instance_key] = instance
+			//
+			const aliases = description.aliases || []
+			for (var idx in aliases) {
+				const alias = aliases[idx]
+				context[alias] = instance
+			}
+		}
+	}
+	var context_keys = Object.keys(context)
+	for (let i in context_keys) {
+		var context_key = context_keys[i]
+		let instance = context[context_key]
+		// This calls an optional function that classes can implement to get control after the whole context is set up
+		var postWholeContextInit_setup__fn = instance.RuntimeContext_postWholeContextInit_setup
+		if (typeof postWholeContextInit_setup__fn !== 'undefined') {
+			postWholeContextInit_setup__fn.call(instance) // using 'call' so the function's "this" is instance
+		}
+	}
+	
+	return context
+}
+
+let obj = {
+	NewHydratedContext
+}
+
+export default obj;

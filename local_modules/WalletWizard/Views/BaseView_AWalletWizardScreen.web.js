@@ -27,15 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
+import View from '../../Views/View.web';
+
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
 //
 class AddWallet_LandingScreenView extends View
 {
 	constructor(options, context)
 	{
 		super(options, context)
+		console.log("AddWallet Landing Screen")
 		const self = this
 		{
 			self.wizardController = self.options.wizardController
@@ -123,4 +126,5 @@ class AddWallet_LandingScreenView extends View
 		}
 	}
 }
-module.exports = AddWallet_LandingScreenView
+
+export default AddWallet_LandingScreenView

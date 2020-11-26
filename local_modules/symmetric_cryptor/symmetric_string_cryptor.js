@@ -195,7 +195,7 @@ function New_DecryptedString__Async(
 		}
 	)
 }
-export { New_EncryptedBase64String__Async, New_DecryptedString__Async };
+
 //
 // Shared
 function _new_encrypted_base64_unpacked_components_object(b64str) 
@@ -335,3 +335,5 @@ function _new_random_iv_of_length(block_size)
 		throw ex
 	}
 }
+
+export default { New_EncryptedBase64String__Async, New_DecryptedString__Async };

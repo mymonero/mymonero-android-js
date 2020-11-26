@@ -30,12 +30,13 @@
 
 //
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
-
+import WalletsListView from './WalletsListView.web'
 //
 class WalletsTabContentView extends StackAndModalNavigationView
 {
 	constructor(options, context)
 	{
+		console.log('WalletsTabContentView constructor invoked')
 		super(options, context)
 	}
 	setup()
@@ -44,7 +45,8 @@ class WalletsTabContentView extends StackAndModalNavigationView
 		const self = this
 		{ // walletsListView
 			const options = {}
-			const WalletsListView = require('./WalletsListView.web')
+			//const WalletsListView = require('./WalletsListView.web')
+			//const WalletsListView = WalletsListView
 			const view = new WalletsListView(options, self.context)
 			self.walletsListView = view
 		}

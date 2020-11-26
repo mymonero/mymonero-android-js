@@ -82,7 +82,8 @@ class WalletsListController extends ListBaseController
 	//
 	override_CollectionName()
 	{
-		return wallet_persistence_utils.CollectionName
+		return "Wallets"
+		//return wallet_persistence_utils.CollectionName -- commented out because we're debugging runtime context: TODO: make this dynamic?
 	}
 	override_lookup_RecordClass()
 	{

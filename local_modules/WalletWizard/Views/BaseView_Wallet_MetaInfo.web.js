@@ -27,13 +27,17 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_walletColorPicker = require('../../MMAppUICommonComponents/walletColorPicker.web')
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_walletColorPicker from '../../MMAppUICommonComponents/walletColorPicker.web';
+
 //
-const BaseView_AWalletWizardScreen = require('./BaseView_AWalletWizardScreen.web')
+import BaseView_AWalletWizardScreen from './BaseView_AWalletWizardScreen.web';
+
 //
 class BaseView_Wallet_MetaInfo extends BaseView_AWalletWizardScreen
 {
@@ -237,4 +241,4 @@ class BaseView_Wallet_MetaInfo extends BaseView_AWalletWizardScreen
 		self.set_submitButtonNeedsUpdate()
 	}
 }
-module.exports = BaseView_Wallet_MetaInfo
+export default BaseView_Wallet_MetaInfo;

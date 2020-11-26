@@ -67,7 +67,7 @@ function read(
 	)
 	function __proceedTo_decryptEncryptedDocument(encryptedBase64String)
 	{
-		string_cryptor__background.New_DecryptedString__Async(
+		string_cryptor.New_DecryptedString__Async(
 			encryptedBase64String,
 			self.persistencePassword,
 			function(err, plaintextString)
@@ -175,4 +175,4 @@ function write(
 		)
 	}
 }
-export { read, write };
+export default { read, write };

@@ -30,7 +30,7 @@
 
 //
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
-
+import SettingsView from './SettingsView.web';
 //
 class SettingsTabContentView extends StackAndModalNavigationView
 {
@@ -43,7 +43,6 @@ class SettingsTabContentView extends StackAndModalNavigationView
 		super.setup() // we must call on super
 		const self = this
 		{
-			const SettingsView = require('./SettingsView.web')
 			const view = new SettingsView({}, self.context)
 			self.settingsView = view
 		}

@@ -156,4 +156,6 @@ function New_ParsedPayload_FromPossibleRequestURIString(string, nettype, monero_
 	//
 	return payload;
 }
-export { URITypes, New_RequestFunds_URI, New_ParsedPayload_FromPossibleRequestURIString };
+let obj = { URITypes, New_RequestFunds_URI, New_ParsedPayload_FromPossibleRequestURIString };
+
+export default obj;

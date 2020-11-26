@@ -92,4 +92,5 @@ function InjectCSSFiles_ifNecessary(
 		InjectCSSFile_ifNecessary(stylesheetHref)
 	}
 }
-export { InjectCSSRules_ifNecessary, InjectCSSFile_ifNecessary, InjectCSSFiles_ifNecessary };
+let obj = { InjectCSSRules_ifNecessary, InjectCSSFile_ifNecessary, InjectCSSFiles_ifNecessary }
+export default obj;

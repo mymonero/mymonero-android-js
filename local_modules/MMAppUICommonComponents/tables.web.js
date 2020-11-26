@@ -667,4 +667,5 @@ function New_tableCell_separatorLayer()
 	layer.style.visibility = "visible" // to be configured
 	return layer
 }
-export { New_fieldContainerLayer, New_clickableLinkButtonView, New_fieldTitle_labelLayer, New_fieldValue_labelLayer, New_fieldValue_base64DataImageLayer, New_separatorLayer, New_customButton_aLayer, New_copyButton_aLayer, New_redTextButtonView, New_deleteRecordNamedButtonView, New_createNewRecordNamedButtonView, New_clearingBreakLayer, New_spacerLayer, New_inlineMessageDialogLayer, New_copyable_longStringValueField_component_fieldContainerLayer, New_tableCell_accessoryChevronLayer, New_tableCell_accessoryActivityIndicatorLayer, New_tableCell_separatorLayer };
+let obj = { New_fieldContainerLayer, New_clickableLinkButtonView, New_fieldTitle_labelLayer, New_fieldValue_labelLayer, New_fieldValue_base64DataImageLayer, New_separatorLayer, New_customButton_aLayer, New_copyButton_aLayer, New_redTextButtonView, New_deleteRecordNamedButtonView, New_createNewRecordNamedButtonView, New_clearingBreakLayer, New_spacerLayer, New_inlineMessageDialogLayer, New_copyable_longStringValueField_component_fieldContainerLayer, New_tableCell_accessoryChevronLayer, New_tableCell_accessoryActivityIndicatorLayer, New_tableCell_separatorLayer };
+export default obj;

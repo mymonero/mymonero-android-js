@@ -58,32 +58,42 @@ function __injectCSSRules_ifNecessary()
 	Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules)
 }
 
-export const ClassFor_HoverableCell = function()
+const ClassFor_HoverableCell = function()
 {
 	__injectCSSRules_ifNecessary() 
 	return "hoverable-cell"
 };
 
-export const ClassFor_GreyCell = function()
+const ClassFor_GreyCell = function()
 {
 	__injectCSSRules_ifNecessary()
 	return "utility"
 };
 
-export const ClassFor_BlueCell = function()
+const ClassFor_BlueCell = function()
 {
 	__injectCSSRules_ifNecessary()
 	return "action"
 };
 
-export const ClassFor_RedCell = function()
+const ClassFor_RedCell = function()
 {
 	__injectCSSRules_ifNecessary()
 	return "destructive"
 };
 
-export const ClassFor_Disableable = function()
+const ClassFor_Disableable = function()
 {
 	__injectCSSRules_ifNecessary() 
 	return "disableable"
 };
+
+let obj = {
+	ClassFor_HoverableCell,
+	ClassFor_GreyCell,
+	ClassFor_BlueCell,
+	ClassFor_RedCell,
+	ClassFor_Disableable
+}
+
+export default obj;

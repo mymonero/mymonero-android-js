@@ -44,6 +44,8 @@ class SendTabContentView_Base extends StackAndModalNavigationView
 		const self = this
 		{ // walletsListView
 			const options = {}
+			console.log('wtaf');
+			console.log(self);
 			const SendFundsView = self._required_rootViewClassModule()
 			const view = new SendFundsView(options, self.context)
 			self.sendFundsView = view

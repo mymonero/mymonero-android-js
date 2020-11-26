@@ -362,9 +362,11 @@ function New_MnemonicConfirmation_SelectableWordsView(
 	}
 	return view
 }
-export { numberOfMnemonicWordsRequiredForVerification, New_MnemonicTextDisplayView, New_MnemonicConfirmation_SelectedWordsView, New_MnemonicConfirmation_SelectableWordsView };
+
 //
 function _new_UUID()
 {
 	return uuidV1()
 }
+
+export default { numberOfMnemonicWordsRequiredForVerification, New_MnemonicTextDisplayView, New_MnemonicConfirmation_SelectedWordsView, New_MnemonicConfirmation_SelectableWordsView };

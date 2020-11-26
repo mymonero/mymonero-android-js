@@ -27,15 +27,20 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_walletMnemonicBox = require('../../MMAppUICommonComponents/walletMnemonicBox.web')
-const commonComponents_hoverableCells = require('../../MMAppUICommonComponents/hoverableCells.web')
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_walletMnemonicBox from '../../MMAppUICommonComponents/walletMnemonicBox.web';
+import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
+
 //
-const mnemonic_languages = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages')
+import mnemonic_languages from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages';
+
 //
-const BaseView_AWalletWizardScreen = require('./BaseView_AWalletWizardScreen.web')
+import BaseView_AWalletWizardScreen from './BaseView_AWalletWizardScreen.web';
+
 //
 class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 {
@@ -335,4 +340,4 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 		}
 	}
 }
-module.exports = CreateWallet_InformOfMnemonic_View
+export default CreateWallet_InformOfMnemonic_View;

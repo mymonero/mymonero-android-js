@@ -94,4 +94,4 @@ function New_WalletIconLayer(context, optl_sizeClass)
 	//
 	return div
 }
-export { SizeClasses, New_WalletIconLayer };
+export default { SizeClasses, New_WalletIconLayer };

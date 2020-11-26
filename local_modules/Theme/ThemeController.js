@@ -73,7 +73,15 @@ class ThemeController
 		const self = this
 		self.options = options
 		self.context = context
-		__injectCSSRules_ifNecessary(context)
+		self.injectCSSRules_ifNecessary(context)
+	}
+	injectCSSRules_ifNecessary(context) 
+	{
+		// Views__cssRules.InjectCSSRules_ifNecessary(
+		// 	haveCSSRulesBeenInjected_documentKey, 
+		// 	cssRules_generatorFn,
+		// 	context
+		// )
 	}
 	//
 	// Accessors - UI - Metrics - Layout

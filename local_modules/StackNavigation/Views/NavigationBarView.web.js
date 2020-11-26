@@ -55,7 +55,10 @@ const cssRules =
 		position: absolute; 
 	}`
 ]
-function __injectCSSRules_ifNecessary() { Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) }
+function __injectCSSRules_ifNecessary() { 
+	// What the actual fuck, again
+	//Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) 
+}
 //
 class NavigationBarView extends View
 {
