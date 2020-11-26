@@ -114,4 +114,4 @@ function DoesRecordHaveValidOpenAliasPrefix(
 	}
 	return true
 }
-export { ValidatedOARecordsFromTXTRecordsWithOpenAliasPrefix, New_ParsedDescriptionFromOpenAliasRecordWithOpenAliasPrefix, DoesRecordHaveValidOpenAliasPrefix };
+export default { ValidatedOARecordsFromTXTRecordsWithOpenAliasPrefix, New_ParsedDescriptionFromOpenAliasRecordWithOpenAliasPrefix, DoesRecordHaveValidOpenAliasPrefix };

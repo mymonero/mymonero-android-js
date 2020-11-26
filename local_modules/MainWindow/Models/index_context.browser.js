@@ -38,8 +38,8 @@ import CcyConversionRates from"../../CcyConversionRates/Controller";
 import Locale from"../../Locale/Locale.browser";
 import symmetric_cryptor from"../../symmetric_cryptor/BackgroundStringCryptor.noOp";
 import DocumentPersister from"../../DocumentPersister/DocumentPersister.SecureStorage";
-import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/BackgroundResponseParser.web";
-//import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
+import backgroundAPIResponseParser from"../../HostedMoneroAPIClient/BackgroundResponseParser.web";
+import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
 import OpenAlias from"../../OpenAlias/OpenAliasResolver";
 import Theme from"../../Theme/ThemeController";
 import Passwords from"../../Passwords/Controllers/PasswordController.Lite";
@@ -106,8 +106,24 @@ function NewHydratedContext(initialContext)
 			options: {
 			}
 		},
+		// {
+		// 	module: require("../../HostedMoneroAPIClient/BackgroundResponseParser.web"),
+		// 	instance_key: "backgroundAPIResponseParser",
+		// 	options: {
+		// 		coreBridge_instance: initialContext.monero_utils // the same as coreBridge_instance
+		// 	}
+		// },
+		// {
+		// 	module: require("../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"),
+		// 	instance_key: "hostedMoneroAPIClient",
+		// 	options: {
+		// 		appUserAgent_product: app.getName(),
+		// 		appUserAgent_version: app.getVersion(),
+		// 		request_conformant_module: require('xhr') 
+		// 	}
+		// },
 		{
-			module: HostedMoneroAPIClient,
+			module: backgroundAPIResponseParser,
 			instance_key: "backgroundAPIResponseParser",
 			options: {
 				coreBridge_instance: initialContext.monero_utils // the same as coreBridge_instance
@@ -236,6 +252,7 @@ function rcNewHydratedContext(context_object_instantiation_descriptions, initial
 				console.log(description.options)
 				console.log(context)
 				instance = new module(description.options, context)
+				console.log("We successfully instantiated backgroundResponseParser");
 			} catch (e) {
 				console.error("Code fault while loading ", JSON.stringify(description, null, '  '))
 				throw e

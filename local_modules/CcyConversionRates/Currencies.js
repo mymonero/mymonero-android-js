@@ -139,7 +139,7 @@ function roundTo(num, digits) {
     return +(Math.round(num + "e+"+digits)  + "e-"+digits);
 }
 
-export const submittableMoneroAmountDouble_orNull = function(
+const submittableMoneroAmountDouble_orNull = function(
 	CcyConversionRates_Controller_shared,
 	selectedCurrencySymbol,
 	submittableAmountRawNumber_orNull // passing null causes immediate return of null
@@ -245,4 +245,5 @@ const displayStringComponentsFrom = function(
 };
 
 export default { ccySymbolsByCcy, allOrderedCurrencySymbols, displayStringComponentsFrom, displayUnitsRounded_amountInCurrency, 
-					rounded_ccyConversionRateCalculated_moneroAmountNumber, nonAtomicCurrency_formattedString, unitsForDisplay, hasAtomicUnits }
+					rounded_ccyConversionRateCalculated_moneroAmountNumber, nonAtomicCurrency_formattedString, 
+					submittableMoneroAmountDouble_orNull, unitsForDisplay, hasAtomicUnits }

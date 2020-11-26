@@ -130,4 +130,4 @@ function ResolvedMoneroAddressInfoFromOpenAliasAddress(
 	)
 	return resolverHandle
 }
-export { DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress, ResolvedMoneroAddressInfoFromOpenAliasAddress };
+export default { DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress, ResolvedMoneroAddressInfoFromOpenAliasAddress };
