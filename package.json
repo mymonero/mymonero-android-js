@@ -19,6 +19,7 @@
     "@capacitor/core": "^2.4.2",
     "async": "3.1.0",
     "bitcoin-address-validation": "^1.0.2",
+    "capacitor-secure-storage-plugin": "^0.5.0",
     "fastclick": "1.0.6",
     "html5-fs": "0.1.1",
     "jsqr": "1.1.1",
