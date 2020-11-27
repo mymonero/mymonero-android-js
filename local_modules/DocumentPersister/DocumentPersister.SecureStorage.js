@@ -34,6 +34,7 @@
 import 'capacitor-secure-storage-plugin';
 import { Plugins } from '@capacitor/core';
 const { SecureStoragePlugin } = Plugins; // Initialises the Secure Storage Capacitor plugin
+console.log(SecureStoragePlugin);
 
 import DocumentPersister_Interface from './DocumentPersister_Interface';
 //
@@ -110,6 +111,7 @@ class DocumentPersister extends DocumentPersister_Interface
 			const stringWithId = collectionStringsById[id] || null
 			strings.push(stringWithId)
 		}
+		console.log(strings)
 		setTimeout(function() { // maintain async
 			fn(null, strings)
 		})
@@ -117,7 +119,7 @@ class DocumentPersister extends DocumentPersister_Interface
 	_new_fileDescriptionWithComponents(collectionName, _id)
 	{
 		console.log("SecureStorage: invoked _new_fileDescriptionWithComponents");
-		console.log(CollectionName);
+		console.log(collectionName);
 		console.log(_id);
 		return {
 			_id: _id,
@@ -141,10 +143,48 @@ class DocumentPersister extends DocumentPersister_Interface
 		const collectionStringsById = self.___lazy_writable_collectionStringsById(collectionName)
 		collectionStringsById[id] = documentToInsert
 		console.log(collectionStringsById)
-		setTimeout(function() {
-			fn(null, documentToInsert)
+		// Ensure document doesn't exist before we write it
+		let keyExists = false;
+		console.log("Check keys");
+		let keys = SecureStoragePlugin.keys().then((keys) => {
+			console.log(keys)
+			if (keys.value.length > 0) {
+				console.log("The key exists, abort");
+				fn("Attempt to insert document for key that exists", null)
+				return;
+			}
+	
+			let data = {
+				key: collectionName,
+				value: documentToInsert
+			}
+			SecureStoragePlugin.set(data).then(() => {
+				console.log("Saved document successfully");
+				fn(null, documentToInsert)
+			})
+	
+			// setTimeout(function() {
+			// 	fn(null, documentToInsert)
+			// })
 		})
 	}
+/**
+ * 
+ * Methods
+		get(options: { key: string }): Promise<{ value: string }>
+		if item with specified key does not exist, throws an Error
+		keys(): Promise<{ value: string[] }>
+		set(options: { key: string; value: string }): Promise<{ value: boolean }>
+		remove(options: { key: string }): Promise<{ value: boolean }>
+		clear(): Promise<{ value: boolean }>
+		set, remove and clear return true in case of success and false in case of error
+		getPlatform(): Promise<{ value: string }>
+		returns which implementation is used - one of 'web', 'ios' or 'android'
+
+*/
+		// Safe to write
+		
+	
 	__updateDocumentWithId(collectionName, id, updateString, fn)
 	{
 		console.log("SecureStorage: invoked __updateDocumentWithId");
