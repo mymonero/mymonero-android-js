@@ -42,10 +42,10 @@ import backgroundAPIResponseParser from"../../HostedMoneroAPIClient/BackgroundRe
 import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
 import OpenAlias from"../../OpenAlias/OpenAliasResolver";
 import Theme from"../../Theme/ThemeController";
-import Passwords from"../../Passwords/Controllers/PasswordController.Lite";
+import Passwords from"../../Passwords/Controllers/PasswordController.Full";
 import Settings from"../../Settings/Controllers/SettingsController";
 import UserIdle from"../../UserIdle/UserIdleInWindowController";
-import WalletsList from"../../WalletsList/Controllers/WalletsListController.Lite";
+import WalletsList from"../../WalletsList/Controllers/WalletsListController.Full";
 import WalletAppCoordinator from"../../WalletAppCoordinator/WalletAppCoordinator";
 import runtimeContext from "../../runtime_context/runtime_context";
 import exceptionAlerting from "../Controllers/ExceptionAlerting.browser.web.js"

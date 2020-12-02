@@ -99,22 +99,126 @@ class DocumentPersister extends DocumentPersister_Interface
 	}
 	__allDocuments(collectionName, fn)
 	{
+		SecureStoragePlugin.keys().then(keys => {
+			console.log("Existing keys:");
+			console.log(keys);
+		})
 		console.log("SecureStorage: invoked __allDocuments");
 		console.log(collectionName);
-		const self = this
-		const collectionStringsById = self.store[collectionName] || {}
-		const ids = Object.keys(collectionStringsById)
-		const ids_length = ids.length
-		const strings = []
-		for (var i = 0 ; i < ids_length ; i++) {
-			const id = ids[i]
-			const stringWithId = collectionStringsById[id] || null
-			strings.push(stringWithId)
-		}
-		console.log(strings)
-		setTimeout(function() { // maintain async
-			fn(null, strings)
+		let parameters = { collectionName, fn }
+		// get collectionName object -- that's our index
+		SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
+			let jsonString = returnData.value;
+			let obj = JSON.parse(jsonString);
+			console.log("This is what we have for " + parameters.collectionName);
+			console.log(obj);
+			let strings = [];	
+
+			let promiseArr = [];
+			// since we could get multiple ids back, we need to create a number of promises and return the values of them
+			for (let i = 0; i < obj.length; i++) {
+				console.log(`Promise ${i}`);
+				console.log(obj);
+				console.log(obj[0]);
+				let retrievalObj = {
+					key: collectionName + obj[i]
+				}
+
+				console.log(retrievalObj);
+
+				promiseArr[i] = SecureStoragePlugin.get(retrievalObj).catch(error => {
+					console.log("There was a problem with promise number");
+					console.log(i);
+					console.log(error);
+					// let's get keys and output them
+					let keys = SecureStoragePlugin.keys().then(keys => {
+						console.log("Promise problem: keys");
+						console.log(keys);
+					});
+				})
+			}
+
+
+
+			Promise.all(promiseArr).then((values) => {
+				console.log("Here are the allDocument values ");
+				var documentCollectionArr = [];
+				for (let j = 0; j < values.length; j++) {
+					let returnedObj = JSON.parse(values[j].value);
+					console.log(`returnedObj for ${j}`)
+					console.log(returnedObj);
+					documentCollectionArr.push(returnedObj);
+				}
+				console.log(values);
+				setTimeout(function() { // maintain async
+					fn(null, documentCollectionArr)
+				})
+			}).catch(error => {
+				console.log("There was a problem retrieveing allDocument values ");
+				console.log(error);
+			});
+
+			console.log("Originally returned this: ");
+			// const collectionStringsById = self.store[collectionName] || {}
+			// const ids = Object.keys(collectionStringsById)
+			// const ids_length = ids.length
+			
+			// for (var i = 0 ; i < ids_length ; i++) {
+			// 	const id = ids[i]
+			// 	const stringWithId = collectionStringsById[id] || null
+			// 	strings.push(stringWithId)
+			// }
+			// console.log(strings)
+			
+
+		}).catch((error) => {
+			console.log(`Catch error on allDocuments for ${parameters.collectionName}`);
+			console.log(error);
+			let strings = [];	
+			setTimeout(function() { // maintain async
+				fn(null, strings)
+			})
 		})
+
+		// const self = this;
+		// try {
+		// 	let options = {
+		// 		key: collectionName
+		// 	}
+		// 	SecureStoragePlugin.get(options).then((returnData) => {
+		// 		console.log(`Retrieved data for ${collectionName}`);
+		// 		console.log(returnData);
+		// 		const strings = []
+		// 		const returnArray = []
+		// 		let dataObj = JSON.parse(returnData.value);
+
+
+		// 		//console.log(dataObj);
+		// 		fn(null, returnData);
+		// 		return;
+		// 	}).catch(error => {
+		// 		console.log(`No data for key ${collectionName}`);
+		// 		console.log(error);
+		// 		fn(null, []);
+		// 	});
+		// } catch (e) {
+		// 	console.log("Error: Could not access SecureStorage for some reason");
+		// 	console.log(e);
+		// }
+		// let rootObj = SecureStoragePlugin.get({ key: "DataStore"}).then((rootObject) => {
+		// 	console.log("Root object looks like this:");
+		// 	console.log(rootObject);
+
+		// 	setTimeout(function() { // maintain async
+		// 		fn(null, [])
+		// 	})
+		// }).catch(() => {
+		// 	let strings = [];	
+		// 	setTimeout(function() { // maintain async
+		// 		fn(null, strings)
+		// 	})
+		// });
+
 	}
 	_new_fileDescriptionWithComponents(collectionName, _id)
 	{
@@ -132,40 +236,133 @@ class DocumentPersister extends DocumentPersister_Interface
 	//
 	__insertDocument(collectionName, id, documentToInsert, fn)
 	{
-		console.log("SecureStorage: invoked __insertDocument");
-		const self = this
-		console.log("collectionName")
-		console.log(collectionName)
-		console.log("id")
-		console.log(id)
-		console.log(documentToInsert)
-		console.log(documentToInsert)
-		const collectionStringsById = self.___lazy_writable_collectionStringsById(collectionName)
-		collectionStringsById[id] = documentToInsert
-		console.log(collectionStringsById)
-		// Ensure document doesn't exist before we write it
-		let keyExists = false;
-		console.log("Check keys");
-		let keys = SecureStoragePlugin.keys().then((keys) => {
-			console.log(keys)
-			if (keys.value.length > 0) {
-				console.log("The key exists, abort");
-				fn("Attempt to insert document for key that exists", null)
-				return;
-			}
-	
-			let data = {
-				key: collectionName,
-				value: documentToInsert
-			}
-			SecureStoragePlugin.set(data).then(() => {
-				console.log("Saved document successfully");
-				fn(null, documentToInsert)
-			})
+		let rootObject = SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
+			
+			console.log("This document set has an index saved");
+			console.log(returnData);
+
+			// this code exists for debug -- we want to hop to catch expression
+			console.log("this code exists for debug -- we want to hop to catch expression");
+			console.log(nonExistant);
+
+
+			// if (keys.length == 0) {
+			// 	let documents = [];
+			// 	fn(null, documents);
+			// }
+
+			// // insert into index, then save object with appropriate ID
+			// let rootObjData = returnData.value;
+			// console.log("Root obj")
+			// console.log(rootObjData);
+
+
+			// let dataObj = {
+			// 	_id: id,
+			// 	data: documentToInsert
+			// }
+			// documents.push(dataObj);
+
+			// let data = {
+			// 	key: collectionName,
+			// 	value: documents
+			// }
+
+			// console.log(JSON.stringify(data))
+
+			// SecureStoragePlugin.set(data).then(() => {
+			// 	console.log("Saved document successfully");
+			// 	fn(null, documentToInsert)
+			// })
 	
 			// setTimeout(function() {
 			// 	fn(null, documentToInsert)
 			// })
+		}).catch(() => {
+			console.log("No root object, create one");
+			let rootObject = {};
+			rootObject[collectionName] = [];
+			console.log(rootObject);
+			console.log(collectionName);
+			console.log(documentToInsert);
+			
+			// Since the legacy code is horrendous, we don't know if we've been passed a string or an object 
+			let stringContents = "";
+			if (typeof documentToInsert === 'string') {
+				stringContents = documentToInsert
+			} else {
+				try {
+					stringContents = JSON.stringify(documentToInsert)
+				} catch (e) {
+					fn(e)
+					return
+				}
+				if (!stringContents || typeof stringContents === 'undefined') { // just to be careful
+					fn(new Error("Unable to stringify document for write."))
+					return
+				}
+			}
+
+			// Promise to create collectionName index file
+			
+			let collectionObj = [];
+			collectionObj.push(id);
+			console.log("We would create an index with this obj");
+			console.log(collectionObj);
+			let indexPromise = SecureStoragePlugin.set({ key: collectionName, value: JSON.stringify(collectionObj) }).then(() =>  {
+			 	console.log("Saved successfully");
+			})
+
+			// Promise to create object using its id as a key
+
+			let saveObj = {
+				id: id,
+				value: stringContents
+			}
+
+			let saveObjString = JSON.stringify(saveObj);
+
+			let objectKey = collectionName + id;
+
+			let objectPromise = SecureStoragePlugin.set({ key: objectKey, value: saveObjString }).then(() =>  {
+				console.log("Saved successfully");
+		   	})
+
+			console.log("We would create an object using this object and key");
+			console.log(collectionObj);
+			console.log(saveObj)
+			
+			let promises = [indexPromise, objectPromise];
+
+			Promise.all(promises).then(values => {
+				console.log(values);
+				console.log("Object saved successfully");
+				setTimeout(function() {
+					fn(null, documentToInsert)
+				})
+			}).catch(error => {
+				console.log("There was an error saving the object");
+				console.log(error);
+			})
+
+			// rootObject[collectionName].push(saveObj);
+			// console.log(rootObject);
+			// SecureStoragePlugin.set({ key: "DataStore", value: JSON.stringify(rootObject) }).then(() =>  {
+			// 	console.log("Saved successfully");
+			// })
+		})
+	}
+
+	// We keep distinct files per collection type, which have an array of ids. 
+	// These ids in the array then refer to a distinct object in the format of: ${collectionName}${id} -- eg Walletn2342klsx-e3kmdef-23mkdsf, Settings233ne-befed-21343, etc
+	getRootObj(collectionName) {
+		console.log(`Trying to get root object for ${collectionName}`);
+		let rootObject = SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
+			console.log("Root object");
+			let rootObj = JSON.parse(returnData.value);
+			console.log(rootObj);
+		}).catch(() => {
+			console.log("No root object exists yet");
 		})
 	}
 /**
@@ -193,19 +390,21 @@ class DocumentPersister extends DocumentPersister_Interface
 		console.log(id)
 		console.log(updateString)
 
-		const self = this
-		const fileDescription = self._new_fileDescriptionWithComponents(
-			collectionName,
-			id
-		)
-		self.___write_fileDescriptionDocumentContentString(fileDescription, update, fn)
+		setTimeout(function() {
+			fn(null, updateString)
+		})
+		
+		// const self = this
+		// const fileDescription = self._new_fileDescriptionWithComponents(
+		// 	collectionName,
+		// 	id
+		// )
+		// self.___write_fileDescriptionDocumentContentString(fileDescription, update, fn)
 
 		// const self = this
 		// const collectionStringsById = self.___lazy_writable_collectionStringsById(collectionName)
 		// collectionStringsById[id] = updateString
-		// setTimeout(function() {
-		// 	fn(null, updateString)
-		// })
+		
 	}
 	__removeDocumentsWithIds(collectionName, idsToRemove, fn)
 	{ 

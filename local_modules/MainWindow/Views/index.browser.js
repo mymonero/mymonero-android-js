@@ -36,7 +36,7 @@ import MyMoneroLibAppBridge from '../../mymonero_libapp_js/libapp_js/MyMoneroLib
 import indexContextBrowser from '../Models/index_context.browser'
 import cryptonoteUtilsNetType from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype'
 import emoji_web from '../../Emoji/emoji_web'
-import RootTabBarAndContentView from './RootTabBarAndContentView.browser.web'
+import RootTabBarAndContentView from './RootTabBarAndContentView.Full.web'
 
 window.BootApp = function()
 { // encased in a function to prevent scope being lost/freed on mobile

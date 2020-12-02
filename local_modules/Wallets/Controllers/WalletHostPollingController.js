@@ -375,4 +375,4 @@ class WalletHostPollingController
 		}
 	}
 }
-export default WalletHostPollingController;
+export { WalletHostPollingController };

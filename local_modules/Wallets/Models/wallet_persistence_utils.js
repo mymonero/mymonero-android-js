@@ -288,5 +288,5 @@ function DeleteFromDisk(
 		}
 	)
 }
-let obj = { CollectionName, HydrateInstance, SaveToDisk, DeleteFromDisk };
-export default obj;
+
+export default { CollectionName, HydrateInstance, SaveToDisk, DeleteFromDisk };

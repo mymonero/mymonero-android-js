@@ -31,6 +31,8 @@
 //
 import View from '../../Views/View.web';
 
+import EnterExistingPasswordView from './EnterExistingPasswordView.web'
+import EnterNewPasswordView from './EnterNewPasswordView.web'
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
 //
 const passwordEntryTaskModes =
@@ -328,7 +330,7 @@ class PasswordEntryView extends StackAndModalNavigationView
 				case passwordEntryTaskModes.ForChangingPassword_ExistingPasswordGivenType:
 				case passwordEntryTaskModes.ForAuthorizingAppAction:
 				{
-					const EnterExistingPasswordView = require('./EnterExistingPasswordView.web')
+					
 					const enterExistingPasswordView = new EnterExistingPasswordView({
 						isForChangingPassword: isForChangingPassword,
 						isForAuthorizingAppActionOnly: isForAuthorizingAppActionOnly,
@@ -356,7 +358,7 @@ class PasswordEntryView extends StackAndModalNavigationView
 				case passwordEntryTaskModes.ForFirstEntry_NewPasswordAndType:
 				case passwordEntryTaskModes.ForChangingPassword_NewPasswordAndType:
 				{
-					const EnterNewPasswordView = require('./EnterNewPasswordView.web')
+					
 					const enterNewPasswordView = new EnterNewPasswordView({
 						isForChangingPassword: isForChangingPassword
 					}, self.context)

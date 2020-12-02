@@ -69,18 +69,22 @@ class SettingsController extends EventEmitter
 		self.registrantForDeleteEverything_token = self.context.passwordController.AddRegistrantForDeleteEverything(self)
 		self.registrantForChangePassword_token = self.context.passwordController.AddRegistrantForChangePassword(self)
 		//
+		console.log("We tried to boot");
 		self._tryToBoot()
 	}
 	_tryToBoot()
 	{	// we can afford to do this w/o any callback saying "success" because we defer execution of
 		// things which would rely on boot-time info till we've booted
 		const self = this
+		//self.context.persister.RemoveAllDocuments("Settings", function() { console.log("Delete returned properly") });
 		//
 		// first, check if any password model has been stored
 		self.context.persister.AllDocuments(
 			CollectionName,
 			function(err, contentStrings)
 			{
+				console.log("Settings: All Documents returned this: ")
+				console.log(contentStrings)
 				if (err) {
 					console.error("Error while fetching existing", CollectionName, err)
 					throw err
@@ -97,14 +101,26 @@ class SettingsController extends EventEmitter
 					// this is indicative of a code fault
 					throw errStr // might as well throw then
 				}
+				var doc = {};
 				const plaintextString = contentStrings[0] // NOTE: Settings is not presently encrypted
-				const doc = JSON.parse(plaintextString);
+				// if (typeof plaintextString !== Object) {
+				// 	const doc = JSON.parse(plaintextString);
+				// } else {
+				// 	const doc = plaintextString;
+				// }
+				
+				console.log(contentStrings);
+				console.log(contentStrings[0]);
+				doc = JSON.parse(contentStrings[0].value);
+
 				// console.log("💬  Found existing saved " + CollectionName + " with _id", doc._id)
 				_proceedTo_loadStateFromRecord(doc)
 			}
 		)
 		function _proceedTo_loadStateFromRecord(record_doc)
 		{
+			console.log("Settings: invoked _proceedTo_loadStateFromRecord");
+			console.log(record_doc);
 			self._id = record_doc._id || undefined
 			//
 			self.specificAPIAddressURLAuthority = record_doc.specificAPIAddressURLAuthority
@@ -127,6 +143,7 @@ class SettingsController extends EventEmitter
 				self.autoDownloadUpdatesEnabled = record_doc.autoDownloadUpdatesEnabled
 			}
 			//
+			console.log(self);
 			self._setBooted() // all done!
 		}
 	}
@@ -233,36 +250,49 @@ class SettingsController extends EventEmitter
 						} else {
 							console.log("📝  Successfully saved " + self.constructor.name + " update ", JSON.stringify(valuesByKey))
 							if (didUpdate_specificAPIAddressURLAuthority) {
+
+								console.log("Settings: Emitted didUpdate_specificAPIAddressURLAuthority");
+								
 								self.emit(
 									self.EventName_settingsChanged_specificAPIAddressURLAuthority(), 
 									self.specificAPIAddressURLAuthority
 								)
 							}
 							if (didUpdate_appTimeoutAfterS) {
+								
+								console.log("Settings: Emitted didUpdate_appTimeoutAfterS");
 								self.emit(
 									self.EventName_settingsChanged_appTimeoutAfterS(), 
 									self.appTimeoutAfterS
 								)
 							}
 							if (didUpdate_displayCcySymbol) {
+								
+								console.log("Settings: Emitted didUpdate_displayCcySymbol");
 								self.emit(
 									self.EventName_settingsChanged_displayCcySymbol(), 
 									self.displayCcySymbol
 								)
 							}
 							if (didUpdate_authentication_requireWhenSending) {
+								
+								console.log("Settings: Emitted didUpdate_authentication_requireWhenSending");
 								self.emit(
 									self.EventName_settingsChanged_authentication_requireWhenSending(), 
 									self.authentication_requireWhenSending
 								)
 							}
 							if (didUpdate_authentication_requireWhenDisclosingWalletSecrets) {
+								
+								console.log("Settings: Emitted didUpdate_authentication_requireWhenDisclosingWalletSecrets");
 								self.emit(
 									self.EventName_settingsChanged_authentication_requireWhenDisclosingWalletSecrets(), 
 									self.authentication_requireWhenDisclosingWalletSecrets
 								)
 							}
 							if (didUpdate_autoDownloadUpdatesEnabled) {
+								
+								console.log("Settings: Emitted didUpdate_autoDownloadUpdatesEnabled");
 								self.emit(
 									self.EventName_settingsChanged_autoDownloadUpdatesEnabled(),
 									self.autoDownloadUpdatesEnabled
@@ -296,7 +326,7 @@ class SettingsController extends EventEmitter
 		self.executeWhenBooted(
 			function()
 			{
-				// console.log("📝  Saving " + CollectionName + " to disk.")
+				console.log("📝  Saving " + CollectionName + " to disk.")
 				const persistableDocument =
 				{
 					_id: self._id, // important to set for updates

@@ -26,29 +26,27 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-"use strict"
 
-//
-import async from 'async';
+const async = require('async')
+const EventEmitter = require('events')
+const extend = require('util')._extend
+const uuidV1 = require('uuid/v1')
+const monero_txParsing_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_txParsing_utils')
+const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
+const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
+const monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
+const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
+const mnemonic_languages = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages')
+const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
+const wallet_persistence_utils = require('./wallet_persistence_utils')
+const WalletHostPollingController = require('../Controllers/WalletHostPollingController')
 
-import EventEmitter from 'events';
-import { _extend as extend } from 'util';
-import uuidV1 from 'uuid/v1';
 
-//
-import monero_txParsing_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_txParsing_utils';
 
-import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils';
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
-import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
-import mnemonic_languages from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages';
-
-//
-import persistable_object_utils from '../../DocumentPersister/persistable_object_utils';
-
-import wallet_persistence_utils from './wallet_persistence_utils';
-import WalletHostPollingController from '../Controllers/WalletHostPollingController';
+console.log("Logging wpu");
+console.log(wallet_persistence_utils);
+console.log(wallet_persistence_utils.SaveToDisk);
+console.log(wallet_persistence_utils.default.SaveToDisk);
 //
 const wallet_currencies =
 {
@@ -171,6 +169,7 @@ class Wallet extends EventEmitter
 		self.wallet_currency = self.options.wallet_currency || wallet_currencies.xmr // default
 		if (self.options.generateNewWallet !== true) { // if not generating new mnemonic seed -- which we will pick this up later in the corresponding Boot_*
 			// First, for now, pre-boot, we'll simply await boot - no need to create a document yet
+			console.log("About to call successfully initialised callback");
 			self.successfullyInitialized_cb();
 			return;
 		}
@@ -178,7 +177,7 @@ class Wallet extends EventEmitter
 		{
 			var compatibleLocaleCode = mnemonic_languages.compatible_code_from_locale(currentLocale)
 			if (compatibleLocaleCode == null) {
-				compatibleLocaleCode = "en" // fall back to English
+				compatibleLocaleCode = "en" // fall back to English 
 			}
 			//
 			// NOTE: the wallet needs to be imported to the hosted API (e.g. MyMonero) for the hosted API stuff to work
@@ -240,12 +239,14 @@ class Wallet extends EventEmitter
 	
 	TearDown()
 	{
+		console.log("Wallet.js: Teardown")
 		const self = this
 		self.hasBeenTornDown = true
 		self.tearDownRuntime()
 	}
 	tearDownRuntime()
 	{
+		console.log("Wallet.js: tearDownRuntime")
 		const self = this
 		self.isLoggingIn = false
 		self._tearDown_polling()
@@ -256,6 +257,7 @@ class Wallet extends EventEmitter
 	}
 	abortAnyLogInRequest()
 	{ // acct info
+		console.log("Wallet.js: abortAnyLogInRequest")
 		const self = this
 		let req = self.requestHandle_for_logIn
 		if (typeof req !== 'undefined' && req !== null) {
@@ -267,6 +269,7 @@ class Wallet extends EventEmitter
 	}
 	_tearDown_polling()
 	{
+		console.log("Wallet.js: tearDown_polling")
 		const self = this
 		if (typeof self.hostPollingController !== 'undefined' && self.hostPollingController !== null) {
 			self.hostPollingController.TearDown()
@@ -280,6 +283,7 @@ class Wallet extends EventEmitter
 
 	MnemonicStringWhichWasGeneratedOnInit()
 	{
+		console.log("Wallet.js: MnemonicStringWhichWasGeneratedOnInit")
 		return self.generatedOnInit_walletDescription.mnemonicString
 	}
 	// TODO: there may be room for a 'regenerate mnemonic' with new wordset imperative function
@@ -294,6 +298,7 @@ class Wallet extends EventEmitter
 		swatch,
 		fn
 	) {
+		console.log("Wallet.js: Boot_byLoggingIn_givenNewlyCreatedWallet");
 		const self = this
 		//		
 		self.persistencePassword = persistencePassword || null
@@ -332,6 +337,7 @@ class Wallet extends EventEmitter
 		persistEvenIfLoginFailed_forServerChange, // need to be able to pass this in, in this case
 		fn
 	) { // fn: (err?) -> Void
+		console.log("Wallet.js: Boot_byLoggingIn_existingWallet_withMnemonic");
 		const self = this
 		//
 		self.persistencePassword = persistencePassword || null
@@ -383,6 +389,7 @@ class Wallet extends EventEmitter
 		persistEvenIfLoginFailed_forServerChange,
 		fn // (err?) -> Void
 	) {
+		console.log("Wallet.js: Boot_byLoggingIn_existingWallet_withAddressAndKeys");
 		const self = this
 		{
 			self.persistencePassword = persistencePassword || null
@@ -417,6 +424,7 @@ class Wallet extends EventEmitter
 		persistencePassword,
 		fn
 	) {
+		console.log("Wallet.js: Boot_decryptingExistingInitDoc");
 		const self = this
 		self.persistencePassword = persistencePassword || null
 		if (persistencePassword === null) {
@@ -439,6 +447,7 @@ class Wallet extends EventEmitter
 		//
 		function __proceedTo_decryptContentString(encryptedString)
 		{
+			console.log("Wallet.js: __proceedTo_decryptContentString");
 			self.context.string_cryptor__background.New_DecryptedString__Async(
 				encryptedString,
 				self.persistencePassword,
@@ -468,6 +477,7 @@ class Wallet extends EventEmitter
 				self,
 				plaintextDocument
 			)
+			console.log("Wallet.js: __proceedTo_hydrateByParsingPlaintextDocument");
 			// Regenerate any runtime vals that depend on persisted vals..
 			self.regenerate_shouldDisplayImportAccountOption()
 			//
@@ -475,8 +485,10 @@ class Wallet extends EventEmitter
 		}
 		function __proceedTo_validateEncryptedValuesHydration()
 		{
+			console.log("Wallet.js: __proceedTo_validateEncryptedValuesHydration");
 			function _failWithValidationErr(errStr)
 			{
+				console.log("Wallet.js: _failWithValidationErr");
 				const err = new Error(errStr)
 				console.error(errStr)
 				self.__trampolineFor_failedToBootWith_fnAndErr(fn, err)
@@ -533,6 +545,7 @@ class Wallet extends EventEmitter
 	// Runtime - Imperatives - Rebooting / Debooting
 	deBoot()
 	{
+		console.log("Wallet.js: deBoot")
 		const self = this
 		let old__total_received = self.total_received
 		let old__total_sent = self.total_sent
@@ -593,6 +606,7 @@ class Wallet extends EventEmitter
 	}
 	logOutAndSaveThenLogBackIn(persistencePassword)
 	{
+		console.log("Wallet.js: logOutAndSaveThenLogBackIn")
 		const self = this
 		const fn = function(err)
 		{
@@ -635,6 +649,7 @@ class Wallet extends EventEmitter
 	_trampolineFor_successfullyBooted(
 		fn // (err?) -> Void
 	) {
+		console.log("Wallet.js: _trampolineFor_successfullyBooted");
 		const self = this
 		{
 			if (typeof self.account_seed === 'undefined' || self.account_seed === null || self.account_seed == "") {
@@ -683,7 +698,8 @@ class Wallet extends EventEmitter
 			}
 		}
 		let context = self.context
-		self.hostPollingController = new WalletHostPollingController(options, context)
+		console.log(WalletHostPollingController);
+		self.hostPollingController = new WalletHostPollingController.WalletHostPollingController(options, context)
 	}
 	_stopTimer__localTxCleanupJob()
 	{
@@ -705,7 +721,7 @@ class Wallet extends EventEmitter
 	{
 		const self = this;
 		var didChangeAny = false;
-		const oneDayAndABit_ms = 60 * 60 * ((24 + 1)/*bit=1hr*/) * 1000;/*ms time*/ // and a bit to avoid possible edge cases
+		const oneDayAndABit_ms = 60 * 60 * (24 + 1/*bit=1hr*/) * 1000;/*ms time*/ // and a bit to avoid possible edge cases
 		const timeNow = (new Date()).getTime();
 		const n_transactions = (self.transactions || []).length;
 		for (let i = 0 ; i < n_transactions ; i++) {
@@ -853,6 +869,7 @@ class Wallet extends EventEmitter
 	}
 	regenerate_shouldDisplayImportAccountOption()
 	{
+		console.log("Wallet.js: regenerate_shouldDisplayImportAccountOption");
 		const self = this
 		let isAPIBeforeGeneratedLocallyAPISupport = typeof self.login__generated_locally == "undefined" || typeof self.account_scan_start_height == 'undefined'
 		if (isAPIBeforeGeneratedLocallyAPISupport) {
@@ -1470,13 +1487,16 @@ class Wallet extends EventEmitter
 	// Runtime - Imperatives - Private - Persistence
 	saveToDisk(fn)
 	{
+		console.log("Wallet save to disk");
+		console.log(wallet_persistence_utils);
+		console.log(wallet_persistence_utils.SaveToDisk);
 		const self = this
 		if (self.hasBeenTornDown) {
 			console.warn("Wallet asked to saveToDisk after having been torn down.")
 			console.warn((new Error()).stack)
 			return
 		}
-		wallet_persistence_utils.SaveToDisk(
+		wallet_persistence_utils.default.SaveToDisk(
 			self,
 			fn
 		)
@@ -1512,6 +1532,7 @@ class Wallet extends EventEmitter
 		changeTo_persistencePassword,
 		fn
 	) {
+		console.log("Wallet.js: ChangePasswordTo")
 		const self = this
 		console.log("Wallet changing password.")
 		const old_persistencePassword = self.persistencePassword
@@ -1942,4 +1963,4 @@ class Wallet extends EventEmitter
 		}
 	}
 }
-export default Wallet;
+module.exports = Wallet
