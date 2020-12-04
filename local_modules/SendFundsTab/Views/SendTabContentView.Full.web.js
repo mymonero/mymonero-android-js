@@ -31,6 +31,7 @@
 //
 import SendTabContentView_Base from './SendTabContentView_Base.web';
 
+import SendFundsView from './SendFundsView.Full.web';
 //
 class SendTabContentView extends SendTabContentView_Base
 {
@@ -40,7 +41,7 @@ class SendTabContentView extends SendTabContentView_Base
 	}
 	_required_rootViewClassModule()
 	{
-		return require('./SendFundsView.Full.web')
+		return SendFundsView
 	}
 }
 export default SendTabContentView;

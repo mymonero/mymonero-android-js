@@ -134,12 +134,12 @@ class SendFundsView extends View
 			}
 			self.actionButtonsContainerView = view
 			{
-				if (self.context.Cordova_isMobile === true /* but not context.isMobile */) { // til we have Electron support
+				//if (self.context.Cordova_isMobile === true /* but not context.isMobile */) { // til we have Electron support
 					self._setup_actionButton_useCamera()
-				}
-				if (self.context.isLiteApp != true) {
+				//}
+				//if (self.context.isLiteApp != true) {
 					self._setup_actionButton_chooseFile()
-				}
+				//}
 			}
 			self.addSubview(view)
 		}
@@ -366,6 +366,7 @@ class SendFundsView extends View
 		}
 		div.appendChild(labelLayer)
 		//
+		console.log(self);
 		const layer = self._new_required_contactPickerLayer()
 		layer.ContactPicker_inputLayer.autocorrect = "off"
 		layer.ContactPicker_inputLayer.autocomplete = "off"
