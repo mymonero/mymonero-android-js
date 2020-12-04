@@ -36,6 +36,7 @@ import SendTabContentView from '../../SendFundsTab/Views/SendTabContentView.Full
 import RequestTabContentView from '../../RequestFunds/Views/RequestTabContentView.web';
 import ContactsTabContentView from '../../Contacts/Views/ContactsTabContentView.web';
 import SettingsTabContentView from '../../Settings/Views/SettingsTabContentView.web';
+import ExchangeTabContentView from '../../Exchange/Views/ExchangeTabContentView.web';
 
 
 //
@@ -94,17 +95,23 @@ class RootTabBarAndContentView_Full extends RootTabBarAndContentView_Base
 			const view = new ContactsTabContentView(options, context)
 			self.contactsTabContentView = view
 		}
+		{ // ExchangeView
+			const view = new ExchangeTabContentView({}, context)
+			self.exchangeTabContentView = view
+		}
 		{ // SettingsView
 			const view = new SettingsTabContentView({}, context)
 			self.settingsTabContentView = view
 		}
+
 		self.SetTabBarContentViews(
 			[
 				self.walletsTabContentView,
 				self.sendTabContentView,
 				self.requestTabContentView,
 				self.contactsTabContentView,
-				self.settingsTabContentView
+				self.exchangeTabContentView,
+				self.settingsTabContentView,
 			]
 		)
 	}
