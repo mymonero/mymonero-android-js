@@ -28,6 +28,7 @@
 //
 "use strict"
 
+
 //
 import Views__cssRules from '../Views/cssRules.web';
 
@@ -36,6 +37,7 @@ import commonComponents_forms from './forms.web';
 //
 import emoji_web from '../Emoji/emoji_web';
 
+console.log("Imported contactpicker.web.js");
 //
 const NamespaceName = "contactPicker"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -528,4 +530,6 @@ function _new_pickedContactLayer(context, contact, didClickCloseBtn_fn)
 	}
 	return layer
 }
-export default { New_contactPickerLayer };
+
+let obj = { New_contactPickerLayer }
+export default obj;

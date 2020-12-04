@@ -32,6 +32,7 @@
 import Views__cssRules from '../Views/cssRules.web';
 
 import commonComponents_forms from './forms.web';
+console.log("Imported contactpicker.Lite.web.js");
 //
 const NamespaceName = "contactPicker_Lite"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
