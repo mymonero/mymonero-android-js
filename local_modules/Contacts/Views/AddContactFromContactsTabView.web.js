@@ -66,5 +66,9 @@ class AddContactFromContactsTabView extends AddContactView
 		}
 		super._didSaveNewContact(contact) // this will cause self to be dismissed!! so, last-ish
 	}
+	override_CollectionName() {
+		return "Contacts"
+	}
+
 }
 export default AddContactFromContactsTabView;

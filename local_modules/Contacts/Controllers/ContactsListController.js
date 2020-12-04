@@ -41,6 +41,9 @@ class ContactsListController extends ListBaseController
 	constructor(options, context)
 	{
 		super(options, context)
+		self.deleteEverythingRegistrants = {}
+		self.changePasswordRegistrants = {}
+
 	}
 	//
 	//
@@ -155,6 +158,38 @@ class ContactsListController extends ListBaseController
 				)
 			}
 		)
+	}
+
+	AddRegistrantForDeleteEverything(registrant)
+	{
+		const self = this
+		// console.log("Adding registrant for 'DeleteEverything': ", registrant.constructor.name)
+		const token = uuidV1()
+		self.deleteEverythingRegistrants[token] = registrant
+		return token
+	}
+	AddRegistrantForChangePassword(registrant)
+	{
+		const self = this
+		// console.log("Adding registrant for 'ChangePassword': ", registrant.constructor.name)
+		const token = uuidV1()
+		self.changePasswordRegistrants[token] = registrant
+		return token
+	}
+	RemoveRegistrantForDeleteEverything(registrant)
+	{
+		const self = this
+		// console.log("Removing registrant for 'DeleteEverything': ", registrant.constructor.name)
+		delete self.deleteEverythingRegistrants[token]
+	}
+	RemoveRegistrantForChangePassword(registrant)
+	{
+		const self = this
+		// console.log("Removing registrant for 'ChangePassword': ", registrant.constructor.name)
+		delete self.changePasswordRegistrants[token]
+	}
+	override_CollectionName() {
+		return "Contacts"
 	}
 }
 export default ContactsListController;

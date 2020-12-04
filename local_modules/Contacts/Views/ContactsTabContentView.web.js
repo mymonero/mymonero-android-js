@@ -30,7 +30,7 @@
 
 //
 import ContactsTabContentView_Base from './ContactsTabContentView_Base.web';
-
+import ContactsListView from './ContactsListView.web';
 //
 class ContactsTabContentView extends ContactsTabContentView_Base
 {
@@ -44,7 +44,7 @@ class ContactsTabContentView extends ContactsTabContentView_Base
 		const self = this
 		{ 
 			const options = {}
-			const ContactsListView = require('./ContactsListView.web')
+			
 			const view = new ContactsListView(options, self.context)
 			self.contactsListView = view
 		}
