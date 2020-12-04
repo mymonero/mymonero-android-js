@@ -31,6 +31,12 @@
 
 //
 import RootTabBarAndContentView_Base from './RootTabBarAndContentView_Base.web';
+import WalletsTabContentView from '../../WalletsList/Views/WalletsTabContentView.web';
+import SendTabContentView from '../../SendFundsTab/Views/SendTabContentView.Full.web';
+import RequestTabContentView from '../../RequestFunds/Views/RequestTabContentView.web';
+import ContactsTabContentView from '../../Contacts/Views/ContactsTabContentView.web';
+import SettingsTabContentView from '../../Settings/Views/SettingsTabContentView.web';
+
 
 //
 class RootTabBarAndContentView_Full extends RootTabBarAndContentView_Base
@@ -39,61 +45,56 @@ class RootTabBarAndContentView_Full extends RootTabBarAndContentView_Base
 	{
 		super(options, context)
 	}
-	_setup_startObserving()
-	{
-		const self = this
-		super._setup_startObserving()
-		{ // menuController
-			const emitter = self.context.menuController
-			emitter.on( // on the main process -- so this will be synchronous IPC
-				emitter.EventName_menuItemSelected_Preferences(),
-				function()
-				{
-					self.selectTab_settings()
-				}
-			)
-		}
-		{ // urlOpeningController
-			const controller = self.context.urlOpeningCoordinator
-			controller.on(
-				controller.EventName_TimeToHandleReceivedMoneroRequestURL(),
-				function(url)
-				{
-					self.selectTab_sendFunds()
-				}
-			)
-		}
-	}
+	// _setup_startObserving()
+	// {
+	// 	const self = this
+	// 	super._setup_startObserving()
+	// 	{ // menuController
+	// 		const emitter = self.context.menuController
+	// 		emitter.on( // on the main process -- so this will be synchronous IPC
+	// 			emitter.EventName_menuItemSelected_Preferences(),
+	// 			function()
+	// 			{
+	// 				self.selectTab_settings()
+	// 			}
+	// 		)
+	// 	}
+	// 	{ // urlOpeningController
+	// 		const controller = self.context.urlOpeningCoordinator
+	// 		controller.on(
+	// 			controller.EventName_TimeToHandleReceivedMoneroRequestURL(),
+	// 			function(url)
+	// 			{
+	// 				self.selectTab_sendFunds()
+	// 			}
+	// 		)
+	// 	}
+	// }
 	_setup_addTabBarContentViews()
 	{
 		const self = this
 		const context = self.context
 		{ // walletsListView
 			const options = {}
-			const WalletsTabContentView = require('../../WalletsList/Views/WalletsTabContentView.web')
 			const view = new WalletsTabContentView(options, context)
 			self.walletsTabContentView = view
 		}
 		{ // sendTabContentView
 			const options = {}
-			const SendTabContentView = require('../../SendFundsTab/Views/SendTabContentView.Full.web')
 			const view = new SendTabContentView(options, context)
 			self.sendTabContentView = view
 		}
 		{ // requestTabContentView
 			const options = {}
-			const RequestTabContentView = require('../../RequestFunds/Views/RequestTabContentView.web')
 			const view = new RequestTabContentView(options, context)
 			self.requestTabContentView = view
 		}
 		{ // contactsListView
 			const options = {}
-			const ContactsTabContentView = require('../../Contacts/Views/ContactsTabContentView.web')
 			const view = new ContactsTabContentView(options, context)
 			self.contactsTabContentView = view
 		}
 		{ // SettingsView
-			const SettingsTabContentView = require('../../Settings/Views/SettingsTabContentView.web')
 			const view = new SettingsTabContentView({}, context)
 			self.settingsTabContentView = view
 		}
