@@ -102,17 +102,17 @@ class SettingsView extends View
 			if (self.context.Settings_shouldDisplayAboutAppButton === true) {
 				self._setup_aboutAppButton()
 			}
-			if (self.context.isLiteApp != true) {
+			//if (self.context.isLiteApp != true) {
 				self._setup_form_field_changePasswordButton()
-			}
+			//}
 			self._setup_form_field_appTimeoutSlider()
-			if (self.context.isLiteApp != true) {
+			//if (self.context.isLiteApp != true) {
 				self._setup_form_field_authentication() // no password protecting Lite app
-			}
+			//}
 			self._setup_form_field_displayCcy()
-			if (self.context.isLiteApp != true) {
+			//if (self.context.isLiteApp != true) {
 				self._setup_form_field_serverURL()
-			}
+			//}
 			if (self.context.isLiteApp != true) {
 				const isLinux = typeof process.platform !== 'undefined' && process.platform && /linux/.test(process.platform)
 				if (isLinux != true) { // because there is no software update support under linux (yet) .. TODO: possibly just encode this under a self.context.appHasSoftwareUpdateSupport so we can switch it in one place
@@ -541,7 +541,7 @@ class SettingsView extends View
 		const self = this
 		const div = document.createElement("div")
 		div.style.paddingTop = "23px"
-		const titleText = self.context.isLiteApp ? "LOG OUT" : "DELETE EVERYTHING"
+		const titleText = "DELETE EVERYTHING"
 		const view = commonComponents_tables.New_redTextButtonView(titleText, self.context)
 		self.deleteEverything_buttonView = view
 		const layer = view.layer
@@ -554,15 +554,13 @@ class SettingsView extends View
 					return false
 				}
 				var msg;
-				if (self.context.isLiteApp != true) { 
-					msg = 'Are you sure you want to delete all of your local data?\n\nAny wallets will remain permanently on the Monero blockchain but local data such as contacts will not be recoverable.'
-				} else {
-					msg = 'Are you sure you want to log out?'
-				}
+				
+				msg = 'Are you sure you want to delete all of your local data?\n\nAny wallets will remain permanently on the Monero blockchain but local data such as contacts will not be recoverable.'
+				
 				self.context.windowDialogs.PresentQuestionAlertDialogWith(
-					self.context.isLiteApp != true ? 'Delete everything?' : 'Log out?', 
+					'Delete everything?',
 					msg,
-					self.context.isLiteApp != true ? 'Delete Everything' : 'Log Out', 
+					'Delete Everything', 
 					'Cancel',
 					function(err, didChooseYes)
 					{
@@ -713,38 +711,37 @@ class SettingsView extends View
 		}
 		const passwordController = self.context.passwordController
 		{ // config change pw btn text, app timeout slider, …
-			if (self.context.isLiteApp == true) {
-				if (self.changePasswordButtonView) {
-					throw "Did not expect self.changePasswordButtonView"
-				}
-				self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before automatic log-out"
-			} else {
-				if (!self.changePasswordButtonView) {
-					throw "Expected self.changePasswordButtonView"
-				}
-				const layer = self.changePasswordButtonView.layer
-				const userSelectedTypeOfPassword = passwordController.userSelectedTypeOfPassword
-				const passwordType_humanReadableString = passwordController.HumanReadable_AvailableUserSelectableTypesOfPassword()[userSelectedTypeOfPassword]
-				if (typeof passwordType_humanReadableString !== 'undefined') {
-					const capitalized_passwordType = passwordType_humanReadableString.charAt(0).toUpperCase() + passwordType_humanReadableString.slice(1)
-					layer.innerHTML = "Change " + capitalized_passwordType
-					self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before your " + passwordType_humanReadableString + " is required"
-				}
+			// if (self.context.isLiteApp == true) {
+			// 	if (self.changePasswordButtonView) {
+			// 		throw "Did not expect self.changePasswordButtonView"
+			// 	}
+			// 	self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before automatic log-out"
+			// } else {
+			// 	if (!self.changePasswordButtonView) {
+			// 		throw "Expected self.changePasswordButtonView"
+			// 	}
+			// 	const layer = self.changePasswordButtonView.layer
+			// 	const userSelectedTypeOfPassword = passwordController.userSelectedTypeOfPassword
+			// 	const passwordType_humanReadableString = passwordController.HumanReadable_AvailableUserSelectableTypesOfPassword()[userSelectedTypeOfPassword]
+			// 	if (typeof passwordType_humanReadableString !== 'undefined') {
+			// 		const capitalized_passwordType = passwordType_humanReadableString.charAt(0).toUpperCase() + passwordType_humanReadableString.slice(1)
+			// 		layer.innerHTML = "Change " + capitalized_passwordType
+			// 		self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before your " + passwordType_humanReadableString + " is required"
+			// 	}
+			// }
+			if (!self.changePasswordButtonView) {
+				throw "Expected self.changePasswordButtonView"
 			}
+			const layer = self.changePasswordButtonView.layer
+			const userSelectedTypeOfPassword = passwordController.userSelectedTypeOfPassword
+			const passwordType_humanReadableString = passwordController.HumanReadable_AvailableUserSelectableTypesOfPassword()[userSelectedTypeOfPassword]
+			if (typeof passwordType_humanReadableString !== 'undefined') {
+				const capitalized_passwordType = passwordType_humanReadableString.charAt(0).toUpperCase() + passwordType_humanReadableString.slice(1)
+				layer.innerHTML = "Change " + capitalized_passwordType
+				self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before your " + passwordType_humanReadableString + " is required"
+			}
+			
 		}
-		if (self.context.isLiteApp) {
-			if (self.changePasswordButtonView) {
-				throw "Did not expect self.changePasswordButtonView"
-			}
-			if (self.serverURLInputLayer) {
-				throw "Did not expect self.serverURLInputLayer"
-			}
-			const walletsExist = self.context.walletsListController.records.length > 0
-			self.appTimeoutRangeInputView.SetEnabled(true)
-			self.displayCcySelectLayer.disabled = false
-			self.displayCcySelectLayer.classList.remove("disabled")
-			self.deleteEverything_buttonView.SetEnabled(walletsExist) // cause this is actually the 'log out' btn
-		} else {
 			if (passwordController.hasUserSavedAPassword !== true) {
 				if (self.changePasswordButtonView) {
 					self.changePasswordButtonView.SetEnabled(false) // can't change til entered
@@ -807,7 +804,7 @@ class SettingsView extends View
 					true // setWithoutShouldToggle - or we get asked to auth
 				)
 			}
-		}
+		
 		{
 			if (self.serverURLInputLayer) {
 				self.serverURLInputLayer.value = self.context.settingsController.specificAPIAddressURLAuthority || ""
