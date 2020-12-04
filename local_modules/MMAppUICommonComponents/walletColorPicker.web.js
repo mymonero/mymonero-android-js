@@ -29,6 +29,7 @@
 "use strict"
 
 //
+import View from '../Views/View.web';
 import commonComponents_walletIcons from './walletIcons.web';
 
 import Views__cssRules from '../Views/cssRules.web';
@@ -127,7 +128,7 @@ function New_1OfN_WalletColorPickerInputView(context, selectHexColorString_orUnd
 	//
 	__injectCSSRules_ifNecessary()
 	//
-	const View = require('../Views/View.web')
+	
 	const view = new View({ tag: "ul" }, context)
 	const fieldName = view.View_UUID()
 	const ul = view.layer

@@ -49,7 +49,7 @@ import InfoDisclosingView from '../../InfoDisclosingView/Views/InfoDisclosingVie
 
 //
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
-
+import EditWalletView from './EditWalletView.web';
 import TransactionDetailsView from './TransactionDetailsView.web';
 import ImportTransactionsModalView from './ImportTransactionsModalView.web';
 import FundsRequestQRDisplayView from '../../RequestFunds/Views/FundsRequestQRDisplayView.web';
@@ -97,9 +97,7 @@ class WalletDetailsView extends View
 		self._setup_balanceLabelView()
 		self._setup_secondaryBalancesLabelLayer()
 		self._setup_account_InfoDisclosingView()
-		if (self.context.isLiteApp !== true) {
-			self._setup_sendReceive_actionButtons()
-		}
+		self._setup_sendReceive_actionButtons()
 		self._setup_layers_transactionsListLayerContainerLayer()
 	}
 	_setup_self_layer()
@@ -676,44 +674,27 @@ class WalletDetailsView extends View
 	{
 		const self = this
 		const view = commonComponents_navigationBarButtons.New_RightSide_EditButtonView(self.context)
-		if (self.context.isLiteApp == true) {
-			view.layer.innerHTML = "Log&nbsp;Out"
-			view.layer.style.width = "64px"
-		}
+		// if (self.context.isLiteApp == true) {
+		// 	view.layer.innerHTML = "Log&nbsp;Out"
+		// 	view.layer.style.width = "64px"
+		// }
 		const layer = view.layer
 		layer.addEventListener(
 			"click",
 			function(e)
 			{
 				e.preventDefault()
-				if (self.context.isLiteApp == true) {
-					self.context.windowDialogs.PresentQuestionAlertDialogWith(
-						'Log out?',
-						'Are you sure you want to log out?',
-						'Log Out',
-						'Cancel',
-						function(err, didChooseYes)
-						{
-							if (err) {
-								throw err
-							}
-							if (didChooseYes) {
-								self.context.passwordController.InitiateDeleteEverything(function(err) {})
-							}
-						}
-					)
-				} else { // v--- self.navigationController because self is presented packaged in a StackNavigationView
-					const EditWalletView = require('./EditWalletView.web')
-					const view = new EditWalletView({
-						wallet: self.wallet
-					}, self.context)
-					self.current_EditWalletView = view
-					//
-					const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-					const navigationView = new StackAndModalNavigationView({}, self.context)
-					navigationView.SetStackViews([ view ])
-					self.navigationController.PresentView(navigationView, true)
-				}
+				 // v--- self.navigationController because self is presented packaged in a StackNavigationView
+				
+				const view = new EditWalletView({
+					wallet: self.wallet
+				}, self.context)
+				self.current_EditWalletView = view
+				//
+				const navigationView = new StackAndModalNavigationView({}, self.context)
+				navigationView.SetStackViews([ view ])
+				self.navigationController.PresentView(navigationView, true)
+				
 				return false
 			}
 		)
