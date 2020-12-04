@@ -37,11 +37,13 @@ import WindowDialogs from"../../WindowDialogs/WindowDialogs.browser";
 import CcyConversionRates from"../../CcyConversionRates/Controller";
 import Locale from"../../Locale/Locale.browser";
 import symmetric_cryptor from"../../symmetric_cryptor/BackgroundStringCryptor.noOp";
+import ContactsListController from "../../Contacts/Controllers/ContactsListController"
 import DocumentPersister from"../../DocumentPersister/DocumentPersister.SecureStorage";
 import backgroundAPIResponseParser from"../../HostedMoneroAPIClient/BackgroundResponseParser.web";
 import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
 import OpenAlias from"../../OpenAlias/OpenAliasResolver";
 import Theme from"../../Theme/ThemeController";
+import FundsRequestsListController from "../../RequestFunds/Controllers/FundsRequestsListController"
 import Passwords from"../../Passwords/Controllers/PasswordController.Full";
 import Settings from"../../Settings/Controllers/SettingsController";
 import UserIdle from"../../UserIdle/UserIdleInWindowController";
@@ -163,6 +165,12 @@ function NewHydratedContext(initialContext)
 			options: {}
 		},
 		{
+			module: ContactsListController,
+			instance_key: "contactsListController",
+			options: {
+			}
+		},
+		{
 			module: UserIdle,
 			instance_key: "userIdleInWindowController",
 			options: {}
@@ -177,6 +185,12 @@ function NewHydratedContext(initialContext)
 			module: WalletAppCoordinator,
 			instance_key: "walletAppCoordinator",
 			options: {}
+		},
+		{
+			module: FundsRequestsListController,
+			instance_key: "fundsRequestsListController",
+			options: {
+			}
 		},
 		{
 			module: exceptionAlerting, 
