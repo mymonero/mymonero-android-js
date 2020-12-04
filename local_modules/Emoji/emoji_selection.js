@@ -29,7 +29,7 @@
 "use strict"
 
 //
-import { Emojis } from './emoji_set';
+import Emojis from './emoji_set';
 
 const numberOf_Emojis = Emojis.length
 //
@@ -49,4 +49,4 @@ function EmojiWhichIsNotAlreadyInUse(inUseEmojis)
 	//
 	return random_emoji
 }
-export { EmojiWhichIsNotAlreadyInUse };
+export default { EmojiWhichIsNotAlreadyInUse };

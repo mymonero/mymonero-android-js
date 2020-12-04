@@ -46,6 +46,7 @@ const emojiCategories =
 	{"key":"symbols","label":"Symbols"},
 	{"key":"flags","label":"Flags"}
 ]
+
 const numberOf_emojiCategories = emojiCategories.length
 //
 const emojiCharsByCategory = {}
@@ -90,9 +91,9 @@ for (let i = 0 ; i < numberOf_emojiCategories ; i++) {
 }
 
 //
-export const Emojis = all_emojiChars;
+const Emojis = all_emojiChars;
 
-export const EmojiCategories = emojiCategories;
+const EmojiCategories = emojiCategories;
 //
 function unicodeCodePointOrPairToChar(unicode)
 {
@@ -122,4 +123,5 @@ function unicodeCodePointOrPairToChar(unicode)
 	}
 	return String.fromCharCode(s);
 }
-
+let obj = { Emojis, EmojiCategories }
+export default obj;
