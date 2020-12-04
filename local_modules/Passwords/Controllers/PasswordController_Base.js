@@ -1048,6 +1048,13 @@ class PasswordController_Base extends EventEmitter
 	{ // this is used as a central initiation/sync point for delete everything like user idle
 		// maybe it should be moved, maybe not.
 		// And note we're assuming here the PW has been entered already.
+		function callbackFn(err, success) {
+			if (err !== null) {
+				console.error("deleteEverything callbackFn failed");
+				throw "PasswordController.InitiateDeleteEverything failed";
+			}
+			console.log("callbackFn called successfully")
+		}
 		const self = this
 		if (self.hasUserSavedAPassword !== true) {
 			const errStr = "InitiateDeleteEverything called but hasUserSavedAPassword !== true. This should be disallowed in the UI"
@@ -1057,6 +1064,7 @@ class PasswordController_Base extends EventEmitter
 			true, // yes, is for a 'delete everything'
 			function(cb)
 			{
+				console.log("We've invoked InitiateDeleteEverything");
 				// reset state cause we're going all the way back to pre-boot 
 				self.hasBooted = false // require this pw controller to boot
 				self.password = undefined // this is redundant but is here for clarity
@@ -1064,42 +1072,46 @@ class PasswordController_Base extends EventEmitter
 				self._id = undefined
 				self.encryptedMessageForUnlockChallenge = undefined
 				self._initial_waitingForFirstPWEntryDecode_passwordModel_doc = undefined
+
 				// first have all registrants delete everything
-				const tokens = Object.keys(self.deleteEverythingRegistrants)
-				async.each( // parallel; waits till all finished
-					tokens,
-					function(token, registrant_cb)
-					{
-						const registrant = self.deleteEverythingRegistrants[token]
-						registrant.passwordController_DeleteEverything(function(err)
-						{
-							registrant_cb(err)
-						})
-					},
-					function(err)
-					{
-						if (err) {
-							cb(err)
-							return // will travel back to the 'throw' below
-						}
-						//
-						// then delete pw record - after registrants in case any of them fail and user still needs to be able to delete some of them on next boot
-						self.context.persister.RemoveAllDocuments(
-							CollectionName, 
-							function(err)
-							{ 
-								if (err) {
-									cb(err)
-									return
-								}
-								console.log("🗑  Deleted password record.")
-								self.setupAndBoot() // now trigger a boot before we call cb (tho we could do it after - consumers will wait for boot)
-								//
-								cb(err)
-							}
-						)
-					}
-				)
+				//const tokens = Object.keys(self.deleteEverythingRegistrants)
+
+				const response = self.context.persister.RemoveAllData(callbackFn); 
+
+				// async.each( // parallel; waits till all finished
+				// 	tokens,
+				// 	function(token, registrant_cb)
+				// 	{
+				// 		const registrant = self.deleteEverythingRegistrants[token]
+				// 		registrant.passwordController_DeleteEverything(function(err)
+				// 		{
+				// 			registrant_cb(err)
+				// 		})
+				// 	},
+				// 	function(err)
+				// 	{
+				// 		if (err) {
+				// 			cb(err)
+				// 			return // will travel back to the 'throw' below
+				// 		}
+				// 		//
+				// 		// then delete pw record - after registrants in case any of them fail and user still needs to be able to delete some of them on next boot
+				// 		self.context.persister.RemoveAllDocuments(
+				// 			CollectionName, 
+				// 			function(err)
+				// 			{ 
+				// 				if (err) {
+				// 					cb(err)
+				// 					return
+				// 				}
+				// 				console.log("🗑  Deleted password record.")
+				// 				self.setupAndBoot() // now trigger a boot before we call cb (tho we could do it after - consumers will wait for boot)
+				// 				//
+				// 				cb(err)
+				// 			}
+				// 		)
+				// 	}
+				// )
 			},
 			function(err)
 			{
@@ -1116,7 +1128,7 @@ class PasswordController_Base extends EventEmitter
 	AddRegistrantForDeleteEverything(registrant)
 	{
 		const self = this
-		// console.log("Adding registrant for 'DeleteEverything': ", registrant.constructor.name)
+		console.log("Adding registrant for 'DeleteEverything': ", registrant.constructor.name)
 		const token = uuidV1()
 		self.deleteEverythingRegistrants[token] = registrant
 		return token
@@ -1124,7 +1136,7 @@ class PasswordController_Base extends EventEmitter
 	AddRegistrantForChangePassword(registrant)
 	{
 		const self = this
-		// console.log("Adding registrant for 'ChangePassword': ", registrant.constructor.name)
+		console.log("Adding registrant for 'ChangePassword': ", registrant.constructor.name)
 		const token = uuidV1()
 		self.changePasswordRegistrants[token] = registrant
 		return token
@@ -1132,13 +1144,13 @@ class PasswordController_Base extends EventEmitter
 	RemoveRegistrantForDeleteEverything(registrant)
 	{
 		const self = this
-		// console.log("Removing registrant for 'DeleteEverything': ", registrant.constructor.name)
+		console.log("Removing registrant for 'DeleteEverything': ", registrant.constructor.name)
 		delete self.deleteEverythingRegistrants[token]
 	}
 	RemoveRegistrantForChangePassword(registrant)
 	{
 		const self = this
-		// console.log("Removing registrant for 'ChangePassword': ", registrant.constructor.name)
+		console.log("Removing registrant for 'ChangePassword': ", registrant.constructor.name)
 		delete self.changePasswordRegistrants[token]
 	}
 	//

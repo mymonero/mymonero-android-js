@@ -425,7 +425,8 @@ class DocumentPersister extends DocumentPersister_Interface
 			fn(null, numRemoved)
 		})
 	}
-	__removeAllDocuments(collectionName, fn)
+	// This only removes a specific collection's objects
+	__removeAllCollectionDocuments(collectionName, fn)
 	{
 		console.log("SecureStorage: invoked __removeAllDocuments");
 		const self = this
@@ -434,6 +435,18 @@ class DocumentPersister extends DocumentPersister_Interface
 		setTimeout(function() {
 			fn(null, numberOfDocuments)
 		})
+	}
+	// This completely removes all objects saved
+	__removeAllData(fn)
+	{
+		console.log("SecureStorage: invoked __removeAllData");
+		SecureStoragePlugin.clear().then(() => {
+			fn(error, "SecureStorage: __removeAllData successful");
+		}).catch(error => {
+			console.log("SecureStorage: Invoke removeAllData failed")
+			console.log(error);
+			fn(error, null);
+		});
 	}
 }
 export default DocumentPersister;
