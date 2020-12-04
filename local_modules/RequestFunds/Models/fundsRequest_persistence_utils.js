@@ -134,4 +134,4 @@ function DeleteFromDisk(
 		}
 	)
 }
-export { CollectionName, HydrateInstance, SaveToDisk, DeleteFromDisk };
+export default { CollectionName, HydrateInstance, SaveToDisk, DeleteFromDisk };

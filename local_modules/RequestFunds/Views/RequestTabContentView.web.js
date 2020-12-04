@@ -30,7 +30,7 @@
 
 //
 import RequestTabContentView_Base from './RequestTabContentView_Base.web';
-
+import FundsRequestsListView from './FundsRequestsListView.web';
 //
 class RequestTabContentView extends RequestTabContentView_Base
 {
@@ -44,7 +44,6 @@ class RequestTabContentView extends RequestTabContentView_Base
 		const self = this
 		{ // walletsListView
 			const options = {}
-			const FundsRequestsListView = require('./FundsRequestsListView.web')
 			const view = new FundsRequestsListView(options, self.context)
 			self.fundsRequestsListView = view
 		}

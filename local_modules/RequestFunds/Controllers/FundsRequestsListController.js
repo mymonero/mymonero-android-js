@@ -88,7 +88,7 @@ class FundsRequestsListController extends ListBaseController
 	}
 	override_CollectionName()
 	{
-		return fundsRequest_persistence_utils.CollectionName
+		return "FundsRequests"
 	}
 	override_lookup_RecordClass()
 	{

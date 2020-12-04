@@ -37,7 +37,7 @@ import commonComponents_amounts from '../../MMAppUICommonComponents/amounts.web'
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
 import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web';
 import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
-
+import FundsRequestDetailsView from './FundsRequestDetailsView.web';
 //
 import WalletsSelectView from '../../WalletsList/Views/WalletsSelectView.web';
 
@@ -620,7 +620,6 @@ class CreateRequestFormView extends View
 		)
 		function _proceedTo_pushViewForRecord(record)
 		{
-			const FundsRequestDetailsView = require('./FundsRequestDetailsView.web')
 			const options = 
 			{
 				record: record // the fundsRequest
