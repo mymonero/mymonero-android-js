@@ -30,7 +30,7 @@
 
 //
 import AddContactView from '../../Contacts/Views/AddContactView.web';
-
+import ContactDetailsView from './ContactDetailsView.web';
 //
 class AddContactFromContactsTabView extends AddContactView
 {
@@ -54,7 +54,7 @@ class AddContactFromContactsTabView extends AddContactView
 	{
 		const self = this
 		{
-			const ContactDetailsView = require('./ContactDetailsView.web')
+			
 			const options = 
 			{
 				record: contact // note: options takes `record`, not `contact`
@@ -66,9 +66,5 @@ class AddContactFromContactsTabView extends AddContactView
 		}
 		super._didSaveNewContact(contact) // this will cause self to be dismissed!! so, last-ish
 	}
-	override_CollectionName() {
-		return "Contacts"
-	}
-
 }
 export default AddContactFromContactsTabView;

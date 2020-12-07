@@ -32,7 +32,7 @@
 import EventEmitter from 'events';
 
 //
-import { Emojis } from '../../Emoji/emoji_set';
+import Emojis from '../../Emoji/emoji_set';
 
 //
 import persistable_object_utils from '../../DocumentPersister/persistable_object_utils';

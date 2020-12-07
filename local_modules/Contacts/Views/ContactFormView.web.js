@@ -38,6 +38,8 @@ import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents
 
 //
 import emoji_selection from '../../Emoji/emoji_selection';
+console.log("Emoji_selection object");
+console.log(emoji_selection);
 
 //
 class ContactFormView extends View
@@ -211,7 +213,11 @@ class ContactFormView extends View
 	{
 		const self = this
 		const inUseEmojis = self.context.contactsListController.GivenBooted_CurrentlyInUseEmojis()
+		console.log("InUseEmojis");
+		console.log(inUseEmojis);
 		const value = emoji_selection.EmojiWhichIsNotAlreadyInUse(inUseEmojis)
+		console.log(emoji_selection);
+		console.log(value);
 		return value
 	}
 	_setup_field_emoji()
@@ -228,6 +234,7 @@ class ContactFormView extends View
 		const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("EMOJI", self.context)
 		div.appendChild(labelLayer)
 		//
+
 		const view = new EmojiPickerControlView({
 			value: value,
 			didPickEmoji_fn: function(emoji) {} // nothing to do as we simply read at submit

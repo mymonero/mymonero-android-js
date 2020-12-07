@@ -64,6 +64,7 @@ class ContactsListController extends ListBaseController
 		forOverrider_instance_didFailBoot_fn
 	)
 	{
+		console.log("ContactsListController: override_booting_reconstituteRecordInstanceOptionsWithBase")
 		const self = this
 		optionsBase.persistencePassword = persistencePassword
 		//
@@ -138,18 +139,22 @@ class ContactsListController extends ListBaseController
 		self.ExecuteWhenBooted(
 			function()
 			{ // ^- this may block until we have the pw, depending on if there are records to load on boot
+				console.log("ContactsListController: WhenBooted_AddContact -- first loop")
 				self.context.passwordController.WhenBootedAndPasswordObtained_PasswordAndType( // this will block until we have access to the pw
 					function(obtainedPasswordString, userSelectedTypeOfPassword)
 					{
+						console.log("ContactsListController: WhenBooted_AddContact -- password loop")
 						const options = valuesByKey || {}
 						options.persistencePassword = obtainedPasswordString
 						options.failedToInitialize_cb = function(err, contactInstance)
 						{
+							console.log("ContactsListController: WhenBooted_AddContact -- unsucessfully initialised")
 							console.error("Failed to add contact ", err, contactInstance)
 							fn(err)
 						}
 						options.successfullyInitialized_cb = function(contactInstance)
 						{
+							console.log("ContactsListController: WhenBooted_AddContact -- sucessfully initialised")
 							self._atRuntime__record_wasSuccessfullySetUpAfterBeingAdded(contactInstance)
 							fn(null, contactInstance)
 						}
