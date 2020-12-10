@@ -757,6 +757,7 @@ div.exchange-button {
     transition: background-color 0.1s ease-out, box-shadow 0.1s ease-out;
     background-color: #383638;
     box-shadow: 0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749;
+    padding-left: 18px;
 }
 
 .EmojiPickerControlView > a.active,
