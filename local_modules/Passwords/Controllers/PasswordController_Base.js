@@ -146,10 +146,7 @@ class PasswordController_Base extends EventEmitter
 					console.error(errStr)
 					// this is indicative of a code fault
 				}
-				console.log("!!!!!!!!Password metadata here!!!!");
-				console.log(contentStrings);
 				const contentString = contentStrings[0].value;
-				console.log(contentString);
 				// this is old -- const plaintextDoc = JSON.parse(contentString) // whole doc is not encrypted - only challenge
 				const plaintextDoc = JSON.parse(contentString) // whole doc is not encrypted - only challenge
 				// console.log("💬  Found existing saved password model with _id", doc._id)
@@ -163,8 +160,6 @@ class PasswordController_Base extends EventEmitter
 			hasUserSavedAPassword,
 			passwordModel_doc
 		) {
-			console.log("PasswordController: _proceedTo_loadStateFromModel");
-			console.log(passwordModel_doc);
 			self.hasUserSavedAPassword = hasUserSavedAPassword
 			//
 			self._id = passwordModel_doc._id || undefined
@@ -178,7 +173,6 @@ class PasswordController_Base extends EventEmitter
 				}
 			}
 			
-			console.log(self);
 			self._initial_waitingForFirstPWEntryDecode_passwordModel_doc = passwordModel_doc // this will be nil'd after it's been parsed once the user has entered their pw
 			self._setBooted() // all done! call waiting fns
 		}
@@ -481,8 +475,6 @@ class PasswordController_Base extends EventEmitter
 				const isForChangePassword = false // this is simply for requesting to have the existing or a new password from the user				
 				const isForAuthorizingAppActionOnly = false
 				const customNavigationBarTitle_orNull = null
-				//
-				console.log(self);
 				if (typeof self._id === 'undefined' || self._id === null) { // if the user is not unlocking an already pw-protected app
 					// then we need to get a new PW from the user
 					self.obtainNewPasswordFromUser(isForChangePassword) // this will also call self.unguard_getNewOrExistingPassword()
@@ -1128,7 +1120,7 @@ class PasswordController_Base extends EventEmitter
 	AddRegistrantForDeleteEverything(registrant)
 	{
 		const self = this
-		console.log("Adding registrant for 'DeleteEverything': ", registrant.constructor.name)
+		//console.log("Adding registrant for 'DeleteEverything': ", registrant.constructor.name)
 		const token = uuidV1()
 		self.deleteEverythingRegistrants[token] = registrant
 		return token
@@ -1136,7 +1128,7 @@ class PasswordController_Base extends EventEmitter
 	AddRegistrantForChangePassword(registrant)
 	{
 		const self = this
-		console.log("Adding registrant for 'ChangePassword': ", registrant.constructor.name)
+		//console.log("Adding registrant for 'ChangePassword': ", registrant.constructor.name)
 		const token = uuidV1()
 		self.changePasswordRegistrants[token] = registrant
 		return token
@@ -1144,13 +1136,13 @@ class PasswordController_Base extends EventEmitter
 	RemoveRegistrantForDeleteEverything(registrant)
 	{
 		const self = this
-		console.log("Removing registrant for 'DeleteEverything': ", registrant.constructor.name)
+		//console.log("Removing registrant for 'DeleteEverything': ", registrant.constructor.name)
 		delete self.deleteEverythingRegistrants[token]
 	}
 	RemoveRegistrantForChangePassword(registrant)
 	{
 		const self = this
-		console.log("Removing registrant for 'ChangePassword': ", registrant.constructor.name)
+		//console.log("Removing registrant for 'ChangePassword': ", registrant.constructor.name)
 		delete self.changePasswordRegistrants[token]
 	}
 	//
