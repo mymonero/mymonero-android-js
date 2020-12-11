@@ -116,18 +116,13 @@ class EmojiPickerPopoverContentView extends View
 		layer.style.webkitOverflowScrolling = "auto" // I would like to set this to "touch", but a strange rendering error occurs
 		layer.classList.add(NamespaceName)
 		//
-		console.log("Emoji setup");
 		const emojis = emoji_set.Emojis
 		const emojis_length = emojis.length
-		console.log(emojis);
-		console.log(emojis_length);
-
 		let firstEmoji = null;
 		for (let i = 0 ; i < emojis_length ; i++) {
 			
 			const emoji = emojis[i]
 			const emojiButtonView = self._new_emojiButtonView(emoji)
-			console.log(emojiButtonView);
 			self.emojiButtonsViews_byEmoji[emoji] = emojiButtonView
 			// we handle selection later via _configureAsHavingSelectedEmoji(emoji)
 			self.addSubview(emojiButtonView)
@@ -138,11 +133,6 @@ class EmojiPickerPopoverContentView extends View
 			}
 		}
 
-		console.log(self.emojiButtonViews);
-		console.log(firstEmoji);
-		console.log(self.emojiButtonsViews_byEmoji);
-		console.log(self);
-		//let firstEmojiButtonView = self.find(x=>x!==undefined);
 		self._configureAsHavingSelectedEmoji(firstEmoji, true);
 		self.SelectEmoji(firstEmoji);
 
@@ -151,18 +141,15 @@ class EmojiPickerPopoverContentView extends View
 	{
 		const self = this
 		const view = new View({}, self.context)
-		// console.log(view);
+
 		const layer = view.layer
 		layer.style.position = "relative" // so we can read offsetTop
 		layer.style.display = "inline-block"
-		// console.log(emoji_web);
-		// console.log(emoji_web.NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText);
 		layer.innerHTML = emoji_web.NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText(
 			self.context,
 			emoji
 		)
 		layer.classList.add("EmojiButtonView")
-		// console.log(self.context.Emoji_renderWithNativeEmoji)
 		if (self.context.Emoji_renderWithNativeEmoji !== true) {
 			layer.classList.add("withNonNativeEmoji")
 		}
@@ -192,16 +179,12 @@ class EmojiPickerPopoverContentView extends View
 		const self = this
 		const andScroll = true
 		self._configureAsHavingSelectedEmoji(emoji, andScroll)
-		console.log(emoji);
 		// note: no emit/yield
 	}
 	SelectEmoji(emoji)
 	{
-		console.log("EmojiPickerPovover: selectEmoji called");
 		const self = this
 		const andScroll = false
-		console.log("What do we pass as emoji?");
-		console.log(emoji);
 		self._configureAsHavingSelectedEmoji(emoji, andScroll)
 		// and emit/yield
 		self.didPickEmoji_fn(emoji)
@@ -210,15 +193,10 @@ class EmojiPickerPopoverContentView extends View
 	_configureAsHavingSelectedEmoji(emoji, andScroll)
 	{
 		const self = this
-		console.log("EmojiPickerPopover: _configureAsHavingSelectedEmoji");
-		console.log(self);
-		console.log(emoji);
 		if (self.selected_emojiButtonView) {
 			self.selected_emojiButtonView.layer.classList.remove("active")
 		}
 		const emojiButtonView = self.emojiButtonsViews_byEmoji[emoji]
-		console.log("emojiButtonView:");
-		console.log(emojiButtonView);
 		
 		if (!emojiButtonView) {
 			throw "!emojiButtonView"
