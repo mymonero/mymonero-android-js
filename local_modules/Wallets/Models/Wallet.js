@@ -38,15 +38,14 @@ const monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-co
 const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
 const mnemonic_languages = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages')
 const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
-const wallet_persistence_utils = require('./wallet_persistence_utils')
+import wallet_persistence_utils from './wallet_persistence_utils';
 const WalletHostPollingController = require('../Controllers/WalletHostPollingController')
+const { default: symmetric_string_cryptor } = require('../../symmetric_cryptor/symmetric_string_cryptor')
 
-
-
-console.log("Logging wpu");
-console.log(wallet_persistence_utils);
-console.log(wallet_persistence_utils.SaveToDisk);
-console.log(wallet_persistence_utils.default.SaveToDisk);
+// console.log("Logging wpu");
+// console.log(wallet_persistence_utils);
+// console.log(wallet_persistence_utils.SaveToDisk);
+// console.log(wallet_persistence_utils.default.SaveToDisk);
 //
 const wallet_currencies =
 {
@@ -89,6 +88,8 @@ class Wallet extends EventEmitter
 	{
 		super() // must call super before we can access this
 		//
+
+		console.log("Inside wallet.js constructor");
 		var self = this
 		self.options = options
 		self.context = context
@@ -97,6 +98,9 @@ class Wallet extends EventEmitter
 		//
 		// initialization state
 		self._id = self.options._id || null // initialize to null if creating wallet
+
+		console.log(self);
+		console.log(self._id);
 		self.failedToInitialize_cb = function(err)
 		{ // v--- Trampoline by executing on next tick to avoid instantiators having undefined instance ref when failure cb called
 			{
@@ -105,6 +109,7 @@ class Wallet extends EventEmitter
 			}
 			setTimeout(function()
 			{
+				console.log("Wallet.js: failedToInitialize_cb setTimeout");
 				const fn = self.options.failedToInitialize_cb || function(err, walletInstance) {}
 				fn(err, self)
 			})
@@ -113,6 +118,7 @@ class Wallet extends EventEmitter
 		{ // v--- Trampoline by executing on next tick to avoid instantiators having undefined instance ref when success cb called
 			setTimeout(function()
 			{
+				console.log("Wallet.js: successfullyInitialized_cb setTimeout");
 				const fn = self.options.successfullyInitialized_cb || function(walletInstance) {}
 				fn(self)
 			})
@@ -124,6 +130,7 @@ class Wallet extends EventEmitter
 		self.isLoggedIn = false // may be modified by existing doc
 		//
 		// detecting how to set up instance
+
 		if (self._id !== null) { // need to look up existing document but do not decrypt & boot
 			self.__setup_fetchExistingDoc_andAwaitBoot()
 		} else {
@@ -134,11 +141,15 @@ class Wallet extends EventEmitter
 	{
 		console.log("Wallet.__setup_fetchExistingDoc_andAwaitBoot")
 		const self = this
+		console.log(self);
+		console.log(self._id);
 		self.context.persister.DocumentsWithIds(
-			wallet_persistence_utils.CollectionName,
+			"Wallets",
 			[ self._id ], // cause we're saying we have an _id passed in…
 			function(err, contentStrings)
 			{
+				console.log("Wallet.js DocumentsWithIds callback");
+				console.log(contentStrings);
 				if (err) {
 					console.error("err.message:", err.message)
 					self.failedToInitialize_cb(err)
@@ -151,7 +162,7 @@ class Wallet extends EventEmitter
 					self.failedToInitialize_cb(err)
 					return
 				}
-				const encryptedString = contentStrings[0]
+				const encryptedString = contentStrings[0].value
 				// and we hang onto this for when the instantiator opts to boot the instance
 				self.initialization_encryptedString = encryptedString
 				self.successfullyInitialized_cb()
@@ -426,6 +437,8 @@ class Wallet extends EventEmitter
 	) {
 		console.log("Wallet.js: Boot_decryptingExistingInitDoc");
 		const self = this
+		console.log(self.initialization_encryptedString);
+
 		self.persistencePassword = persistencePassword || null
 		if (persistencePassword === null) {
 			const errStr = "❌  You must supply a persistencePassword when you are calling a Boot_* method of Wallet"
@@ -443,11 +456,38 @@ class Wallet extends EventEmitter
 			return
 		}
 		//
+		console.log(`About to invoke wallet.js __proceedto_decryptContentString with: ${encryptedString}`);
 		__proceedTo_decryptContentString(encryptedString)
 		//
 		function __proceedTo_decryptContentString(encryptedString)
 		{
 			console.log("Wallet.js: __proceedTo_decryptContentString");
+			console.log(encryptedString);
+
+			symmetric_string_cryptor.New_DecryptedString__Async(
+				encryptedString,
+				self.persistencePassword,
+				function(err, plaintextString)
+				{
+					if (err) {
+						console.error("❌  Decryption err: " + err.toString())
+						self.__trampolineFor_failedToBootWith_fnAndErr(fn, err)
+						return
+					}
+					self.initialization_encryptedString = null // now we can free this
+					//
+					var plaintextDocument = null;
+					console.log(plaintextString)
+					try {
+						plaintextDocument = JSON.parse(plaintextString)
+					} catch (e) {
+						self.__trampolineFor_failedToBootWith_fnAndErr(fn, e)
+						return
+					}
+					__proceedTo_hydrateByParsingPlaintextDocument(plaintextDocument)
+				}
+			)
+			/* Electron version 
 			self.context.string_cryptor__background.New_DecryptedString__Async(
 				encryptedString,
 				self.persistencePassword,
@@ -461,6 +501,7 @@ class Wallet extends EventEmitter
 					self.initialization_encryptedString = null // now we can free this
 					//
 					var plaintextDocument = null;
+					console.log(plaintextString)
 					try {
 						plaintextDocument = JSON.parse(plaintextString)
 					} catch (e) {
@@ -470,14 +511,18 @@ class Wallet extends EventEmitter
 					__proceedTo_hydrateByParsingPlaintextDocument(plaintextDocument)
 				}
 			)
+			*/
 		}
 		function __proceedTo_hydrateByParsingPlaintextDocument(plaintextDocument)
 		{ // reconstituting state…
+			console.log("Wallet.js: __proceedTo_hydrateByParsingPlaintextDocument");
+			console.log(wallet_persistence_utils);
+			console.log(wallet_persistence_utils.HydrateInstance);
 			wallet_persistence_utils.HydrateInstance(
 				self,
 				plaintextDocument
 			)
-			console.log("Wallet.js: __proceedTo_hydrateByParsingPlaintextDocument");
+			//console.log("Wallet.js: __proceedTo_hydrateByParsingPlaintextDocument");
 			// Regenerate any runtime vals that depend on persisted vals..
 			self.regenerate_shouldDisplayImportAccountOption()
 			//
@@ -1488,15 +1533,13 @@ class Wallet extends EventEmitter
 	saveToDisk(fn)
 	{
 		console.log("Wallet save to disk");
-		console.log(wallet_persistence_utils);
-		console.log(wallet_persistence_utils.SaveToDisk);
 		const self = this
 		if (self.hasBeenTornDown) {
 			console.warn("Wallet asked to saveToDisk after having been torn down.")
 			console.warn((new Error()).stack)
 			return
 		}
-		wallet_persistence_utils.default.SaveToDisk(
+		wallet_persistence_utils.SaveToDisk(
 			self,
 			fn
 		)
@@ -1963,4 +2006,4 @@ class Wallet extends EventEmitter
 		}
 	}
 }
-module.exports = Wallet
+export default Wallet;

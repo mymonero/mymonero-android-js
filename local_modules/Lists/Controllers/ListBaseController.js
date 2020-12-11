@@ -398,6 +398,8 @@ class ListBaseController extends EventEmitter
 			self.override_CollectionName(),
 			function(err, ids)
 			{
+				console.log("ListBaseController: _new_idsOfPersistedRecords invoked");
+				console.log(ids);
 				if (err) {
 					console.error(err)
 					fn(err)
