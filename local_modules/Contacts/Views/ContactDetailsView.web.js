@@ -36,6 +36,8 @@ import commonComponents_actionButtons from '../../MMAppUICommonComponents/action
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
 import ContactQRDisplayModalView from './ContactQRDisplayModalView.web';
+import EditContactFromContactsTabView from './EditContactFromContactsTabView.web';
+
 //
 class ContactDetailsView extends View
 {
@@ -450,8 +452,6 @@ class ContactDetailsView extends View
 						return
 					}
 					{ // v--- self.navigationController because self is presented packaged in a StackNavigationView				
-						const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-						const EditContactFromContactsTabView = require('./EditContactFromContactsTabView.web')
 						//
 						const options = 
 						{
