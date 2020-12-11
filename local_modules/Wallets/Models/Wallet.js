@@ -132,12 +132,19 @@ class Wallet extends EventEmitter
 		// detecting how to set up instance
 
 		if (self._id !== null) { // need to look up existing document but do not decrypt & boot
-			self.__setup_fetchExistingDoc_andAwaitBoot()
+			self.__setup_fetchExistingDoc_andAwaitBoot(context)
 		} else {
-			self.__setup_andAwaitBootAndLogInAndDocumentCreation()
+			self.__setup_andAwaitBootAndLogInAndDocumentCreation(context)
 		}
+		console.log(self.context);
+		context.wallets = [];
+		context.wallets.forEach((element) => {
+			console.log('checking element');
+			console.log(element);
+		});
+		context.wallets.push(self);
 	}
-	__setup_fetchExistingDoc_andAwaitBoot()
+	__setup_fetchExistingDoc_andAwaitBoot(context)
 	{
 		console.log("Wallet.__setup_fetchExistingDoc_andAwaitBoot")
 		const self = this
@@ -162,6 +169,9 @@ class Wallet extends EventEmitter
 					self.failedToInitialize_cb(err)
 					return
 				}
+				console.log("Wallet.js Context");
+				console.log(context);
+				console.log(context.wallets);
 				const encryptedString = contentStrings[0].value
 				// and we hang onto this for when the instantiator opts to boot the instance
 				self.initialization_encryptedString = encryptedString

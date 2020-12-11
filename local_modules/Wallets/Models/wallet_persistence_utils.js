@@ -32,7 +32,7 @@ import persistable_object_utils from '../../DocumentPersister/persistable_object
 import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
 //
 const CollectionName = "Wallets"
-console.log("Wallet persistence loaded")
+//console.log("Wallet persistence loaded")
 //
 // Utility functions
 function HydrateInstance(
@@ -41,7 +41,7 @@ function HydrateInstance(
 ) {
 	const self = walletInstance
 	//
-	console.log("Invoked wallet_persistence_utils.HydrateInstance")
+	//console.log("Invoked wallet_persistence_utils.HydrateInstance")
 	// console.log("plaintextDocument", plaintextDocument)
 	self.isLoggedIn = plaintextDocument.isLoggedIn
 	self.isInViewOnlyMode = plaintextDocument.isInViewOnlyMode
@@ -232,22 +232,22 @@ function SaveToDisk(
 	if (typeof self.local_wasAGeneratedWallet !== 'undefined') { // saving this primarily so that we can keep calling the regen function with this value
 		plaintextDocument.local_wasAGeneratedWallet = self.local_wasAGeneratedWallet
 	}
-	console.log("wallet_persistence_utils.SaveToDisk invoked")
+	// console.log("wallet_persistence_utils.SaveToDisk invoked")
 	
-	console.log("$self.context.string_cryptor__background");
-	console.log(self.context.string_cryptor__background);
-	console.log("$self.context.persister");
-	console.log(self.context.persister);
-	console.log("$self"); 
-	console.log(self);
-	console.log("$CollectionName");
-	console.log(CollectionName);
-	console.log("$plaintextDocument"); // _id will get generated for this if self does not have an _i");
-	console.log(plaintextDocument); // _id will get generated for this if self does not have an _i)");
-	console.log("$persistencePassword");
-	console.log(persistencePassword);
-	console.log("$fn");
-	console.log(fn);
+	// console.log("$self.context.string_cryptor__background");
+	// console.log(self.context.string_cryptor__background);
+	// console.log("$self.context.persister");
+	// console.log(self.context.persister);
+	// console.log("$self"); 
+	// console.log(self);
+	// console.log("$CollectionName");
+	// console.log(CollectionName);
+	// console.log("$plaintextDocument"); // _id will get generated for this if self does not have an _i");
+	// console.log(plaintextDocument); // _id will get generated for this if self does not have an _i)");
+	// console.log("$persistencePassword");
+	// console.log(persistencePassword);
+	// console.log("$fn");
+	// console.log(fn);
 
 	persistable_object_utils.write(
 		self.context.string_cryptor__background,

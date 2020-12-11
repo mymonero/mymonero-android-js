@@ -161,7 +161,7 @@ class EditWalletView extends View
 			"wallet", 
 			self.context, 
 			"REMOVE", 
-			self.context.isLiteApp == true ? "LOG OUT…" : undefined
+			"LOG OUT"
 		)
 		const layer = view.layer
 		function __proceedTo_deleteRecord()

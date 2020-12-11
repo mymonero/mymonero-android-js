@@ -61,10 +61,8 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 			self._setup_form_walletAddrAndKeysFields()
 			self._setup_form_toggleLoginModeLayer()		
 		}
-		if (self.context.isLiteApp != true) {
-			self._setup_form_walletNameField()
-			self._setup_form_walletSwatchField()
-		}
+		self._setup_form_walletNameField()
+		self._setup_form_walletSwatchField()
 		setTimeout(function()
 		{ // after visible… (TODO: improve by doing on VDA or other trigger)
 			self.mnemonicTextAreaView.layer.focus()
@@ -455,17 +453,17 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 	lookup__walletName()
 	{
 		const self = this
-		if (self.context.isLiteApp == true) {
-			return self.context.walletsListController.LiteAppWalletName()
-		}
+		// if (self.context.isLiteApp == true) {
+		// 	return self.context.walletsListController.LiteAppWalletName()
+		// }
 		return self.walletNameInputLayer.value
 	}
 	lookup__colorHexString()
 	{
 		const self = this
-		if (self.context.isLiteApp == true) {
-			return self.context.walletsListController.LiteAppWalletSwatchColor()
-		}
+		// if (self.context.isLiteApp == true) {
+		// 	return self.context.walletsListController.LiteAppWalletSwatchColor()
+		// }
 		return self.walletColorPickerInputView.Component_Value()
 	}
 	lookup__mnemonicSeed()
