@@ -72,30 +72,176 @@ class DocumentPersister extends DocumentPersister_Interface
 	__documentContentStringsWithIds(collectionName, ids, fn)
 	{
 		console.log("SecureStorage: invoked __documentContentStringsWithIds");
-		const self = this
-		const collectionStringsById = self.store[collectionName] || {}
-		const ids_length = ids.length
-		const stringsWithIds = []
-		for (var i = 0 ; i < ids_length ; i++) {
-			const id = ids[i]
-			const stringWithId = collectionStringsById[id] || null
-			if (stringWithId != null) {
-				stringsWithIds.push(stringWithId)
+		console.log(collectionName);
+		let parameters = { collectionName, fn, ids }
+		// We know what the ids are, from ids param. Build up an array of promises
+		for (let i = 0; i < obj.length; i++) {
+			console.log(`Promise ${i}`);
+			console.log(obj);
+			console.log(obj[0]);
+			let retrievalObj = {
+				key: collectionName + obj[i]
 			}
+			console.log(retrievalObj);
+
+			promiseArr[i] = SecureStoragePlugin.get(retrievalObj).catch(error => {
+				console.log("There was a problem with promise number");
+				console.log(i);
+				console.log(error);
+				// let's get keys and output them
+				let keys = SecureStoragePlugin.keys().then(keys => {
+					console.log("Promise problem: keys");
+					console.log(keys);
+				});
+			})
 		}
-		setTimeout(function() { // maintain async
-			fn(null, stringsWithIds)
-		})
+
+		Promise.all(promiseArr).then((values) => {
+			console.log("Here are the __documentContentStringsWithIds values ");
+			var documentCollectionArr = [];
+			for (let j = 0; j < values.length; j++) {
+				let returnedObj = JSON.parse(values[j].value);
+				console.log(`returnedObj for ${j}`)
+				console.log(returnedObj);
+				documentCollectionArr.push(returnedObj);
+			}
+			console.log(values);
+			setTimeout(function() { // maintain async
+				fn(null, documentCollectionArr)
+			})
+		}).catch(error => {
+			console.log("There was a problem retrieveing allDocument values ");
+			console.log(error);
+		});
+
+
+		// SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
+		// 	let jsonString = returnData.value;
+		// 	let obj = JSON.parse(jsonString);
+		// 	console.log("This is what we have for " + parameters.collectionName);
+		// 	console.log(obj);
+		// 	let strings = [];	
+
+		// 	let promiseArr = [];
+		// 	// since we could get multiple ids back, we need to create a number of promises and return the values of them
+		// 	for (let i = 0; i < obj.length; i++) {
+		// 		console.log(`Promise ${i}`);
+		// 		console.log(obj);
+		// 		console.log(obj[0]);
+		// 		let retrievalObj = {
+		// 			key: collectionName + obj[i]
+		// 		}
+
+		// 		console.log(retrievalObj);
+
+		// 		promiseArr[i] = SecureStoragePlugin.get(retrievalObj).catch(error => {
+		// 			console.log("There was a problem with promise number");
+		// 			console.log(i);
+		// 			console.log(error);
+		// 			// let's get keys and output them
+		// 			let keys = SecureStoragePlugin.keys().then(keys => {
+		// 				console.log("Promise problem: keys");
+		// 				console.log(keys);
+		// 			});
+		// 		})
+		// 	}
+
+
+
+		// 	Promise.all(promiseArr).then((values) => {
+		// 		console.log("Here are the allDocument values ");
+		// 		var documentCollectionArr = [];
+		// 		for (let j = 0; j < values.length; j++) {
+		// 			let returnedObj = JSON.parse(values[j].value);
+		// 			console.log(`returnedObj for ${j}`)
+		// 			console.log(returnedObj);
+		// 			documentCollectionArr.push(returnedObj);
+		// 		}
+		// 		console.log(values);
+		// 		setTimeout(function() { // maintain async
+		// 			fn(null, documentCollectionArr)
+		// 		})
+		// 	}).catch(error => {
+		// 		console.log("There was a problem retrieveing allDocument values ");
+		// 		console.log(error);
+		// 	});
+
+		// 	console.log("Originally returned this: ");
+		// 	// const collectionStringsById = self.store[collectionName] || {}
+		// 	// const ids = Object.keys(collectionStringsById)
+		// 	// const ids_length = ids.length
+			
+		// 	// for (var i = 0 ; i < ids_length ; i++) {
+		// 	// 	const id = ids[i]
+		// 	// 	const stringWithId = collectionStringsById[id] || null
+		// 	// 	strings.push(stringWithId)
+		// 	// }
+		// 	// console.log(strings)
+			
+
+		// }).catch((error) => {
+		// 	console.log(`Catch error on allDocuments for ${parameters.collectionName}`);
+		// 	console.log(error);
+		// 	let strings = [];	
+		// 	setTimeout(function() { // maintain async
+		// 		fn(null, strings)
+		// 	})
+		// })
+		// const self = this
+		// const collectionStringsById = self.store[collectionName] || {}
+		// const ids_length = ids.length
+		// const stringsWithIds = []
+		// for (var i = 0 ; i < ids_length ; i++) {
+		// 	const id = ids[i]
+		// 	const stringWithId = collectionStringsById[id] || null
+		// 	if (stringWithId != null) {
+		// 		stringsWithIds.push(stringWithId)
+		// 	}
+		// }
+
 	}
 	__idsOfAllDocuments(collectionName, fn)
 	{
 		console.log("SecureStorage: invoked __idsOfAllDocuments");
+		console.log(collectionName);
+		let parameters = { collectionName, fn }
+		SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
+			console.log("__idsOfAllDocuments: This is what we have for " + parameters.collectionName);
+			let jsonString = returnData.value;
+			console.log(jsonString);
+			console.log(typeof(jsonString));
+			
+			let obj = JSON.parse(jsonString);
+			console.log(obj);
+			console.log(typeof(obj))
+
+			let strings = [];	
+			for (let i = 0; i < obj.length; i++) {
+				strings.push(`${parameters.collectionName}${obj[i]}`);
+				console.log("Here's our string push: ");
+				console.log(strings);
+			}
+			setTimeout(function() { // maintain async
+				console.log("SecureStorage: __idsOfAllDocuments async return");
+				console.log(obj);
+				fn(null, obj)
+			})
+		}).catch((error) => {
+			console.log(`__idsOfAllDocuments: Catch error on __idsOfAllDocuments for ${parameters.collectionName} -- this collectionName likely doesn't have records`);
+			console.log(error);
+			let strings = [];	
+			setTimeout(function() { // maintain async
+				fn(null, strings)
+			})
+		})
+
+
 		const self = this
 		const collectionStringsById = self.store[collectionName] || {}
 		const ids = Object.keys(collectionStringsById)
-		setTimeout(function() { // maintain async
-			fn(null, ids)
-		})
+		// setTimeout(function() { // maintain async
+		// 	fn(null, ids)
+		// })
 	}
 	__allDocuments(collectionName, fn)
 	{
@@ -381,7 +527,77 @@ class DocumentPersister extends DocumentPersister_Interface
 */
 		// Safe to write
 		
-	
+	DocumentsWithIds(collectionName, ids, fn) {
+		let err = null;
+		let promiseArr = [];
+		let parameters = { collectionName, ids, fn };
+
+		console.log(`SecureStorage: DocumentsWithIds for ${collectionName}`)
+		console.log(ids)
+		console.log("This is what we have for " + parameters.collectionName);
+
+		// since we could get multiple ids back, we need to create a number of promises and return the values of them
+		for (let i = 0; i < ids.length; i++) {
+			console.log(`Promise ${i}`);
+			console.log(ids);
+			console.log(ids[0]);
+			let retrievalObj = {
+				key: collectionName + ids[i]
+			}
+
+			console.log(retrievalObj);
+
+			promiseArr[i] = SecureStoragePlugin.get(retrievalObj).catch(error => {
+				console.log("There was a problem with promise number");
+				console.log(i);
+				console.log(error);
+				// let's get keys and output them
+				let keys = SecureStoragePlugin.keys().then(keys => {
+					console.log("Promise problem: keys");
+					console.log(keys);
+				});
+			})
+		}
+
+
+
+		Promise.all(promiseArr).then((values) => {
+			console.log("SecureStorage: DocumentsWithIds: Here are the returned promise values values ");
+			var documentCollectionArr = [];
+			for (let j = 0; j < values.length; j++) {
+				let returnedObj = JSON.parse(values[j].value);
+				console.log(`returnedObj for ${j}`)
+				console.log(returnedObj);
+				documentCollectionArr.push(returnedObj);
+			}
+			console.log(documentCollectionArr);
+			console.log(values);
+			setTimeout(function() { // maintain async
+				fn(null, documentCollectionArr)
+			})
+		}).catch(error => {
+			console.log("There was a problem retrieveing allDocument values ");
+			console.log(error);
+		});
+
+		console.log("Originally returned this: ");
+			// const collectionStringsById = self.store[collectionName] || {}
+			// const ids = Object.keys(collectionStringsById)
+			// const ids_length = ids.length
+			
+			// for (var i = 0 ; i < ids_length ; i++) {
+			// 	const id = ids[i]
+			// 	const stringWithId = collectionStringsById[id] || null
+			// 	strings.push(stringWithId)
+			// }
+			// console.log(strings)
+		// return empty array for now
+		// setTimeout(function() {
+		// 	fn(null, [])
+		// })
+		//fn(err, []);
+	}
+		
 	__updateDocumentWithId(collectionName, id, updateString, fn)
 	{
 		console.log("SecureStorage: invoked __updateDocumentWithId");
