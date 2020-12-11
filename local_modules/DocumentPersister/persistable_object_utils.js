@@ -47,11 +47,14 @@ function read(
 		[ self._id ],
 		function(err, docs)
 		{
+			console.log("Persistable_object_utils: DocumentsWithIds callback");
 			if (err) {
 				console.error(err.toString())
 				fn(err)
 				return
 			}
+			console.log()
+			console.log(docs);
 			if (docs.length === 0) {
 				const errStr = "❌  Record with that _id not found."
 				const err = new Error(errStr)
@@ -60,9 +63,14 @@ function read(
 				return
 			}
 			const encryptedDocument = docs[0]
-			console.log("Persistable_object_utils: __proceedTo_decryptEncryptedDocument about to invoke")
-			console.log(encryptedDocument)
-			__proceedTo_decryptEncryptedDocument(encryptedDocument)
+			if (encryptedDocument.value !== undefined) {
+				console.log(`Persistable_object_utils: __proceedTo_decryptEncryptedDocument about to invoke - ${CollectionName} -- .value exists`);
+				__proceedTo_decryptEncryptedDocument(encryptedDocument.value);
+			} else {
+				console.log(`Persistable_object_utils: __proceedTo_decryptEncryptedDocument about to invoke - ${CollectionName} -- .value undefined`);
+				console.log(encryptedDocument)
+				__proceedTo_decryptEncryptedDocument(encryptedDocument)
+			}
 		}
 	)
 	function __proceedTo_decryptEncryptedDocument(encryptedBase64String)
@@ -79,6 +87,8 @@ function read(
 					return
 				}
 				var plaintextDocument;
+				console.log("Persistable objproceeding to decrypt")
+				console.log(plaintextDocument);
 				try {
 					plaintextDocument = JSON.parse(plaintextString)
 					console.log('sucessfully decrypted document')

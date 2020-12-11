@@ -382,14 +382,75 @@ class DocumentPersister extends DocumentPersister_Interface
 	//
 	__insertDocument(collectionName, id, documentToInsert, fn)
 	{
+		console.log("SecureStorage: invoked __insertDocument");
 		let rootObject = SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
 			
 			console.log("This document set has an index saved");
 			console.log(returnData);
 
+			let indexArray = JSON.parse(returnData.value);
+			
+			// Since the legacy code is horrendous, we don't know if we've been passed a string or an object 
+			let stringContents = "";
+			if (typeof documentToInsert === 'string') {
+				stringContents = documentToInsert
+			} else {
+				try {
+					stringContents = JSON.stringify(documentToInsert)
+				} catch (e) {
+					fn(e)
+					return
+				}
+				if (!stringContents || typeof stringContents === 'undefined') { // just to be careful
+					fn(new Error("Unable to stringify document for write."))
+					return
+				}
+			}
+
+			// Promise to update collectionName index file
+			
+			indexArray.push(id);
+			console.log("We would update our index with this obj");
+			console.log(indexArray);
+			let indexPromise = SecureStoragePlugin.set({ key: collectionName, value: JSON.stringify(indexArray) }).then(() =>  {
+				console.log("Saved successfully");
+			})
+
+			// Promise to create object using its id as a key
+
+			let saveObj = {
+				id: id,
+				value: stringContents
+			}
+
+			let saveObjString = JSON.stringify(saveObj);
+
+			let objectKey = collectionName + id;
+
+			let objectPromise = SecureStoragePlugin.set({ key: objectKey, value: saveObjString }).then(() =>  {
+				console.log("Saved successfully");
+				})
+
+			console.log("We would create an object using this object and key");
+			console.log(indexArray);
+			console.log(saveObj)
+			
+			let promises = [indexPromise, objectPromise];
+
+			Promise.all(promises).then(values => {
+				console.log(values);
+				console.log("Index updated and object saved successfully");
+				setTimeout(function() {
+					fn(null, documentToInsert)
+				})
+			}).catch(error => {
+				console.log("There was an error saving the object");
+				console.log(error);
+			})
+
 			// this code exists for debug -- we want to hop to catch expression
-			console.log("this code exists for debug -- we want to hop to catch expression");
-			console.log(nonExistant);
+			//console.log("this code exists for debug -- we want to hop to catch expression");
+			//console.log(nonExistant);
 
 
 			// if (keys.length == 0) {
