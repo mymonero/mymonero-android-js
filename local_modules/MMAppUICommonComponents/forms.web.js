@@ -35,7 +35,7 @@ import Views__cssRules from '../Views/cssRules.web';
 
 //
 import commonComponents_tables from './tables.web';
-
+import LocalVendor_ScrollPositionEndFixed_Animate_object from '../Animation/Vendor/velocity';
 //
 const NamespaceName = "Forms"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -154,19 +154,19 @@ function _shared_scrollConformingElementIntoView(inputLayer)
 			// ^-- hopefully it will not cause problems to have multiple velocity modules connected to the same DOM
 		}
 	}
-	LocalVendor_ScrollPositionEndFixed_Animate(inputLayer, "stop")
-	LocalVendor_ScrollPositionEndFixed_Animate(scrollingAncestor, "stop")
+	//LocalVendor_ScrollPositionEndFixed_Animate(inputLayer, "stop")
+	//LocalVendor_ScrollPositionEndFixed_Animate(scrollingAncestor, "stop")
 	const navBarHeight = 44 // janky/fragile
 	const topMargin = 20 // to clear the form title labels - would be nice to source these from shared constants/metrics
-	LocalVendor_ScrollPositionEndFixed_Animate(
-		inputLayer,
-		"scroll",
-		{
-			container: scrollingAncestor, 
-			duration: 500, 
-			offset:-1 * (topMargin + navBarHeight)
-		}
-	)
+	// LocalVendor_ScrollPositionEndFixed_Animate(
+	// 	inputLayer,
+	// 	"scroll",
+	// 	{
+	// 		container: scrollingAncestor, 
+	// 		duration: 500, 
+	// 		offset:-1 * (topMargin + navBarHeight)
+	// 	}
+	// )
 }
 //
 function New_fieldValue_textInputLayer(context, params)
