@@ -203,7 +203,7 @@ function NewHydratedContext(initialContext)
 	// 	context_object_instantiation_descriptions, 
 	// 	initialContext
 	// )
-	console.log(runtimeContext);
+	//console.log(runtimeContext);
 
 	//
 	return rcNewHydratedContext(
@@ -213,9 +213,9 @@ function NewHydratedContext(initialContext)
 }
 
 function rcNewHydratedContext(context_object_instantiation_descriptions, initialContext_orNilForNew) {
-	console.log("runtime_context inside index_context -- NewHydratedContext")
-	console.log(context_object_instantiation_descriptions)
-	console.log(initialContext_orNilForNew)
+	//console.log("runtime_context inside index_context -- NewHydratedContext")
+	//console.log(context_object_instantiation_descriptions)
+	//console.log(initialContext_orNilForNew)
 	var context = initialContext_orNilForNew != null ? initialContext_orNilForNew : {}
 	for (let i in context_object_instantiation_descriptions) {
 		var description = context_object_instantiation_descriptions[i]
@@ -256,17 +256,17 @@ function rcNewHydratedContext(context_object_instantiation_descriptions, initial
 		} else if (i == 8) {
 			// TODO: Remove this -- code is here for debugging BackgroundAPIResponseParser
 			try {
-				console.log("Debugging backgroundResponseParser")
-				console.log(i)
-				console.log(context_object_instantiation_descriptions);
-				console.log(description);
+				//console.log("Debugging backgroundResponseParser")
+				//console.log(i)
+				//console.log(context_object_instantiation_descriptions);
+				//console.log(description);
 		
-				console.log(module)
-				console.log(typeof module)		
-				console.log(description.options)
-				console.log(context)
+				//console.log(module)
+				//console.log(typeof module)		
+				//console.log(description.options)
+				//console.log(context)
 				instance = new module(description.options, context)
-				console.log("We successfully instantiated backgroundResponseParser");
+				//console.log("We successfully instantiated backgroundResponseParser");
 			} catch (e) {
 				console.error("Code fault while loading ", JSON.stringify(description, null, '  '))
 				throw e
