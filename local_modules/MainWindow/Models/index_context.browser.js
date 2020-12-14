@@ -31,24 +31,24 @@
 //
 import TXTRecordResolver from '../../OpenAlias/TXTResolver.web';
 import Pasteboard from '../../Pasteboard/Pasteboard.browser';
-import URLBrowser from"../../URLBrowser/URLBrowser.browser";
-import FilesystemUI from"../../FilesystemUI/FilesystemUI.browser";
-import WindowDialogs from"../../WindowDialogs/WindowDialogs.browser";
-import CcyConversionRates from"../../CcyConversionRates/Controller";
-import Locale from"../../Locale/Locale.browser";
-import symmetric_cryptor from"../../symmetric_cryptor/BackgroundStringCryptor.noOp";
+import URLBrowser from "../../URLBrowser/URLBrowser.browser";
+import FilesystemUI from "../../FilesystemUI/FilesystemUI.browser";
+import WindowDialogs from "../../WindowDialogs/WindowDialogs.browser";
+import CcyConversionRates from "../../CcyConversionRates/Controller";
+import Locale from "../../Locale/Locale.browser";
+import symmetric_cryptor from "../../symmetric_cryptor/BackgroundStringCryptor.noOp";
 import ContactsListController from "../../Contacts/Controllers/ContactsListController"
-import DocumentPersister from"../../DocumentPersister/DocumentPersister.SecureStorage";
-import backgroundAPIResponseParser from"../../HostedMoneroAPIClient/BackgroundResponseParser.web";
-import HostedMoneroAPIClient from"../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
-import OpenAlias from"../../OpenAlias/OpenAliasResolver";
-import Theme from"../../Theme/ThemeController";
+import DocumentPersister from "../../DocumentPersister/DocumentPersister.SecureStorage";
+import backgroundAPIResponseParser from "../../HostedMoneroAPIClient/BackgroundResponseParser.web";
+import HostedMoneroAPIClient from "../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
+import OpenAlias from "../../OpenAlias/OpenAliasResolver";
+import Theme from "../../Theme/ThemeController";
 import FundsRequestsListController from "../../RequestFunds/Controllers/FundsRequestsListController"
-import Passwords from"../../Passwords/Controllers/PasswordController.Full";
-import Settings from"../../Settings/Controllers/SettingsController";
-import UserIdle from"../../UserIdle/UserIdleInWindowController";
-import WalletsList from"../../WalletsList/Controllers/WalletsListController.Full";
-import WalletAppCoordinator from"../../WalletAppCoordinator/WalletAppCoordinator";
+import Passwords from "../../Passwords/Controllers/PasswordController.Full";
+import Settings from "../../Settings/Controllers/SettingsController";
+import UserIdle from "../../UserIdle/UserIdleInWindowController";
+import WalletsList from "../../WalletsList/Controllers/WalletsListController.Full";
+import WalletAppCoordinator from "../../WalletAppCoordinator/WalletAppCoordinator";
 import runtimeContext from "../../runtime_context/runtime_context";
 import exceptionAlerting from "../Controllers/ExceptionAlerting.browser.web.js"
 
