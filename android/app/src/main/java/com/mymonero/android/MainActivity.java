@@ -2,6 +2,7 @@ package com.mymonero.android;
 
 import android.os.Bundle;
 
+import com.bkon.capacitor.fileselector.FileSelector;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 import com.whitestein.securestorage.SecureStoragePlugin;
@@ -18,6 +19,7 @@ public class MainActivity extends BridgeActivity {
       // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
       add(SecureStoragePlugin.class);
+      add(FileSelector.class);
     }});
   }
 }
