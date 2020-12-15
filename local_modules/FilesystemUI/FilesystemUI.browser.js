@@ -58,12 +58,13 @@ class FilesytemUI extends FilesystemUI_Abstract
 				directory: FilesystemDirectory.Documents,
 				encoding: FilesystemEncoding.UTF8
 			})
-			const result = await Filesystem.writeFile({
+			const result2 = await Filesystem.writeFile({
 				path: 'image2.png',
 				data,
 				directory: FilesystemDirectory.Documents
 			})
 			console.log('Wrote file', result);
+			console.log('Wrote file', result2);
 			return result;
 		} catch(e) {
 			console.error('Unable to write file', e);
@@ -80,11 +81,6 @@ class FilesytemUI extends FilesystemUI_Abstract
 		fn // (err?) -> Void
 	) {
 		const self = this;
-		// console.log("What the fuck?");
-		// console.log(imgData_base64String);
-		// console.log(title);
-		// console.log(defaultFilename_sansExt);
-		// console.log(Capacitor);
 		if (Capacitor.platform == "web") {
 			let a = document.createElement("a");
 			a.href = imgData_base64String;
@@ -166,22 +162,36 @@ class FilesytemUI extends FilesystemUI_Abstract
 			  ext: ext 
 			}) 
 		
-			if(this.platform.is("android")) 
-			{ 
-			  let paths = JSON.parse(selectedFile.paths) 
-			  let original_names = JSON.parse(selectedFile.original_names) 
-			  let extensions = JSON.parse(selectedFile.extensions) 
-			  for (let index = 0; index < paths.length; index++) { 
-				  const file = await fetch(paths[index]).then((r) => r.blob()); 
-				  formData.append( 
-					"myfile[]", 
-					file, 
-					original_names[index] + extensions[index] 
-				  ); 
+			if (Capacitor.platform == "android") {
+				console.log("FileSelection: platform is Android");
+				console.log(selectedFile.paths);
+				let paths = JSON.parse(selectedFile.paths) 
+				console.log("FileSelection: paths");
+				console.log(paths); // paths ends up being the file location of the file we need to access, prefixed with _capacitor_file_/. We need to remove the prefix
+				let pathArr = paths[0].split('capacitor_file_/');
+				console.log(pathArr);
+				let data = await Filesystem.readFile({
+					path: 'file:///' + pathArr[1]
+				});
+				console.log("Here we go with the data from the file");
+				console.log(data);
+				console.log(data.data);
+				let original_names = JSON.parse(selectedFile.original_names) 
+				console.log("FileSelection: original_names");
+				console.log(original_names);
+				let extensions = JSON.parse(selectedFile.extensions) 
+				console.log("FileSelection: extensions");
+				console.log(extensions);
+				for (let index = 0; index < paths.length; index++) { 
+					const file = await fetch(paths[index]).then((r) => r.blob()); 
+					formData.append( 
+						"myfile[]", 
+						file, 
+						original_names[index] + extensions[index] 
+						); 
 				}
-			} 
-			else if(this.platform.is("ios")) 
-			{ 
+				//console.log()
+			} else if (Capacitor.platform == "ios") {
 			  for (let index = 0; index < selectedFile.paths.length; index++) { 
 				const file = await fetch(selectedFile.paths[index]).then((r) => r.blob()); 
 				formData.append( 
@@ -190,9 +200,7 @@ class FilesytemUI extends FilesystemUI_Abstract
 				  selectedFile.original_names[index] + selectedFile.extensions[index] 
 				); 
 			  } 
-			} 
-			else 
-			{ 
+			} else { 
 			  FileSelector.addListener("onFilesSelected", (FileList) => { 
 					for(var i = 0; i < data.length; i++) 
 					{ 
