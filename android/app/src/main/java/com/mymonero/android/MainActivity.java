@@ -9,6 +9,8 @@ import com.whitestein.securestorage.SecureStoragePlugin;
 
 import java.util.ArrayList;
 
+import de.golbros.capacitorqrscanner.CapacitorQRScanner;
+
 public class MainActivity extends BridgeActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,7 @@ public class MainActivity extends BridgeActivity {
       // Ex: add(TotallyAwesomePlugin.class);
       add(SecureStoragePlugin.class);
       add(FileSelector.class);
+      add(CapacitorQRScanner.class);
     }});
   }
 }
