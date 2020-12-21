@@ -37,7 +37,11 @@ import indexContextBrowser from '../Models/index_context.browser'
 import cryptonoteUtilsNetType from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype'
 import emoji_web from '../../Emoji/emoji_web'
 import RootTabBarAndContentView from './RootTabBarAndContentView.Full.web'
-import { defineCustomElements } from '@ionic/pwa-elements/loader'
+import { Plugins } from '@capacitor/core';
+
+const { App } = Plugins;
+
+console.log(App);
 
 window.BootApp = function()
 { // encased in a function to prevent scope being lost/freed on mobile
@@ -147,8 +151,20 @@ window.BootApp = function()
 	{
 		throw e
 	});
+	window.addEventListener('ionBackButton', (event) => {
+		event.detail.register(10, () => {
+			  App.exitApp();
+		});
+	});
+	
 }
 window.BootApp()
 
-// Initialize fallback PWA elements for camera
-defineCustomElements(window);
+// Add event listener for exit
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+	App.addListener("backButton", (event) => {
+		App.exitApp();
+	});
+}
