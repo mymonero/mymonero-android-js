@@ -59,13 +59,11 @@ import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-j
 
 //
 import jsQR from 'jsqr';
-
 import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
 
 //
 import Currencies from '../../CcyConversionRates/Currencies';
 
-import { defineCustomElements } from '@ionic/pwa-elements/loader'
 
 import { Plugins } from '@capacitor/core';
 const { CapacitorQRScanner } = Plugins;
@@ -83,7 +81,6 @@ class SendFundsView extends View
 		//
 		const self = this 
 		{
-			defineCustomElements();
 			self.fromContact = options.fromContact || null
 		}
 		self.setup()
