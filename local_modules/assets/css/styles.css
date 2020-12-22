@@ -1523,6 +1523,7 @@ div#currency-table {
 }
 #wallet-selector {
     position: relative;
+    margin: 0 0 15px;
 }
 #exchangePage #state {                    
     display: block;
@@ -1738,42 +1739,6 @@ table.side-padding {
     padding: 0px 15px;
 }
 
-@media screen and (max-width: 450px) {
-    .form-field-title {
-        max-width: 100%;
-        margin: 0px 0 5px 0 !important;
-    }
-    #exchangePage div.currencySelect {
-        display: none !important;
-    }
-    #currencySelect {
-        position: absolute;
-        left: 117.5px;
-        width: 56px;
-        height: 29.5px;
-        border: 0px;
-        padding: 0px;
-        border-radius: 0px 4px 4px 0px;
-        -webkit-appearance: none;
-        top: 20px !important;
-    }
-    #exchangePage .currencyOutput {
-        /* width: calc(100% - 72px); */
-        /* max-width: calc(100% - 72px); */
-        padding: 0px 0px;
-        text-indent: 148px;
-        position: relative;
-        /* right: -85px; */
-        left: -4px !important;
-        padding: 5px 8px 0 0 !important;
-        margin-right: 20px !important;
-        text-indent: 20px !important;
-        height: 24px !important;
-        top: 0px !important;
-        width: calc(100% - 4px) !important;
-    }
-
-}
 #clock {
     text-align: right;
     max-width: unset !important;
