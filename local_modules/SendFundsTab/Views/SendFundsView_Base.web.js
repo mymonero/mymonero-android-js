@@ -67,26 +67,12 @@ import Currencies from '../../CcyConversionRates/Currencies';
 
 import { defineCustomElements } from '@ionic/pwa-elements/loader'
 
-import qrScanningUI from '../../QRScanningUI/QRScanningCameraUIMockView.web';
-import Quagga, { QuaggaJSResultObject } from "@ericblade/quagga2";
-// import 'capacitor-filepicker-plugin';
-// import { Plugins } from '@capacitor/core';
-// const { FilePicker } = Plugins; // Initialises the Secure Storage Capacitor plugin
-// console.log(FilePicker);
-
 import { Plugins } from '@capacitor/core';
 const { CapacitorQRScanner } = Plugins;
 
 
 import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
-import _ from 'instascan-new';
-console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-console.log(_);
 
-
-const Instascan = _;
-console.log(Instascan);
-//
 let rateServiceDomainText = "cryptocompare.com"
 //
 class SendFundsView extends View
@@ -2226,6 +2212,7 @@ class SendFundsView extends View
 	//	
 	__didSelect_actionButton_chooseFile()
 	{
+		console.log("Choose file");
 		const self = this
 		self.context.userIdleInWindowController.TemporarilyDisable_userIdle() // TODO: this is actually probably a bad idea - remove this and ensure that file picker canceled on app teardown
 		if (typeof self.context.Cordova_disallowLockDownOnAppPause !== 'undefined') {
@@ -2236,6 +2223,7 @@ class SendFundsView extends View
 			"Open Monero Request",
 			function(err, absoluteFilePath)
 			{
+				console.log("In return handler from actionButton)_chooseField");
 				self.context.userIdleInWindowController.ReEnable_userIdle()					
 				if (typeof self.context.Cordova_disallowLockDownOnAppPause !== 'undefined') {
 					self.context.Cordova_disallowLockDownOnAppPause -= 1 // remove lock
@@ -2249,205 +2237,15 @@ class SendFundsView extends View
 					self.validationMessageLayer.ClearAndHideMessage() // clear to resolve ambiguity in case existing error is displaying
 					return // nothing picked / canceled
 				}
-				self._shared_didPickQRCodeAtPath(absoluteFilePath)
+				console.log(absoluteFilePath);
+				self._shared_didPickQRCodeWithImageSrcValue(absoluteFilePath)
 			}
 		)
 	}
 
-	qScan(target) {
-		return new Promise((resolve, reject) => {
-			Quagga.init({
-			inputStream: {
-				name: 'Live',
-				type: 'LiveStream',
-				target: target,
-			},
-			decoder: {
-				readers: ['ean_reader']
-			}
-			}, function (error) {
-			if (error) {
-				reject(error);
-				return
-			}
-			console.log('Initialization finished. Ready to start');
-			Quagga.start();
-			});
-			Quagga.onDetected(data => resolve(data));
-		});
-	}
-	
-	qStopScan() {
-	  Quagga.stop();
-	  return '';
-	};
-	
 	async startScanning() {
 		let result = await CapacitorQRScanner.scan();
-		console.log("RESULT INCOMING!!!!!!!!!!!!!!!");
-		console.log(result);
-		console.log(result.code);
 		self._shared_didPickPossibleRequestURIStringForAutofill(result.code)
-		// let target = 
-		// let data = qScan().then(data => {
-		// 	console.log(data);
-		// });
-		/// Start of work-once code
-		// let scanner = null;
-		// const self = this
-		// console.log(self);
-		// console.log("Starting scanning");
-		// let cameraDiv = document.getElementById("camera");
-		// cameraDiv.style.display = "block";
-		// cameraDiv.style.zIndex = "50000";
-		// self.rightBarButtonView.display = "none";
-		// //layer.appendChild(html);
-		// //document.body.appendChild(layer);
-		
-		// let opts = {
-		// 	// Whether to scan continuously for QR codes. If false, use scanner.scan() to manually scan.
-		// 	// If true, the scanner emits the "scan" event when a QR code is scanned. Default true.
-		// 	continuous: true,
-			
-		// 	// The HTML element to use for the camera's video preview. Must be a <video> element.
-		// 	// When the camera is active, this element will have the "active" CSS class, otherwise,
-		// 	// it will have the "inactive" class. By default, an invisible element will be created to
-		// 	// host the video.
-		// 	video: document.getElementById('preview'),
-			
-		// 	// Whether to horizontally mirror the video preview. This is helpful when trying to
-		// 	// scan a QR code with a user-facing camera. Default true.
-		// 	mirror: false,
-			
-		// 	// Whether to include the scanned image data as part of the scan result. See the "scan" event
-		// 	// for image format details. Default false.
-		// 	captureImage: false,
-			
-		// 	// Only applies to continuous mode. Whether to actively scan when the tab is not active.
-		// 	// When false, this reduces CPU usage when the tab is not active. Default true.
-		// 	backgroundScan: true,
-			
-		// 	// Only applies to continuous mode. The period, in milliseconds, before the same QR code
-		// 	// will be recognized in succession. Default 5000 (5 seconds).
-		// 	refractoryPeriod: 5000,
-			
-		// 	// Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
-		// 	// increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
-		// 	scanPeriod: 1
-		// };
-		// scanner = new Instascan.Scanner(opts);
-		// let currentCameraOffset = 0;
-		// scanner.addListener('scan', function (content) {
-		// 	console.log("Camera scanned successfully");
-		// 	console.log(self.rightBarButtonView);
-		// 	self.rightBarButtonView.display = "block";
-		// 	console.log(content);
-			
-		// 	// returns monero:468KMJQBQPj9BiDPm9TYBKEbNtYAMDxXLFdZwTmTcMykZ5CJ5Wy6hkkNPaUmeLDkjDibR8q1dq82EcMaaDWudqgZ9snU69g?tx_amount=12&tx_payment_id=2e470a84699d6e35&tx_message=Plzkthx when properly formatted
-		// 	// let stringArray = content.split("?");
-		// 	// let params = stringArray[1].split("&");
-		// 	// let keyValueArray = params.map(value => {
-		// 	// 	console.log(value);
-		// 	// 	let keyVal = value.split("=");
-		// 	// 	return { key: keyVal[0], value: keyVal[1] }
-		// 	// })
-		// 	// // self.amountInputLayer.value = 0.21;
-		// 	// // self.manualPaymentIDInputLayer.value = "blah";
-		// 	// console.log(self);
-		// 	// console.log(keyValueArray);
-		// 	self._shared_didPickPossibleRequestURIStringForAutofill(content)
-		// 	cameraDiv.style.display = "none";
-		// 	scanner.stop().then(() => {
-		// 		let cameraElem = document.getElementById("camera");
-		// 		let html = `
-		// 			<div id="qr-instructions">Scan a compatible</div>
-		// 			<div class="sp sp-circle" id="loading-spinner"></div>
-		// 			<a href="#" id="switch-camera" class="hoverable-cell disableable utility">Switch Scanning</a>
-		// 			<a href="#" id="cancel-camera" class="hoverable-cell disableable utility">Cancel Scanning</a>
-		// 		`;
-		// 	});
-		// });
-
-		// let cancelButton = document.getElementById("cancel-camera");
-		// let switchCameraButton = document.getElementById("switch-camera");
-
-		// cancelButton.addEventListener("click", () => {
-		// 	cameraDiv.style.display = "none";
-		// 	self.rightBarButtonView.display = "block";
-		// 	scanner.stop();
-		// })
-		// switchCameraButton.addEventListener("click", () => {
-		// 	// cameraDiv.style.display = "none";
-		// 	// self.rightBarButtonView.display = "block";
-		// 	scanner.stop().then(() => {
-		// 		console.log("Stop called");
-		// 		Instascan.Camera.getCameras().then(function (cameras) {
-		// 			console.log("Switching camera");
-		// 			console.log(cameras);
-		// 			console.log("CurrentOffset");
-		// 			console.log(currentCameraOffset);
-	
-		// 			if (currentCameraOffset == (cameras.length - 1)) {
-		// 				console.log("Go back to first camera");
-		// 				let scanner2 = new Instascan.Scanner(opts);
-		// 				//scanner2.start(cameras[0]);
-		// 				Instascan.Camera.getCameras().then(function (cameras) {
-		// 					console.log("Switching camera");
-		// 					console.log(cameras);
-		// 					console.log("CurrentOffset");
-		// 					console.log(currentCameraOffset);
-			
-		// 					if (currentCameraOffset == (cameras.length - 1)) {
-		// 						console.log("Go back to first camera");
-		// 						currentCameraOffset = 0;
-		// 						scanner2.start(cameras[0]);
-		// 					} else {
-		// 						console.log("Increment camera");
-		// 						currentCameraOffset++;
-		// 						scanner.start(cameras[currentCameraOffset]);
-		// 					}
-		// 					console.log("InstascanGetCamerasLoopRan");
-		// 				})
-		// 				currentCameraOffset = 0;
-		// 				//scanner.start(cameras[0]);
-		// 			} else {
-		// 				console.log("Increment camera");
-		// 				currentCameraOffset++;
-		// 				scanner.start(cameras[currentCameraOffset]);
-		// 			}
-		// 			console.log("OuterCameraLoop");
-		// 		})
-		// 	});
-		// })
-		
-		
-		// console.log("CAMERACAMERACAMERACAMERACAMERACAMERACAMERACAMERACAMERA");
-		// Instascan.Camera.getCameras().then(function (cameras) {
-		// 	console.log(cameras);
-		// 	if (cameras.length > 1) {	
-		// 		let cameraElem = document.getElementById("camera");
-		// 		let html = `
-		// 			<div id="qr-instructions">Scan a compatible</div>
-		// 			<div class="sp sp-circle" id="loading-spinner"></div>
-		// 			<video id="preview"></video>
-		// 			<a href="#" id="switch-camera" class="hoverable-cell disableable utility">Switch Scanning</a>
-		// 			<a href="#" id="cancel-camera" class="hoverable-cell disableable utility">Cancel Scanning</a>
-		// 		`;
-		// 		cameraElem.innerHTML = html;
-		// 		scanner.start(cameras[0]);
-		// 		switchCameraButton.display = "block";
-		// 	} else if (cameras.length > 0) {
-		// 		currentCameraOffset = 0;
-		// 		scanner.start(cameras[0]);
-		// 	} else {
-		// 		console.error('No cameras found.');
-		// 	}
-			
-		// }).catch(function (e) {
-		// 	cameraDiv.style.display = "none";
-		// 	self.rightBarButtonView.display = "block";
-		// 	console.error(e);
-		// });
 	}
 	__didSelect_actionButton_useCamera()
 	{

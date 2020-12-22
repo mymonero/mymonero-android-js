@@ -450,7 +450,7 @@ class AddContactView extends ContactFormView
 					self.validationMessageLayer.ClearAndHideMessage() // clear to resolve ambiguity in case existing error is displaying
 					return // nothing picked / canceled
 				}
-				self._shared_didPickQRCodeAtPath(absoluteFilePath)
+				self._shared_didPickQRCodeWithImageSrcValue(absoluteFilePath)
 			}
 		)
 	}
