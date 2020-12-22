@@ -34,7 +34,6 @@
 import 'capacitor-secure-storage-plugin';
 import { Plugins } from '@capacitor/core';
 const { SecureStoragePlugin } = Plugins; // Initialises the Secure Storage Capacitor plugin
-console.log(SecureStoragePlugin);
 
 import DocumentPersister_Interface from './DocumentPersister_Interface';
 //
@@ -718,7 +717,7 @@ class DocumentPersister extends DocumentPersister_Interface
 	{
 		console.log("SecureStorage: invoked __removeAllData");
 		SecureStoragePlugin.clear().then(() => {
-			fn(error, "SecureStorage: __removeAllData successful");
+			fn(null, "SecureStorage: __removeAllData successful");
 		}).catch(error => {
 			console.log("SecureStorage: Invoke removeAllData failed")
 			console.log(error);
