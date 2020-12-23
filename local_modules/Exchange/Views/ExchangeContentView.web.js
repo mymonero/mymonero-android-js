@@ -78,22 +78,21 @@ class ExchangeContentView extends View {
 		layer.style.height = `calc(100% - ${marginTop}px - 15px)`
 		
 
-        ecvSelf._setup_emptyStateContainerView(context)
+        //ecvSelf._setup_emptyStateContainerView(context)
         ecvSelf._setup_views()
         ecvSelf.observerIsSet = false;
 
-        let interval = setInterval(function() {
+        let interval = setTimeout(function() {
             // if wallets exist, setup the wallet selector for the exchange page
             try {
-                if (context.walletsListController.records !== undefined) {
-                    //ecvSelf._setup_walletExchangeOptions(self.context);
-                    
+                if (ecvSelf.context.wallets !== undefined) {
+                    ecvSelf._setup_walletExchangeOptions(self.context);
                 }
             } catch {
                 // wallet not instantiated yet, no need to display notices
             }
             ecvSelf._refresh_sending_fee();
-        }, 2000);
+        }, 4000);
         ecvSelf.keepExchangeOptionsUpdated = interval;
     }
 
@@ -102,26 +101,59 @@ class ExchangeContentView extends View {
     _setup_walletExchangeOptions(context) {
         let self = this;
         let walletDiv = document.getElementById('wallet-selector');
+        console.log("Invoked _setup_walletExchangeOptions");
         if (walletDiv === null) {
             return;
         }
         // if the user has selected a wallet, we update the balances for the    
-
+        
         // get oldest wallet based on how wallets are inserted into wallets as a zero element, changing indexes backwards
-        let defaultOffset = 0;
-        let defaultWallet = context.walletsListController.records[defaultOffset];
-        let walletSelectOptions = `
-        <div data-walletoffset="0" data-walletpublicaddress="${defaultWallet.public_address}" data-walletLabel="${defaultWallet.walletLabel}" data-swatch="${defaultWallet.swatch.substr(1)}" data-walletbalance="${self.UnlockedBalance_FormattedString(defaultWallet)}" data-walletid="${defaultWallet._id}" id="selected-wallet" class="hoverable-cell utility selectionDisplayCellView" style="">
-                <div id="selected-wallet-icon" class="walletIcon medium-32" style="background-image: url(MMAppUICommonComponents/Resources/wallet-00C6FF@3x.png)"></div>
-                <div id="selected-wallet-label" class="walletName">${defaultWallet.walletLabel}</div>
-                <div id="selected-wallet-balance" class="description-label">${self.UnlockedBalance_FormattedString(defaultWallet)} XMR available</div>
-            </div>
-            <div id="wallet-options" class="options_containerView">
-                <div class="options_cellViews_containerView" style="position: relative; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 20; overflow-y: auto; max-height: 174.9px;">
+        if (walletDiv.dataset.walletchosen == "true") {
+            let selectedWallet = document.getElementById('selected-wallet');
+            let selectorOffset = selectedWallet.dataset.walletoffset;
+            let selectorInt = parseInt(selectorOffset);
+            let wallet = self.context.wallets[selectorInt];
+            let walletBalance = document.getElementById('selected-wallet-balance'); 
+            walletBalance.innerText = `${self.UnlockedBalance_FormattedString(context.walletsListController.records[selectorOffset])} XMR available`;
+        } else {
+            let walletOptions = ``;
+            console.log("Finicky loop")
+            console.log(context.wallets.length);
+            console.log(context.walletsListController.records);
+            for (let i = 0; i < context.walletsListController.records.length; i++) {
+                
+                let wallet = context.walletsListController.records[i];
+                let swatch = wallet.swatch.substr(1);
+                //console.log('Get the wallet address, pass it as a data attr for refunds');
+                console.log(wallet);
+                walletOptions = walletOptions + `
+                <div data-walletLabel="${wallet.walletLabel}" data-walletoffset="${i}" data-swatch="${swatch}" data-walletbalance="${self.UnlockedBalance_FormattedString(wallet)}" data-walletid="${wallet._id}" data-walletpublicaddress="${wallet.public_address}" class="hoverable-cell utility optionCell" style="word-break: break-all; height: 66px; position: relative; left: 0px; top: 0px; box-sizing: border-box; width: 100%;">                    
+                    <div class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${swatch}@3x.png');"></div>                        
+                    <div class="walletLabel">${wallet.walletLabel}</div>
+                    <div class="description-label" style="position: relative; box-sizing: border-box; padding: 0px 38px 4px 66px; font-size: 13px; font-family: Native-Light, input, menlo, monospace; font-weight: 100; -webkit-font-smoothing: subpixel-antialiased; max-height: 32px; color: rgb(158, 156, 158); word-break: normal; overflow: hidden; text-overflow: ellipsis; cursor: default;">${self.UnlockedBalance_FormattedString(wallet)} XMR available</div>
                 </div>
-            </div>
-        `;
-        walletDiv.innerHTML = walletSelectOptions;
+                `;
+            }         
+            //console.log('wallet html ran options '+i)
+            // get oldest wallet based on how wallets are inserted into wallets as a zero element, changing indexes backwards
+            let size = context.wallets.length;
+            size = size - 1;
+            let defaultOffset = 0;
+            let defaultWallet = context.wallets[defaultOffset];
+            let walletSelectOptions = `
+            <div data-walletoffset="0" data-walletpublicaddress="${defaultWallet.public_address}" data-walletLabel="${defaultWallet.walletLabel}" data-swatch="${defaultWallet.swatch.substr(1)}" data-walletbalance="${self.UnlockedBalance_FormattedString(defaultWallet)}" data-walletid="${defaultWallet._id}" id="selected-wallet" class="hoverable-cell utility selectionDisplayCellView" style="">
+                    <div id="selected-wallet-icon" class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${defaultWallet.swatch.substr(1)}@3x.png')"></div>
+                    <div id="selected-wallet-label" class="walletName">${defaultWallet.walletLabel}</div>
+                    <div id="selected-wallet-balance" class="description-label">${self.UnlockedBalance_FormattedString(defaultWallet)} XMR available</div>
+                </div>
+                <div id="wallet-options" class="options_containerView">
+                    <div class="options_cellViews_containerView" style="position: relative; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 20; overflow-y: auto; max-height: 174.9px;">
+                        ${walletOptions}
+                    </div>
+                </div>
+            `;
+            walletDiv.innerHTML = walletSelectOptions;
+        }
     }
 
     _refresh_sending_fee() {
@@ -135,36 +167,41 @@ class ExchangeContentView extends View {
 
     _setup_views() {
         // // to do -- clean up interval timers a bit.
-        // const self = this
-        // super._setup_views()
-        // self._setup_emptyStateContainerView()
-        // self.observerIsSet = false;
+        const self = this
+        //super._setup_views()
+        self._setup_emptyStateContainerView()
+        self.observerIsSet = false;
 
-        // let interval = setInterval(function() {
-        //     // if wallets exist, setup the wallet selector for the exchange page
-        //     if (self.context.wallets !== undefined) {
-        //         self._setup_walletExchangeOptions(self.context);
-        //     }
-        //     self._refresh_sending_fee();
-        // }, 4000);
-        // self.keepExchangeOptionsUpdated = interval; // we use a named interval attached to the view so that we can stop it if we ever want to;
+        let interval = setInterval(function() {
+            // if wallets exist, setup the wallet selector for the exchange page
+            if (self.context.wallets !== undefined) {
+                self._setup_walletExchangeOptions(self.context);
+            }
+            self._refresh_sending_fee();
+        }, 4000);
+        self.keepExchangeOptionsUpdated = interval; // we use a named interval attached to the view so that we can stop it if we ever want to;
     }
     
-    _setup_emptyStateContainerView(context) {
+    _setup_emptyStateContainerView() {
         // TODO: wrap this in a promise so that we can execute logic after this
         const self = this;
-        
+        console.log("omfg1");
+        console.log(self);
         // We run this on an interval because of the way DOM elements are instantiated. Our Exchange DOM only renders once a user clicks the XMR->BTC menu tab
         let initialExchangeInit = setInterval(() => {
             let walletDiv = document.getElementById('wallet-selector');
+            console.log("188 interval");
             if (walletDiv !== null) {
+                console.log("188 interval should terminate");
+                console.log(self.initialExchangeInit);
                 clearInterval( self.initialExchangeInit ); 
                 self._setup_walletExchangeOptions(self.context);
+                console.log(self);
             }
-        }, 200);
+        }, 2000);
 
         self.initialExchangeInit = initialExchangeInit;
-
+        console.log(self);
         const view = new View({}, self.context)
         {
             const layer = view.layer
@@ -180,15 +217,12 @@ class ExchangeContentView extends View {
             contentContainerLayer = layer
             //layer.classList.add("xmr_input");
             let html = `
-            <style>
-                .NavigationBarView + div {}
-            </style>
             <div class="exchangeScreen exchange-page-panel">
-                <div class="content-container exchange-page-content-container">
-                    <div id="server-rates-messages"></div>
-                    <div id="loader" class="active">
-                        <!-- gets replaced by loader -->
-                    </div>`
+            <div class="content-container exchange-page-content-container">
+                <div id="server-rates-messages"></div>
+                <div id="loader" class="active">
+                    
+                </div>`
             layer.innerHTML = html;
         }
 
@@ -197,8 +231,8 @@ class ExchangeContentView extends View {
             layer.classList.add("message-label")
             layer.classList.add("exchangeRate")
             layer.id = "explanatory-message";
-            layer.innerHTML = "You can exchange XMR to Bitcoin here. Please wait while we load rates.";
-            contentContainerLayer.appendChild(layer)
+            layer.innerHTML = "You can exchange XMR to Bitcoin here.";
+            //contentContainerLayer.appendChild(layer)
         }
         
         {
@@ -210,8 +244,9 @@ class ExchangeContentView extends View {
             layer.id = "exchange-xmr";
             layer.innerText = "Exchange XMR";
             var orderSent = false;
-            layer.addEventListener('click', function(orderSent) {
-
+            layer.addEventListener('click', function() {
+                console.log(self);
+                console.log("OMFG");
                 let exchangeXmrDiv = document.getElementById('exchange-xmr');
                 exchangeXmrDiv.classList.remove('active');
                 
@@ -250,6 +285,7 @@ class ExchangeContentView extends View {
                     */
 
                 function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, context) {
+                        console.log(context);
                         if (context.walletsListController.orderSent == true) {
                             console.log('Duplicate order');
                         } else {
@@ -273,6 +309,9 @@ class ExchangeContentView extends View {
                                         let sweeping = sweep_wallet;
                                         let simple_priority = 1;
                                 
+                                        console.log("Sending from wallet:");
+                                        console.log(wallet);
+                                        resolve();
                                         wallet.SendFunds(
                                             enteredAddressValue,
                                             resolvedAddress,
@@ -306,15 +345,19 @@ class ExchangeContentView extends View {
                 let xmr_amount_str = "" + xmr_amount;
                 
                 let selectedWallet = document.getElementById('selected-wallet');
+                console.log(selectedWallet);
                 let selectorOffset = selectedWallet.dataset.walletoffset;
+                console.log(selectorOffset);
                 let sweep_wallet = false; // TODO: Add sweeping functionality
                 try {
-                    if (context.walletsListController.hasOwnProperty('orderSent')) {
+                    console.log(self);
+                    console.log(self.context);
+                    if (self.context.walletsListController.hasOwnProperty('orderSent')) {
                         console.log('Order already sent previously');
                     } else {
-                        context.walletsListController.orderSent = false;
+                        self.context.walletsListController.orderSent = false;
                     }
-                    sendFunds(context.walletsListController.records[0], xmr_amount_str, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, context);
+                    sendFunds(self.context.walletsListController.records[selectorOffset], xmr_amount_str, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, self.context);
                 } catch (error) {
                     console.log(error);
                 }
@@ -386,13 +429,13 @@ class ExchangeContentView extends View {
             <div class="field_title form-field-title">
                 <table>
                     <tr>
-                        <td colspan="2" style="word-wrap: normal; word-break: normal;">Please note that MyMonero cannot provide support for any exchanges. For all issues, please contact XMR.to with your UUID, as they will be able to assist.</td>
+                        <td colspan="2" style="word-wrap: normal; word-break: normal;">Please note an exchange may take a few minutes to process. XMR.to are able to provide support for any exchanges. For all issues, please contact XMR.to with your UUID for assistance.</td>
                     </tr>
                     <tr>
                         <td>
-                            <div class="field_title form-field-title uppercase">
+                            <div class="field_title form-field-title">
                                 <div style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0;">
-                                    <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">XMR.to UUID</span>
+                                    <span class="field_title form-field-title label-spacing uppercase" style="margin-top: 0px;">XMR.to UUID</span>
                                     <div id="provider_order_id" class="textInput currencyOutput" type="text" placeholder="0.00"></div>
                                     <div class="currencySelect"><option value="XMR" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;</option></select> 
                                 </div>
@@ -497,8 +540,12 @@ class ExchangeContentView extends View {
             </div>
         </div>
     </div>
+    <!-- <div class="" id="order-button" style="cursor: default; -webkit-font-smoothing: subpixel-antialiased; font-size: 12px; letter-spacing: 0.5px; font-weight: 300; -webkit-app-region: no-drag; position: absolute; right: 0px;">Create Order</div> -->
     `
             layer.innerHTML = html;
+            console.log(layer);
+            console.log(contentContainerLayer);
+
             contentContainerLayer.appendChild(layer);
         }
 
@@ -517,7 +564,10 @@ class ExchangeContentView extends View {
                 return;
             }
             const ExchangeFunctions = new ExchangeLibrary();
-            const order = {};
+            let order = {};
+            let orderTimerInterval = {};
+            let orderStatusInterval = {};
+            let orderStatusResponse = {};
             const exchangePage = document.getElementById('orderStatusPage');
             const btcAddressInput = document.getElementById("btcAddress");
             let walletSelector = document.getElementById('wallet-selector');
@@ -526,8 +576,8 @@ class ExchangeContentView extends View {
             let orderStarted = false;
             let orderCreated = false;
             let orderStatusPage = document.getElementById("orderStatusPage");
-            //let backBtn = document.getElementsByClassName('nav-button-left-container')[0];    
-            //backBtn.style.display = "none";
+            let backBtn = document.getElementsByClassName('nav-button-left-container')[0];    
+            backBtn.style.display = "none";
             let addressValidation = document.getElementById('address-messages');
             let serverValidation = document.getElementById('server-messages');
             let explanatoryMessage = document.getElementById('explanatory-message');
@@ -539,6 +589,7 @@ class ExchangeContentView extends View {
             var orderBtn = document.getElementById("order-button");
             var orderTimer = {};
             let currencyInputTimer;
+            let firstTick = true;
             let orderStatusDiv = document.getElementById("exchangePage");
 
             function validateBTCAddress(address, ValidationLibrary) {
@@ -612,22 +663,22 @@ class ExchangeContentView extends View {
                     clearTimeout(currencyInputTimer);
                 }
             
-                if (ExchangeFunctions.currentRates.out_min > BTCbalance) {
-                    let error = document.createElement('div');
-                    error.classList.add('message-label');
-                    error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.out_min} BTC`;
-                    validationMessages.appendChild(error);
-                    return;
-                }
-                if (ExchangeFunctions.currentRates.out_max < BTCbalance) {
-                    let error = document.createElement('div');
-                    error.classList.add('message-label');
-                    error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.out_max} BTC`;
-                    validationMessages.appendChild(error);
-                    return;
-                }
+                // if (ExchangeFunctions.currentRates.out_min > BTCbalance) {
+                //     let error = document.createElement('div');
+                //     error.classList.add('message-label');
+                //     error.id = 'xmrexceeded';
+                //     error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.out_min} BTC`;
+                //     validationMessages.appendChild(error);
+                //     return;
+                // }
+                // if (ExchangeFunctions.currentRates.out_max < BTCbalance) {
+                //     let error = document.createElement('div');
+                //     error.classList.add('message-label');
+                //     error.id = 'xmrexceeded';
+                //     error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.out_max} BTC`;
+                //     validationMessages.appendChild(error);
+                //     return;
+                // }
                 validationMessages.innerHTML = "";
                 serverValidation.innerHTML = "";
                 currencyInputTimer = setTimeout(() => {
@@ -680,6 +731,43 @@ class ExchangeContentView extends View {
                 }, 1500);
             }
 
+            function clearCurrencies() {
+                XMRcurrencyInput.value = "";
+                BTCcurrencyInput.value = "";
+            }
+
+            let walletSelectorClickListener = function(event) {
+                console.log("Wallet selector clicked");
+                let walletElement = document.getElementById('wallet-options');
+                let selectedWallet = document.getElementById('selected-wallet');
+                walletElement.classList.add('active');
+                if (event.srcElement.parentElement.className.includes("optionCell")) {
+                    
+                    let dataAttributes = event.srcElement.parentElement.dataset;
+                    selectedWallet.dataset.walletlabel = dataAttributes.walletlabel;
+                    selectedWallet.dataset.walletbalance = dataAttributes.walletbalance;
+                    selectedWallet.dataset.swatch = dataAttributes.swatch;
+                    selectedWallet.dataset.walletselected = true;
+                    selectedWallet.dataset.walletoffset = dataAttributes.walletoffset;
+                    let walletLabel = document.getElementById('selected-wallet-label'); 
+                    let walletBalance = document.getElementById('selected-wallet-balance'); 
+                    let walletIcon = document.getElementById('selected-wallet-icon'); 
+                    walletElement.classList.remove('active');
+                    walletIcon.style.backgroundImage = `url('../../../assets/img/wallet-${dataAttributes.swatch}@3x.png'`;
+                    walletLabel.innerText = dataAttributes.walletlabel;
+                    walletBalance.innerText = dataAttributes.walletbalance + " XMR";
+                    let walletSelector = document.getElementById('wallet-selector');
+                    walletSelector.dataset.walletchosen = true;
+                    clearCurrencies();
+                }
+                if (event.srcElement.parentElement.className.includes("selectionDisplayCellView")) {
+                    walletElement.classList.add('active');
+                }
+                if (event.srcElement == 'div.hoverable-cell.utility.selectionDisplayCellView') {
+                    
+                } 
+            }
+
             let xmrBalanceChecks = function() {
                 
                 serverValidation.innerHTML = "";
@@ -690,22 +778,22 @@ class ExchangeContentView extends View {
                 if (currencyInputTimer !== undefined) {
                     clearTimeout(currencyInputTimer);
                 }
-                if (ExchangeFunctions.currentRates.in_min > XMRbalance) {
-                    let error = document.createElement('div');
-                    error.classList.add('message-label');
-                    error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.in_min} XMR`;
-                    validationMessages.appendChild(error);
-                    return;
-                }
-                if (ExchangeFunctions.currentRates.in_max < XMRbalance) {
-                    let error = document.createElement('div');
-                    error.classList.add('message-label');
-                    error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.in_max} XMR`;
-                    validationMessages.appendChild(error);
-                    return;
-                }
+                // if (ExchangeFunctions.currentRates.in_min > XMRbalance) {
+                //     let error = document.createElement('div');
+                //     error.classList.add('message-label');
+                //     error.id = 'xmrexceeded';
+                //     error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.in_min} XMR`;
+                //     validationMessages.appendChild(error);
+                //     return;
+                // }
+                // if (ExchangeFunctions.currentRates.in_max < XMRbalance) {
+                //     let error = document.createElement('div');
+                //     error.classList.add('message-label');
+                //     error.id = 'xmrexceeded';
+                //     error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.in_max} XMR`;
+                //     validationMessages.appendChild(error);
+                //     return;
+                // }
                 validationMessages.innerHTML = "";
                 serverValidation.innerHTML = "";
                 currencyInputTimer = setTimeout(() => {
@@ -750,6 +838,33 @@ class ExchangeContentView extends View {
                             serverValidation.appendChild(errorDiv);
                         });
                 }, 1500);
+            }
+
+            function renderOrderStatus(order) {    
+                return new Promise((resolve, reject) => {
+                    let idArr = [
+                        "in_amount_remaining",
+                        "out_amount",
+                        "status",
+                        "expires_at",
+                        "provider_order_id",
+                        "in_address",
+                        "in_amount"
+                    ];
+                
+                    let test = document.getElementById('exchangePage');
+                    if (!(test == null)) {
+                        idArr.forEach((item, index) => {
+                            if (item == "in_address") {
+                                document.getElementById('receiving_subaddress').innerHTML = order[item];
+                            } else {
+                                document.getElementById(item).innerHTML = order[item];
+                            }
+                            
+                        });
+                    }
+                    resolve();
+                })
             }
 
             function getRates() {
@@ -892,6 +1007,19 @@ function renderOrderStatus(order) {
         return true;
     }            
 
+    function backButtonClickListener() {
+        let backBtn = document.getElementsByClassName('nav-button-left-container')[0];
+        let viewOrderBtn = document.getElementById('view-order');
+        orderCreated = false;
+        document.getElementById("orderStatusPage").classList.add('active');
+        backBtn.style.display = "none";
+        let orderStatusDiv = document.getElementById("exchangePage");
+        loaderPage.classList.remove('active');
+        orderStatusDiv.classList.remove('active');
+        exchangeXmrDiv.classList.remove('active');
+        viewOrderBtn.style.display = "block";
+    }
+
     function orderBtnClicked() {
         let validationError = false;
         serverValidation.innerHTML = "";
@@ -912,7 +1040,7 @@ function renderOrderStatus(order) {
         
         orderBtn.style.display = "none";
         orderStarted = true;
-        //backBtn.style.display = "block";
+        backBtn.style.display = "block";
         loaderPage.classList.add('active');
 
         let out_amount = document.getElementById('BTCcurrencyInput').value;
@@ -920,26 +1048,36 @@ function renderOrderStatus(order) {
         let out_currency = 'BTC';
         try {
             let offer = ExchangeFunctions.getOfferWithOutAmount(in_currency, out_currency, out_amount).then((error, response) => {
-                
+                console.log(error);
+                console.log(response);
+                console.log(ExchangeFunctions.offer);
             }).then((error, response) => {
                 let selectedWallet = document.getElementById('selected-wallet');
-                
+                console.log(ExchangeFunctions);
+                console.log(btc_dest_address);
+                console.log(selectedWallet);
                 ExchangeFunctions.createOrder(btc_dest_address, selectedWallet.dataset.walletpublicaddress).then((error, response) => {
+                    let orderStatusDiv = document.getElementById("exchangePage");
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
-                    //backBtn.innerHTML = `<div class="base-button hoverable-cell utility grey-menu-button disableable left-back-button" style="cursor: default; -webkit-app-region: no-drag; position: absolute; opacity: 1; left: 0px;"></div>`;
-                    orderTimer = setInterval(() => {
-                        ExchangeFunctions.getOrderStatus().then(function (response) {                            
-                            renderOrderStatus(response);
-                            exchangeXmrDiv.classList.add('active');
+                    exchangeXmrDiv.classList.add('active');
+                    backBtn.innerHTML = `<div class="base-button hoverable-cell utility grey-menu-button disableable left-back-button" style="cursor: default; -webkit-app-region: no-drag; position: absolute; opacity: 1; left: 0px;"></div>`;
+                    orderTimerInterval = setInterval(() => {
+                        ExchangeFunctions.getOrderStatus().then(function (response) {
+                            if (firstTick == true) {
+                                renderOrderStatus(response);
+                                firstTick = false;
+                            }
+                            orderStatusResponse = response;
+                            console.log(response);
                             let expiryTime = response.expires_at;
                             let secondsElement = document.getElementById('secondsRemaining');
                             let minutesElement = document.getElementById('minutesRemaining');
                             if (secondsElement !== null) {
                                 
                                 let minutesElement = document.getElementById('minutesRemaining');
-                                let timeRemaining = getTimeRemaining(expiryTime);
+                                let timeRemaining = Utils.getTimeRemaining(expiryTime);
                                 minutesElement.innerHTML = timeRemaining.minutes;
                                 if (timeRemaining.seconds <= 9) {
                                     timeRemaining.seconds = "0" + timeRemaining.seconds;
@@ -950,10 +1088,21 @@ function renderOrderStatus(order) {
                             }
                         })
                     }, 1000);
+                    orderStatusInterval = setInterval(() => {
+                        renderOrderStatus(orderStatusResponse).then(() => {
+                            if (orderStatusResponse.status == "PAID" || orderStatusResponse.status == "TIMED_OUT"
+                                || orderStatusResponse.status == "DONE" || orderStatusResponse.status == "FLAGGED_DESTINATION_ADDRESS"
+                                || orderStatusResponse.status == "PAYMENT_FAILED" || orderStatusResponse.status == "REJECTED") 
+                                {
+                                    clearInterval(orderStatusInterval);
+                                    clearInterval(orderTimerInterval);
+                            }
+                        });
+                    }, 10000);
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
-                    //exchangeXmrDiv.classList.add('active');
+                    exchangeXmrDiv.classList.add('active');
                 }).catch((error) => {
                     let errorDiv = document.createElement('div');
                     errorDiv.classList.add('message-label');
@@ -984,7 +1133,9 @@ function renderOrderStatus(order) {
                 btcAddressInput.addEventListener('input', BTCAddressInputListener);
                 XMRcurrencyInput.addEventListener('keydown', XMRCurrencyInputKeydownListener);
                 BTCcurrencyInput.addEventListener('keydown', BTCCurrencyInputKeydownListener);
+                walletSelector.addEventListener('click', walletSelectorClickListener);
                 orderBtn.addEventListener('click', orderBtnClicked);
+                backBtn.addEventListener('click', backButtonClickListener);
                             
                 BTCcurrencyInput.addEventListener('keyup', function(event) {
                     validationMessages.innerHTML = '';
@@ -1027,14 +1178,14 @@ function renderOrderStatus(order) {
     UnlockedBalance_FormattedString(wallet)
 	{ // provided for convenience mainly so consumers don't have to require monero_utils
         let self = this;
-		// let balance_JSBigInt = self.UnlockedBalance_JSBigInt(wallet);
-		//return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
+		let balance_JSBigInt = self.UnlockedBalance_JSBigInt(wallet);
+		return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
 	}
     Balance_FormattedString(wallet)
 	{ // provided for convenience mainly so consumers don't have to require monero_utils
         let self = this;
-		//let balance_JSBigInt = self.Balance_JSBigInt(wallet);
-		//return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
+		let balance_JSBigInt = self.Balance_JSBigInt(wallet);
+		return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
 	}
 	Balance_DoubleNumber(wallet)
 	{
