@@ -74,7 +74,7 @@ Make sure you are using node v10.22.1 or higher, and npm v6.14.6 or higher. The 
 
 4. Run `npm run build`. 
 
-This will build and package the web version of the applicaiton in the `browser_build` folder. Once that is done, it will initialise all necessary build files for your Android application. Finally, it will attempt to open the project in Android Studio.  
+This will build and package the web version of the application in the `browser_build` folder. Once that is done, it will initialise all necessary build files for your Android application. Finally, it will attempt to open the project in Android Studio.  
 
 ## Repo Contents Overview
 * Local, application source code is located in `local_modules/`. This includes bundled/static third-party "Vendor" libraries such as [EmojiOne](http://emojione.com).
