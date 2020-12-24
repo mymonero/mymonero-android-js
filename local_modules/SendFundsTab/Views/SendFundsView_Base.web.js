@@ -268,18 +268,18 @@ class SendFundsView extends View
 			undefined,
 			"14px 14px"
 		)
-		console.log(buttonView);
+
 		//self.actionButtonsContainerView.addSubview(buttonView)
-		let html = `
-			<div id="camera">
-				<div id="qr-instructions">Scan a compatible</div>
-				<div class="sp sp-circle" id="loading-spinner"></div>
-				<video id="preview"></video>
-				<a href="#" id="switch-camera" class="hoverable-cell disableable utility">Switch Scanning</a>
-				<a href="#" id="cancel-camera" class="hoverable-cell disableable utility">Cancel Scanning</a>
-			</div>
-		`
-		div.innerHTML = html;
+		// let html = `
+		// 	<div id="camera">
+		// 		<div id="qr-instructions">Scan a compatible</div>
+		// 		<div class="sp sp-circle" id="loading-spinner"></div>
+		// 		<video id="preview"></video>
+		// 		<a href="#" id="switch-camera" class="hoverable-cell disableable utility">Switch Scanning</a>
+		// 		<a href="#" id="cancel-camera" class="hoverable-cell disableable utility">Cancel Scanning</a>
+		// 	</div>
+		// `
+		// div.innerHTML = html;
 		//
 		console.log(self);
 		self.form_containerLayer.appendChild(div);
