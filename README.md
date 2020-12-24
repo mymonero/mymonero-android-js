@@ -38,12 +38,17 @@ To get set up with the source code, please see **Getting the Source Code** below
 
 ### Where is user data saved?
 
-* In this version, no user data is saved. The app has been fast-tracked to address issues with fake MyMonero apps being published to Google's Play Store (no data is saved)
+#### Warnings: 
 
+* For Android API < 18 values are stored as simple base64 encoded strings. 
+* Since web browsers don't have an equivalent of Android's secure storage, data is base64-encoded before being stored in the browser's Local Storage.
+
+* Android: The data is encrypted and saved to the Android device using an implementation that leverages AndroidKeyStore and SharedPreferences.
+* Web: The data is saved to the browser's local storage.
 
 ## Reporting Bugs & Making Feature Requests
 
-If you would like to report an issue or share a feature request, please create a Github [Issue](https://github.com/mymonero/monero-web-js/issues) on this project.
+If you would like to report an issue or share a feature request, please create a Github [Issue](https://github.com/mymonero/monero-android-js/issues) on this project.
 
 If you're reporting a bug, be sure to include all information which we would need to reproduce the issue, such as the operating system and app version on which you saw the bug, and the steps you took, if you can tell. 
 
@@ -55,24 +60,21 @@ Please don't use the Issues tracker for general support or inquiries. You can al
 
 ## Getting the Source Code
 
-### Download & Install
+### Download & Build
+
+#### Prerequisites:
+
+Make sure you are using node v10.22.1 or higher, and npm v6.14.6 or higher. The application has been confirmed to work on these specific versions
 
 1. First, ensure that you have recent versions of `node` and `npm` installed.
 
 2. Clone or otherwise download this repository. Then, in your terminal, `cd` into the repo directory.
 
-3. (To get the bleeding edge, and/or if you are going to make changes) Switch to the `develop` branch by executing `git checkout develop`.
+3. Run `npm install`. This will install the required `node_modules`, and download the necessary MyMonero libraries.
 
-4. Install all required `node_modules` by executing `npm install`.
+4. Run `npm run build`. 
 
-5. npx cap copy
-
-6. npx cap add android
-
-7. Open Android Studio — can be done from CLI by running “npx cap open android”
-
-8. In Android Studio, build and run it on an appropriate emulator
-
+This will build and package the web version of the applicaiton in the `browser_build` folder. Once that is done, it will initialise all necessary build files for your Android application. Finally, it will attempt to open the project in Android Studio.  
 
 ## Repo Contents Overview
 * Local, application source code is located in `local_modules/`. This includes bundled/static third-party "Vendor" libraries such as [EmojiOne](http://emojione.com).
@@ -95,7 +97,7 @@ When developing in this fashion, one can run a server with hot-reload enabled by
 
 Should you run into any issues with the transpiled application, you are able to debug the application by making use of Android WebView debugging and the Chrome browser. In order to do so, follow the instructions below: 
 
-1. Add the following code snippet to the app/java/com.mymonero.android/MainActivity.java file
+1. Add the following code snippet to the app/java/com.mymonero.android/MainActivity.java file inside the `onCreate()` function
 
 ```
 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -110,9 +112,8 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
 ## Building for Production
 
-1. Open the project located in the Android folder generated in step 7 using Android Studio.
-
-2. Build and run the project from Android Studio
+1. Follow the steps under `Download and Build`.
+2. Use Android Studio to build the .APK file
 
 ## Contributing
 
@@ -142,17 +143,15 @@ MyMonero Donation Address (XMR): 48yi8KBxh7fdZzwnX2kFCGALRcN1sNjwBHDfd5i9WLAWKs7
 
 Proceeds from donations are used to fund development on the MyMonero back-end server (a performant version of which we soon™ plan to open-source for anyone to run their own server at home). Any remaining funds will go towards product (app UI) R&D, and hosting costs.
 
-
-
 ## Acknowledgements
 
 Contributors to each release are credited in release notes.
 
 ### Core Contributors
 
-* 🍕 `Tekkzbadger` ([Devin Pearson](https://github.com/devinpearson)) Lead maintainer; core developer
+* 💱 `jkarlos` ([Karl Buys](https://github.com/karlbuys)) Lead maintainer; core developer
 
-* 💱 `jkarlos` ([Karl Buys](https://github.com/karlbuys)) Maintainer; core developer
+* 🍕 `Tekkzbadger` ([Devin Pearson](https://github.com/devinpearson)) Maintainer; core developer
 
 * 🦄 `fluffyponyza` ([Riccardo Spagni](https://github.com/fluffypony)) Advisor; MyMonero founder; Monero core team member
 
