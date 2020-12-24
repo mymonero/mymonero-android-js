@@ -38,13 +38,13 @@ To get set up with the source code, please see **Getting the Source Code** below
 
 ### Where is user data saved?
 
-#### Warnings: 
-
-* For Android API < 18 values are stored as simple base64 encoded strings. 
-* Since web browsers don't have an equivalent of Android's secure storage, data is base64-encoded before being stored in the browser's Local Storage.
-
 * Android: The data is encrypted and saved to the Android device using an implementation that leverages AndroidKeyStore and SharedPreferences.
 * Web: The data is saved to the browser's local storage.
+
+#### Data storage warnings: 
+
+* Android API < 18 does not support AndroidKeyStore. Android API < 18 values are stored fallback to being stored as simple base64 encoded strings. 
+* Since web browsers don't have an equivalent of Android's secure storage, data is base64-encoded before being stored in the browser's Local Storage.
 
 ## Reporting Bugs & Making Feature Requests
 
@@ -131,11 +131,6 @@ If you have an improvement to the codebase and would like to have your code ship
 * Merging PRs which involve integrating with any third-party services will require discussion and agreement.  
 
 * We reserve the right to refuse to merge any PRs, such as those which introduce breaking changes.
-
-The maintainer enjoys collaborating with volunteer contributors to the MyMonero apps over IRC private message and the #mymonero room on freenode.net (Come say hello!), so PR'd submissions do not have to be at all complete or perfect on their first submission. (To submit a draft PR for review, simply mark it as '[DO NOT MERGE]')
-
-There's also an icebox of ideas, features, improvements, known issues, and other todos waiting to be knocked out which are kept in the [Issues](https://github.com/mymonero/monero-app-js/issues) tracker.
-
 
 ### Donating
 
