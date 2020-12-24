@@ -8,8 +8,8 @@
   "scripts": {
     "start": "bin/start_dev_browser",
     "build": "npm run build-js; npm run build-android",
-    "build-android": "webpack --config webpack.browser.dev.config.js --display-modules; npx cap copy; npx cap sync; npx cap open android",
-    "build-js": "webpack --config webpack.browser.dev.config.js",
+    "build-android": "webpack --config webpack.browser.dev.config.js --display-modules; npx cap sync; npx cap open android",
+    "build-js": "node bin/__assemble_browser_build.node.js; webpack --config webpack.browser.dev.config.js --display-modules --watch",
     "watch": "(webpack --config webpack.browser.dev.config.js --display-modules --watch) & bin/start_dev_browser",
     "postinstall": "bin/update_submodules"
   },
