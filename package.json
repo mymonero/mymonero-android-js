@@ -2,9 +2,9 @@
   "name": "MyMonero",
   "author": "MyMonero",
   "description": "The simplest way to use Monero",
-  "version": "1.1.16",
+  "version": "0.1.0",
   "license": "SEE LICENSE IN LICENSE.txt",
-  "repository": "https://github.com/mymonero/mymonero-web-js",
+  "repository": "https://github.com/mymonero/mymonero-android-js",
   "scripts": {
     "start": "bin/start_dev_browser",
     "build": "npm run build-js; npm run build-android",
