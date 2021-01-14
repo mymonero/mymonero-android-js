@@ -137,6 +137,7 @@ class ContactQRDisplayModalView extends View
 				true, // isEnabled, defaulting to true on undef
 				function()
 				{
+					event.preventDefault();
 					buttonLayer.Component_SetEnabled(false)
 					self.context.userIdleInWindowController.TemporarilyDisable_userIdle() // TODO: this is actually probably a bad idea - remove this and ensure that file picker canceled on app teardown
 					// ^ so we don't get torn down while dialog open

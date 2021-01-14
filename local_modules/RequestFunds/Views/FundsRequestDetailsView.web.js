@@ -137,6 +137,7 @@ class FundsRequestDetailsView extends View
 						true, // isEnabled, defaulting to true on undef
 						function()
 						{
+							event.preventDefault();
 							self._userSelectedDownloadButton()
 						}
 					);

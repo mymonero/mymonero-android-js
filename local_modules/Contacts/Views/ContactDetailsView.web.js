@@ -238,12 +238,14 @@ class ContactDetailsView extends View
 						true, // isEnabled, defaulting to true on undef
 						function()
 						{
+							event.preventDefault();
 							self._userSelectedDownloadButton()
 						}
 					);
 					self.saveQRImage_buttonLayer = buttonLayer
 					buttonLayer.style.float = "right"
 					buttonLayer.style.marginRight = "18px"
+					buttonLayer.id = "contact-details-details-save";;
 					div.appendChild(buttonLayer)
 				}
 				div.appendChild(commonComponents_tables.New_clearingBreakLayer())
@@ -573,7 +575,8 @@ class ContactDetailsView extends View
 					__trampolineFor_didFinish()
 					return
 				}
-				// console.log("Downloaded QR code")
+				console.log("Downloaded QR code")
+				let saveBtn = document.getElementById("contact-details-save");
 				__trampolineFor_didFinish() // re-enable idle timer
 			}
 		)

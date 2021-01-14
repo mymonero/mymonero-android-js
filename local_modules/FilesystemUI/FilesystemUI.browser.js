@@ -62,10 +62,9 @@ class FilesytemUI extends FilesystemUI_Abstract
 				path: 'MyMonero-Payment-Request-' + Date.now() + '.png',
 				data,
 				directory: FilesystemDirectory.Documents
+			}).then(() => {
+				console.log('Wrote file', result2);
 			})
-			//console.log('Wrote file', result);
-			console.log('Wrote file', result2);
-			return result;
 		} catch(e) {
 			console.error('Unable to write file', e);
 		}
@@ -101,6 +100,7 @@ class FilesytemUI extends FilesystemUI_Abstract
 			console.log("Running native capacitor -- attempt to write file");
 			let writtenFile = await self.fileWrite("test.txt", FilesystemEncoding.UTF8, imgData_base64String);
 			console.log(writtenFile);
+			fn();
 		}
 		
 		//
