@@ -59,16 +59,40 @@ class FilesytemUI extends FilesystemUI_Abstract
 			// 	encoding: FilesystemEncoding.UTF8
 			// })
 			const result2 = await Filesystem.writeFile({
-				path: 'MyMonero-Payment-Request-' + Date.now() + '.png',
+				path: filename,
 				data,
-				directory: FilesystemDirectory.Documents
+				directory: FilesystemDirectory.Documents,
 			}).then(() => {
-				console.log('Wrote file', result2);
+				console.log('Wrote file');
 			})
 		} catch(e) {
+			console.error(e.message);
 			console.error('Unable to write file', e);
 		}
 	}
+
+	async fileWriteString(filename, data) {
+		try {
+			// const result = await Filesystem.writeFile({
+			// 	path: 'image.png',
+			// 	data,
+			// 	directory: FilesystemDirectory.Documents,
+			// 	encoding: FilesystemEncoding.UTF8
+			// })
+			const result2 = await Filesystem.writeFile({
+				path: filename,
+				data,
+				directory: FilesystemDirectory.Documents,
+				encoding: FilesystemEncoding.UTF8
+			}).then(() => {
+				console.log('Wrote file');
+			})
+		} catch(e) {
+			console.error(e.message);
+			console.error('Unable to write file', e);
+		}
+	}
+
 
 	//
 	//
@@ -98,7 +122,8 @@ class FilesytemUI extends FilesystemUI_Abstract
 			// 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android E/Capacitor/Filesystem: Not able to create 'DOCUMENTS'!
 			// 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android D/Capacitor: Sending plugin error: {"save":false,"callbackId":"36944607","pluginId":"Filesystem","methodName":"writeFile","success":false,"error":{"message":"NOT_CREATED_DIR"}}
 			console.log("Running native capacitor -- attempt to write file");
-			let writtenFile = await self.fileWrite("test.txt", FilesystemEncoding.UTF8, imgData_base64String);
+			let filename = 'MyMonero-Payment-Request-' + Date.now() + '.png';
+			let writtenFile = await self.fileWrite(filename, FilesystemEncoding.UTF8, imgData_base64String);
 			console.log(writtenFile);
 			fn();
 		}
@@ -107,7 +132,8 @@ class FilesytemUI extends FilesystemUI_Abstract
 		// We either are running a Capacitor app (use Filesystem plugin) or the web fallback (for development). For the latter, we should fall back to running the code below
 		//alert("Code fault: PresentDialogToSaveBase64ImageStringAsImageFile not yet implemented")
 	}
-	PresentDialogToSaveTextFile(
+	
+	async PresentDialogToSaveTextFile(
 		contentString, 
 		title,
 		defaultFilename_sansExt,
@@ -115,20 +141,49 @@ class FilesytemUI extends FilesystemUI_Abstract
 		fn,
 		optl_uriContentPrefix
 	) {
+		console.log("In presentdialogtosavetextfile");
+		console.log(contentString);
+		console.log(title);
+		console.log(defaultFilename_sansExt);
+		console.log(ext);
+		console.log(fn);
+		console.log(optl_uriContentPrefix);
 		if (typeof optl_uriContentPrefix == 'undefined' || !optl_uriContentPrefix) {
 			throw "PresentDialogToSaveTextFile expected optl_uriContentPrefix"
 		}
-		const uriContent = optl_uriContentPrefix + contentString;
-		var encodedUri = encodeURI(uriContent);
-		var link = document.createElement("a");
-		link.style.visibility = "hidden"
-		link.setAttribute("href", encodedUri);
-		link.setAttribute("download", `${defaultFilename_sansExt}.${ext}`);
-		document.body.appendChild(link); // Required for FF
-		//
-		link.click(); 
-		//
-		link.parentNode.removeChild(link);
+
+		const self = this;
+		if (Capacitor.platform == "web") {
+			const uriContent = optl_uriContentPrefix + contentString;
+			var encodedUri = encodeURI(uriContent);
+			var link = document.createElement("a");
+			link.style.visibility = "hidden"
+			link.setAttribute("href", encodedUri);
+			link.setAttribute("download", `${defaultFilename_sansExt}.${ext}`);
+			document.body.appendChild(link); // Required for FF
+			//
+			link.click(); 
+			//
+			link.parentNode.removeChild(link);
+			fn();
+		} else {
+			const uriContent = optl_uriContentPrefix + contentString;
+			// If we're running Capacitor, we'll save it to the default "DOCUMENTS" folder 
+			// The first time this call is invoked on the device, it will ask for permissions
+			// 2020-12-15 12:53:06.975 10787-10787/com.mymonero.android V/Capacitor/Filesystem: Permission 'android.permission.WRITE_EXTERNAL_STORAGE' is granted
+			// 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android E/Capacitor/Filesystem: Not able to create 'DOCUMENTS'!
+			// 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android D/Capacitor: Sending plugin error: {"save":false,"callbackId":"36944607","pluginId":"Filesystem","methodName":"writeFile","success":false,"error":{"message":"NOT_CREATED_DIR"}}
+			console.log("Running native capacitor -- attempt to write file");
+			console.log("Writing: " + uriContent);
+			let writtenFile = await self.fileWriteString(`${defaultFilename_sansExt}.${ext}`, uriContent).then((writtenFile) => {
+				console.log(writtenFile);
+				fn();
+			});
+			
+
+		}
+
+
 	}
 	//
 	//

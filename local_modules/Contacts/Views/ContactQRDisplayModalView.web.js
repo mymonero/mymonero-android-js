@@ -34,6 +34,11 @@ import View from '../../Views/View.web';
 import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
 import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+import { Plugins } from '@capacitor/core';
+const { Toast } = Plugins;
+
 //
 class ContactQRDisplayModalView extends View
 {
@@ -168,6 +173,10 @@ class ContactQRDisplayModalView extends View
 								return
 							}
 							// console.log("Downloaded QR code")
+							Toast.show({
+								text: 'QR code saved to Android\'s shared Documents folder successfully!',
+								duration: 'long'
+							});
 							__trampolineFor_didFinish() // re-enable idle timer
 						}
 					)

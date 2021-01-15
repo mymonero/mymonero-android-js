@@ -36,7 +36,11 @@ import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
 import FundsRequestCellContentsView from './FundsRequestCellContentsView.web';
 import FundsRequestQRDisplayView from './FundsRequestQRDisplayView.web';
-//
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+import { Plugins } from '@capacitor/core';
+const { Toast } = Plugins;
+// 
 class FundsRequestDetailsView extends View
 {
 	constructor(options, context)
@@ -55,6 +59,7 @@ class FundsRequestDetailsView extends View
 	{
 		const self = this
 		self.setup_views()
+		defineCustomElements(window);
 	}
 	setup_views()
 	{
@@ -470,6 +475,10 @@ class FundsRequestDetailsView extends View
 					__trampolineFor_didFinish()
 					return
 				}
+				Toast.show({
+					text: 'QR code saved to Android\'s shared Documents folder successfully!',
+					duration: 'long'
+				});
 				// console.log("Downloaded QR code")
 				__trampolineFor_didFinish() // re-enable idle timer
 			}

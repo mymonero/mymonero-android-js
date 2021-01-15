@@ -58,6 +58,11 @@ import FundsRequestQRDisplayView from '../../RequestFunds/Views/FundsRequestQRDi
 import Currencies from '../../CcyConversionRates/Currencies';
 
 import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+import { Plugins } from '@capacitor/core';
+const { Toast } = Plugins;
+
 //
 class WalletDetailsView extends View
 {
@@ -89,6 +94,7 @@ class WalletDetailsView extends View
 		self._configureUIWithWallet__balance()
 		self._configureUIWithWallet__transactions()
 		self._configureUIWithWallet__heightsAndImportAndFetchingState()
+		defineCustomElements(window);
 	}
 	_setup_views()
 	{
@@ -1236,7 +1242,7 @@ class WalletDetailsView extends View
 	}
 	//
 	// Imperatives - Button functions - CSV export
-	_exportTransactionsCSV()
+	async _exportTransactionsCSV()
 	{
 		const self = this
 		const wallet_bootFailed = self._wallet_bootFailed()
@@ -1253,6 +1259,7 @@ class WalletDetailsView extends View
 		const headers = ["date", "amount", "status", "tx id", "payment_id"];
 		let csvContent = "";
 		csvContent += headers.join(",") + "\r\n"
+		console.log(stateCachedTransactions);
 		stateCachedTransactions.forEach(
 			function(tx, i)
 			{
@@ -1267,6 +1274,7 @@ class WalletDetailsView extends View
 				csvContent += columns.join(",") + "\r\n";
 			}
 		)
+		console.log(csvContent);
 		self.context.filesystemUI.PresentDialogToSaveTextFile(
 			csvContent,
 			"Save CSV",
@@ -1288,6 +1296,11 @@ class WalletDetailsView extends View
 					)
 					return
 				}
+				Toast.show({
+					text: 'CSV saved to Android\'s shared Documents folder successfully!',
+					duration: 'long'
+				});
+				
 			},
 			"data:text/csv;charset=utf-8,"
 		)

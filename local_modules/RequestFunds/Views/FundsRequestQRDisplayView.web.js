@@ -34,7 +34,10 @@ import View from '../../Views/View.web';
 import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
 import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
+import { Plugins } from '@capacitor/core';
+const { Toast } = Plugins;
 //
 import Currencies from '../../CcyConversionRates/Currencies';
 
@@ -65,6 +68,7 @@ class FundsRequestQRDisplayView extends View
 	{
 		const self = this
 		self.setup_views()		
+		defineCustomElements(window);
 	}
 	setup_views()
 	{
@@ -186,6 +190,10 @@ class FundsRequestQRDisplayView extends View
 								__trampolineFor_didFinish()
 								return
 							}
+							Toast.show({
+								text: 'QR code saved to Android\'s shared Documents folder successfully!',
+								duration: 'long'
+							});
 							// console.log("Downloaded QR code")
 							__trampolineFor_didFinish() // re-enable idle timer
 						}
