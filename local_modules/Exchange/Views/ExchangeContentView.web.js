@@ -209,6 +209,7 @@ class ExchangeContentView extends View {
             const layer = view.layer
             layer.classList.add("emptyScreens")
             layer.classList.add("empty-page-panel")
+            layer.style.border = "none";
             const explanatoryDiv = document.createElement("div");
             explanatoryDiv.classList.add("exchange-loading-message");
             explanatoryDiv.classList.add("form-field-title");
@@ -222,6 +223,9 @@ class ExchangeContentView extends View {
             const layer = document.createElement("div");
             layer.classList.add("content-container")
             layer.classList.add("empty-page-content-container")
+            layer.style.position = "relative";
+            layer.id = "main-exchange-container";
+            layer.style.display = "none";
             view.layer.appendChild(layer)
             contentContainerLayer = layer
             //layer.classList.add("xmr_input");
@@ -377,7 +381,7 @@ class ExchangeContentView extends View {
             // let's make the xmr.to form in HTML for sanity's sake
             const layer = document.createElement("div");
             //layer.classList.add("xmr_input");
-            let html = '    <div>';
+            let html = '    <div style="min-width: 300px">';
             //html += fs.readFileSync(__dirname + '/Body.html', 'utf8');
             html += `
             <div id="orderStatusPage">
@@ -580,8 +584,8 @@ class ExchangeContentView extends View {
             let orderStarted = false;
             let orderCreated = false;
             let orderStatusPage = document.getElementById("orderStatusPage");
-            let backBtn = document.getElementsByClassName('nav-button-left-container')[0];    
-            backBtn.style.display = "none";
+            let backBtn = document.getElementsByClassName('nav-button-left-container')[0];
+            //backBtn.style.display = "none";
             let addressValidation = document.getElementById('address-messages');
             let serverValidation = document.getElementById('server-messages');
             let explanatoryMessage = document.getElementById('explanatory-message');
@@ -884,6 +888,8 @@ class ExchangeContentView extends View {
                 ExchangeFunctions.getRatesAndLimits().then(() => {
                     loaderPage.classList.remove('active');
                     exchangePage.classList.add("active");
+                    let mainContainer = document.getElementById("main-exchange-container");
+                    mainContainer.style.display = "block";
                     backBtn.style.display = "none";
                     orderBtn.style.display = "block";
                     explanatoryMessage.style.display = "none";
