@@ -2075,20 +2075,24 @@ class SendFundsView extends View
 	{
 		const self = this
 		//
-		self.validationMessageLayer.ClearAndHideMessage()  // in case there was a parsing err etc displaying
-		//
-		self.cancelAny_requestHandle_for_oaResolution()
-		//
-		var requestPayload;
-		try {
-			requestPayload = monero_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.monero_utils)
-		} catch (errStr) {
-			if (errStr) {
-				self.validationMessageLayer.SetValidationError("Unable to use the result of decoding that QR code: " + errStr)
-				return
+		if (typeof(possibleUriString) !== "undefined") {
+			self.validationMessageLayer.ClearAndHideMessage()  // in case there was a parsing err etc displaying
+			//
+			self.cancelAny_requestHandle_for_oaResolution()
+			//
+			var requestPayload;
+			try {
+				if (possibleUriString.length > 0) {
+					requestPayload = monero_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.monero_utils)
+				}
+			} catch (errStr) {
+				if (errStr) {
+					self.validationMessageLayer.SetValidationError("Unable to use the result of decoding that QR code: " + errStr)
+					return
+				}
 			}
+			self._shared_havingClearedForm_didPickRequestPayloadForAutofill(requestPayload)
 		}
-		self._shared_havingClearedForm_didPickRequestPayloadForAutofill(requestPayload)
 	}
 	_shared_havingClearedForm_didPickRequestPayloadForAutofill(requestPayload)
 	{

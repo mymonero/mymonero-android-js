@@ -401,24 +401,26 @@ class AddContactView extends ContactFormView
 	{
 		const self = this
 		//
-		self.validationMessageLayer.ClearAndHideMessage()  // in case there was a parsing err etc displaying
-		//
-		var parsedPayload;
-		try {
-			parsedPayload = monero_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.monero_utils)
-		} catch (errStr) {
-			if (errStr) {
-				self.addressInputLayer.value = "" // decided to clear the address field to avoid confusion
-				//
-				self.validationMessageLayer.SetValidationError("Unable to use the result of decoding that QR code: " + errStr)
-				return
+		if (typeof(possibleUriString) !== "undefined") {
+			self.validationMessageLayer.ClearAndHideMessage()  // in case there was a parsing err etc displaying
+			//
+			var parsedPayload;
+			try {
+				parsedPayload = monero_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.monero_utils)
+			} catch (errStr) {
+				if (errStr) {
+					self.addressInputLayer.value = "" // decided to clear the address field to avoid confusion
+					//
+					self.validationMessageLayer.SetValidationError("Unable to use the result of decoding that QR code: " + errStr)
+					return
+				}
 			}
-		}
-		const target_address = parsedPayload.address
-		const payment_id_orNull = parsedPayload.payment_id && typeof parsedPayload.payment_id !== 'undefined' ? parsedPayload.payment_id : null
-		self.addressInputLayer.value = target_address
-		if (payment_id_orNull !== null) { 
-			self.paymentIDInputLayer.value = payment_id_orNull
+			const target_address = parsedPayload.address
+			const payment_id_orNull = parsedPayload.payment_id && typeof parsedPayload.payment_id !== 'undefined' ? parsedPayload.payment_id : null
+			self.addressInputLayer.value = target_address
+			if (payment_id_orNull !== null) { 
+				self.paymentIDInputLayer.value = payment_id_orNull
+			}
 		}
 	}
 	//
