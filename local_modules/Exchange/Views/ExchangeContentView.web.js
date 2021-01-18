@@ -425,6 +425,7 @@ class ExchangeContentView extends View {
                         <input id="btcAddress" class="full-width longTextInput" type="text" placeholder="Destination BTC Address" autocomplete="off" autocapitalize="none" spellcheck="false" value="3E6iM3nAY2sAyTqx5gF6nnCvqAUtMyRGEm">
                     </div>
                 </div>
+            <div id="localmonero"><a href="#" id="localmonero-anchor" class="clickableLinkButton">Buy Monero using LocalMonero</a></div>
                 <div id="validation-messages"></div>
                 <div id="address-messages"></div>
                 <div id="server-messages"></div>
@@ -603,13 +604,11 @@ class ExchangeContentView extends View {
             function validateBTCAddress(address, ValidationLibrary) {
                 try {
                     if (ValidationLibrary.validate(address) == false) {
-                        console.log(ValidationLibrary.validate(address));
                         return false;
                     }
                 } catch (Error) {
                     console.log(Error);
                 }
-                console.log(ValidationLibrary.validate(address));
                 return true;
             }
             
@@ -745,7 +744,6 @@ class ExchangeContentView extends View {
             }
 
             let walletSelectorClickListener = function(event) {
-                console.log("Wallet selector clicked");
                 let walletElement = document.getElementById('wallet-options');
                 let selectedWallet = document.getElementById('selected-wallet');
                 walletElement.classList.add('active');
@@ -881,6 +879,10 @@ class ExchangeContentView extends View {
                 let errorDiv = document.getElementById('retry-error');
                 let orderBtn = document.getElementById('order-button');
                 let explanatoryMessage = document.getElementById('explanatory-message');
+                let localMoneroAnchor = document.getElementById('localmonero-anchor');
+                localMoneroAnchor.addEventListener('click', function() {
+                    window.open("https://localmonero.co");
+                });
                 if (retry !== null) {
                     retry.classList.add('hidden');
                     errorDiv.classList.add('hidden');
@@ -1036,7 +1038,6 @@ function renderOrderStatus(order) {
     }
 
     function orderBtnClicked() {
-        //console.log(orderTimer);
         let validationError = false;
         serverValidation.innerHTML = "";
         if (orderStarted == true) {
@@ -1065,7 +1066,6 @@ function renderOrderStatus(order) {
         try {
             let offer = ExchangeFunctions.getOfferWithOutAmount(in_currency, out_currency, out_amount).then((response) => {
                 let selectedWallet = document.getElementById('selected-wallet');
-                console.log(response);
                 ExchangeFunctions.createOrder(btc_dest_address, selectedWallet.dataset.walletpublicaddress).then((response) => {
                     let orderStatusDiv = document.getElementById("exchangePage");
                     document.getElementById("orderStatusPage").classList.remove('active');
@@ -1077,7 +1077,6 @@ function renderOrderStatus(order) {
                         if (orderStatusResponse.hasOwnProperty('expires_at')) {
                             orderStatusResponse.orderTick++;
                             Utils.renderOrderStatus(orderStatusResponse);
-                            console.log(orderStatusResponse);
                             let expiryTime = orderStatusResponse.expires_at;
                             let secondsElement = document.getElementById('secondsRemaining');
                             let minutesElement = document.getElementById('minutesRemaining');
@@ -1093,13 +1092,12 @@ function renderOrderStatus(order) {
                                 let xmr_dest_address_elem = document.getElementById('in_address');
                                 xmr_dest_address_elem.value = response.receiving_subaddress; 
                             }
-                                //console.log(orderTimer);
+
                             if (orderStatusResponse.status == "PAID" || orderStatusResponse.status == "TIMED_OUT"
                                 || orderStatusResponse.status == "DONE" || orderStatusResponse.status == "FLAGGED_DESTINATION_ADDRESS"
                                 || orderStatusResponse.status == "PAYMENT_FAILED" || orderStatusResponse.status == "REJECTED" 
                                 || orderStatusResponse.status == "EXPIRED") 
                                 {
-                                    console.log("Try clear intervals");
                                     clearInterval(localOrderTimer);
                                 }
                         }
