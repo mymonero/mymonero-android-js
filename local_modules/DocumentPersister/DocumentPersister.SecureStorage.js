@@ -682,24 +682,160 @@ class DocumentPersister extends DocumentPersister_Interface
 		// collectionStringsById[id] = updateString
 		
 	}
-	__removeDocumentsWithIds(collectionName, idsToRemove, fn)
+	async __removeDocumentsWithIds(collectionName, idsToRemove, fn)
 	{ 
-		console.log("SecureStorage: invoked __removeDocumentsWithIds");
-		const self = this
-		const collectionStringsById = self.store[collectionName] || {}
-		var numRemoved = 0
-		const idsToRemove_length = idsToRemove.length
-		for (var i = 0 ; i < idsToRemove_length ; i++) {
-			const id = idsToRemove[i]
-			const valueExistsAtId = (collectionStringsById[id] || null) != null
-			if (valueExistsAtId) {
-				delete self.store[collectionName][id]
-				numRemoved += 1
+		// We need to remove the id from the collectionName index
+		SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
+			console.log("removeDocumentsWithIds: This is what we have for " + collectionName);
+			let jsonString = returnData.value;
+			console.log(jsonString);
+			console.log(typeof(jsonString));
+			
+			let obj = JSON.parse(jsonString);
+			console.log(obj);
+			console.log(typeof(obj))
+
+			console.log(obj);
+
+			for (var i = 0; i < idsToRemove.length; i++) {
+				console.log("filter this obj");
+				console.log(obj);
+				console.log("Using:");
+				console.log(idsToRemove[i]);
+				let keyToCompare = collectionName + idsToRemove[i];
+				console.log(keyToCompare);
+				console.log(Object.keys(obj));
+				var newIndexArr = [];
+				for (var j = 0; j < Object.keys(obj).length; j++) {
+					console.log(`Comparing ${obj[j]} to ${idsToRemove[i]}`);
+					if (obj[j] !== idsToRemove[i]) {
+						newIndexArr.push(obj[j]);
+					}
+				}
+				//obj.filter(id => id !== keyToCompare);
+				
+				console.log("Filter result");
+				console.log(newIndexArr);
+				let key = collectionName + idsToRemove[i];
+				let data = {
+					key: key
+				}
+				if (newIndexArr.length == 0) {
+					console.log("No more of this collection left");
+					if (collectionName == "Wallets") {
+						// Delete passwordmeta since we have no more wallets, and don't want to be made to use the old password when a new wallet is added
+						// We delete everything here, since we won't be able to decrypt old data using a new PIN unless it is exactly the same as the old one
+						SecureStoragePlugin.clear().then(() => {
+							console.log("Cleared everything due to no wallets being left");
+						})
+					} else {
+						SecureStoragePlugin.remove({ key: collectionName }).then(() => {
+							console.log(`Removed collection ${collectionName}`);
+						});
+					}
+				} else {
+					console.log("Update the non-empty index");
+					console.log("Update index to this:");
+					
+					SecureStoragePlugin.set({ key: collectionName, value: JSON.stringify(newIndexArr) }).then(() =>  {
+						console.log("Updated index successfully");
+						//fn(null, obj)
+						// setTimeout(function() { // maintain async
+						// 	console.log("SecureStorage: __removeDocumentsWithIds async return");
+						// 	console.log(obj);
+						// 	fn(null, obj)
+						// })
+					})
+					console.log("Length:");
+					console.log(newIndexArr.length)
+				}
+				promiseArr[i] = SecureStoragePlugin.remove(data).catch(error => {
+					console.log("There was a problem with promise number");
+					console.log(i);
+					console.log(error);
+					// let's get keys and output them
+					let keys = SecureStoragePlugin.keys().then(keys => {
+						console.log("Promise problem: keys");
+						console.log(keys);
+					});
+				})
 			}
-		}
-		setTimeout(function() {
-			fn(null, numRemoved)
+
+			
+		}).catch((error) => {
+			console.log(`__idsOfAllDocuments: Catch error on __removeDocumentsWithIds for ${collectionName} -- this collectionName likely doesn't have records`);
+			console.log(error);
+			let strings = [];	
+			setTimeout(function() { // maintain async
+				fn(null, strings)
+			})
 		})
+		console.log("SecureStorage: invoked __removeDocumentsWithIds");
+		console.log(idsToRemove);
+		console.log(collectionName);
+
+		var promiseArr = [];
+		for (var i = 0; i < idsToRemove.length; i++) {
+			let key = collectionName + idsToRemove[i];
+			let data = {
+				key: key
+			}
+			promiseArr[i] = SecureStoragePlugin.remove(data).catch(error => {
+				console.log("There was a problem with promise number");
+				console.log(i);
+				console.log(error);
+				// let's get keys and output them
+				let keys = SecureStoragePlugin.keys().then(keys => {
+					console.log("Promise problem: keys");
+					console.log(keys);
+				});
+			})
+		}
+
+		Promise.all(promiseArr).then((values) => {
+			console.log("Here we have removed ids. Check for any remaining wallets, and if not, delete all data");
+			var documentCollectionArr = [];
+			let keys = SecureStoragePlugin.keys().then(keys => {
+				console.log("All set keys");
+				console.log(keys);
+			});
+			console.log(values);
+			setTimeout(function() { // maintain async
+				let numRemoved = promiseArr.length;
+				fn(null, documentCollectionArr)
+			})
+		}).catch(error => {
+			console.log("There was a problem deelting the data");
+			console.log(error);
+		});
+		
+		
+
+		// setTimeout(function() {
+		// 	let keys = SecureStoragePlugin.keys().then(keys => {
+		// 		console.log("All set keys");
+		// 		console.log(keys);
+		// 	});
+		// 	fn(null, numRemoved)
+		// })
+		// console.log("SecureStorage: invoked __removeDocumentsWithIds");
+		// console.log(idsToRemove);
+		// const self = this
+		// const collectionStringsById = self.store[collectionName] || {}
+		// var numRemoved = 0
+		// console.log(self.store);
+		// const idsToRemove_length = idsToRemove.length
+		// for (var i = 0 ; i < idsToRemove_length ; i++) {
+		// 	const id = idsToRemove[i]
+		// 	const valueExistsAtId = (collectionStringsById[id] || null) != null
+		// 	if (valueExistsAtId) {
+		// 		delete self.store[collectionName][id]
+		// 		numRemoved += 1
+		// 	}
+		// }
+		// setTimeout(function() {
+		// 	fn(null, numRemoved)
+		// })
 	}
 	// This only removes a specific collection's objects
 	__removeAllCollectionDocuments(collectionName, fn)
@@ -715,6 +851,7 @@ class DocumentPersister extends DocumentPersister_Interface
 	// This completely removes all objects saved
 	__removeAllData(fn)
 	{
+		//remove(options: { key: string }): Promise<{ value: boolean }>
 		console.log("SecureStorage: invoked __removeAllData");
 		SecureStoragePlugin.clear().then(() => {
 			fn(null, "SecureStorage: __removeAllData successful");
