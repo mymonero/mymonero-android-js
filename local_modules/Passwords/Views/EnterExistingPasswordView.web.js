@@ -139,6 +139,7 @@ class EnterExistingPasswordView extends View
 		{
 			var layer = commonComponents_forms.New_fieldValue_textInputLayer(self.context, {
 				placeholderText: "To continue",
+				suppressMobileKeyboardStorage: true,
 				target_width: 272
 			})
 			self.passwordInputLayer = layer
