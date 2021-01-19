@@ -40,6 +40,8 @@ import commonComponents_activityIndicators from '../../MMAppUICommonComponents/a
 import commonComponents_ccySelect from '../../MMAppUICommonComponents/ccySelect.web';
 import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
 import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web';
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+import ModalStandaloneAboutView from '../../AboutWindow/Views/ModalStandaloneAboutView.web';
 
 //
 import config__MyMonero from '../../HostedMoneroAPIClient/config__MyMonero';
@@ -136,8 +138,6 @@ class SettingsView extends View
 			self.context,
 			function()
 			{
-				const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-				const ModalStandaloneAboutView = require('../../AboutWindow/Views/ModalStandaloneAboutView.web')
 				const options = {}
 				const view = new ModalStandaloneAboutView(options, self.context)
 				self.current_ModalStandaloneAboutView = view
