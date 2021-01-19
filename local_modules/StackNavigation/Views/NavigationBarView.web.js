@@ -56,7 +56,6 @@ const cssRules =
 	}`
 ]
 function __injectCSSRules_ifNecessary() { 
-	// What the actual fuck, again
 	//Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) 
 }
 //
@@ -93,6 +92,7 @@ class NavigationBarView extends View
 			//
 			layer.style.webkitAppRegion = "drag" // make draggable
 			layer.style.webkitUserSelect = "none"
+
 		}
 		{ // background decoration view
 			const view = new View({}, self.context)
@@ -134,22 +134,24 @@ class NavigationBarView extends View
 			const view = new View({}, self.context)
 			self.leftBarButtonHolderView = view
 			const layer = view.layer
-			layer.style.position = "absolute"
-			layer.style.left = "16px"
-			layer.style.width = "15%"
-			layer.style.minWidth = `${self.NavigationBarHeight()}px`
-			layer.style.height = `${self.NavigationBarHeight()}px`
+			// layer.style.position = "absolute"
+			// layer.style.left = "16px"
+			// layer.style.width = "15%"
+			// layer.style.minWidth = `${self.NavigationBarHeight()}px`
+			// layer.style.height = `${self.NavigationBarHeight()}px`
+			layer.classList.add('nav-button-left-container')
 			self.addSubview(view)
 		}
 		{ // rightBarButtonHolderView
 			const view = new View({}, self.context)
 			self.rightBarButtonHolderView = view
 			const layer = view.layer
-			layer.style.position = "absolute"
-			layer.style.right = "16px"
-			layer.style.width = "15%"
-			layer.style.minWidth = `${self.NavigationBarHeight()}px`
-			layer.style.height = `${self.NavigationBarHeight()}px`
+			// layer.style.position = "absolute"
+			// layer.style.right = "16px"
+			// layer.style.width = "15%"
+			// layer.style.minWidth = `${self.NavigationBarHeight()}px`
+			// layer.style.height = `${self.NavigationBarHeight()}px`
+			layer.classList.add('nav-button-right-container')
 			self.addSubview(view)
 		}
 	}
