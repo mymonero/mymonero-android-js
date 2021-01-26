@@ -103,7 +103,6 @@ class ExchangeContentView extends View {
     _setup_walletExchangeOptions(context) {
         let self = this;
         let walletDiv = document.getElementById('wallet-selector');
-        console.log("Invoked _setup_walletExchangeOptions");
         if (walletDiv === null) {
             return;
         }
@@ -119,17 +118,12 @@ class ExchangeContentView extends View {
             walletBalance.innerText = `${self.UnlockedBalance_FormattedString(context.walletsListController.records[selectorOffset])} XMR   `;
         } else {
             let walletOptions = ``;
-            console.log("Finicky loop")
-            console.log(context.wallets.length);
-            console.log(context.walletsListController.records);
             let walletRecords = context.walletsListController.records;
             walletRecords.reverse();
             for (let i = 0; i < walletRecords.length; i++) {
                 
                 let wallet = walletRecords[i];
                 let swatch = wallet.swatch.substr(1);
-                //console.log('Get the wallet address, pass it as a data attr for refunds');
-                console.log(wallet);
                 walletOptions = walletOptions + `
                 <div data-walletLabel="${wallet.walletLabel}" data-walletoffset="${i}" data-swatch="${swatch}" data-walletbalance="${self.UnlockedBalance_FormattedString(wallet)}" data-walletid="${wallet._id}" data-walletpublicaddress="${wallet.public_address}" class="hoverable-cell utility optionCell" style="word-break: break-all; height: 66px; position: relative; left: 0px; top: 0px; box-sizing: border-box; width: 100%;">                    
                     <div class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${swatch}@3x.png');"></div>                        
@@ -192,9 +186,7 @@ class ExchangeContentView extends View {
         // We run this on an interval because of the way DOM elements are instantiated. Our Exchange DOM only renders once a user clicks the XMR->BTC menu tab
         let initialExchangeInit = setInterval(() => {
             let walletDiv = document.getElementById('wallet-selector');
-            console.log("188 interval");
             if (walletDiv !== null) {
-                console.log("188 interval should terminate");
                 console.log(self.initialExchangeInit);
                 clearInterval( self.initialExchangeInit ); 
                 self._setup_walletExchangeOptions(self.context);
@@ -422,7 +414,7 @@ class ExchangeContentView extends View {
                     <span class="field_title form-field-title" style="margin-top: 17px;">DESTINATION BITCOIN ADDRESS
                     </span>
                     <div class="contactPicker" style="position: relative; width: 100%; user-select: none;">
-                        <input id="btcAddress" class="full-width longTextInput" type="text" placeholder="Destination BTC Address" autocomplete="off" autocapitalize="none" spellcheck="false" value="3E6iM3nAY2sAyTqx5gF6nnCvqAUtMyRGEm">
+                        <input id="btcAddress" class="full-width longTextInput" type="text" placeholder="Destination BTC Address" autocomplete="off" autocapitalize="none" spellcheck="false" value="">
                     </div>
                 </div>
             <div id="localmonero"><a href="#" id="localmonero-anchor" class="clickableLinkButton">Buy Monero using LocalMonero</a></div>
