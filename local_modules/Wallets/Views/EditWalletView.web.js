@@ -166,8 +166,6 @@ class EditWalletView extends View
 		const layer = view.layer
 		function __proceedTo_deleteRecord()
 		{
-			console.log("In __proceedToDeleteRecord");
-			console.log(self.wallet._id);
 			const record_id = self.wallet._id
 			
 			self.context.walletsListController.WhenBooted_DeleteRecordWithId(
