@@ -418,6 +418,7 @@ class ExchangeContentView extends View {
                     </div>
                 </div>
             <div id="localmonero"><a href="#" id="localmonero-anchor" class="clickableLinkButton">Buy Monero using LocalMonero</a></div>
+            <div id="indacoin"><a href="#" id="indacoin-anchor" class="clickableLinkButton">Buy Monero using Indacoin</a></div>
                 <div id="validation-messages"></div>
                 <div id="address-messages"></div>
                 <div id="server-messages"></div>
@@ -569,6 +570,7 @@ class ExchangeContentView extends View {
             const ExchangeFunctions = new ExchangeLibrary();
             let order = {};
             let orderStatusResponse = {};
+            let exchangeConfig = {};
             const exchangePage = document.getElementById('orderStatusPage');
             const btcAddressInput = document.getElementById("btcAddress");
             let walletSelector = document.getElementById('wallet-selector');
@@ -866,19 +868,75 @@ class ExchangeContentView extends View {
             }
 
             function getRates() {
+
+
                 serverRatesValidation.innerHTML = "";
                 let retry = document.getElementById('retry-rates');
                 let errorDiv = document.getElementById('retry-error');
                 let orderBtn = document.getElementById('order-button');
                 let explanatoryMessage = document.getElementById('explanatory-message');
-                let localMoneroAnchor = document.getElementById('localmonero-anchor');
-                localMoneroAnchor.addEventListener('click', function() {
-                    window.open("https://localmonero.co");
-                });
+                
                 if (retry !== null) {
                     retry.classList.add('hidden');
                     errorDiv.classList.add('hidden');
                 }
+
+                let indacoinDiv = document.getElementById("indacoin");
+                let localmoneroDiv = document.getElementById("localmonero");
+
+                console.log(ExchangeFunctions);
+
+                function openClickableLink() {
+                    const self = this;
+                    console.log(self);
+                    console.log(ExchangeFunctions.referrer_info);
+                    console.log(self.id);
+                    let referrer_id = self.getAttribute("referrer_id");
+                    let url = self.getAttribute("url");
+                    let paramStr = self.getAttribute("param_str");
+                    if (referrer_id.length > 0) {
+                        console.log("Got a referrer -- generate custom URL");
+                        let urlToOpen = url + "?" + paramStr + "=" + referrer_id;
+                        window.open(urlToOpen);
+                    } else {
+                        console.log("No referrer");
+                        window.open("https://localmonero.co");
+                    }
+                }
+
+                ExchangeFunctions.initialiseExchangeConfiguration().then((response) => {
+                    // Data returned by resolve
+                    let localmoneroAnchor = document.getElementById('localmonero-anchor');
+                    // let indacoinAnchor = document.getElementById('indacoin-anchor');
+                    
+                    // indacoinAnchor.setAttribute("url", "https://indacoin.com/");
+                    // indacoinAnchor.setAttribute("referrer_id", response.referrer_info.indacoin.referrer_id)
+                    // indacoinAnchor.setAttribute("param_str", "");
+
+                    localmoneroAnchor.setAttribute("referrer_id", response.referrer_info.localmonero.referrer_id)
+                    localmoneroAnchor.setAttribute("url", "https://localmonero.co")
+                    localmoneroAnchor.setAttribute("param_str", "rc");
+                    
+                    
+                    if (response.referrer_info.indacoin.enabled === true) {
+                        indacoinDiv.style.display = "block";
+                        indacoinAnchor.addEventListener('click', openClickableLink);
+                    }
+                    if (response.referrer_info.localmonero.enabled === true) {
+                        localmoneroDiv.style.display = "block";
+                        localmoneroAnchor.addEventListener('click', openClickableLink);
+                    }
+                }).catch(error => {
+                    let localmoneroAnchor = document.getElementById('localmonero-anchor');
+                    
+                    localmoneroAnchor.setAttribute("referrer_id", "h2t1")
+                    localmoneroAnchor.setAttribute("url", "https://localmonero.co")
+                    localmoneroAnchor.setAttribute("param_str", "rc");
+                    // No data received from promise resolve(). Display link for LocalMonero
+                    localmoneroDiv.style.display = "block";
+                    localmoneroAnchor.addEventListener('click', openClickableLink);
+                });
+                
                 ExchangeFunctions.getRatesAndLimits().then(() => {
                     loaderPage.classList.remove('active');
                     exchangePage.classList.add("active");
