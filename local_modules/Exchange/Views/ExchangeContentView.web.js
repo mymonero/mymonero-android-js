@@ -918,10 +918,10 @@ class ExchangeContentView extends View {
                     localmoneroAnchor.setAttribute("param_str", "rc");
                     
                     
-                    if (response.referrer_info.indacoin.enabled === true) {
-                        indacoinDiv.style.display = "block";
-                        indacoinAnchor.addEventListener('click', openClickableLink);
-                    }
+                    // if (response.referrer_info.indacoin.enabled === true) {
+                    //     indacoinDiv.style.display = "block";
+                    //     indacoinAnchor.addEventListener('click', openClickableLink);
+                    // }
                     if (response.referrer_info.localmonero.enabled === true) {
                         localmoneroDiv.style.display = "block";
                         localmoneroAnchor.addEventListener('click', openClickableLink);
