@@ -1715,13 +1715,17 @@ div#currency-table {
     word-break: break-all;
 }
 
-#localmonero a {
+#localmonero a, #indacoin a {
     margin: 8px 0px 0px 0px !important;
 }
 
-#localmonero-anchor {
+#localmonero-anchor, #indacoin-anchor {
     text-decoration: none;
     text-transform: uppercase;
+}
+
+#indacoin, #localmonero {
+    display: none;
 }
 
 .clickableLinkButton {
