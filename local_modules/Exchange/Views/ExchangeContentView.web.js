@@ -884,13 +884,8 @@ class ExchangeContentView extends View {
                 let indacoinDiv = document.getElementById("indacoin");
                 let localmoneroDiv = document.getElementById("localmonero");
 
-                console.log(ExchangeFunctions);
-
                 function openClickableLink() {
                     const self = this;
-                    console.log(self);
-                    console.log(ExchangeFunctions.referrer_info);
-                    console.log(self.id);
                     let referrer_id = self.getAttribute("referrer_id");
                     let url = self.getAttribute("url");
                     let paramStr = self.getAttribute("param_str");
