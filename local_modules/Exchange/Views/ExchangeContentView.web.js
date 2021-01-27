@@ -434,13 +434,13 @@ class ExchangeContentView extends View {
             <div class="field_title form-field-title">
                 <table>
                     <tr>
-                        <td colspan="2" style="word-wrap: normal; word-break: normal;">Please note an exchange may take a few minutes to process. XMR.to are able to provide support for any exchanges. For all issues, please contact XMR.to with your UUID for assistance.</td>
+                    <td colspan="2" style="word-wrap: normal; word-break: normal;">Please note an exchange may take a few minutes to process. <span class="provider-name"></span> are able to provide support for any exchanges. For all issues, please contact <span class="provider-name"></span> with your UUID for assistance.</td>
                     </tr>
                     <tr>
                         <td>
                             <div class="field_title form-field-title">
                                 <div style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0;">
-                                    <span class="field_title form-field-title label-spacing uppercase" style="margin-top: 0px;">XMR.to UUID</span>
+                                <span class="field_title form-field-title label-spacing uppercase" style="margin-top: 0px;"><span class="provider-name"></span> UUID</span>
                                     <div id="provider_order_id" class="textInput currencyOutput" type="text" placeholder="0.00"></div>
                                     <div class="currencySelect"><option value="XMR" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;</option></select> 
                                 </div>
@@ -1153,37 +1153,19 @@ function renderOrderStatus(order) {
                         }
                         if ((orderStatusResponse.orderTick % 10) == 0) {
                             ExchangeFunctions.getOrderStatus().then(function (response) {
+                                let elemArr = document.getElementsByClassName("provider-name");
+                                if (firstTick == true || elemArr[0].innerHTML == 'undefined') {
+                                    Utils.renderOrderStatus(response);
+                                    elemArr[0].innerHTML = response.provider_name;
+                                    elemArr[1].innerHTML = response.provider_name;
+                                    elemArr[2].innerHTML = response.provider_name;
+                                    
+                                    firstTick = false;
+                                }
                                 let orderTick = orderStatusResponse.orderTick;
                                 orderTick++;
                                 response.orderTick = orderTick;
                                 orderStatusResponse = response;
-                                // console.log(orderTimer);
-                                // if (firstTick == true) {
-                                //     //orderTimer = orderTimerInterval;
-                                //     renderOrderStatus(response);
-                                //     firstTick = false;
-                                    
-                                // } else {
-                                //     clearInterval(localOrderTimer);
-                                //     console.log("Check this out");
-                                // }
-                                // orderStatusResponse = response;
-                                // console.log(response);
-                                // let expiryTime = response.expires_at;
-                                // let secondsElement = document.getElementById('secondsRemaining');
-                                // let minutesElement = document.getElementById('minutesRemaining');
-                                // if (secondsElement !== null) {
-                                    
-                                //     let minutesElement = document.getElementById('minutesRemaining');
-                                //     let timeRemaining = Utils.getTimeRemaining(expiryTime);
-                                //     minutesElement.innerHTML = timeRemaining.minutes;
-                                //     if (timeRemaining.seconds <= 9) {
-                                //         timeRemaining.seconds = "0" + timeRemaining.seconds;
-                                //     }
-                                //     secondsElement.innerHTML = timeRemaining.seconds;
-                                //     let xmr_dest_address_elem = document.getElementById('in_address');
-                                //     xmr_dest_address_elem.value = response.receiving_subaddress; 
-                                // }
                             })
                         }
                     }, 1000);
