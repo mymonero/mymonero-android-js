@@ -992,7 +992,7 @@ class PasswordController_Base extends EventEmitter
 						return
 					}
 					self._id = _id // must save it back
-					console.log("✅  Saved newly inserted password record with _id " + self._id + ".")
+					//console.log("✅  Saved newly inserted password record with _id " + self._id + ".")
 					fn()
 				}
 			)
@@ -1056,7 +1056,6 @@ class PasswordController_Base extends EventEmitter
 			true, // yes, is for a 'delete everything'
 			function(cb)
 			{
-				console.log("We've invoked InitiateDeleteEverything");
 				// reset state cause we're going all the way back to pre-boot 
 				self.hasBooted = false // require this pw controller to boot
 				self.password = undefined // this is redundant but is here for clarity

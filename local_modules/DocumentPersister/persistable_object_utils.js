@@ -47,14 +47,11 @@ function read(
 		[ self._id ],
 		function(err, docs)
 		{
-			console.log("Persistable_object_utils: DocumentsWithIds callback");
 			if (err) {
 				console.error(err.toString())
 				fn(err)
 				return
 			}
-			console.log()
-			console.log(docs);
 			if (docs.length === 0) {
 				const errStr = "❌  Record with that _id not found."
 				const err = new Error(errStr)
@@ -64,11 +61,8 @@ function read(
 			}
 			const encryptedDocument = docs[0]
 			if (encryptedDocument.value !== undefined) {
-				console.log(`Persistable_object_utils: __proceedTo_decryptEncryptedDocument about to invoke - ${CollectionName} -- .value exists`);
 				__proceedTo_decryptEncryptedDocument(encryptedDocument.value);
 			} else {
-				console.log(`Persistable_object_utils: __proceedTo_decryptEncryptedDocument about to invoke - ${CollectionName} -- .value undefined`);
-				console.log(encryptedDocument)
 				__proceedTo_decryptEncryptedDocument(encryptedDocument)
 			}
 		}
@@ -80,19 +74,14 @@ function read(
 			self.persistencePassword,
 			function(err, plaintextString)
 			{
-				console.log("Persistable_object_utils: New_DecryptedString__Async invoked")
 				if (err) {
 					console.error("❌  Decryption err: " + err.toString())
 					fn(err)
 					return
 				}
 				var plaintextDocument;
-				console.log("Persistable objproceeding to decrypt")
-				console.log(plaintextDocument);
 				try {
 					plaintextDocument = JSON.parse(plaintextString)
-					console.log('sucessfully decrypted document')
-					console.log(plaintextDocument)
 				} catch (e) {
 					let errStr = "Error while parsing JSON: " + e
 					console.error("❌  " + errStr)
@@ -114,7 +103,6 @@ function write(
 	persistencePassword,
 	fn
 ) {
-	console.log("Persistable_object_utils: write")
 	const self = persistableObject
 	var _id = plaintextDocument._id
 	if (typeof _id === 'undefined' || _id == null || _id == "") {
@@ -129,8 +117,6 @@ function write(
 		persistencePassword,
 		function(err, encryptedBase64String)
 		{
-			console.log("Persistable_object_utils: New_EncryptedBase64String__Async invoked (encryption callback) -- encrypted string:")
-			console.log(encryptedBase64String);
 			if (err) {
 				console.error("Error while saving :", err)
 				fn(err)
@@ -146,9 +132,6 @@ function write(
 	)
 	function _proceedTo_insertNewDocument(encryptedBase64String)
 	{
-		console.log("Persistable_object_utils: InsertNewDocument invoked")
-		console.log("CollectionName:")
-		console.log(CollectionName)
 		persister.InsertDocument(
 			CollectionName,
 			plaintextDocument._id,
@@ -167,7 +150,6 @@ function write(
 	}
 	function _proceedTo_updateExistingDocument(encryptedBase64String)
 	{
-		console.log("Persistable_object_utils: updateExistingDocument invoked")
 		persister.UpdateDocumentWithId(
 			CollectionName,
 			self._id,

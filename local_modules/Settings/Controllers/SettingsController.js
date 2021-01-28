@@ -69,22 +69,20 @@ class SettingsController extends EventEmitter
 		self.registrantForDeleteEverything_token = self.context.passwordController.AddRegistrantForDeleteEverything(self)
 		self.registrantForChangePassword_token = self.context.passwordController.AddRegistrantForChangePassword(self)
 		//
-		console.log("We tried to boot");
+		
 		self._tryToBoot()
 	}
 	_tryToBoot()
 	{	// we can afford to do this w/o any callback saying "success" because we defer execution of
 		// things which would rely on boot-time info till we've booted
 		const self = this
-		//self.context.persister.RemoveAllDocuments("Settings", function() { console.log("Delete returned properly") });
+
 		//
 		// first, check if any password model has been stored
 		self.context.persister.AllDocuments(
 			CollectionName,
 			function(err, contentStrings)
 			{
-				console.log("Settings: All Documents returned this: ")
-				console.log(contentStrings)
 				if (err) {
 					console.error("Error while fetching existing", CollectionName, err)
 					throw err
@@ -109,8 +107,6 @@ class SettingsController extends EventEmitter
 				// 	const doc = plaintextString;
 				// }
 				
-				console.log(contentStrings);
-				console.log(contentStrings[0]);
 				doc = JSON.parse(contentStrings[0].value);
 
 				// console.log("💬  Found existing saved " + CollectionName + " with _id", doc._id)
@@ -119,8 +115,6 @@ class SettingsController extends EventEmitter
 		)
 		function _proceedTo_loadStateFromRecord(record_doc)
 		{
-			console.log("Settings: invoked _proceedTo_loadStateFromRecord");
-			console.log(record_doc);
 			self._id = record_doc._id || undefined
 			//
 			self.specificAPIAddressURLAuthority = record_doc.specificAPIAddressURLAuthority
@@ -143,7 +137,7 @@ class SettingsController extends EventEmitter
 				self.autoDownloadUpdatesEnabled = record_doc.autoDownloadUpdatesEnabled
 			}
 			//
-			console.log(self);
+
 			self._setBooted() // all done!
 		}
 	}
@@ -407,7 +401,6 @@ class SettingsController extends EventEmitter
 	passwordController_DeleteEverything(fn)
 	{
 		const self = this
-		console.log(self.constructor.name + " passwordController_DeleteEverything")
 		// we're not gonna delete the record and reboot - this controller is straightforward enough
 		const defaultsValues = JSON.parse(JSON.stringify(k_defaults_record)) // a copy - tho prolly not necessary to do this
 		self.Set_settings_valuesByKey(

@@ -398,8 +398,8 @@ class ListBaseController extends EventEmitter
 			self.override_CollectionName(),
 			function(err, ids)
 			{
-				console.log("ListBaseController: _new_idsOfPersistedRecords invoked");
-				console.log(ids);
+				// console.log("ListBaseController: _new_idsOfPersistedRecords invoked");
+				// console.log(ids);
 				if (err) {
 					console.error(err)
 					fn(err)
@@ -631,7 +631,7 @@ class ListBaseController extends EventEmitter
 	{
 		const self = this
 		const collectionName = self.override_CollectionName()
-		console.log(collectionName)
+		// console.log(collectionName)
 		self.context.persister.RemoveAllDocuments(
 			collectionName, 
 			function(err)
@@ -640,7 +640,7 @@ class ListBaseController extends EventEmitter
 					fn(err) // must call back!
 					return
 				}
-				console.log(`🗑  Deleted all ${collectionName}.`)
+				// console.log(`🗑  Deleted all ${collectionName}.`)
 				fn() // must call back!
 			}
 		)
