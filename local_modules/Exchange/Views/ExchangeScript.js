@@ -117,7 +117,7 @@
     let nav_right = document.getElementsByClassName('nav-button-right-container')[0];
     nav_right.appendChild(viewOrderBtn);
 
-    orderBtn.addEventListener('click', function() {
+    orderBtn.addEventListener('click', function(orderTimer) {
         let validationError = false;
         serverValidation.innerHTML = "";
         if (orderStarted == true) {
@@ -150,6 +150,9 @@
                 console.log(ExchangeFunctions.offer);
             }).then((error, response) => {
                 let selectedWallet = document.getElementById('selected-wallet');
+                console.log("Karl here");
+                console.log(error);
+                console.log(response);
                 console.log(ExchangeFunctions);
                 console.log(btc_dest_address);
                 console.log(selectedWallet);
@@ -160,7 +163,7 @@
                     orderStatusDiv.classList.add('active');
                     exchangeXmrDiv.classList.add('active');
                     backBtn.innerHTML = `<div class="base-button hoverable-cell utility grey-menu-button disableable left-back-button" style="cursor: default; -webkit-app-region: no-drag; position: absolute; opacity: 1; left: 0px;"></div>`;
-                    orderTimer = setInterval(() => {
+                    orderTimer = setInterval((response) => {
                         ExchangeFunctions.getOrderStatus().then(function (response) {
                             console.log(response);
                             Utils.renderOrderStatus(response);

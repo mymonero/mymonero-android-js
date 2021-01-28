@@ -126,11 +126,13 @@ window.BootApp = function()
 				// though we don't support that yet
 				// if(/Android/.test(navigator.appVersion)) {
 				const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-				window.addEventListener("resize", function()
-				{
-					console.log("💬  Window resized")
-					commonComponents_forms.ScrollCurrentFormElementIntoView()
-				})
+				
+				// MYM only supports portrait mode for now
+				// window.addEventListener("resize", function()
+				// {
+				// 	console.log("💬  Window resized")
+				// 	commonComponents_forms.ScrollCurrentFormElementIntoView()
+				// })
 				// }
 			}
 		}

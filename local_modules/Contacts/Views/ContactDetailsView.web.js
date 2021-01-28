@@ -37,6 +37,10 @@ import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
 import ContactQRDisplayModalView from './ContactQRDisplayModalView.web';
 import EditContactFromContactsTabView from './EditContactFromContactsTabView.web';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+import { Plugins } from '@capacitor/core';
+const { Toast } = Plugins;
 
 //
 class ContactDetailsView extends View
@@ -58,6 +62,7 @@ class ContactDetailsView extends View
 		const self = this
 		self.setup_views()
 		self.startObserving_contact()
+		defineCustomElements(window);
 	}
 	setup_views()
 	{
@@ -238,12 +243,14 @@ class ContactDetailsView extends View
 						true, // isEnabled, defaulting to true on undef
 						function()
 						{
+							event.preventDefault();
 							self._userSelectedDownloadButton()
 						}
 					);
 					self.saveQRImage_buttonLayer = buttonLayer
 					buttonLayer.style.float = "right"
 					buttonLayer.style.marginRight = "18px"
+					buttonLayer.id = "contact-details-details-save";;
 					div.appendChild(buttonLayer)
 				}
 				div.appendChild(commonComponents_tables.New_clearingBreakLayer())
@@ -573,7 +580,13 @@ class ContactDetailsView extends View
 					__trampolineFor_didFinish()
 					return
 				}
-				// console.log("Downloaded QR code")
+				console.log("Downloaded QR code")
+				Toast.show({
+					text: 'QR code saved to Android\'s shared Documents folder successfully!',
+					duration: 'long'
+				});
+
+				let saveBtn = document.getElementById("contact-details-save");
 				__trampolineFor_didFinish() // re-enable idle timer
 			}
 		)

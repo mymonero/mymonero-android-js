@@ -45,7 +45,7 @@ class RootView extends RootView_Base
 		//
 		const self = this
 		const layer = self.tabBarViewAndContentView.layer
-		layer.style.height = `calc(100% - ${self.context.rootViewFooterHeight}px)`
+		layer.style.height = `calc(100% - 0px)`
 		//
 		const footerView = new RootFooterView({}, self.context)
 		self.footerView = footerView

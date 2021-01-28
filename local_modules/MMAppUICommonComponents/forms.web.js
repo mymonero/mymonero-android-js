@@ -184,6 +184,13 @@ function New_fieldValue_textInputLayer(context, params)
 	if (typeof placeholderText !== 'undefined' && placeholderText !== null) {
 		layer.placeholder = placeholderText
 	}
+
+	if (typeof params.suppressMobileKeyboardStorage !== 'undefined' && params.suppressMobileKeyboardStorage == true) {
+		layer.setAttribute('autocomplete', 'off')
+		layer.setAttribute('autocorrect', 'off')
+		layer.setAttribute('autocapitalize', 'off')
+		layer.setAttribute('spellcheck', false)
+	}
 	//
 	layer.Component_default_padding_h = function() { return 7 } // H for horizontal
 	let padding_h = layer.Component_default_padding_h()
@@ -246,6 +253,14 @@ function New_fieldValue_textAreaView(params, context)
 	if (typeof placeholderText !== 'undefined' && placeholderText !== null) {
 		layer.placeholder = placeholderText
 	}
+
+	if (typeof params.suppressMobileKeyboardStorage !== 'undefined' && params.suppressMobileKeyboardStorage == true) {
+		layer.setAttribute('autocomplete', 'off')
+		layer.setAttribute('autocorrect', 'off')
+		layer.setAttribute('autocapitalize', 'off')
+		layer.setAttribute('spellcheck', false)
+	}
+
 	const padding_h = 8
 	layer.style.padding = `9px ${padding_h}px`
 	layer.style.height = `${61 - 2 * padding_h}px`

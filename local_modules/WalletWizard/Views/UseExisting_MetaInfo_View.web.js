@@ -84,7 +84,8 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 			}
 			//
 			const view = commonComponents_forms.New_fieldValue_textAreaView({
-				placeholderText: "From your existing wallet"
+				placeholderText: "From your existing wallet",
+				suppressMobileKeyboardStorage: true
 			}, self.context)
 			view.layer.autocorrect = "off"
 			view.layer.autocomplete = "off"

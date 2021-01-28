@@ -58,8 +58,8 @@ class RootFooterView extends View
 		table.style.width = "100%"
 		table.style.maxWidth = "400px"
 		const tr = document.createElement("tr")
-		table.appendChild(tr)
-		layer.appendChild(table)
+		// table.appendChild(tr)
+		// layer.appendChild(table)
 		//
 		// tr.appendChild(self._new_linkButtonLayerElement("Home", primaryUtilityLink_colorValue, function(e)
 		// {
