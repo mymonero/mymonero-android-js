@@ -908,7 +908,7 @@ class ExchangeContentView extends View {
                     // indacoinAnchor.setAttribute("referrer_id", response.referrer_info.indacoin.referrer_id)
                     // indacoinAnchor.setAttribute("param_str", "");
 
-                    localmoneroAnchor.setAttribute("referrer_id", response.referrer_info.localmonero.referrer_id)
+                    localmoneroAnchor.setAttribute("referrer_id", response.data.referrer_info.localmonero.referrer_id)
                     localmoneroAnchor.setAttribute("url", "https://localmonero.co")
                     localmoneroAnchor.setAttribute("param_str", "rc");
                     
@@ -917,7 +917,7 @@ class ExchangeContentView extends View {
                     //     indacoinDiv.style.display = "block";
                     //     indacoinAnchor.addEventListener('click', openClickableLink);
                     // }
-                    if (response.referrer_info.localmonero.enabled === true) {
+                    if (response.data.referrer_info.localmonero.enabled === true) {
                         localmoneroDiv.style.display = "block";
                         localmoneroAnchor.addEventListener('click', openClickableLink);
                     }
