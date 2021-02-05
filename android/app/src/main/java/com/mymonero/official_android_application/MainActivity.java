@@ -1,4 +1,4 @@
-package com.mymonero.android;
+package com.mymonero.official_android_application;
 
 import android.os.Bundle;
 
