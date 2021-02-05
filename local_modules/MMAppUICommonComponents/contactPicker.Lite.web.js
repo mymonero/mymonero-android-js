@@ -27,11 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Views__cssRules = require('../Views/cssRules.web')
-const commonComponents_forms = require('./forms.web')
+import Views__cssRules from '../Views/cssRules.web';
+
+import commonComponents_forms from './forms.web';
+console.log("Imported contactpicker.Lite.web.js");
 //
-const NamespaceName = "contactPicker_Lite" 
+const NamespaceName = "contactPicker_Lite"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 const cssRules =
 [
@@ -148,7 +151,7 @@ function New_contactPickerLayer_Lite(
 	//
 	return containerLayer
 }
-exports.New_contactPickerLayer_Lite = New_contactPickerLayer_Lite
+
 //
 function _new_inputLayer(placeholderText, context)
 {
@@ -157,3 +160,5 @@ function _new_inputLayer(placeholderText, context)
 	})
 	return layer
 }
+
+export default { New_contactPickerLayer_Lite };

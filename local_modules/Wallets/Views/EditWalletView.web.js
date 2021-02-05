@@ -27,14 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_walletColorPicker = require('../../MMAppUICommonComponents/walletColorPicker.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_walletColorPicker from '../../MMAppUICommonComponents/walletColorPicker.web';
+
 //
-const emoji_selection = require('../../Emoji/emoji_selection')
+import emoji_selection from '../../Emoji/emoji_selection';
+
 //
 class EditWalletView extends View
 {
@@ -157,12 +161,13 @@ class EditWalletView extends View
 			"wallet", 
 			self.context, 
 			"REMOVE", 
-			self.context.isLiteApp == true ? "LOG OUT…" : undefined
+			"DELETE WALLET"
 		)
 		const layer = view.layer
 		function __proceedTo_deleteRecord()
 		{
 			const record_id = self.wallet._id
+			
 			self.context.walletsListController.WhenBooted_DeleteRecordWithId(
 				record_id,
 				function(err)
@@ -171,6 +176,7 @@ class EditWalletView extends View
 						throw err
 					}
 					self._thisRecordWasDeleted()
+					location.reload();
 				}
 			)
 		}
@@ -185,11 +191,9 @@ class EditWalletView extends View
 						return false
 					}
 					self.context.windowDialogs.PresentQuestionAlertDialogWith(
-						self.context.isLiteApp == true ? 'Log out?' : 'Logging out', 
-						self.context.isLiteApp == true 
-							? 'Logging Out' 
-							: 'You are about to log out of a wallet.\n\nMake sure you saved your mnemonic! It can be found by clicking the arrow next to Address on the Wallet screen. You will need your mnemonic to recover access to this wallet.\n\nAre you sure you want to log out of this wallet?',
-						self.context.isLiteApp == true ? 'Log out' : 'Log out'/*used to be 'Remove' but that's confusing*/,
+						self.context.isLiteApp == true ? 'Delete Wallet?' : 'Deleting Wallet', 
+						'You are about to delete a wallet.\n\nMake sure you saved your mnemonic! It can be found by clicking the arrow next to Address on the Wallet screen. You will need your mnemonic to recover access to this wallet.\n\nAre you sure you want to log out of this wallet?',						
+						'Delete Wallet',
 						'Cancel',
 						function(err, didChooseYes)
 						{
@@ -398,4 +402,4 @@ class EditWalletView extends View
 		self.set_submitButtonNeedsUpdate()
 	}
 }
-module.exports = EditWalletView
+export default EditWalletView;

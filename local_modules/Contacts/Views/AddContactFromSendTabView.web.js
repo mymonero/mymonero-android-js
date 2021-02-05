@@ -27,11 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const AddContactFromOtherTabView = require('../../Contacts/Views/AddContactFromOtherTabView.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
+import AddContactFromOtherTabView from '../../Contacts/Views/AddContactFromOtherTabView.web';
+
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+
 //
-const monero_openalias_utils = require('../../OpenAlias/monero_openalias_utils')
+import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils';
+
 //
 class AddContactFromSendTabView extends AddContactFromOtherTabView
 {
@@ -226,4 +230,4 @@ class AddContactFromSendTabView extends AddContactFromOtherTabView
 		super._didSaveNewContact(contact) // this will cause self to be dismissed!! so, last-ish
 	}
 }
-module.exports = AddContactFromSendTabView
+export default AddContactFromSendTabView;

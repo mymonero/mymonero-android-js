@@ -27,12 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_emptyScreens = require('../../MMAppUICommonComponents/emptyScreens.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
+import View from '../../Views/View.web';
+
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web';
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
 //
 class ForgotPasswordView extends View
 {
@@ -216,4 +218,4 @@ class ForgotPasswordView extends View
 		}
 	}
 }
-module.exports = ForgotPasswordView
+export default ForgotPasswordView;

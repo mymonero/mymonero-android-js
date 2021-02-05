@@ -27,11 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
-const uuidV1 = require('uuid/v1')
+import EventEmitter from 'events';
+
+import uuidV1 from 'uuid/v1';
+
 //
-const web_debug_utils = require('./web_debug_utils')	
+import web_debug_utils from './web_debug_utils';
+
 //
 class View extends EventEmitter
 {
@@ -366,4 +370,4 @@ class View extends EventEmitter
 		layer.scrollTop = scrollOffsets.Top
 	}	
 }
-module.exports = View
+export default View;

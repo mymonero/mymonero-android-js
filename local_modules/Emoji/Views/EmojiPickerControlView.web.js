@@ -27,16 +27,21 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Animate = require('velocity-animate')
+import Animate from 'velocity-animate';
+
 //
-const View = require('../../Views/View.web')
-const dom_traversal = require('../../Views/dom_traversal.web')
-const EmojiPickerPopoverView = require('./EmojiPickerPopoverView.web')
-const emoji_web = require('../emoji_web')
+import View from '../../Views/View.web';
+
+import dom_traversal from '../../Views/dom_traversal.web';
+import EmojiPickerPopoverView from './EmojiPickerPopoverView.web';
+import emoji_web from '../emoji_web';
+
 //
 // CSS rules
-const Views__cssRules = require('../../Views/cssRules.web')
+import Views__cssRules from '../../Views/cssRules.web';
+
 const NamespaceName = "EmojiPickerControlView"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
@@ -64,7 +69,7 @@ function cssRules_generatorFn(context)
 			line-height: 31px;
 			font-size: 13px;
 			
-			background-image: url(${assetsPath}assets/img/popoverDisclosureArrow@3x.png);
+			background-image: url(/assets/img/popoverDisclosureArrow@3x.png);
 			background-size: 8px 7px;
 			background-position: 42px 13px;
 			background-repeat: no-repeat;
@@ -331,4 +336,4 @@ class EmojiPickerControlView extends View
 		)
 	}
 }
-module.exports = EmojiPickerControlView
+export default EmojiPickerControlView;

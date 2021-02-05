@@ -27,14 +27,20 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const EmojiPickerControlView = require('../../Emoji/Views/EmojiPickerControlView.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
+import View from '../../Views/View.web';
+
+import EmojiPickerControlView from '../../Emoji/Views/EmojiPickerControlView.web';
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+
 //
-const emoji_selection = require('../../Emoji/emoji_selection')
+import emoji_selection from '../../Emoji/emoji_selection';
+console.log("Emoji_selection object");
+console.log(emoji_selection);
+
 //
 class ContactFormView extends View
 {
@@ -207,7 +213,11 @@ class ContactFormView extends View
 	{
 		const self = this
 		const inUseEmojis = self.context.contactsListController.GivenBooted_CurrentlyInUseEmojis()
+		console.log("InUseEmojis");
+		console.log(inUseEmojis);
 		const value = emoji_selection.EmojiWhichIsNotAlreadyInUse(inUseEmojis)
+		console.log(emoji_selection);
+		console.log(value);
 		return value
 	}
 	_setup_field_emoji()
@@ -224,6 +234,7 @@ class ContactFormView extends View
 		const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("EMOJI", self.context)
 		div.appendChild(labelLayer)
 		//
+
 		const view = new EmojiPickerControlView({
 			value: value,
 			didPickEmoji_fn: function(emoji) {} // nothing to do as we simply read at submit
@@ -435,4 +446,4 @@ class ContactFormView extends View
 		}
 	}
 }
-module.exports = ContactFormView
+export default ContactFormView;

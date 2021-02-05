@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const shared_bg_ipc = require('./shared_bg_ipc')
+import shared_bg_ipc from './shared_bg_ipc';
+
 //	
 // Public - Setup - Entrypoints:
 function InitWithTasks_AndStartListening(tasksByName)
@@ -54,7 +56,6 @@ function InitWithTasks_AndStartListening(tasksByName)
 		self.postMessage({ message: "worker is up" })
 	}
 }
-exports.InitWithTasks_AndStartListening = InitWithTasks_AndStartListening
 //
 // Public - Imperatives - Yielding task products
 function CallBack(taskUUID, err, returnValue)
@@ -68,5 +69,5 @@ function CallBack(taskUUID, err, returnValue)
 			self.postMessage(payload)
 		}
 	)
-}	
-exports.CallBack = CallBack
+}
+export { InitWithTasks_AndStartListening, CallBack };

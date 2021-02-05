@@ -27,16 +27,22 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Animate = require('velocity-animate')
+import Animate from 'velocity-animate';
+
 //
-const View = require('../../Views/View.web')
-const BarButtonBaseView = require('./BarButtonBaseView.web')
+import View from '../../Views/View.web';
+
+import BarButtonBaseView from './BarButtonBaseView.web';
+
 //
-const emoji_web = require('../../Emoji/emoji_web')
+import emoji_web from '../../Emoji/emoji_web';
+
 //
 // CSS rules
-const Views__cssRules = require('../../Views/cssRules.web')
+import Views__cssRules from '../../Views/cssRules.web';
+
 const NamespaceName = "NavigationBarView"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 const cssRules =
@@ -49,7 +55,9 @@ const cssRules =
 		position: absolute; 
 	}`
 ]
-function __injectCSSRules_ifNecessary() { Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) }
+function __injectCSSRules_ifNecessary() { 
+	//Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) 
+}
 //
 class NavigationBarView extends View
 {
@@ -84,6 +92,7 @@ class NavigationBarView extends View
 			//
 			layer.style.webkitAppRegion = "drag" // make draggable
 			layer.style.webkitUserSelect = "none"
+
 		}
 		{ // background decoration view
 			const view = new View({}, self.context)
@@ -125,22 +134,24 @@ class NavigationBarView extends View
 			const view = new View({}, self.context)
 			self.leftBarButtonHolderView = view
 			const layer = view.layer
-			layer.style.position = "absolute"
-			layer.style.left = "16px"
-			layer.style.width = "15%"
-			layer.style.minWidth = `${self.NavigationBarHeight()}px`
-			layer.style.height = `${self.NavigationBarHeight()}px`
+			// layer.style.position = "absolute"
+			// layer.style.left = "16px"
+			// layer.style.width = "15%"
+			// layer.style.minWidth = `${self.NavigationBarHeight()}px`
+			// layer.style.height = `${self.NavigationBarHeight()}px`
+			layer.classList.add('nav-button-left-container')
 			self.addSubview(view)
 		}
 		{ // rightBarButtonHolderView
 			const view = new View({}, self.context)
 			self.rightBarButtonHolderView = view
 			const layer = view.layer
-			layer.style.position = "absolute"
-			layer.style.right = "16px"
-			layer.style.width = "15%"
-			layer.style.minWidth = `${self.NavigationBarHeight()}px`
-			layer.style.height = `${self.NavigationBarHeight()}px`
+			// layer.style.position = "absolute"
+			// layer.style.right = "16px"
+			// layer.style.width = "15%"
+			// layer.style.minWidth = `${self.NavigationBarHeight()}px`
+			// layer.style.height = `${self.NavigationBarHeight()}px`
+			layer.classList.add('nav-button-right-container')
 			self.addSubview(view)
 		}
 	}
@@ -647,4 +658,4 @@ class NavigationBarView extends View
 		}
 	}
 }
-module.exports = NavigationBarView
+export default NavigationBarView;

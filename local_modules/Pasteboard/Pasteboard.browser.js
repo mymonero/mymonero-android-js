@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const PasteboardInterface = require('./PasteboardInterface')
-const ClipboardJS = require('./Vendor/clipboard.min.js')
+import PasteboardInterface from './PasteboardInterface';
+
+import ClipboardJS from './Vendor/clipboard.min.js';
 //
 class Pasteboard extends PasteboardInterface
 {
@@ -56,4 +58,4 @@ class Pasteboard extends PasteboardInterface
 		// nothing to do here since we are using ClipboardJS and relying on "data-clipboard-text"
 	}
 }
-module.exports = Pasteboard
+export default Pasteboard;

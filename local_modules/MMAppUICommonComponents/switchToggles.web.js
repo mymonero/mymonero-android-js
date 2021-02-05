@@ -27,15 +27,17 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
-const Views__cssRules = require('../Views/cssRules.web')
+import View from '../Views/View.web';
+
+import Views__cssRules from '../Views/cssRules.web';
 //
 const k_transitionTime         = 0.2
-const k_height                 = 12 
-const k_width                  = k_height * 2 
-const k_knobHeight             = k_height - 4 
-const k_knobWidth              = k_height - 4 
+const k_height                 = 12
+const k_width                  = k_height * 2
+const k_knobHeight             = k_height - 4
+const k_knobWidth              = k_height - 4
 const k_backgroundColor        = "#1D1B1D"
 const k_backgroundColorChecked = "#1D1B1D"
 const k_knobColor              = "#333638"
@@ -226,4 +228,4 @@ function New_fieldValue_switchToggleView(params, context)
 
 	return view
 }
-exports.New_fieldValue_switchToggleView = New_fieldValue_switchToggleView
+export default { New_fieldValue_switchToggleView };

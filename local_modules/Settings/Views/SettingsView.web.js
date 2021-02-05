@@ -27,19 +27,25 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_labeledRangeInputs = require('../../MMAppUICommonComponents/labeledRangeInputs.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_switchToggles = require('../../MMAppUICommonComponents/switchToggles.web')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
-const commonComponents_ccySelect = require('../../MMAppUICommonComponents/ccySelect.web')
-const commonComponents_hoverableCells = require('../../MMAppUICommonComponents/hoverableCells.web')
-const commonComponents_tooltips = require('../../MMAppUICommonComponents/tooltips.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_labeledRangeInputs from '../../MMAppUICommonComponents/labeledRangeInputs.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_switchToggles from '../../MMAppUICommonComponents/switchToggles.web';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+import commonComponents_ccySelect from '../../MMAppUICommonComponents/ccySelect.web';
+import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
+import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web';
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+import ModalStandaloneAboutView from '../../AboutWindow/Views/ModalStandaloneAboutView.web';
+
 //
-const config__MyMonero = require('../../HostedMoneroAPIClient/config__MyMonero')
+import config__MyMonero from '../../HostedMoneroAPIClient/config__MyMonero';
+
 //
 class SettingsView extends View
 {
@@ -68,6 +74,7 @@ class SettingsView extends View
 	}
 	_setup_self_layer()
 	{
+		console.log("Settings: invoked _setup_self_layer()");
 		const self = this
 		//
 		const layer = self.layer
@@ -89,6 +96,7 @@ class SettingsView extends View
 	}
 	_setup_form_containerLayer()
 	{
+		console.log("Settings: invoked _setup_form_containerLayer()");
 		const self = this
 		const containerLayer = document.createElement("div")
 		self.form_containerLayer = containerLayer
@@ -96,17 +104,17 @@ class SettingsView extends View
 			if (self.context.Settings_shouldDisplayAboutAppButton === true) {
 				self._setup_aboutAppButton()
 			}
-			if (self.context.isLiteApp != true) {
+			//if (self.context.isLiteApp != true) {
 				self._setup_form_field_changePasswordButton()
-			}
+			//}
 			self._setup_form_field_appTimeoutSlider()
-			if (self.context.isLiteApp != true) {
+			//if (self.context.isLiteApp != true) {
 				self._setup_form_field_authentication() // no password protecting Lite app
-			}
+			//}
 			self._setup_form_field_displayCcy()
-			if (self.context.isLiteApp != true) {
+			//if (self.context.isLiteApp != true) {
 				self._setup_form_field_serverURL()
-			}
+			//}
 			if (self.context.isLiteApp != true) {
 				const isLinux = typeof process.platform !== 'undefined' && process.platform && /linux/.test(process.platform)
 				if (isLinux != true) { // because there is no software update support under linux (yet) .. TODO: possibly just encode this under a self.context.appHasSoftwareUpdateSupport so we can switch it in one place
@@ -121,6 +129,7 @@ class SettingsView extends View
 	}
 	_setup_aboutAppButton()
 	{
+		console.log("Settings: invoked _setup_aboutAppButton()");
 		const self = this
 		const div = document.createElement("div")
 		div.style.padding = "12px 0 12px 33px"
@@ -129,8 +138,6 @@ class SettingsView extends View
 			self.context,
 			function()
 			{
-				const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-				const ModalStandaloneAboutView = require('../../AboutWindow/Views/ModalStandaloneAboutView.web')
 				const options = {}
 				const view = new ModalStandaloneAboutView(options, self.context)
 				self.current_ModalStandaloneAboutView = view
@@ -145,6 +152,7 @@ class SettingsView extends View
 	}
 	_setup_form_field_changePasswordButton()
 	{
+		console.log("Settings: invoked _setup_form_field_changePasswordButton()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		div.style.padding = "19px 24px 20px 24px"
@@ -169,6 +177,7 @@ class SettingsView extends View
 	}
 	_setup_form_field_appTimeoutSlider()
 	{
+		console.log("Settings: invoked _setup_form_field_appTimeoutSlider()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		div.style.paddingTop = "5px" // special case
@@ -227,6 +236,7 @@ class SettingsView extends View
 	}
 	_setup_form_field_authentication()
 	{
+		console.log("Settings: invoked _setup_form_field_authentication()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		{
@@ -337,6 +347,7 @@ class SettingsView extends View
 	}
 	_setup_form_field_serverURL()
 	{
+		console.log("Settings: invoked _setup_form_field_serverURL()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		{
@@ -380,6 +391,7 @@ class SettingsView extends View
 	}
 	_setup_form_field_appUpdates()
 	{
+		console.log("Settings: invoked _setup_form_field_appUpdates()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		{
@@ -437,6 +449,7 @@ class SettingsView extends View
 	}
 	_setup_form_field_displayCcy()
 	{
+		console.log("Settings: invoked _setup_form_field_displayCcy()");
 		const self = this
 		let selectLayer_w = 132 // disclosure arrow visual alignment with change pw content right edge
 		let selectLayer_h = 32
@@ -524,10 +537,11 @@ class SettingsView extends View
 	}
 	_setup_deleteEverythingButton()
 	{
+		console.log("Settings: invoked _setup_deleteEverythingButton()");
 		const self = this
 		const div = document.createElement("div")
 		div.style.paddingTop = "23px"
-		const titleText = self.context.isLiteApp ? "LOG OUT" : "DELETE EVERYTHING"
+		const titleText = "DELETE EVERYTHING"
 		const view = commonComponents_tables.New_redTextButtonView(titleText, self.context)
 		self.deleteEverything_buttonView = view
 		const layer = view.layer
@@ -540,15 +554,13 @@ class SettingsView extends View
 					return false
 				}
 				var msg;
-				if (self.context.isLiteApp != true) { 
-					msg = 'Are you sure you want to delete all of your local data?\n\nAny wallets will remain permanently on the Monero blockchain but local data such as contacts will not be recoverable.'
-				} else {
-					msg = 'Are you sure you want to log out?'
-				}
+				
+				msg = 'Are you sure you want to delete all of your local data?\n\nAny wallets will remain permanently on the Monero blockchain but local data such as contacts will not be recoverable.'
+				
 				self.context.windowDialogs.PresentQuestionAlertDialogWith(
-					self.context.isLiteApp != true ? 'Delete everything?' : 'Log out?', 
+					'Delete everything?',
 					msg,
-					self.context.isLiteApp != true ? 'Delete Everything' : 'Log Out', 
+					'Delete Everything', 
 					'Cancel',
 					function(err, didChooseYes)
 					{
@@ -572,6 +584,7 @@ class SettingsView extends View
 						}
 					}
 				)
+				location.reload();
 				return false
 			}
 		)
@@ -699,38 +712,37 @@ class SettingsView extends View
 		}
 		const passwordController = self.context.passwordController
 		{ // config change pw btn text, app timeout slider, …
-			if (self.context.isLiteApp == true) {
-				if (self.changePasswordButtonView) {
-					throw "Did not expect self.changePasswordButtonView"
-				}
-				self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before automatic log-out"
-			} else {
-				if (!self.changePasswordButtonView) {
-					throw "Expected self.changePasswordButtonView"
-				}
-				const layer = self.changePasswordButtonView.layer
-				const userSelectedTypeOfPassword = passwordController.userSelectedTypeOfPassword
-				const passwordType_humanReadableString = passwordController.HumanReadable_AvailableUserSelectableTypesOfPassword()[userSelectedTypeOfPassword]
-				if (typeof passwordType_humanReadableString !== 'undefined') {
-					const capitalized_passwordType = passwordType_humanReadableString.charAt(0).toUpperCase() + passwordType_humanReadableString.slice(1)
-					layer.innerHTML = "Change " + capitalized_passwordType
-					self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before your " + passwordType_humanReadableString + " is required"
-				}
+			// if (self.context.isLiteApp == true) {
+			// 	if (self.changePasswordButtonView) {
+			// 		throw "Did not expect self.changePasswordButtonView"
+			// 	}
+			// 	self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before automatic log-out"
+			// } else {
+			// 	if (!self.changePasswordButtonView) {
+			// 		throw "Expected self.changePasswordButtonView"
+			// 	}
+			// 	const layer = self.changePasswordButtonView.layer
+			// 	const userSelectedTypeOfPassword = passwordController.userSelectedTypeOfPassword
+			// 	const passwordType_humanReadableString = passwordController.HumanReadable_AvailableUserSelectableTypesOfPassword()[userSelectedTypeOfPassword]
+			// 	if (typeof passwordType_humanReadableString !== 'undefined') {
+			// 		const capitalized_passwordType = passwordType_humanReadableString.charAt(0).toUpperCase() + passwordType_humanReadableString.slice(1)
+			// 		layer.innerHTML = "Change " + capitalized_passwordType
+			// 		self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before your " + passwordType_humanReadableString + " is required"
+			// 	}
+			// }
+			if (!self.changePasswordButtonView) {
+				throw "Expected self.changePasswordButtonView"
 			}
+			const layer = self.changePasswordButtonView.layer
+			const userSelectedTypeOfPassword = passwordController.userSelectedTypeOfPassword
+			const passwordType_humanReadableString = passwordController.HumanReadable_AvailableUserSelectableTypesOfPassword()[userSelectedTypeOfPassword]
+			if (typeof passwordType_humanReadableString !== 'undefined') {
+				const capitalized_passwordType = passwordType_humanReadableString.charAt(0).toUpperCase() + passwordType_humanReadableString.slice(1)
+				layer.innerHTML = "Change " + capitalized_passwordType
+				self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before your " + passwordType_humanReadableString + " is required"
+			}
+			
 		}
-		if (self.context.isLiteApp) {
-			if (self.changePasswordButtonView) {
-				throw "Did not expect self.changePasswordButtonView"
-			}
-			if (self.serverURLInputLayer) {
-				throw "Did not expect self.serverURLInputLayer"
-			}
-			const walletsExist = self.context.walletsListController.records.length > 0
-			self.appTimeoutRangeInputView.SetEnabled(true)
-			self.displayCcySelectLayer.disabled = false
-			self.displayCcySelectLayer.classList.remove("disabled")
-			self.deleteEverything_buttonView.SetEnabled(walletsExist) // cause this is actually the 'log out' btn
-		} else {
 			if (passwordController.hasUserSavedAPassword !== true) {
 				if (self.changePasswordButtonView) {
 					self.changePasswordButtonView.SetEnabled(false) // can't change til entered
@@ -793,7 +805,7 @@ class SettingsView extends View
 					true // setWithoutShouldToggle - or we get asked to auth
 				)
 			}
-		}
+		
 		{
 			if (self.serverURLInputLayer) {
 				self.serverURLInputLayer.value = self.context.settingsController.specificAPIAddressURLAuthority || ""
@@ -924,4 +936,4 @@ class SettingsView extends View
 		fn() // this MUST get called
 	}
 }
-module.exports = SettingsView
+export default SettingsView;

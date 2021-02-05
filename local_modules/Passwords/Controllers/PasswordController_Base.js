@@ -27,12 +27,16 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const async = require('async')
-const EventEmitter = require('events')
-const uuidV1 = require('uuid/v1')
+import async from 'async';
+
+import EventEmitter from 'events';
+import uuidV1 from 'uuid/v1';
+
 //
-const symmetric_string_cryptor = require('../../symmetric_cryptor/symmetric_string_cryptor')
+import symmetric_string_cryptor from '../../symmetric_cryptor/symmetric_string_cryptor';
+
 //
 const CollectionName = "PasswordMeta"
 const plaintextMessageToSaveForUnlockChallenges = "this is just a string that we'll use for checking whether a given password can unlock an encrypted version of this very message"
@@ -85,6 +89,42 @@ class PasswordController_Base extends EventEmitter
 			CollectionName,
 			function(err, contentStrings)
 			{
+				/* This next snippet from Settings
+				
+				console.log("Settings: All Documents returned this: ")
+				console.log(contentStrings)
+				if (err) {
+					console.error("Error while fetching existing", CollectionName, err)
+					throw err
+				}
+				const contentStrings_length = contentStrings.length
+				if (contentStrings_length === 0) { //
+					const mocked_doc = JSON.parse(JSON.stringify(k_defaults_record)) // hamfisted copy
+					_proceedTo_loadStateFromRecord(mocked_doc)
+					return
+				}
+				if (contentStrings_length > 1) {
+					const errStr = "Error while fetching existing " + CollectionName + "... more than one record found. Selecting first."
+					console.error(errStr)
+					// this is indicative of a code fault
+					throw errStr // might as well throw then
+				}
+				var doc = {};
+				const plaintextString = contentStrings[0] // NOTE: Settings is not presently encrypted
+				// if (typeof plaintextString !== Object) {
+				// 	const doc = JSON.parse(plaintextString);
+				// } else {
+				// 	const doc = plaintextString;
+				// }
+				
+				console.log(contentStrings);
+				console.log(contentStrings[0]);
+				doc = JSON.parse(contentStrings[0].value);
+
+				
+				*/
+
+				
 				if (err) {
 					console.error("Error while fetching existing", CollectionName, err)
 					throw err
@@ -106,7 +146,8 @@ class PasswordController_Base extends EventEmitter
 					console.error(errStr)
 					// this is indicative of a code fault
 				}
-				const contentString = contentStrings[0]
+				const contentString = contentStrings[0].value;
+				// this is old -- const plaintextDoc = JSON.parse(contentString) // whole doc is not encrypted - only challenge
 				const plaintextDoc = JSON.parse(contentString) // whole doc is not encrypted - only challenge
 				// console.log("💬  Found existing saved password model with _id", doc._id)
 				_proceedTo_loadStateFromModel(
@@ -131,6 +172,7 @@ class PasswordController_Base extends EventEmitter
 					throw errStr
 				}
 			}
+			
 			self._initial_waitingForFirstPWEntryDecode_passwordModel_doc = passwordModel_doc // this will be nil'd after it's been parsed once the user has entered their pw
 			self._setBooted() // all done! call waiting fns
 		}
@@ -414,6 +456,7 @@ class PasswordController_Base extends EventEmitter
 	OnceBooted_GetNewPasswordAndTypeOrExistingPasswordFromUserAndEmitIt()
 	{	// This function must be called in order to initiate a password entry screen being shown to the user and to initiate any "password obtained" emits
 		const self = this
+		console.log("PasswordController: invoked OnceBooted_GetNewPasswordAndTypeOrExistingPasswordFromUserAndEmitIt");
 		self._executeWhenBooted(
 			function()
 			{
@@ -432,7 +475,6 @@ class PasswordController_Base extends EventEmitter
 				const isForChangePassword = false // this is simply for requesting to have the existing or a new password from the user				
 				const isForAuthorizingAppActionOnly = false
 				const customNavigationBarTitle_orNull = null
-				//
 				if (typeof self._id === 'undefined' || self._id === null) { // if the user is not unlocking an already pw-protected app
 					// then we need to get a new PW from the user
 					self.obtainNewPasswordFromUser(isForChangePassword) // this will also call self.unguard_getNewOrExistingPassword()
@@ -950,7 +992,7 @@ class PasswordController_Base extends EventEmitter
 						return
 					}
 					self._id = _id // must save it back
-					console.log("✅  Saved newly inserted password record with _id " + self._id + ".")
+					//console.log("✅  Saved newly inserted password record with _id " + self._id + ".")
 					fn()
 				}
 			)
@@ -998,6 +1040,13 @@ class PasswordController_Base extends EventEmitter
 	{ // this is used as a central initiation/sync point for delete everything like user idle
 		// maybe it should be moved, maybe not.
 		// And note we're assuming here the PW has been entered already.
+		function callbackFn(err, success) {
+			if (err !== null) {
+				console.error("deleteEverything callbackFn failed");
+				throw "PasswordController.InitiateDeleteEverything failed";
+			}
+			console.log("callbackFn called successfully")
+		}
 		const self = this
 		if (self.hasUserSavedAPassword !== true) {
 			const errStr = "InitiateDeleteEverything called but hasUserSavedAPassword !== true. This should be disallowed in the UI"
@@ -1014,42 +1063,46 @@ class PasswordController_Base extends EventEmitter
 				self._id = undefined
 				self.encryptedMessageForUnlockChallenge = undefined
 				self._initial_waitingForFirstPWEntryDecode_passwordModel_doc = undefined
+
 				// first have all registrants delete everything
-				const tokens = Object.keys(self.deleteEverythingRegistrants)
-				async.each( // parallel; waits till all finished
-					tokens,
-					function(token, registrant_cb)
-					{
-						const registrant = self.deleteEverythingRegistrants[token]
-						registrant.passwordController_DeleteEverything(function(err)
-						{
-							registrant_cb(err)
-						})
-					},
-					function(err)
-					{
-						if (err) {
-							cb(err)
-							return // will travel back to the 'throw' below
-						}
-						//
-						// then delete pw record - after registrants in case any of them fail and user still needs to be able to delete some of them on next boot
-						self.context.persister.RemoveAllDocuments(
-							CollectionName, 
-							function(err)
-							{ 
-								if (err) {
-									cb(err)
-									return
-								}
-								console.log("🗑  Deleted password record.")
-								self.setupAndBoot() // now trigger a boot before we call cb (tho we could do it after - consumers will wait for boot)
-								//
-								cb(err)
-							}
-						)
-					}
-				)
+				//const tokens = Object.keys(self.deleteEverythingRegistrants)
+
+				const response = self.context.persister.RemoveAllData(callbackFn); 
+
+				// async.each( // parallel; waits till all finished
+				// 	tokens,
+				// 	function(token, registrant_cb)
+				// 	{
+				// 		const registrant = self.deleteEverythingRegistrants[token]
+				// 		registrant.passwordController_DeleteEverything(function(err)
+				// 		{
+				// 			registrant_cb(err)
+				// 		})
+				// 	},
+				// 	function(err)
+				// 	{
+				// 		if (err) {
+				// 			cb(err)
+				// 			return // will travel back to the 'throw' below
+				// 		}
+				// 		//
+				// 		// then delete pw record - after registrants in case any of them fail and user still needs to be able to delete some of them on next boot
+				// 		self.context.persister.RemoveAllDocuments(
+				// 			CollectionName, 
+				// 			function(err)
+				// 			{ 
+				// 				if (err) {
+				// 					cb(err)
+				// 					return
+				// 				}
+				// 				console.log("🗑  Deleted password record.")
+				// 				self.setupAndBoot() // now trigger a boot before we call cb (tho we could do it after - consumers will wait for boot)
+				// 				//
+				// 				cb(err)
+				// 			}
+				// 		)
+				// 	}
+				// )
 			},
 			function(err)
 			{
@@ -1066,7 +1119,7 @@ class PasswordController_Base extends EventEmitter
 	AddRegistrantForDeleteEverything(registrant)
 	{
 		const self = this
-		// console.log("Adding registrant for 'DeleteEverything': ", registrant.constructor.name)
+		//console.log("Adding registrant for 'DeleteEverything': ", registrant.constructor.name)
 		const token = uuidV1()
 		self.deleteEverythingRegistrants[token] = registrant
 		return token
@@ -1074,7 +1127,7 @@ class PasswordController_Base extends EventEmitter
 	AddRegistrantForChangePassword(registrant)
 	{
 		const self = this
-		// console.log("Adding registrant for 'ChangePassword': ", registrant.constructor.name)
+		//console.log("Adding registrant for 'ChangePassword': ", registrant.constructor.name)
 		const token = uuidV1()
 		self.changePasswordRegistrants[token] = registrant
 		return token
@@ -1082,13 +1135,13 @@ class PasswordController_Base extends EventEmitter
 	RemoveRegistrantForDeleteEverything(registrant)
 	{
 		const self = this
-		// console.log("Removing registrant for 'DeleteEverything': ", registrant.constructor.name)
+		//console.log("Removing registrant for 'DeleteEverything': ", registrant.constructor.name)
 		delete self.deleteEverythingRegistrants[token]
 	}
 	RemoveRegistrantForChangePassword(registrant)
 	{
 		const self = this
-		// console.log("Removing registrant for 'ChangePassword': ", registrant.constructor.name)
+		//console.log("Removing registrant for 'ChangePassword': ", registrant.constructor.name)
 		delete self.changePasswordRegistrants[token]
 	}
 	//
@@ -1171,4 +1224,4 @@ class PasswordController_Base extends EventEmitter
 		self._startObserving_userIdleInWindowController()
 	}
 }
-module.exports = PasswordController_Base
+export default PasswordController_Base;

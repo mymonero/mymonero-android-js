@@ -27,13 +27,16 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+import WalletsListView from './WalletsListView.web'
 //
 class WalletsTabContentView extends StackAndModalNavigationView
 {
 	constructor(options, context)
 	{
+		console.log('WalletsTabContentView constructor invoked')
 		super(options, context)
 	}
 	setup()
@@ -42,7 +45,8 @@ class WalletsTabContentView extends StackAndModalNavigationView
 		const self = this
 		{ // walletsListView
 			const options = {}
-			const WalletsListView = require('./WalletsListView.web')
+			//const WalletsListView = require('./WalletsListView.web')
+			//const WalletsListView = WalletsListView
 			const view = new WalletsListView(options, self.context)
 			self.walletsListView = view
 		}
@@ -100,4 +104,4 @@ class WalletsTabContentView extends StackAndModalNavigationView
 		return false
 	}
 }
-module.exports = WalletsTabContentView
+export default WalletsTabContentView;

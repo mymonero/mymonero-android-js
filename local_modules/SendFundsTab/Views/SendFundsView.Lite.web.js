@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const SendFundsView_Base = require('./SendFundsView_Base.web')
-const commonComponents_contactPicker_Lite = require('../../MMAppUICommonComponents/contactPicker.Lite.web')
+import SendFundsView_Base from './SendFundsView_Base.web';
+
+import commonComponents_contactPicker_Lite from '../../MMAppUICommonComponents/contactPicker.Lite.web';
 //
 class SendFundsView extends SendFundsView_Base
 {
@@ -53,4 +55,4 @@ class SendFundsView extends SendFundsView_Base
 		return layer
 	}
 }
-module.exports = SendFundsView
+export default SendFundsView;

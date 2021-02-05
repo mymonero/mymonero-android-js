@@ -33,5 +33,6 @@ const globalPromiseKey = "MyMoneroLibAppBridge_Singleton.electron"
 if (typeof globalObject[globalPromiseKey] === 'undefined' || !globalObject[globalPromiseKey]) {
 	globalObject[globalPromiseKey] = require('../mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge')({asmjs: false})
 }
+
 //
-module.exports = globalObject[globalPromiseKey];
+export default globalObject[globalPromiseKey];

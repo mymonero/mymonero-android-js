@@ -71,4 +71,4 @@ class Pasteboard
 		throw `You must override and implement ${_cmd} in ${self.constructor.name}`
 	}
 }
-module.exports = Pasteboard
+export default Pasteboard;

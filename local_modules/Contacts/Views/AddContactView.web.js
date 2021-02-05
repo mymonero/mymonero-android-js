@@ -27,14 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const ContactFormView = require('./ContactFormView.web')
-const monero_paymentID_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
+import ContactFormView from './ContactFormView.web';
+
+import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
+
 //
-const jsQR = require('jsqr')
-const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
+import jsQR from 'jsqr';
+
+import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
 //
 //
 class AddContactView extends ContactFormView
@@ -397,24 +401,26 @@ class AddContactView extends ContactFormView
 	{
 		const self = this
 		//
-		self.validationMessageLayer.ClearAndHideMessage()  // in case there was a parsing err etc displaying
-		//
-		var parsedPayload;
-		try {
-			parsedPayload = monero_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.monero_utils)
-		} catch (errStr) {
-			if (errStr) {
-				self.addressInputLayer.value = "" // decided to clear the address field to avoid confusion
-				//
-				self.validationMessageLayer.SetValidationError("Unable to use the result of decoding that QR code: " + errStr)
-				return
+		if (typeof(possibleUriString) !== "undefined") {
+			self.validationMessageLayer.ClearAndHideMessage()  // in case there was a parsing err etc displaying
+			//
+			var parsedPayload;
+			try {
+				parsedPayload = monero_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.monero_utils)
+			} catch (errStr) {
+				if (errStr) {
+					self.addressInputLayer.value = "" // decided to clear the address field to avoid confusion
+					//
+					self.validationMessageLayer.SetValidationError("Unable to use the result of decoding that QR code: " + errStr)
+					return
+				}
 			}
-		}
-		const target_address = parsedPayload.address
-		const payment_id_orNull = parsedPayload.payment_id && typeof parsedPayload.payment_id !== 'undefined' ? parsedPayload.payment_id : null
-		self.addressInputLayer.value = target_address
-		if (payment_id_orNull !== null) { 
-			self.paymentIDInputLayer.value = payment_id_orNull
+			const target_address = parsedPayload.address
+			const payment_id_orNull = parsedPayload.payment_id && typeof parsedPayload.payment_id !== 'undefined' ? parsedPayload.payment_id : null
+			self.addressInputLayer.value = target_address
+			if (payment_id_orNull !== null) { 
+				self.paymentIDInputLayer.value = payment_id_orNull
+			}
 		}
 	}
 	//
@@ -446,7 +452,7 @@ class AddContactView extends ContactFormView
 					self.validationMessageLayer.ClearAndHideMessage() // clear to resolve ambiguity in case existing error is displaying
 					return // nothing picked / canceled
 				}
-				self._shared_didPickQRCodeAtPath(absoluteFilePath)
+				self._shared_didPickQRCodeWithImageSrcValue(absoluteFilePath)
 			}
 		)
 	}
@@ -474,4 +480,4 @@ class AddContactView extends ContactFormView
 		)
 	}
 }
-module.exports = AddContactView
+export default AddContactView;

@@ -27,12 +27,16 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const ContactFormView = require('../../Contacts/Views/ContactFormView.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
+import ContactFormView from '../../Contacts/Views/ContactFormView.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+
 //
-const monero_paymentID_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils')
+import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
+
 //
 class EditContactFromContactsTabView extends ContactFormView
 {
@@ -337,4 +341,4 @@ class EditContactFromContactsTabView extends ContactFormView
 		self.dismissView()
 	}
 }
-module.exports = EditContactFromContactsTabView
+export default EditContactFromContactsTabView;

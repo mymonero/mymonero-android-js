@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+import SettingsView from './SettingsView.web';
 //
 class SettingsTabContentView extends StackAndModalNavigationView
 {
@@ -41,7 +43,6 @@ class SettingsTabContentView extends StackAndModalNavigationView
 		super.setup() // we must call on super
 		const self = this
 		{
-			const SettingsView = require('./SettingsView.web')
 			const view = new SettingsView({}, self.context)
 			self.settingsView = view
 		}
@@ -107,4 +108,4 @@ class SettingsTabContentView extends StackAndModalNavigationView
 		return false
 	}
 }
-module.exports = SettingsTabContentView
+export default SettingsTabContentView;

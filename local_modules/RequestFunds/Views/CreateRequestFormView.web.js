@@ -27,19 +27,24 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_amounts = require('../../MMAppUICommonComponents/amounts.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_contactPicker = require('../../MMAppUICommonComponents/contactPicker.web')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_amounts from '../../MMAppUICommonComponents/amounts.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+import FundsRequestDetailsView from './FundsRequestDetailsView.web';
 //
-const WalletsSelectView = require('../../WalletsList/Views/WalletsSelectView.web')
+import WalletsSelectView from '../../WalletsList/Views/WalletsSelectView.web';
+
 //
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-const AddContactFromOtherTabView = require('../../Contacts/Views/AddContactFromOtherTabView.web')
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+
+import AddContactFromOtherTabView from '../../Contacts/Views/AddContactFromOtherTabView.web';
 //
 class CreateRequestFormView extends View
 {
@@ -615,7 +620,6 @@ class CreateRequestFormView extends View
 		)
 		function _proceedTo_pushViewForRecord(record)
 		{
-			const FundsRequestDetailsView = require('./FundsRequestDetailsView.web')
 			const options = 
 			{
 				record: record // the fundsRequest
@@ -770,4 +774,4 @@ class CreateRequestFormView extends View
 		)
 	}
 }
-module.exports = CreateRequestFormView
+export default CreateRequestFormView;

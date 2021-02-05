@@ -27,15 +27,19 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_tooltips = require('../../MMAppUICommonComponents/tooltips.web')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
+import View from '../../Views/View.web';
+
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+
 //
-const BaseView_Wallet_MetaInfo = require('./BaseView_Wallet_MetaInfo.web')
+import BaseView_Wallet_MetaInfo from './BaseView_Wallet_MetaInfo.web';
+
 //
 const Modes_LoginWith =
 {
@@ -57,10 +61,8 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 			self._setup_form_walletAddrAndKeysFields()
 			self._setup_form_toggleLoginModeLayer()		
 		}
-		if (self.context.isLiteApp != true) {
-			self._setup_form_walletNameField()
-			self._setup_form_walletSwatchField()
-		}
+		self._setup_form_walletNameField()
+		self._setup_form_walletSwatchField()
 		setTimeout(function()
 		{ // after visible… (TODO: improve by doing on VDA or other trigger)
 			self.mnemonicTextAreaView.layer.focus()
@@ -82,7 +84,8 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 			}
 			//
 			const view = commonComponents_forms.New_fieldValue_textAreaView({
-				placeholderText: "From your existing wallet"
+				placeholderText: "From your existing wallet",
+				suppressMobileKeyboardStorage: true
 			}, self.context)
 			view.layer.autocorrect = "off"
 			view.layer.autocomplete = "off"
@@ -451,17 +454,17 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 	lookup__walletName()
 	{
 		const self = this
-		if (self.context.isLiteApp == true) {
-			return self.context.walletsListController.LiteAppWalletName()
-		}
+		// if (self.context.isLiteApp == true) {
+		// 	return self.context.walletsListController.LiteAppWalletName()
+		// }
 		return self.walletNameInputLayer.value
 	}
 	lookup__colorHexString()
 	{
 		const self = this
-		if (self.context.isLiteApp == true) {
-			return self.context.walletsListController.LiteAppWalletSwatchColor()
-		}
+		// if (self.context.isLiteApp == true) {
+		// 	return self.context.walletsListController.LiteAppWalletSwatchColor()
+		// }
 		return self.walletColorPickerInputView.Component_Value()
 	}
 	lookup__mnemonicSeed()
@@ -667,4 +670,4 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 		}
 	}
 }
-module.exports = UseExisting_MetaInfo_View
+export default UseExisting_MetaInfo_View;

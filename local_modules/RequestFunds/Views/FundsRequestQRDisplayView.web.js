@@ -27,13 +27,20 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+import { Plugins } from '@capacitor/core';
+const { Toast } = Plugins;
 //
-let Currencies = require('../../CcyConversionRates/Currencies')
+import Currencies from '../../CcyConversionRates/Currencies';
+
 //
 class FundsRequestQRDisplayView extends View
 {
@@ -61,6 +68,7 @@ class FundsRequestQRDisplayView extends View
 	{
 		const self = this
 		self.setup_views()		
+		defineCustomElements(window);
 	}
 	setup_views()
 	{
@@ -152,6 +160,7 @@ class FundsRequestQRDisplayView extends View
 				true, // isEnabled, defaulting to true on undef
 				function()
 				{
+					event.preventDefault();
 					buttonLayer.Component_SetEnabled(false)
 					self.context.userIdleInWindowController.TemporarilyDisable_userIdle() // TODO: this is actually probably a bad idea - remove this and ensure that file picker canceled on app teardown
 					// ^ so we don't get torn down while dialog open
@@ -181,6 +190,10 @@ class FundsRequestQRDisplayView extends View
 								__trampolineFor_didFinish()
 								return
 							}
+							Toast.show({
+								text: 'QR code saved to Android\'s shared Documents folder successfully!',
+								duration: 'long'
+							});
 							// console.log("Downloaded QR code")
 							__trampolineFor_didFinish() // re-enable idle timer
 						}
@@ -253,4 +266,4 @@ class FundsRequestQRDisplayView extends View
 		}
 	}
 }
-module.exports = FundsRequestQRDisplayView
+export default FundsRequestQRDisplayView;

@@ -27,47 +27,51 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const emoji_set = require('../emoji_set')
-const emoji_web = require('../emoji_web')
+import View from '../../Views/View.web';
+
+import emoji_set from '../emoji_set';
+import emoji_web from '../emoji_web';
 //
 const EmojiButtonView_height = 40
+
 //
-const Views__cssRules = require('../../Views/cssRules.web')
+import Views__cssRules from '../../Views/cssRules.web';
+
 const NamespaceName = "EmojiPickerPopoverContentView"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 const cssRules =
 [
-	`.${NamespaceName} {
-		overflow-y: auto;
-	}`,
-	`.${NamespaceName} > .EmojiButtonView {
-		width: 42px;
-		height: ${EmojiButtonView_height}px;
-		line-height: ${EmojiButtonView_height}px;
-		text-indent: 0px; /* native emoji */
-		display: inline-block;
-		text-align: center;
-		vertical-align: middle;
-		font-size: 24px;
-		cursor: pointer;
-		background: rgba(0,0,0,0);
-		/* transition: background-color 0.05s ease-out, box-shadow 0.05s ease-out; */
-	}`,
-	`.${NamespaceName} > .EmojiButtonView.withNonNativeEmoji {
-	}`,
-	`.${NamespaceName} > .EmojiButtonView.active,
-	 .${NamespaceName} > .EmojiButtonView:hover {
- 		background: #F2F1F2;
- 		box-shadow: 0 0.5px 0 0 #FFFFFF, inset 0 0.5px 1px 0 #DFDEDF;
- 		border-radius: 3px;
-	}`,
-	`.${NamespaceName} > .EmojiButtonView .emojione {
-		transform: scale(.75);
-		margin-left: 3px;
-		margin-top: 0px;
-	}`
+	// `.${NamespaceName} {
+	// 	overflow-y: auto;
+	// }`,
+	// `.${NamespaceName} > .EmojiButtonView {
+	// 	width: 42px;
+	// 	height: ${EmojiButtonView_height}px;
+	// 	line-height: ${EmojiButtonView_height}px;
+	// 	text-indent: 0px; /* native emoji */
+	// 	display: inline-block;
+	// 	text-align: center;
+	// 	vertical-align: middle;
+	// 	font-size: 24px;
+	// 	cursor: pointer;
+	// 	background: rgba(0,0,0,0);
+	// 	/* transition: background-color 0.05s ease-out, box-shadow 0.05s ease-out; */
+	// }`,
+	// `.${NamespaceName} > .EmojiButtonView.withNonNativeEmoji {
+	// }`,
+	// `.${NamespaceName} > .EmojiButtonView.active,
+	//  .${NamespaceName} > .EmojiButtonView:hover {
+ 	// 	background: #F2F1F2;
+ 	// 	box-shadow: 0 0.5px 0 0 #FFFFFF, inset 0 0.5px 1px 0 #DFDEDF;
+ 	// 	border-radius: 3px;
+	// }`,
+	// `.${NamespaceName} > .EmojiButtonView .emojione {
+	// 	transform: scale(.75);
+	// 	margin-left: 3px;
+	// 	margin-top: 0px;
+	// }`
 ]
 function __injectCSSRules_ifNecessary() { Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) }
 //
@@ -114,19 +118,30 @@ class EmojiPickerPopoverContentView extends View
 		//
 		const emojis = emoji_set.Emojis
 		const emojis_length = emojis.length
+		let firstEmoji = null;
 		for (let i = 0 ; i < emojis_length ; i++) {
+			
 			const emoji = emojis[i]
 			const emojiButtonView = self._new_emojiButtonView(emoji)
 			self.emojiButtonsViews_byEmoji[emoji] = emojiButtonView
 			// we handle selection later via _configureAsHavingSelectedEmoji(emoji)
 			self.addSubview(emojiButtonView)
 			self.emojiButtonViews.push(emojiButtonView)
+
+			if (firstEmoji == null) {
+				firstEmoji = emoji;
+			}
 		}
+
+		self._configureAsHavingSelectedEmoji(firstEmoji, true);
+		self.SelectEmoji(firstEmoji);
+
 	}
 	_new_emojiButtonView(emoji)
 	{
 		const self = this
 		const view = new View({}, self.context)
+
 		const layer = view.layer
 		layer.style.position = "relative" // so we can read offsetTop
 		layer.style.display = "inline-block"
@@ -182,6 +197,7 @@ class EmojiPickerPopoverContentView extends View
 			self.selected_emojiButtonView.layer.classList.remove("active")
 		}
 		const emojiButtonView = self.emojiButtonsViews_byEmoji[emoji]
+		
 		if (!emojiButtonView) {
 			throw "!emojiButtonView"
 		}
@@ -208,4 +224,4 @@ class EmojiPickerPopoverContentView extends View
 	}
 	
 }
-module.exports = EmojiPickerPopoverContentView
+export default EmojiPickerPopoverContentView;

@@ -47,7 +47,6 @@ function StartExceptionReporting(
 	// }
 	// Raven.config(sentry_dsn, raven_params).install()
 }
-exports.StartExceptionReporting = StartExceptionReporting
 //
 function StartAlertingExceptions()
 {
@@ -68,7 +67,6 @@ function StartAlertingExceptions()
 		}
 	)
 }
-exports.StartAlertingExceptions = StartAlertingExceptions
 //
 function HardenRuntime(options)
 {
@@ -82,10 +80,12 @@ function HardenRuntime(options)
 		}
 	}
 }
-exports.HardenRuntime = HardenRuntime
 //
 function IdentifyRuntime(runtimeNameFlag)
 {
 	window[runtimeNameFlag] = true // e.g. IsElectronRendererProcess
 }
-exports.IdentifyRuntime = IdentifyRuntime
+
+let obj = { StartExceptionReporting, StartAlertingExceptions, HardenRuntime, IdentifyRuntime }
+
+export default obj;

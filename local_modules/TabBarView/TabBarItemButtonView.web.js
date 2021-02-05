@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
+import View from '../Views/View.web';
+
 //
 class TabBarItemButtonView extends View
 {
@@ -200,4 +202,4 @@ class TabBarItemButtonView extends View
 		self.iconImageLayer.style.opacity = "0.3"
 	}
 }
-module.exports = TabBarItemButtonView
+export default TabBarItemButtonView;

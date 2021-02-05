@@ -27,18 +27,25 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
+import EventEmitter from 'events';
+
 //
-const Emojis = require('../../Emoji/emoji_set').Emojis
+import Emojis from '../../Emoji/emoji_set';
+
 //
-const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
-const contact_persistence_utils = require('./contact_persistence_utils')
+import persistable_object_utils from '../../DocumentPersister/persistable_object_utils';
+
+import contact_persistence_utils from './contact_persistence_utils';
+
 //
-const monero_paymentID_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils')
+import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
+
 //
-const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
-const QRCode = require('qrcode')
+import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
+
+import QRCode from 'qrcode';
 //
 class Contact extends EventEmitter
 {
@@ -519,4 +526,4 @@ class Contact extends EventEmitter
 		self.emit(self.EventName_contactInfoUpdated())
 	}
 }
-module.exports = Contact
+export default Contact;

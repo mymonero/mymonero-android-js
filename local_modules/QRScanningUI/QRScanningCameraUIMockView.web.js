@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
-const commonComponents_navigationBarButtons = require('../MMAppUICommonComponents/navigationBarButtons.web')
+import View from '../Views/View.web';
+
+import commonComponents_navigationBarButtons from '../MMAppUICommonComponents/navigationBarButtons.web';
 //
 class QRScanningCameraUIMockView extends View
 {
@@ -62,4 +64,4 @@ class QRScanningCameraUIMockView extends View
 		return view
 	}
 }
-module.exports = QRScanningCameraUIMockView
+export default QRScanningCameraUIMockView;

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MyMonero for Android</string>
+    <string name="title_activity_main">MyMonero for Android</string>
+    <string name="package_name">com.mymonero.official_android_application</string>
+    <string name="custom_url_scheme">com.mymonero.official_android_application</string>
+</resources>

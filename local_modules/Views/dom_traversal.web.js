@@ -42,4 +42,4 @@ function DoesAnyParentOfElementMatch__sync(
 	}
 	return false
 }
-exports.DoesAnyParentOfElementMatch__sync = DoesAnyParentOfElementMatch__sync
+export default { DoesAnyParentOfElementMatch__sync };

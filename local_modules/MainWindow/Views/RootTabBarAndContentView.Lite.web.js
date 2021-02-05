@@ -28,8 +28,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const RootTabBarAndContentView_Base = require('./RootTabBarAndContentView_Base.web')
+import RootTabBarAndContentView_Base from './RootTabBarAndContentView_Base.web';
+import WalletsTabContentView from '../../WalletsList/Views/WalletsTabContentView.web';
+import SendTabContentView from '../../SendFundsTab/Views/SendTabContentView.Lite.web';
+import RequestTabContentView from '../../RequestFunds/Views/RequestTabContentView.Lite.web';
+import ContactsTabContentView from '../../Contacts/Views/ContactsTabContentView.Lite.web';
+import ExchangeTabContentView from '../../Exchange/Views/ExchangeTabContentView.web';
+import SettingsTabContentView from '../../Settings/Views/SettingsTabContentView.web';
 //
 class RootTabBarAndContentView_Lite extends RootTabBarAndContentView_Base
 {
@@ -43,49 +50,43 @@ class RootTabBarAndContentView_Lite extends RootTabBarAndContentView_Base
 		const context = self.context
 		{ // walletsListView
 			const options = {}
-			const WalletsTabContentView = require('../../WalletsList/Views/WalletsTabContentView.web')
 			const view = new WalletsTabContentView(options, context)
 			self.walletsTabContentView = view
 		}
 		{ // sendTabContentView
 			const options = {}
-			const SendTabContentView = require('../../SendFundsTab/Views/SendTabContentView.Lite.web')
 			const view = new SendTabContentView(options, context)
 			self.sendTabContentView = view
 		}
 		{
 			const options = {}
-			const RequestTabContentView = require('../../RequestFunds/Views/RequestTabContentView.Lite.web')
 			const view = new RequestTabContentView(options, context)
 			self.requestTabContentView = view
 		}
 		{
 			const options = {}
-			const ContactsTabContentView = require('../../Contacts/Views/ContactsTabContentView.Lite.web')
 			const view = new ContactsTabContentView(options, context)
 			self.contactsTabContentView = view
 		}
+		{ // ExchangeView
+			const view = new ExchangeTabContentView({}, context)
+			self.exchangeTabContentView = view
+		}
 		{ // SettingsView
-			const SettingsTabContentView = require('../../Settings/Views/SettingsTabContentView.web')
 			const view = new SettingsTabContentView({}, context)
 			self.settingsTabContentView = view
 		}
-		{ // ExchangeView
-			const ExchangeTabContentView = require('../../Exchange/Views/ExchangeTabContentView.web')
-			const view = new ExchangeTabContentView({}, context)
-			console.log(view);
-			self.exchangeTabContentView = view
-		}
+
 		self.SetTabBarContentViews(
 			[
 				self.walletsTabContentView,
 				self.sendTabContentView,
 				self.requestTabContentView,
 				self.contactsTabContentView,
-				self.settingsTabContentView,
 				self.exchangeTabContentView,
+				self.settingsTabContentView,
 			]
 		)
 	}
 }
-module.exports = RootTabBarAndContentView_Lite
+export default RootTabBarAndContentView_Lite;

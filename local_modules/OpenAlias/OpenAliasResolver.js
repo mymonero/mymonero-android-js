@@ -27,10 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
+import EventEmitter from 'events';
+
 //
-const monero_openalias_utils = require('./monero_openalias_utils')
+import monero_openalias_utils from './monero_openalias_utils';
+
 //
 class OpenAliasResolver extends EventEmitter
 {
@@ -136,4 +139,4 @@ class OpenAliasResolver extends EventEmitter
 		return resolverHandle
 	}
 }
-module.exports = OpenAliasResolver
+export default OpenAliasResolver;

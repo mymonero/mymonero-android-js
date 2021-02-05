@@ -27,10 +27,12 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_walletIcons = require('../../MMAppUICommonComponents/walletIcons.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_walletIcons from '../../MMAppUICommonComponents/walletIcons.web';
 //
 class FundsRequestCellContentsView extends View
 {
@@ -374,4 +376,4 @@ class FundsRequestCellContentsView extends View
 		}
 	}
 }
-module.exports = FundsRequestCellContentsView
+export default FundsRequestCellContentsView;

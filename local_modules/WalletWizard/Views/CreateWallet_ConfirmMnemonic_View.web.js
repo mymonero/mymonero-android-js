@@ -27,15 +27,19 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_walletMnemonicBox = require('../../MMAppUICommonComponents/walletMnemonicBox.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_walletMnemonicBox from '../../MMAppUICommonComponents/walletMnemonicBox.web';
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+
 //
-const BaseView_AWalletWizardScreen = require('./BaseView_AWalletWizardScreen.web')
+import BaseView_AWalletWizardScreen from './BaseView_AWalletWizardScreen.web';
+
 //
 class CreateWallet_ConfirmMnemonic_View extends BaseView_AWalletWizardScreen
 {
@@ -445,4 +449,4 @@ class CreateWallet_ConfirmMnemonic_View extends BaseView_AWalletWizardScreen
 		)
 	}
 }
-module.exports = CreateWallet_ConfirmMnemonic_View
+export default CreateWallet_ConfirmMnemonic_View;

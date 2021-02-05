@@ -27,11 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const uuidV1 = require('uuid/v1')
-const Animate = require('velocity-animate')
+import uuidV1 from 'uuid/v1';
+
+import Animate from 'velocity-animate';
+
 //
-const View = require('../../Views/View.web')
+import View from '../../Views/View.web';
+import NavigationBarView from './NavigationBarView.web'
 //
 class StackNavigationView extends View
 {
@@ -61,7 +65,7 @@ class StackNavigationView extends View
 			layer.style.overflow = "hidden" // because we don't want modals presented in self to create a scroll bar - bad thangs happen
 		}
 		{ // navigationBarView
-			const NavigationBarView = require('./NavigationBarView.web')
+			
 			const view = new NavigationBarView({
 				navigationController: self
 			}, self.context)
@@ -522,4 +526,4 @@ class StackNavigationView extends View
 		self.PopToRootView(isAnimated)
 	}
 }
-module.exports = StackNavigationView
+export default StackNavigationView;

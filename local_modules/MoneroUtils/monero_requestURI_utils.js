@@ -35,7 +35,6 @@ const URITypes = {
 	addressAsFirstPathComponent: 1,
 	addressAsAuthority: 2,
 };
-exports.URITypes = URITypes;
 //
 function New_RequestFunds_URI(args) {
 	// -> String?
@@ -88,7 +87,6 @@ function New_RequestFunds_URI(args) {
 	}
 	return mutable_uri;
 }
-exports.New_RequestFunds_URI = New_RequestFunds_URI;
 //
 function New_ParsedPayload_FromPossibleRequestURIString(string, nettype, monero_utils/*pass this so this fn remains sync*/) {
 	// throws; -> {}
@@ -158,4 +156,6 @@ function New_ParsedPayload_FromPossibleRequestURIString(string, nettype, monero_
 	//
 	return payload;
 }
-exports.New_ParsedPayload_FromPossibleRequestURIString = New_ParsedPayload_FromPossibleRequestURIString;
+let obj = { URITypes, New_RequestFunds_URI, New_ParsedPayload_FromPossibleRequestURIString };
+
+export default obj;

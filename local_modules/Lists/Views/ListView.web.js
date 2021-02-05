@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const ListCellView = require('./ListCellView.web')
+import View from '../../Views/View.web';
+
+import ListCellView from './ListCellView.web';
 //
 class ListView extends View
 {
@@ -336,4 +338,4 @@ class ListView extends View
 		self.tearDownAnySpawnedReferencedPresentedViews()
 	}
 }
-module.exports = ListView
+export default ListView;

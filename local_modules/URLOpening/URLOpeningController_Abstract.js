@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
+import EventEmitter from 'events';
+
 //
 const PROTOCOL_PREFIX = "monero" // this is also specified for MacOS in packager.js under scheme
 // maybe support "mymonero" too
@@ -81,4 +83,4 @@ class URLOpeningController_Abstract extends EventEmitter
 		)
 	}
 }
-module.exports = URLOpeningController_Abstract
+export default URLOpeningController_Abstract;

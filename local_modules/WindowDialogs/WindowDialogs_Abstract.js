@@ -55,4 +55,4 @@ class WindowDialogs_Abstract
 		throw errStr // to break development builds
 	}
 }
-module.exports = WindowDialogs_Abstract
+export default WindowDialogs_Abstract;

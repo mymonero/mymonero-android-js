@@ -27,11 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const uuidV1 = require('uuid/v1')
+import uuidV1 from 'uuid/v1';
+
 //
-const View = require('../Views/View.web')
-const Views__cssRules = require('../Views/cssRules.web')
+import View from '../Views/View.web';
+
+import Views__cssRules from '../Views/cssRules.web';
 //
 const NamespaceName = "walletMnemonicBox"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -96,7 +99,6 @@ function __injectCSSRules_ifNecessary(context)
 }
 //
 const numberOfMnemonicWordsRequiredForVerification = 7
-exports.numberOfMnemonicWordsRequiredForVerification = numberOfMnemonicWordsRequiredForVerification
 //
 function New_MnemonicTextDisplayView(mnemonicString, context)
 {
@@ -123,7 +125,6 @@ function New_MnemonicTextDisplayView(mnemonicString, context)
 	//
 	return view
 }
-exports.New_MnemonicTextDisplayView = New_MnemonicTextDisplayView
 //
 function New_MnemonicConfirmation_SelectedWordsView(mnemonicString, context, didSelectWord_fn, didDeselectWord_fn)
 {
@@ -248,7 +249,6 @@ function New_MnemonicConfirmation_SelectedWordsView(mnemonicString, context, did
 	//
 	return view
 }
-exports.New_MnemonicConfirmation_SelectedWordsView = New_MnemonicConfirmation_SelectedWordsView
 //
 function _new_MnemonicConfirmation_WordView(word, wordUUID, context)
 {
@@ -362,9 +362,11 @@ function New_MnemonicConfirmation_SelectableWordsView(
 	}
 	return view
 }
-exports.New_MnemonicConfirmation_SelectableWordsView = New_MnemonicConfirmation_SelectableWordsView
+
 //
 function _new_UUID()
 {
 	return uuidV1()
 }
+
+export default { numberOfMnemonicWordsRequiredForVerification, New_MnemonicTextDisplayView, New_MnemonicConfirmation_SelectedWordsView, New_MnemonicConfirmation_SelectableWordsView };

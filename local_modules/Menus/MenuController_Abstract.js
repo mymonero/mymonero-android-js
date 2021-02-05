@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const EventEmitter = require('events')
+import EventEmitter from 'events';
+
 //
 class MenuController extends EventEmitter
 {
@@ -80,4 +82,4 @@ class MenuController extends EventEmitter
 	////////////////////////////////////////////////////////////////////////////////
 	// Runtime - Delegation
 }
-module.exports = MenuController
+export default MenuController;

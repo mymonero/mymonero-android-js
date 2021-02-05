@@ -27,18 +27,24 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const ListView = require('../../Lists/Views/ListView.web')
-const commonComponents_emptyScreens = require('../../MMAppUICommonComponents/emptyScreens.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
+import View from '../../Views/View.web';
+
+import ListView from '../../Lists/Views/ListView.web';
+import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+
 //
-const FundsRequestsListCellView = require('./FundsRequestsListCellView.web')
-const FundsRequestDetailsView = require('./FundsRequestDetailsView.web')
-const FundsRequestQRDisplayView = require('./FundsRequestQRDisplayView.web')
+import FundsRequestsListCellView from './FundsRequestsListCellView.web';
+
+import FundsRequestDetailsView from './FundsRequestDetailsView.web';
+import FundsRequestQRDisplayView from './FundsRequestQRDisplayView.web';
+
 //
-const CreateRequestFormView = require('./CreateRequestFormView.web')
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
+import CreateRequestFormView from './CreateRequestFormView.web';
+
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
 //
 class FundsRequestsListView extends ListView
 {
@@ -256,4 +262,4 @@ class FundsRequestsListView extends ListView
 		}
 	}
 }
-module.exports = FundsRequestsListView
+export default FundsRequestsListView;

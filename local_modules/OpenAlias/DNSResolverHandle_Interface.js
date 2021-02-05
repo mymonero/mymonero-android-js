@@ -39,4 +39,4 @@ class DNSResolverHandle_Interface
 	}
 
 }
-module.exports = DNSResolverHandle_Interface
+export default DNSResolverHandle_Interface;

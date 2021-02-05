@@ -27,13 +27,17 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_emptyScreens = require('../../MMAppUICommonComponents/emptyScreens.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web';
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
+
 //
-const BaseView_AWalletWizardScreen = require('./BaseView_AWalletWizardScreen.web')
+import BaseView_AWalletWizardScreen from './BaseView_AWalletWizardScreen.web';
+
 //
 class PickCreateOrUseExisting_Landing_View extends BaseView_AWalletWizardScreen
 {
@@ -165,4 +169,4 @@ class PickCreateOrUseExisting_Landing_View extends BaseView_AWalletWizardScreen
 	// Runtime - Imperatives - 
 	//
 }
-module.exports = PickCreateOrUseExisting_Landing_View
+export default PickCreateOrUseExisting_Landing_View;

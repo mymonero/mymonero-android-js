@@ -30,8 +30,10 @@
 //
 const animationDuration_s = 0.5
 const displayDelay_s = 20
+
 //
-const Views__cssRules = require('../../Views/cssRules.web')
+import Views__cssRules from '../../Views/cssRules.web';
+
 const NamespaceName = "ExceptionAlerting"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
@@ -50,7 +52,7 @@ function cssRules_generatorFn(context)
 			padding: 16px;
 			position: fixed;
 			font-family: ${context.themeController.FontFamily_sansSerif()};
-			z-index: 1;
+			z-index: 500000000;
 			left: 50%;
 			bottom: 30px;
 			font-size: 13px;
@@ -98,11 +100,13 @@ function cssRules_generatorFn(context)
 }
 function __injectCSSRules_ifNecessary(context) 
 {
+	// This is just an absolute wtf, and it's breaking ES6 migration
 	Views__cssRules.InjectCSSRules_ifNecessary(
 		haveCSSRulesBeenInjected_documentKey, 
 		cssRules_generatorFn,
 		context
 	)
+	console.log("Tried to inject exception styles");
 }
 //
 class ExceptionAlerting
@@ -118,6 +122,7 @@ class ExceptionAlerting
 	}
 	setup()
 	{
+		console.log("Setting up exception alerting");
 		const self = this
 		__injectCSSRules_ifNecessary(self.context)
 		self._startObserving()
@@ -145,8 +150,11 @@ class ExceptionAlerting
 	// Imperatives
 	alertErrMsg(message, handlerId)
 	{
-		const self = this
+		console.log("invoking alertErrMsg");
+		const self = this;
+		self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
 		if (message.indexOf("undefined") !== -1 && message.indexOf("handler") !== -1) {
+			console.log("ignored error");
 			return // most likely an error from webflow - can skip erroring these ; TODO: remove this when removing webflow
 		}
 		if (typeof message !== 'undefined' && message && message !== "") {
@@ -157,6 +165,7 @@ class ExceptionAlerting
 	}
 	doToastMessage(message, raw_message)
 	{
+		console.log("Do toast message");
 		var el = document.createElement("div")
 		el.classList.add("exceptiontoast")
 		el.appendChild(document.createTextNode(message)) // safely escape content
@@ -178,4 +187,4 @@ class ExceptionAlerting
 		})
 	}
 }
-module.exports = ExceptionAlerting
+export default ExceptionAlerting;

@@ -27,13 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const async = require('async')
-const EventEmitter = require('events')
-const uuidV1 = require('uuid/v1')
+import async from 'async';
+
+import EventEmitter from 'events';
+import uuidV1 from 'uuid/v1';
 //
 const CollectionName = "Settings"
-let Currencies = require('../../CcyConversionRates/Currencies')
+import Currencies from '../../CcyConversionRates/Currencies';
 //
 let k_defaults_record = 
 {
@@ -67,12 +69,14 @@ class SettingsController extends EventEmitter
 		self.registrantForDeleteEverything_token = self.context.passwordController.AddRegistrantForDeleteEverything(self)
 		self.registrantForChangePassword_token = self.context.passwordController.AddRegistrantForChangePassword(self)
 		//
+		
 		self._tryToBoot()
 	}
 	_tryToBoot()
 	{	// we can afford to do this w/o any callback saying "success" because we defer execution of
 		// things which would rely on boot-time info till we've booted
 		const self = this
+
 		//
 		// first, check if any password model has been stored
 		self.context.persister.AllDocuments(
@@ -95,8 +99,16 @@ class SettingsController extends EventEmitter
 					// this is indicative of a code fault
 					throw errStr // might as well throw then
 				}
+				var doc = {};
 				const plaintextString = contentStrings[0] // NOTE: Settings is not presently encrypted
-				const doc = JSON.parse(plaintextString);
+				// if (typeof plaintextString !== Object) {
+				// 	const doc = JSON.parse(plaintextString);
+				// } else {
+				// 	const doc = plaintextString;
+				// }
+				
+				doc = JSON.parse(contentStrings[0].value);
+
 				// console.log("💬  Found existing saved " + CollectionName + " with _id", doc._id)
 				_proceedTo_loadStateFromRecord(doc)
 			}
@@ -125,6 +137,7 @@ class SettingsController extends EventEmitter
 				self.autoDownloadUpdatesEnabled = record_doc.autoDownloadUpdatesEnabled
 			}
 			//
+
 			self._setBooted() // all done!
 		}
 	}
@@ -231,36 +244,49 @@ class SettingsController extends EventEmitter
 						} else {
 							console.log("📝  Successfully saved " + self.constructor.name + " update ", JSON.stringify(valuesByKey))
 							if (didUpdate_specificAPIAddressURLAuthority) {
+
+								console.log("Settings: Emitted didUpdate_specificAPIAddressURLAuthority");
+								
 								self.emit(
 									self.EventName_settingsChanged_specificAPIAddressURLAuthority(), 
 									self.specificAPIAddressURLAuthority
 								)
 							}
 							if (didUpdate_appTimeoutAfterS) {
+								
+								console.log("Settings: Emitted didUpdate_appTimeoutAfterS");
 								self.emit(
 									self.EventName_settingsChanged_appTimeoutAfterS(), 
 									self.appTimeoutAfterS
 								)
 							}
 							if (didUpdate_displayCcySymbol) {
+								
+								console.log("Settings: Emitted didUpdate_displayCcySymbol");
 								self.emit(
 									self.EventName_settingsChanged_displayCcySymbol(), 
 									self.displayCcySymbol
 								)
 							}
 							if (didUpdate_authentication_requireWhenSending) {
+								
+								console.log("Settings: Emitted didUpdate_authentication_requireWhenSending");
 								self.emit(
 									self.EventName_settingsChanged_authentication_requireWhenSending(), 
 									self.authentication_requireWhenSending
 								)
 							}
 							if (didUpdate_authentication_requireWhenDisclosingWalletSecrets) {
+								
+								console.log("Settings: Emitted didUpdate_authentication_requireWhenDisclosingWalletSecrets");
 								self.emit(
 									self.EventName_settingsChanged_authentication_requireWhenDisclosingWalletSecrets(), 
 									self.authentication_requireWhenDisclosingWalletSecrets
 								)
 							}
 							if (didUpdate_autoDownloadUpdatesEnabled) {
+								
+								console.log("Settings: Emitted didUpdate_autoDownloadUpdatesEnabled");
 								self.emit(
 									self.EventName_settingsChanged_autoDownloadUpdatesEnabled(),
 									self.autoDownloadUpdatesEnabled
@@ -294,7 +320,7 @@ class SettingsController extends EventEmitter
 		self.executeWhenBooted(
 			function()
 			{
-				// console.log("📝  Saving " + CollectionName + " to disk.")
+				console.log("📝  Saving " + CollectionName + " to disk.")
 				const persistableDocument =
 				{
 					_id: self._id, // important to set for updates
@@ -375,7 +401,6 @@ class SettingsController extends EventEmitter
 	passwordController_DeleteEverything(fn)
 	{
 		const self = this
-		console.log(self.constructor.name + " passwordController_DeleteEverything")
 		// we're not gonna delete the record and reboot - this controller is straightforward enough
 		const defaultsValues = JSON.parse(JSON.stringify(k_defaults_record)) // a copy - tho prolly not necessary to do this
 		self.Set_settings_valuesByKey(
@@ -387,4 +412,4 @@ class SettingsController extends EventEmitter
 		)
 	}
 }
-module.exports = SettingsController
+export default SettingsController;

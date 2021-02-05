@@ -27,17 +27,23 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const ListBaseController = require('../../Lists/Controllers/ListBaseController')
+import ListBaseController from '../../Lists/Controllers/ListBaseController';
+
 //
-const Contact = require('../Models/Contact')
-const contact_persistence_utils = require('../Models/contact_persistence_utils')
+import Contact from '../Models/Contact';
+
+import contact_persistence_utils from '../Models/contact_persistence_utils';
 //
 class ContactsListController extends ListBaseController
 {
 	constructor(options, context)
 	{
 		super(options, context)
+		self.deleteEverythingRegistrants = {}
+		self.changePasswordRegistrants = {}
+
 	}
 	//
 	//
@@ -58,6 +64,7 @@ class ContactsListController extends ListBaseController
 		forOverrider_instance_didFailBoot_fn
 	)
 	{
+		console.log("ContactsListController: override_booting_reconstituteRecordInstanceOptionsWithBase")
 		const self = this
 		optionsBase.persistencePassword = persistencePassword
 		//
@@ -132,18 +139,22 @@ class ContactsListController extends ListBaseController
 		self.ExecuteWhenBooted(
 			function()
 			{ // ^- this may block until we have the pw, depending on if there are records to load on boot
+				console.log("ContactsListController: WhenBooted_AddContact -- first loop")
 				self.context.passwordController.WhenBootedAndPasswordObtained_PasswordAndType( // this will block until we have access to the pw
 					function(obtainedPasswordString, userSelectedTypeOfPassword)
 					{
+						console.log("ContactsListController: WhenBooted_AddContact -- password loop")
 						const options = valuesByKey || {}
 						options.persistencePassword = obtainedPasswordString
 						options.failedToInitialize_cb = function(err, contactInstance)
 						{
+							console.log("ContactsListController: WhenBooted_AddContact -- unsucessfully initialised")
 							console.error("Failed to add contact ", err, contactInstance)
 							fn(err)
 						}
 						options.successfullyInitialized_cb = function(contactInstance)
 						{
+							console.log("ContactsListController: WhenBooted_AddContact -- sucessfully initialised")
 							self._atRuntime__record_wasSuccessfullySetUpAfterBeingAdded(contactInstance)
 							fn(null, contactInstance)
 						}
@@ -153,5 +164,37 @@ class ContactsListController extends ListBaseController
 			}
 		)
 	}
+
+	AddRegistrantForDeleteEverything(registrant)
+	{
+		const self = this
+		// console.log("Adding registrant for 'DeleteEverything': ", registrant.constructor.name)
+		const token = uuidV1()
+		self.deleteEverythingRegistrants[token] = registrant
+		return token
+	}
+	AddRegistrantForChangePassword(registrant)
+	{
+		const self = this
+		// console.log("Adding registrant for 'ChangePassword': ", registrant.constructor.name)
+		const token = uuidV1()
+		self.changePasswordRegistrants[token] = registrant
+		return token
+	}
+	RemoveRegistrantForDeleteEverything(registrant)
+	{
+		const self = this
+		// console.log("Removing registrant for 'DeleteEverything': ", registrant.constructor.name)
+		delete self.deleteEverythingRegistrants[token]
+	}
+	RemoveRegistrantForChangePassword(registrant)
+	{
+		const self = this
+		// console.log("Removing registrant for 'ChangePassword': ", registrant.constructor.name)
+		delete self.changePasswordRegistrants[token]
+	}
+	override_CollectionName() {
+		return "Contacts"
+	}
 }
-module.exports = ContactsListController
+export default ContactsListController;

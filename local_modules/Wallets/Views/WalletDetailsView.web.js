@@ -27,28 +27,42 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
-const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
+import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+
+import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+
 //
-const View = require('../../Views/View.web')
+import View from '../../Views/View.web';
+
 //
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
-const commonComponents_emptyScreens = require('../../MMAppUICommonComponents/emptyScreens.web')
-const commonComponents_hoverableCells = require('../../MMAppUICommonComponents/hoverableCells.web')
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
-const InfoDisclosingView = require('../../InfoDisclosingView/Views/InfoDisclosingView.web')
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
+import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web';
+import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+import InfoDisclosingView from '../../InfoDisclosingView/Views/InfoDisclosingView.web';
+
 //
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-const TransactionDetailsView = require("./TransactionDetailsView.web")
-const ImportTransactionsModalView = require('./ImportTransactionsModalView.web')
-const FundsRequestQRDisplayView = require('../../RequestFunds/Views/FundsRequestQRDisplayView.web')
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+import EditWalletView from './EditWalletView.web';
+import TransactionDetailsView from './TransactionDetailsView.web';
+import ImportTransactionsModalView from './ImportTransactionsModalView.web';
+import FundsRequestQRDisplayView from '../../RequestFunds/Views/FundsRequestQRDisplayView.web';
+
 //
-let Currencies = require('../../CcyConversionRates/Currencies')
-const monero_amount_format_utils = require("../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils");
+import Currencies from '../../CcyConversionRates/Currencies';
+
+import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+import { Plugins } from '@capacitor/core';
+const { Toast } = Plugins;
+
 //
 class WalletDetailsView extends View
 {
@@ -80,6 +94,7 @@ class WalletDetailsView extends View
 		self._configureUIWithWallet__balance()
 		self._configureUIWithWallet__transactions()
 		self._configureUIWithWallet__heightsAndImportAndFetchingState()
+		defineCustomElements(window);
 	}
 	_setup_views()
 	{
@@ -88,9 +103,7 @@ class WalletDetailsView extends View
 		self._setup_balanceLabelView()
 		self._setup_secondaryBalancesLabelLayer()
 		self._setup_account_InfoDisclosingView()
-		if (self.context.isLiteApp !== true) {
-			self._setup_sendReceive_actionButtons()
-		}
+		self._setup_sendReceive_actionButtons()
 		self._setup_layers_transactionsListLayerContainerLayer()
 	}
 	_setup_self_layer()
@@ -667,44 +680,27 @@ class WalletDetailsView extends View
 	{
 		const self = this
 		const view = commonComponents_navigationBarButtons.New_RightSide_EditButtonView(self.context)
-		if (self.context.isLiteApp == true) {
-			view.layer.innerHTML = "Log&nbsp;Out"
-			view.layer.style.width = "64px"
-		}
+		// if (self.context.isLiteApp == true) {
+		// 	view.layer.innerHTML = "Log&nbsp;Out"
+		// 	view.layer.style.width = "64px"
+		// }
 		const layer = view.layer
 		layer.addEventListener(
 			"click",
 			function(e)
 			{
 				e.preventDefault()
-				if (self.context.isLiteApp == true) {
-					self.context.windowDialogs.PresentQuestionAlertDialogWith(
-						'Log out?',
-						'Are you sure you want to log out?',
-						'Log Out',
-						'Cancel',
-						function(err, didChooseYes)
-						{
-							if (err) {
-								throw err
-							}
-							if (didChooseYes) {
-								self.context.passwordController.InitiateDeleteEverything(function(err) {})
-							}
-						}
-					)
-				} else { // v--- self.navigationController because self is presented packaged in a StackNavigationView
-					const EditWalletView = require('./EditWalletView.web')
-					const view = new EditWalletView({
-						wallet: self.wallet
-					}, self.context)
-					self.current_EditWalletView = view
-					//
-					const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
-					const navigationView = new StackAndModalNavigationView({}, self.context)
-					navigationView.SetStackViews([ view ])
-					self.navigationController.PresentView(navigationView, true)
-				}
+				 // v--- self.navigationController because self is presented packaged in a StackNavigationView
+				
+				const view = new EditWalletView({
+					wallet: self.wallet
+				}, self.context)
+				self.current_EditWalletView = view
+				//
+				const navigationView = new StackAndModalNavigationView({}, self.context)
+				navigationView.SetStackViews([ view ])
+				self.navigationController.PresentView(navigationView, true)
+				
 				return false
 			}
 		)
@@ -1246,7 +1242,7 @@ class WalletDetailsView extends View
 	}
 	//
 	// Imperatives - Button functions - CSV export
-	_exportTransactionsCSV()
+	async _exportTransactionsCSV()
 	{
 		const self = this
 		const wallet_bootFailed = self._wallet_bootFailed()
@@ -1263,6 +1259,7 @@ class WalletDetailsView extends View
 		const headers = ["date", "amount", "status", "tx id", "payment_id"];
 		let csvContent = "";
 		csvContent += headers.join(",") + "\r\n"
+		console.log(stateCachedTransactions);
 		stateCachedTransactions.forEach(
 			function(tx, i)
 			{
@@ -1277,6 +1274,7 @@ class WalletDetailsView extends View
 				csvContent += columns.join(",") + "\r\n";
 			}
 		)
+		console.log(csvContent);
 		self.context.filesystemUI.PresentDialogToSaveTextFile(
 			csvContent,
 			"Save CSV",
@@ -1298,6 +1296,11 @@ class WalletDetailsView extends View
 					)
 					return
 				}
+				Toast.show({
+					text: 'CSV saved to Android\'s shared Documents folder successfully!',
+					duration: 'long'
+				});
+				
 			},
 			"data:text/csv;charset=utf-8,"
 		)
@@ -1406,4 +1409,4 @@ class WalletDetailsView extends View
 		self.pushDetailsViewFor_transaction(transaction)
 	}
 }
-module.exports = WalletDetailsView
+export default WalletDetailsView;

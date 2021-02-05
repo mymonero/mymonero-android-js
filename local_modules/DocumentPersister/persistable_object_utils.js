@@ -27,16 +27,20 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //
-const uuidV1 = require('uuid/v1')
-const string_cryptor = require('../symmetric_cryptor/symmetric_string_cryptor')
+
+import uuidV1 from 'uuid/v1';
+
+import string_cryptor from '../symmetric_cryptor/symmetric_string_cryptor';
+
 //
 function read(
 	string_cryptor__background,
-	persister,
+	persister, // DocumentPersister.SecureStorage
 	CollectionName,
 	persistableObject, // you must set ._id on this before call
 	fn // (err?, plaintextDocument?)
 ) {
+	console.log("Persistable_object_utils: read")
 	const self = persistableObject
 	persister.DocumentsWithIds(
 		CollectionName,
@@ -56,12 +60,16 @@ function read(
 				return
 			}
 			const encryptedDocument = docs[0]
-			__proceedTo_decryptEncryptedDocument(encryptedDocument)
+			if (encryptedDocument.value !== undefined) {
+				__proceedTo_decryptEncryptedDocument(encryptedDocument.value);
+			} else {
+				__proceedTo_decryptEncryptedDocument(encryptedDocument)
+			}
 		}
 	)
 	function __proceedTo_decryptEncryptedDocument(encryptedBase64String)
 	{
-		string_cryptor__background.New_DecryptedString__Async(
+		string_cryptor.New_DecryptedString__Async(
 			encryptedBase64String,
 			self.persistencePassword,
 			function(err, plaintextString)
@@ -85,7 +93,6 @@ function read(
 		)
 	}
 }
-exports.read = read
 //
 function write(
 	string_cryptor__background,
@@ -103,7 +110,9 @@ function write(
 		plaintextDocument._id = _id
 	}
 	const plaintextJSONString = JSON.stringify(plaintextDocument)
-	string_cryptor__background.New_EncryptedBase64String__Async(
+	//string_cryptor__background.New_EncryptedBase64String__Async(
+
+	string_cryptor.New_EncryptedBase64String__Async(
 		plaintextJSONString,
 		persistencePassword,
 		function(err, encryptedBase64String)
@@ -116,6 +125,7 @@ function write(
 			if (self._id === null) {
 				_proceedTo_insertNewDocument(encryptedBase64String)
 			} else {
+				console.log('sucessfully decrypted document')
 				_proceedTo_updateExistingDocument(encryptedBase64String)
 			}
 		}
@@ -157,4 +167,4 @@ function write(
 		)
 	}
 }
-exports.write = write
+export default { read, write };

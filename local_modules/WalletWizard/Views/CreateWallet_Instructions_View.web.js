@@ -27,12 +27,16 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
+import View from '../../Views/View.web';
+
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+
 //
-const BaseView_AWalletWizardScreen = require('./BaseView_AWalletWizardScreen.web')
+import BaseView_AWalletWizardScreen from './BaseView_AWalletWizardScreen.web';
+
 //
 class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 {
@@ -136,12 +140,12 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 			"Use it like an actual wallet",
 			"For large amounts and better privacy, make a cold-storage wallet or set your own server in Preferences."
 		])
-		if (self.context.isLiteApp == true) {
-			list.push([
-				"Web browsers are insecure",
-				"The convenience of MyMonero for web comes at a security cost. <a href='https://mymonero.com' target='_blank' style='color: #11bbec; cursor: pointer; -webkit-user-select: none; text-decoration: none;'>Download the desktop or mobile app</a>."
-			])
-		}
+		// if (self.context.isLiteApp == true) {
+		// 	list.push([
+		// 		"Web browsers are insecure",
+		// 		"The convenience of MyMonero for web comes at a security cost. <a href='https://mymonero.com' target='_blank' style='color: #11bbec; cursor: pointer; -webkit-user-select: none; text-decoration: none;'>Download the desktop or mobile app</a>."
+		// 	])
+		// }
 		return list
 	}
 	_new_acceptCheckboxButtonView()
@@ -318,10 +322,10 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 	_userSelectedNextButton()
 	{
 		const self = this 
-		if (self.context.isLiteApp == true) { // must be set manually since we do not show the meta-info screen for this
-			self.wizardController.walletMeta_name = self.context.walletsListController.LiteAppWalletName()
-			self.wizardController.walletMeta_colorHexString = self.context.walletsListController.LiteAppWalletSwatchColor() // possibly change this to random color at some point
-		}
+		// if (self.context.isLiteApp == true) { // must be set manually since we do not show the meta-info screen for this
+		// 	self.wizardController.walletMeta_name = self.context.walletsListController.LiteAppWalletName()
+		// 	self.wizardController.walletMeta_colorHexString = self.context.walletsListController.LiteAppWalletSwatchColor() // possibly change this to random color at some point
+		// }
 		self.wizardController.GenerateAndUseNewWallet(
 			function(err, walletInstance)
 			{
@@ -347,4 +351,4 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 		)
 	}
 }
-module.exports = CreateWallet_Instructions_View
+export default CreateWallet_Instructions_View;

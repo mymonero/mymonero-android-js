@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const URLOpeningController_Abstract = require('./URLOpeningController_Abstract')
+import URLOpeningController_Abstract from './URLOpeningController_Abstract';
+
 //
 class URLOpeningController extends URLOpeningController_Abstract
 {
@@ -117,4 +119,4 @@ class URLOpeningController extends URLOpeningController_Abstract
 		self.__didReceivePossibleURIToOpen(possibleURI) // patch to URI reception handler, which happens to be on super
 	}
 }
-module.exports = URLOpeningController
+export default URLOpeningController;

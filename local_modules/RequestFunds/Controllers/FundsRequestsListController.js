@@ -27,12 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const async = require('async')
+import async from 'async';
+
 //
-const ListBaseController = require('../../Lists/Controllers/ListBaseController')
-const FundsRequest = require('../Models/FundsRequest')
-const fundsRequest_persistence_utils = require('../Models/fundsRequest_persistence_utils')
+import ListBaseController from '../../Lists/Controllers/ListBaseController';
+
+import FundsRequest from '../Models/FundsRequest';
+import fundsRequest_persistence_utils from '../Models/fundsRequest_persistence_utils';
 //
 class FundsRequestsListController extends ListBaseController
 {
@@ -85,7 +88,7 @@ class FundsRequestsListController extends ListBaseController
 	}
 	override_CollectionName()
 	{
-		return fundsRequest_persistence_utils.CollectionName
+		return "FundsRequests"
 	}
 	override_lookup_RecordClass()
 	{
@@ -309,4 +312,4 @@ class FundsRequestsListController extends ListBaseController
 		)
 	}
 }
-module.exports = FundsRequestsListController
+export default FundsRequestsListController;

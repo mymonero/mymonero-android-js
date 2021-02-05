@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Views__cssRules = require('../Views/cssRules.web')
+import Views__cssRules from '../Views/cssRules.web';
+
 //
 const SizeClasses =
 {
@@ -36,7 +38,6 @@ const SizeClasses =
 	Large43: "large-43",
 	Medium32: "medium-32",
 }
-exports.SizeClasses = SizeClasses
 //
 const NamespaceName = "walletIcons"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -93,4 +94,4 @@ function New_WalletIconLayer(context, optl_sizeClass)
 	//
 	return div
 }
-exports.New_WalletIconLayer = New_WalletIconLayer
+export default { SizeClasses, New_WalletIconLayer };

@@ -81,8 +81,14 @@ class DocumentPersister_Interface
 	RemoveAllDocuments(collectionName, fn)
 	{
 		const self = this
-		self.__removeAllDocuments(collectionName, fn)
+		self.__removeAllCollectionDocuments(collectionName, fn)
 	}
+	RemoveAllData(fn)
+	{
+		const self = this
+		self.__removeAllData(fn)
+	}
+
 	
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +130,7 @@ class DocumentPersister_Interface
 		const self = this
 		console.log("Error: You must override __removeDocumentsWithIds in", self)
 	}
-	__removeAllDocuments(collectionName, fn)
+	__removeAllCollectionDocuments(collectionName, fn)
 	{
 		const self = this
 		console.log("Error: You must override __removeAllDocuments in", self)
@@ -135,4 +141,4 @@ class DocumentPersister_Interface
 	// Runtime - Delegation - Private
 
 }
-module.exports = DocumentPersister_Interface
+export default DocumentPersister_Interface;

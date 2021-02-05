@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Emojis = require('./emoji_set').Emojis
+import Emojis from './emoji_set';
+
 const numberOf_Emojis = Emojis.length
 //
 //
@@ -47,4 +49,4 @@ function EmojiWhichIsNotAlreadyInUse(inUseEmojis)
 	//
 	return random_emoji
 }
-exports.EmojiWhichIsNotAlreadyInUse = EmojiWhichIsNotAlreadyInUse
+export default { EmojiWhichIsNotAlreadyInUse };

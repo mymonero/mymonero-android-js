@@ -27,18 +27,23 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_amounts = require('../../MMAppUICommonComponents/amounts.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_tooltips = require('../../MMAppUICommonComponents/tooltips.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_amounts from '../../MMAppUICommonComponents/amounts.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web';
+
 //
-const WalletsSelectView = require('../../WalletsList/Views/WalletsSelectView.web')
+import WalletsSelectView from '../../WalletsList/Views/WalletsSelectView.web';
+
 //
-const monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
-const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
+import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+
+import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils';
 //
 class ImportTransactionsModalView extends View
 {
@@ -594,4 +599,4 @@ class ImportTransactionsModalView extends View
 		}
 	}
 }
-module.exports = ImportTransactionsModalView
+export default ImportTransactionsModalView;

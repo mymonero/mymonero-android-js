@@ -27,10 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const commonComponents_navigationBarButtons = require('../MMAppUICommonComponents/navigationBarButtons.web')
+import commonComponents_navigationBarButtons from '../MMAppUICommonComponents/navigationBarButtons.web';
+
 //
-const Views__cssRules = require('../Views/cssRules.web')
+import Views__cssRules from '../Views/cssRules.web';
+
 const NamespaceName = "ThemeController"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
@@ -70,7 +73,15 @@ class ThemeController
 		const self = this
 		self.options = options
 		self.context = context
-		__injectCSSRules_ifNecessary(context)
+		self.injectCSSRules_ifNecessary(context)
+	}
+	injectCSSRules_ifNecessary(context) 
+	{
+		// Views__cssRules.InjectCSSRules_ifNecessary(
+		// 	haveCSSRulesBeenInjected_documentKey, 
+		// 	cssRules_generatorFn,
+		// 	context
+		// )
 	}
 	//
 	// Accessors - UI - Metrics - Layout
@@ -297,4 +308,4 @@ class ThemeController
 		return view
 	}
 }
-module.exports = ThemeController
+export default ThemeController;

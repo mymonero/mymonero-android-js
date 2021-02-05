@@ -27,10 +27,12 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const renderer_setup_utils = require('./renderer_setup_utils')
+import renderer_setup_utils from './renderer_setup_utils';
+
 //
-module.exports = function(params)
+export default function(params)
 {
 	params = params || {}
 	//
@@ -50,7 +52,8 @@ module.exports = function(params)
 	renderer_setup_utils.HardenRuntime()
 	renderer_setup_utils.IdentifyRuntime("IsElectronRendererProcess") // set key-value to `true` on `window`
 	ensureEnv()
-}
+};
+
 //
 function startCrashReporting(reporting_processName)
 {

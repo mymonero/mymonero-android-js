@@ -27,14 +27,19 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-const async = require('async')
+import async from 'async';
+
 //
-const JSBigInt = require('../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger // important: grab defined export
-const monero_config = require('../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
-const net_service_utils = require('../mymonero_libapp_js/mymonero-core-js/hostAPI/net_service_utils')
+import { BigInteger as JSBigInt } from '../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
+
+import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+import net_service_utils from '../mymonero_libapp_js/mymonero-core-js/hostAPI/net_service_utils';
+
 //
-const config__MyMonero = require('./config__MyMonero')
+import config__MyMonero from './config__MyMonero';
+
 //
 class HostedMoneroAPIClient_Base
 {
@@ -378,4 +383,4 @@ class HostedMoneroAPIClient_Base
 		return requestHandle
 	}
 }
-module.exports = HostedMoneroAPIClient_Base
+export default HostedMoneroAPIClient_Base;

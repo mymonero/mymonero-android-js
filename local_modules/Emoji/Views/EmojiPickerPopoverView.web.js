@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const EmojiPickerPopoverContentView = require('./EmojiPickerPopoverContentView.web')
+import View from '../../Views/View.web';
+
+import EmojiPickerPopoverContentView from './EmojiPickerPopoverContentView.web';
 //
 class EmojiPickerPopoverView extends View
 {
@@ -102,4 +104,4 @@ class EmojiPickerPopoverView extends View
 		self.emojiPickerPopoverContentView.SetPreVisibleSelectedEmoji(emoji)
 	}
 }
-module.exports = EmojiPickerPopoverView
+export default EmojiPickerPopoverView;

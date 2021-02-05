@@ -27,12 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict"
+
 //
-let monero_config = require('../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
-let monero_amount_format_utils = require('../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
-const JSBigInt = require('../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
+import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+
+import monero_amount_format_utils from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import { BigInteger as JSBigInt } from '../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
 //
-let ccySymbolsByCcy = exports.ccySymbolsByCcy = 
+let ccySymbolsByCcy = 
 {
 	XMR: "XMR", // included for completeness / convenience / API
 	USD: "USD",
@@ -56,7 +58,7 @@ let ccySymbolsByCcy = exports.ccySymbolsByCcy =
 	RUB: "RUB",
 	ZAR: "ZAR",
 }
-let allOrderedCurrencySymbols = exports.allOrderedCurrencySymbols = 
+let allOrderedCurrencySymbols =  
 [
 	ccySymbolsByCcy.XMR, // included for completeness / convenience / API
 	ccySymbolsByCcy.USD,
@@ -80,18 +82,18 @@ let allOrderedCurrencySymbols = exports.allOrderedCurrencySymbols =
 	ccySymbolsByCcy.RUB,
 	ccySymbolsByCcy.ZAR,
 ]
-let hasAtomicUnits = exports.hasAtomicUnits = function(ccySymbol) 
+let hasAtomicUnits = function(ccySymbol) 
 {
 	return (ccySymbol == ccySymbolsByCcy.XMR)
 }
-let unitsForDisplay = exports.unitsForDisplay = function(ccySymbol)
+let unitsForDisplay = function(ccySymbol)
 {
 	if (ccySymbol == ccySymbolsByCcy.XMR) {
 		return monero_config.coinUnitPlaces
 	}
 	return 2
 }
-let nonAtomicCurrency_formattedString = exports.nonAtomicCurrency_formattedString = function(
+let nonAtomicCurrency_formattedString = function(
 	final_amountDouble, // final as in display-units-rounded - will throw if amount has too much precision
 	ccySymbol
 ) { // -> String
@@ -136,7 +138,8 @@ let nonAtomicCurrency_formattedString = exports.nonAtomicCurrency_formattedStrin
 function roundTo(num, digits) {
     return +(Math.round(num + "e+"+digits)  + "e-"+digits);
 }
-exports.submittableMoneroAmountDouble_orNull = function(
+
+const submittableMoneroAmountDouble_orNull = function(
 	CcyConversionRates_Controller_shared,
 	selectedCurrencySymbol,
 	submittableAmountRawNumber_orNull // passing null causes immediate return of null
@@ -155,10 +158,9 @@ exports.submittableMoneroAmountDouble_orNull = function(
 		selectedCurrencySymbol
 	)
 	return xmrAmountDouble
-}
-let rounded_ccyConversionRateCalculated_moneroAmountNumber 
-	= exports.rounded_ccyConversionRateCalculated_moneroAmountNumber 
-	= function(
+};
+
+let rounded_ccyConversionRateCalculated_moneroAmountNumber = function(
 	CcyConversionRates_Controller_shared,
 	userInputAmountJSNumber,
 	selectedCurrencySymbol
@@ -181,7 +183,7 @@ let rounded_ccyConversionRateCalculated_moneroAmountNumber
 	//
 	return truncated_amount
 }
-const displayUnitsRounded_amountInCurrency = exports.displayUnitsRounded_amountInCurrency = function( // Note: __DISPLAY__ units
+const displayUnitsRounded_amountInCurrency = function( // Note: __DISPLAY__ units
 	CcyConversionRates_Controller_shared,
 	ccySymbol,
 	moneroAmountNumber // NOTE: 'Double' JS Number, not JS BigInt
@@ -204,8 +206,9 @@ const displayUnitsRounded_amountInCurrency = exports.displayUnitsRounded_amountI
 	//
 	return truncated_amount
 }
+
 //
-exports.displayStringComponentsFrom = function(
+const displayStringComponentsFrom = function(
 	CcyConversionRates_Controller_shared,
 	xmr_amount_JSBigInt, 
 	displayCcySymbol
@@ -239,4 +242,8 @@ exports.displayStringComponentsFrom = function(
 		amt_str: xmr_amount_str, 
 		ccy_str: XMR
 	} // special case
-}
+};
+
+export default { ccySymbolsByCcy, allOrderedCurrencySymbols, displayStringComponentsFrom, displayUnitsRounded_amountInCurrency, 
+					rounded_ccyConversionRateCalculated_moneroAmountNumber, nonAtomicCurrency_formattedString, 
+					submittableMoneroAmountDouble_orNull, unitsForDisplay, hasAtomicUnits }

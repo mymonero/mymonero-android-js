@@ -78,4 +78,4 @@ class FilesystemUI_Abstract
 		throw errStr // to break development builds
 	}
 }
-module.exports = FilesystemUI_Abstract
+export default FilesystemUI_Abstract;

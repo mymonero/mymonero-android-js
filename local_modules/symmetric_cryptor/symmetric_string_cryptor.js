@@ -32,8 +32,10 @@
 // but it uses the native Node.JS crypto, generates keys asynchronously, and changes
 // cryptor_settings.pbkdf2.iterations from 10000 to 157 as an optimization.
 //
-var crypto = require('crypto');
+import crypto from 'crypto';
+
 //
+console.log("symmetric string cryptor included")
 var currentVersionCryptorFormatVersion = 3;
 var cryptor_settings = 
 {
@@ -60,6 +62,7 @@ function New_EncryptedBase64String__Async(
 	password,
 	fn
 ) {
+	console.log("sym-string-crpytor: New encrypted string attempt")
 	if (typeof plaintext_msg === 'undefined') {
 		return undefined
 	}
@@ -137,7 +140,6 @@ function New_EncryptedBase64String__Async(
 		}
 	)
 }
-module.exports.New_EncryptedBase64String__Async = New_EncryptedBase64String__Async;
 //
 // Decryption
 function New_DecryptedString__Async(
@@ -146,7 +148,9 @@ function New_DecryptedString__Async(
 	fn
 ) {
 	Buffer.isBuffer(password) || (password = new Buffer(password, 'utf8'));
-
+	console.log("symmetric_string_cryptor: New_DecryptedString__Async invoked");
+	console.log(encrypted_msg_base64_string);
+	console.log(password);
 	if (!encrypted_msg_base64_string || typeof encrypted_msg_base64_string === 'undefined') {
 		console.warn("New_DecryptedString__Async was passed nil encrypted_msg_base64_string")
 		return fn(null, encrypted_msg_base64_string)
@@ -193,15 +197,17 @@ function New_DecryptedString__Async(
 		}
 	)
 }
-module.exports.New_DecryptedString__Async = New_DecryptedString__Async;
+
 //
 // Shared
 function _new_encrypted_base64_unpacked_components_object(b64str) 
 {
+	console.log("sym-string-crpytor: _new_encrypted_base64_unpacked_components_object invoked")
 	if (!b64str || typeof b64str === 'undefined') { // prevent toString() exception
 		throw "_new_encrypted_base64_unpacked_components_object was passed nil b64str"
 		// return undefined
 	}
+	console.log(b64str);
 	var data = new Buffer(b64str, 'base64')
 	var components = 
 	{
@@ -333,3 +339,5 @@ function _new_random_iv_of_length(block_size)
 		throw ex
 	}
 }
+
+export default { New_EncryptedBase64String__Async, New_DecryptedString__Async };

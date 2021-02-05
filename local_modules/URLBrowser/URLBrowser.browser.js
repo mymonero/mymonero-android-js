@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const URLBrowser_Abstract = require('./URLBrowser_Abstract')
+import URLBrowser_Abstract from './URLBrowser_Abstract';
+
 //
 class URLBrowser extends URLBrowser_Abstract
 {
@@ -42,4 +44,4 @@ class URLBrowser extends URLBrowser_Abstract
 		window.open(urlString, '_blank') // _system..?
 	}
 }
-module.exports = URLBrowser
+export default URLBrowser;

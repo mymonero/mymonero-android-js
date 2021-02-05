@@ -27,12 +27,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const ListCellView = require('../../Lists/Views/ListCellView.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_walletIcons = require('../../MMAppUICommonComponents/walletIcons.web')
-const commonComponents_hoverableCells = require('../../MMAppUICommonComponents/hoverableCells.web')
-const FundsRequestCellContentsView = require('./FundsRequestCellContentsView.web')
+import ListCellView from '../../Lists/Views/ListCellView.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_walletIcons from '../../MMAppUICommonComponents/walletIcons.web';
+import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
+import FundsRequestCellContentsView from './FundsRequestCellContentsView.web';
 //
 class FundsRequestsListCellView extends ListCellView
 {
@@ -115,4 +117,4 @@ class FundsRequestsListCellView extends ListCellView
 		self.cellContentsView.ConfigureWithRecord(self.record)
 	}
 }
-module.exports = FundsRequestsListCellView
+export default FundsRequestsListCellView;

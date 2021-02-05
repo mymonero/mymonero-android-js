@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
+import View from '../../Views/View.web';
+
 //
 class RootFooterView extends View
 {
@@ -56,39 +58,39 @@ class RootFooterView extends View
 		table.style.width = "100%"
 		table.style.maxWidth = "400px"
 		const tr = document.createElement("tr")
-		table.appendChild(tr)
-		layer.appendChild(table)
+		// table.appendChild(tr)
+		// layer.appendChild(table)
 		//
-		tr.appendChild(self._new_linkButtonLayerElement("Home", primaryUtilityLink_colorValue, function(e)
-		{
-			e.preventDefault()
-			window.open('https://www.mymonero.com/', '_blank') // new tab
-			return false;
-		}))
-		tr.appendChild(self._new_linkButtonLayerElement("Privacy", utilityLink_colorValue, function(e)
-		{
-			e.preventDefault()
-			window.open('https://www.mymonero.com/privacy', '_blank') // new tab
-			return false;
-		}))
-		tr.appendChild(self._new_linkButtonLayerElement("Terms", utilityLink_colorValue, function(e)
-		{
-			e.preventDefault()
-			window.open('https://www.mymonero.com/terms', '_blank') // new tab
-			return false;
-		}))
-		tr.appendChild(self._new_linkButtonLayerElement("Support", importantLink_colorValue, function(e)
-		{
-			e.preventDefault()
-			window.open("https://mymonero.com/?open_support=1", "_blank")
-			// shift to this when support can be brought directly back in:
-			// window.Intercom('show')
-			// previous:
-			// window.Intercom('update', {
-			// 	hide_default_launcher: false
-			// })
-			return false;
-		}))
+		// tr.appendChild(self._new_linkButtonLayerElement("Home", primaryUtilityLink_colorValue, function(e)
+		// {
+		// 	e.preventDefault()
+		// 	window.open('https://www.mymonero.com/', '_blank') // new tab
+		// 	return false;
+		// }))
+		// tr.appendChild(self._new_linkButtonLayerElement("Privacy", utilityLink_colorValue, function(e)
+		// {
+		// 	e.preventDefault()
+		// 	window.open('https://www.mymonero.com/privacy', '_blank') // new tab
+		// 	return false;
+		// }))
+		// tr.appendChild(self._new_linkButtonLayerElement("Terms", utilityLink_colorValue, function(e)
+		// {
+		// 	e.preventDefault()
+		// 	window.open('https://www.mymonero.com/terms', '_blank') // new tab
+		// 	return false;
+		// }))
+		// tr.appendChild(self._new_linkButtonLayerElement("Support", importantLink_colorValue, function(e)
+		// {
+		// 	e.preventDefault()
+		// 	window.open("https://mymonero.com/?open_support=1", "_blank")
+		// 	// shift to this when support can be brought directly back in:
+		// 	// window.Intercom('show')
+		// 	// previous:
+		// 	// window.Intercom('update', {
+		// 	// 	hide_default_launcher: false
+		// 	// })
+		// 	return false;
+		// }))
 	}
 	_new_linkButtonLayerElement(title, colorValue, click_handler_fn)
 	{
@@ -122,4 +124,4 @@ class RootFooterView extends View
 		return td
 	}
 }
-module.exports = RootFooterView
+export default RootFooterView;

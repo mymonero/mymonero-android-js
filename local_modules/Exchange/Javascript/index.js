@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from 'axios';
 //const fetch = require("fetch");
 class ExchangeFunctions {
 
@@ -154,4 +154,4 @@ class ExchangeFunctions {
 
 }
 
-module.exports = ExchangeFunctions;
+export default ExchangeFunctions;

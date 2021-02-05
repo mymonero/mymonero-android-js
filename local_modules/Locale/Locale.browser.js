@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Locale_Abstract = require('./Locale_Abstract')
+import Locale_Abstract from './Locale_Abstract';
+
 //
 class Locale extends Locale_Abstract
 {
@@ -48,4 +50,4 @@ class Locale extends Locale_Abstract
 		fn(null, language) // TODO: is language really locale name?
 	}
 }
-module.exports = Locale
+export default Locale;

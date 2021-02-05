@@ -27,12 +27,19 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const SendFundsView_Base = require('./SendFundsView_Base.web')
-const commonComponents_contactPicker = require('../../MMAppUICommonComponents/contactPicker.web')
-const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
-const AddContactFromSendTabView = require('../../Contacts/Views/AddContactFromSendTabView.web')
-const StackAndModalNavigationView = require('../../StackNavigation/Views/StackAndModalNavigationView.web')
+import SendFundsView_Base from './SendFundsView_Base.web';
+
+import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web';
+import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
+import AddContactFromSendTabView from '../../Contacts/Views/AddContactFromSendTabView.web';
+import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
+
+console.log("SendFundsViewCommonComponentsContactPicker");
+console.log(typeof(commonComponents_contactPicker));
+console.log(commonComponents_contactPicker.New_contactPickerLayer);
+console.log(typeof(commonComponents_contactPicker.New_contactPickerLayer))
 //
 class SendFundsView extends SendFundsView_Base
 {
@@ -46,26 +53,26 @@ class SendFundsView extends SendFundsView_Base
 	{
 		const self = this
 		super.startObserving() // must call
-		{ // urlOpeningController
-			const controller = self.context.urlOpeningCoordinator
-			controller.on(
-				controller.EventName_TimeToHandleReceivedMoneroRequestURL(),
-				function(url)
-				{
-					self.navigationController.DismissModalViewsToView( // dismissing these b/c of checks in __shared_isAllowedToPerformDropOrURLOpeningOps
-						null, // null -> to top stack view
-						false // not animated
-					)
-					self.navigationController.PopToRootView(false) // in case they're not on root
-					//
-					if (self.__shared_isAllowedToPerformDropOrURLOpeningOps() != true) {
-						console.warn("Not allowed to perform URL opening ops yet.")
-						return false
-					}
-					self._shared_didPickRequestConfirmedURIStringForAutofill(url)
-				}
-			)
-		}
+		// { // urlOpeningController
+		// 	const controller = self.context.urlOpeningCoordinator
+		// 	controller.on(
+		// 		controller.EventName_TimeToHandleReceivedMoneroRequestURL(),
+		// 		function(url)
+		// 		{
+		// 			self.navigationController.DismissModalViewsToView( // dismissing these b/c of checks in __shared_isAllowedToPerformDropOrURLOpeningOps
+		// 				null, // null -> to top stack view
+		// 				false // not animated
+		// 			)
+		// 			self.navigationController.PopToRootView(false) // in case they're not on root
+		// 			//
+		// 			if (self.__shared_isAllowedToPerformDropOrURLOpeningOps() != true) {
+		// 				console.warn("Not allowed to perform URL opening ops yet.")
+		// 				return false
+		// 			}
+		// 			self._shared_didPickRequestConfirmedURIStringForAutofill(url)
+		// 		}
+		// 	)
+		// }
 	}
 	//
 	// Overrides - Required - Setup - Accessors
@@ -148,4 +155,4 @@ class SendFundsView extends SendFundsView_Base
 		}
 	}
 }
-module.exports = SendFundsView
+export default SendFundsView;

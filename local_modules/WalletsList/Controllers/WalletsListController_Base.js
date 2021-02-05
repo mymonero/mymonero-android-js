@@ -27,14 +27,18 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const async = require('async')
+import async from 'async';
+
 //
 //
-const ListBaseController = require('../../Lists/Controllers/ListBaseController')
+import ListBaseController from '../../Lists/Controllers/ListBaseController';
+
 //
-const Wallet = require('../../Wallets/Models/Wallet')
-const wallet_persistence_utils = require('../../Wallets/Models/wallet_persistence_utils')
+import Wallet from '../../Wallets/Models/Wallet';
+
+import wallet_persistence_utils from '../../Wallets/Models/wallet_persistence_utils';
 //
 const blue_hexColorString = "#00C6FF"
 const hexColorStrings = 
@@ -78,7 +82,8 @@ class WalletsListController extends ListBaseController
 	//
 	override_CollectionName()
 	{
-		return wallet_persistence_utils.CollectionName
+		return "Wallets"
+		//return wallet_persistence_utils.CollectionName -- commented out because we're debugging runtime context: TODO: make this dynamic?
 	}
 	override_lookup_RecordClass()
 	{
@@ -235,6 +240,7 @@ class WalletsListController extends ListBaseController
 		optl__userCanceledPasswordEntry_fn
 	)
 	{
+		console.log("WalletsListControllerBase: WhenBooted_ObtainPW_AddNewlyGeneratedWallet invoked");
 		const userCanceledPasswordEntry_fn = optl__userCanceledPasswordEntry_fn || function() {}
 		const self = this
 		const context = self.context
@@ -279,6 +285,7 @@ class WalletsListController extends ListBaseController
 		fn, // fn: (err: Error?, walletInstance: Wallet, wasWalletAlreadyInserted: Bool?) -> Void
 		optl__userCanceledPasswordEntry_fn
 	) {
+		console.log("WalletsListControllerBase: WhenBooted_ObtainPW_AddExtantWalletWith_MnemonicString invoked");
 		const userCanceledPasswordEntry_fn = optl__userCanceledPasswordEntry_fn || function() {}
 		const self = this
 		const context = self.context
@@ -344,6 +351,9 @@ class WalletsListController extends ListBaseController
 						{ // TODO: bubble?
 						}
 					}
+					console.log("About to invoke new Wallet(options, context)")
+					console.log(options);
+					console.log(context);
 					const wallet = new Wallet(options, context)
 				}
 			}
@@ -359,6 +369,7 @@ class WalletsListController extends ListBaseController
 		optl__userCanceledPasswordEntry_fn
 	)
 	{
+		console.log("WalletsListControllerBase: WhenBooted_ObtainPW_AddExtantWalletWith_AddressAndKeys invoked");
 		const userCanceledPasswordEntry_fn = optl__userCanceledPasswordEntry_fn || function() {}
 		const self = this
 		const context = self.context
@@ -378,6 +389,7 @@ class WalletsListController extends ListBaseController
 				function _proceedWithPassword(persistencePassword)
 				{
 					var walletAlreadyExists = false
+					console.log(self.records);
 					const wallets_length = self.records.length
 					for (let i = 0 ; i < wallets_length ; i++) {
 						const wallet = self.records[i]
@@ -523,4 +535,4 @@ class WalletsListController extends ListBaseController
 		)
 	}
 }
-module.exports = WalletsListController
+export default WalletsListController;

@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_assetPreloader = require('../../MMAppUICommonComponents/assetPreloader')
+import View from '../../Views/View.web';
+import ConnectivityMessageBarView from './ConnectivityMessageBarView.web'
+import commonComponents_assetPreloader from '../../MMAppUICommonComponents/assetPreloader';
 //
 class RootView extends View
 {
@@ -109,11 +111,10 @@ class RootView extends View
 	setup_connectivityMessageBarView()
 	{
 		const self = this
-		const ConnectivityMessageBarView = require('./ConnectivityMessageBarView.web')
 		const view = new ConnectivityMessageBarView({}, self.context)
 		self.connectivityMessageBarView = view
 		self.addSubview(view)
 	}
 }
 
-module.exports = RootView
+export default RootView;

@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const string_cryptor = require('./symmetric_string_cryptor')
-const child_ipc = require('../Concurrency/ipc.electron.child')
+import string_cryptor from './symmetric_string_cryptor';
+
+import child_ipc from '../Concurrency/ipc.electron.child';
 //
 const reporting_appVersion = process.argv[2]
 if (typeof reporting_appVersion === 'undefined' || !reporting_appVersion) {

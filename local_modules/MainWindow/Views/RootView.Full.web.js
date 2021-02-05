@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const RootView_Base = require('./RootView_Base.web')
+import RootView_Base from './RootView_Base.web';
+
 //
 class RootView extends RootView_Base
 {
@@ -37,4 +39,4 @@ class RootView extends RootView_Base
 		super(options, context)
 	}
 }
-module.exports = RootView
+export default RootView;

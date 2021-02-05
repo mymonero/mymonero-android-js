@@ -30,12 +30,16 @@
 // Matias Meno <m@tias.me> and licensed under The MIT License. https://github.com/enyo/opentip
 //
 "use strict"
+
 //
-const Opentip = require('./Vendor/opentip-native.min.js')
+import Opentip from './Vendor/opentip-native.min.js';
+
 //
-const commonComponents_tables = require('./tables.web')
+import commonComponents_tables from './tables.web';
+
 //
-const Views__cssRules = require('../Views/cssRules.web')
+import Views__cssRules from '../Views/cssRules.web';
+
 const NamespaceName = "tooltips"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 const cssRules =
@@ -258,5 +262,6 @@ function New_TooltipSpawningButtonView(tooltipText, context)
 	tooltip.setContent(tooltipText)
 	return view 
 }
-exports.New_TooltipSpawningButtonView = New_TooltipSpawningButtonView
+let obj = { New_TooltipSpawningButtonView };
+export default obj;
 

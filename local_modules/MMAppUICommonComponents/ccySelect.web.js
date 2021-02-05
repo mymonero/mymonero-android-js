@@ -27,10 +27,12 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-let Currencies = require('../CcyConversionRates/Currencies')
+import Currencies from '../CcyConversionRates/Currencies';
+
 //
-const new_selectLayer = exports.new_selectLayer = function()
+const new_selectLayer = function()
 {
 	let selectLayer = document.createElement("select")
 	let allCcySymbols = Currencies.allOrderedCurrencySymbols
@@ -50,3 +52,5 @@ const new_selectLayer = exports.new_selectLayer = function()
 	//
 	return selectLayer
 }
+
+export default { new_selectLayer }

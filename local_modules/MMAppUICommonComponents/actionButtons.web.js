@@ -27,17 +27,17 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
-const commonComponents_hoverableCells = require('./hoverableCells.web')
+import View from '../Views/View.web';
+
+import commonComponents_hoverableCells from './hoverableCells.web';
 //
 const ActionButton_h = 32
 const ActionButton_rightMargin = 9
 //
 const ActionButtonsContainerView_h = ActionButton_h
 const ActionButtonsContainerView_bottomMargin = 8
-exports.ActionButtonsContainerView_bottomMargin = ActionButtonsContainerView_bottomMargin
-exports.ActionButtonsContainerView_h = ActionButtonsContainerView_h
 //
 function New_ActionButtonsContainerView(
 	margin_fromWindowLeft,
@@ -55,7 +55,6 @@ function New_ActionButtonsContainerView(
 	}	
 	return view
 }
-exports.New_ActionButtonsContainerView = New_ActionButtonsContainerView
 //
 function New_Stacked_ActionButtonsContainerView(
 	margin_left,
@@ -75,7 +74,6 @@ function New_Stacked_ActionButtonsContainerView(
 	}	
 	return view
 }
-exports.New_Stacked_ActionButtonsContainerView = New_Stacked_ActionButtonsContainerView
 //
 function New_ActionButtonView(
 	title, 
@@ -212,4 +210,5 @@ function New_ActionButtonView(
 	)
 	return view
 }
-exports.New_ActionButtonView = New_ActionButtonView
+let obj = { ActionButtonsContainerView_bottomMargin, ActionButtonsContainerView_h, New_ActionButtonsContainerView, New_Stacked_ActionButtonsContainerView, New_ActionButtonView }
+export default obj;

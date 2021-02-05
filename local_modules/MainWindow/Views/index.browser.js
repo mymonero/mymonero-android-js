@@ -30,6 +30,19 @@
 //
 "use strict"
 //
+import RootView from '../Views/RootView.Lite.web' // electron uses .web files as it has a web DOM
+import setup_utils from '../../MMAppRendererSetup/renderer_setup.browser'
+import MyMoneroLibAppBridge from '../../mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge'
+import indexContextBrowser from '../Models/index_context.browser'
+import cryptonoteUtilsNetType from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype'
+import emoji_web from '../../Emoji/emoji_web'
+import RootTabBarAndContentView from './RootTabBarAndContentView.Full.web'
+import { Plugins } from '@capacitor/core';
+
+const { App } = Plugins;
+
+console.log(App);
+
 window.BootApp = function()
 { // encased in a function to prevent scope being lost/freed on mobile
 	const isDebug = false
@@ -55,7 +68,7 @@ window.BootApp = function()
 	var isTouchDevice = ('ontouchstart' in document.documentElement);
 	const isMobile = isTouchDevice // an approximation for 'mobile'
 	//
-	const setup_utils = require('../../MMAppRendererSetup/renderer_setup.browser')
+	
 	setup_utils({
 		appVersion: app.getVersion(),
 		reporting_processName: "BrowserWindow"
@@ -63,10 +76,12 @@ window.BootApp = function()
 	//
 	// context
 	var isHorizontalBar = isMobile;
-	require('../../mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge')({}).then(function(coreBridge_instance) // we can just use this directly in the browser version
+	MyMoneroLibAppBridge({}).then(function(coreBridge_instance) // we can just use this directly in the browser version
 	{
-		const context = require('../Models/index_context.browser').NewHydratedContext({
-			nettype: require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype').network_type.MAINNET, // critical setting
+		const context = indexContextBrowser.NewHydratedContext({
+		//const context = require('../Models/index_context.browser').NewHydratedContext({
+			//nettype: require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype').network_type.MAINNET, // critical setting
+			nettype: cryptonoteUtilsNetType.network_type.MAINNET,
 			app: app,
 			isDebug: isDebug,
 			isLiteApp: true, // used sparingly for to disable (but not redact) functionality
@@ -75,7 +90,8 @@ window.BootApp = function()
 			Cordova_isMobile: false, // (this can be renamed or maybe deprecated)
 			crossPlatform_appBundledIndexRelativeAssetsRootPath: "",
 			crossPlatform_indexContextRelativeAssetsRootPathSuffix: "../../", // b/c index_context is in MainWindow/Views; must end up /
-			platformSpecific_RootTabBarAndContentView: require('./RootTabBarAndContentView.browser.web'), // slightly messy place to put this but it works
+			//platformSpecific_RootTabBarAndContentView: require('./RootTabBarAndContentView.browser.web'), // slightly messy place to put this but it works
+			platformSpecific_RootTabBarAndContentView: RootTabBarAndContentView, // slightly messy place to put this but it works
 			TabBarView_thickness: isHorizontalBar ? 48 : 79,
 			rootViewFooterHeight: 32,
 			TabBarView_isHorizontalBar: isHorizontalBar,
@@ -95,7 +111,6 @@ window.BootApp = function()
 		//
 		if (isMobile == false) { // then we don't have guaranteed native emoji support
 			{ // since we're using emoji, now that we have the context, we can call PreLoadAndSetUpEmojiOne
-				const emoji_web = require('../../Emoji/emoji_web')
 				emoji_web.PreLoadAndSetUpEmojiOne(context)
 			}
 		}
@@ -111,16 +126,18 @@ window.BootApp = function()
 				// though we don't support that yet
 				// if(/Android/.test(navigator.appVersion)) {
 				const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-				window.addEventListener("resize", function()
-				{
-					console.log("💬  Window resized")
-					commonComponents_forms.ScrollCurrentFormElementIntoView()
-				})
+				
+				// MYM only supports portrait mode for now
+				// window.addEventListener("resize", function()
+				// {
+				// 	console.log("💬  Window resized")
+				// 	commonComponents_forms.ScrollCurrentFormElementIntoView()
+				// })
 				// }
 			}
 		}
 		{ // root view
-			const RootView = require('../Views/RootView.Lite.web') // electron uses .web files as it has a web DOM
+			
 			const rootView = new RootView({}, context) // hang onto reference
 			rootView.superview = null // just to be explicit; however we will set a .superlayer
 			// manually attach the rootView to the DOM and specify view's usual managed reference(s)
@@ -136,5 +153,20 @@ window.BootApp = function()
 	{
 		throw e
 	});
+	window.addEventListener('ionBackButton', (event) => {
+		event.detail.register(10, () => {
+			  App.exitApp();
+		});
+	});
+	
 }
 window.BootApp()
+
+// Add event listener for exit
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+	App.addListener("backButton", (event) => {
+		App.exitApp();
+	});
+}

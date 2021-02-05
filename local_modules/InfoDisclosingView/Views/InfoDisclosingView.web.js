@@ -27,10 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Animate = require('velocity-animate')
+import Animate from 'velocity-animate';
+
 //
-const View = require('../../Views/View.web')
+import View from '../../Views/View.web';
+
 //
 class InfoDisclosingView extends View
 {
@@ -288,4 +291,4 @@ class InfoDisclosingView extends View
 		)
 	}
 }
-module.exports = InfoDisclosingView
+export default InfoDisclosingView;

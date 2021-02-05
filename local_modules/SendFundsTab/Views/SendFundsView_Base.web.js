@@ -27,35 +27,51 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_tables = require('../../MMAppUICommonComponents/tables.web')
-const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-const commonComponents_amounts = require('../../MMAppUICommonComponents/amounts.web')
-const commonComponents_navigationBarButtons = require('../../MMAppUICommonComponents/navigationBarButtons.web')
-const commonComponents_tooltips = require('../../MMAppUICommonComponents/tooltips.web')
-const commonComponents_hoverableCells = require('../../MMAppUICommonComponents/hoverableCells.web')
+import View from '../../Views/View.web';
+
+import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
+import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
+import commonComponents_amounts from '../../MMAppUICommonComponents/amounts.web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
+import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web';
+import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
+
 //
-const WalletsSelectView = require('../../WalletsList/Views/WalletsSelectView.web')
+import WalletsSelectView from '../../WalletsList/Views/WalletsSelectView.web';
+
 //
-const commonComponents_activityIndicators = require('../../MMAppUICommonComponents/activityIndicators.web')
-const commonComponents_actionButtons = require('../../MMAppUICommonComponents/actionButtons.web')
+import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
+
+import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
+
 //
-const JustSentTransactionDetailsView = require('./JustSentTransactionDetailsView.web')
+import JustSentTransactionDetailsView from './JustSentTransactionDetailsView.web';
+
 //
-const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
-const monero_openalias_utils = require('../../OpenAlias/monero_openalias_utils')
-const monero_paymentID_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils')
-const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
-const monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
+import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils';
+
+import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils';
+import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
+import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+
 //
-const jsQR = require('jsqr')
-const monero_requestURI_utils = require('../../MoneroUtils/monero_requestURI_utils')
+import jsQR from 'jsqr';
+import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
+
 //
-let Currencies = require('../../CcyConversionRates/Currencies')
-let JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger // important: grab defined export
-//
-let rateServiceDomainText = "cryptocompare.com" 
+import Currencies from '../../CcyConversionRates/Currencies';
+
+
+import { Plugins } from '@capacitor/core';
+const { CapacitorQRScanner } = Plugins;
+
+
+import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
+
+let rateServiceDomainText = "cryptocompare.com"
 //
 class SendFundsView extends View
 {
@@ -122,12 +138,12 @@ class SendFundsView extends View
 			}
 			self.actionButtonsContainerView = view
 			{
-				if (self.context.Cordova_isMobile === true /* but not context.isMobile */) { // til we have Electron support
+				//if (self.context.Cordova_isMobile === true /* but not context.isMobile */) { // til we have Electron support
 					self._setup_actionButton_useCamera()
-				}
-				if (self.context.isLiteApp != true) {
+				//}
+				//if (self.context.isLiteApp != true) {
 					self._setup_actionButton_chooseFile()
-				}
+				//}
 			}
 			self.addSubview(view)
 		}
@@ -197,6 +213,7 @@ class SendFundsView extends View
 		containerLayer.style.paddingBottom = `${paddingBottom}px`
 		self.form_containerLayer = containerLayer
 		{
+			self._setup_camera_scannerLayer();
 			self._setup_form_walletSelectLayer()
 			{
 				const table = document.createElement("table")
@@ -210,6 +227,7 @@ class SendFundsView extends View
 			self._setup_form_addPaymentIDButtonView()
 			self._setup_form_manualPaymentIDInputLayer()
 			self._setup_form_field_priority()
+
 			//
 			// initial config
 			self.context.settingsController.executeWhenBooted( // wait for boot for this
@@ -224,6 +242,47 @@ class SendFundsView extends View
 			self.set_effectiveAmountLabelLayer_needsUpdate() // this will call set_effectiveAmountLabelLayer_needsUpdate
 		}
 		self.layer.appendChild(containerLayer)
+	}
+	_setup_camera_scannerLayer() {
+		const self = this
+		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
+		//
+		// const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("TO", self.context)
+		// labelLayer.style.marginTop = "17px" // to square with MEMO field on Send Funds
+		// {
+		// 	const tooltipText = `Drag &amp; drop QR codes<br/>to auto-fill.<br/><br/>Please double-check<br/>your recipient info as<br/>Monero transfers are<br/>not yet&nbsp;reversible.`
+		// 	const view = commonComponents_tooltips.New_TooltipSpawningButtonView(tooltipText, self.context)
+		// 	const layer = view.layer
+		// 	labelLayer.appendChild(layer) // we can append straight to labelLayer as we don't ever change its innerHTML
+		// }
+		const buttonView = commonComponents_actionButtons.New_ActionButtonView(
+			"Cancel", 
+			"../../assets/img/actionButton_iconImage__useCamera@3x.png", 
+			false,
+			function(layer, e)
+			{
+				//self.__cancelCamera()
+			},
+			self.context,
+			9, // px from top of btn - due to shorter icon
+			undefined,
+			"14px 14px"
+		)
+
+		//self.actionButtonsContainerView.addSubview(buttonView)
+		// let html = `
+		// 	<div id="camera">
+		// 		<div id="qr-instructions">Scan a compatible</div>
+		// 		<div class="sp sp-circle" id="loading-spinner"></div>
+		// 		<video id="preview"></video>
+		// 		<a href="#" id="switch-camera" class="hoverable-cell disableable utility">Switch Scanning</a>
+		// 		<a href="#" id="cancel-camera" class="hoverable-cell disableable utility">Cancel Scanning</a>
+		// 	</div>
+		// `
+		// div.innerHTML = html;
+		//
+		console.log(self);
+		self.form_containerLayer.appendChild(div);
 	}
 	_setup_form_walletSelectLayer()
 	{
@@ -354,6 +413,7 @@ class SendFundsView extends View
 		}
 		div.appendChild(labelLayer)
 		//
+		console.log(self);
 		const layer = self._new_required_contactPickerLayer()
 		layer.ContactPicker_inputLayer.autocorrect = "off"
 		layer.ContactPicker_inputLayer.autocomplete = "off"
@@ -647,6 +707,7 @@ class SendFundsView extends View
 		)
 		self.chooseFile_buttonView = buttonView
 		self.actionButtonsContainerView.addSubview(buttonView)
+
 	}
 	//
 	_setup_qrCodeInputs_containerView()
@@ -1999,7 +2060,7 @@ class SendFundsView extends View
 					self.validationMessageLayer.SetValidationError("MyMonero was able to decode QR code but got unrecognized result.")
 					return
 				}
-				const possibleURIString = stringData
+				const possibleURIString = stringData;
 				self._shared_didPickPossibleRequestURIStringForAutofill(possibleURIString)
 			}
 		)
@@ -2014,20 +2075,24 @@ class SendFundsView extends View
 	{
 		const self = this
 		//
-		self.validationMessageLayer.ClearAndHideMessage()  // in case there was a parsing err etc displaying
-		//
-		self.cancelAny_requestHandle_for_oaResolution()
-		//
-		var requestPayload;
-		try {
-			requestPayload = monero_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.monero_utils)
-		} catch (errStr) {
-			if (errStr) {
-				self.validationMessageLayer.SetValidationError("Unable to use the result of decoding that QR code: " + errStr)
-				return
+		if (typeof(possibleUriString) !== "undefined") {
+			self.validationMessageLayer.ClearAndHideMessage()  // in case there was a parsing err etc displaying
+			//
+			self.cancelAny_requestHandle_for_oaResolution()
+			//
+			var requestPayload;
+			try {
+				if (possibleUriString.length > 0) {
+					requestPayload = monero_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.monero_utils)
+				}
+			} catch (errStr) {
+				if (errStr) {
+					self.validationMessageLayer.SetValidationError("Unable to use the result of decoding that QR code: " + errStr)
+					return
+				}
 			}
+			self._shared_havingClearedForm_didPickRequestPayloadForAutofill(requestPayload)
 		}
-		self._shared_havingClearedForm_didPickRequestPayloadForAutofill(requestPayload)
 	}
 	_shared_havingClearedForm_didPickRequestPayloadForAutofill(requestPayload)
 	{
@@ -2148,6 +2213,7 @@ class SendFundsView extends View
 	//	
 	__didSelect_actionButton_chooseFile()
 	{
+		console.log("Choose file");
 		const self = this
 		self.context.userIdleInWindowController.TemporarilyDisable_userIdle() // TODO: this is actually probably a bad idea - remove this and ensure that file picker canceled on app teardown
 		if (typeof self.context.Cordova_disallowLockDownOnAppPause !== 'undefined') {
@@ -2158,6 +2224,7 @@ class SendFundsView extends View
 			"Open Monero Request",
 			function(err, absoluteFilePath)
 			{
+				console.log("In return handler from actionButton)_chooseField");
 				self.context.userIdleInWindowController.ReEnable_userIdle()					
 				if (typeof self.context.Cordova_disallowLockDownOnAppPause !== 'undefined') {
 					self.context.Cordova_disallowLockDownOnAppPause -= 1 // remove lock
@@ -2171,32 +2238,64 @@ class SendFundsView extends View
 					self.validationMessageLayer.ClearAndHideMessage() // clear to resolve ambiguity in case existing error is displaying
 					return // nothing picked / canceled
 				}
-				self._shared_didPickQRCodeAtPath(absoluteFilePath)
+				console.log(absoluteFilePath);
+				self._shared_didPickQRCodeWithImageSrcValue(absoluteFilePath)
 			}
 		)
 	}
+
+	async startScanning() {
+		let self = this;
+		let result = await CapacitorQRScanner.scan();
+		console.log("Here is the camera scanning result");
+		console.log(result);
+		console.log(result.code);
+		self._shared_didPickPossibleRequestURIStringForAutofill(result.code)
+	}
 	__didSelect_actionButton_useCamera()
 	{
-		const self = this
+		
+		// 
+		let self = this;
+		self.startScanning();
+		// 	function(err, possibleUriString)
+		// 	{
+		// 		if (err) {
+		// 			self.validationMessageLayer.SetValidationError(""+err)
+		// 			return
+		// 		}
+		// 		if (possibleUriString == null) { // err and possibleUriString are null - treat as a cancellation
+		// 			self.validationMessageLayer.ClearAndHideMessage() // clear to resolve ambiguity in case existing error is displaying
+		// 			return
+		// 		}
+		// 		if (!possibleUriString) { // if not explicitly null but "" or undefined…
+		// 			self.validationMessageLayer.SetValidationError("No scanned QR code content found.")
+		// 			return
+		// 		}
+		// 		self._shared_didPickPossibleRequestURIStringForAutofill(possibleUriString)
+		// 	}
+		
+
 		// Cordova_disallowLockDownOnAppPause is handled within qrScanningUI
-		self.context.qrScanningUI.PresentUIToScanOneQRCodeString(
-			function(err, possibleUriString)
-			{
-				if (err) {
-					self.validationMessageLayer.SetValidationError(""+err)
-					return
-				}
-				if (possibleUriString == null) { // err and possibleUriString are null - treat as a cancellation
-					self.validationMessageLayer.ClearAndHideMessage() // clear to resolve ambiguity in case existing error is displaying
-					return
-				}
-				if (!possibleUriString) { // if not explicitly null but "" or undefined…
-					self.validationMessageLayer.SetValidationError("No scanned QR code content found.")
-					return
-				}
-				self._shared_didPickPossibleRequestURIStringForAutofill(possibleUriString)
-			}
-		)
+
+		// self.context.qrScanningUI.PresentUIToScanOneQRCodeString(
+		// 	function(err, possibleUriString)
+		// 	{
+		// 		if (err) {
+		// 			self.validationMessageLayer.SetValidationError(""+err)
+		// 			return
+		// 		}
+		// 		if (possibleUriString == null) { // err and possibleUriString are null - treat as a cancellation
+		// 			self.validationMessageLayer.ClearAndHideMessage() // clear to resolve ambiguity in case existing error is displaying
+		// 			return
+		// 		}
+		// 		if (!possibleUriString) { // if not explicitly null but "" or undefined…
+		// 			self.validationMessageLayer.SetValidationError("No scanned QR code content found.")
+		// 			return
+		// 		}
+		// 		self._shared_didPickPossibleRequestURIStringForAutofill(possibleUriString)
+		// 	}
+		// )
 	}
 	//
 	//
@@ -2333,4 +2432,4 @@ class SendFundsView extends View
 		self._clearForm()
 	}
 }
-module.exports = SendFundsView
+export default SendFundsView;

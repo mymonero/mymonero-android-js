@@ -27,10 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const renderer_setup_utils = require('./renderer_setup_utils')
-//
-module.exports = function(params)
+import renderer_setup_utils from './renderer_setup_utils';
+
+let obj = function(params)
 {
 	params = params || {}
 	//
@@ -38,4 +39,6 @@ module.exports = function(params)
 		isBrowserBuild: true
 	})
 	renderer_setup_utils.IdentifyRuntime("IsBrowserRendererProcess") // set key-value to `true` on `window` -- not really using this under Cordova
-}
+};
+//
+export default obj

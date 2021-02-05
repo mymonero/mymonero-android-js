@@ -32,7 +32,7 @@ function _borderLayer(layer)
 {
 	layer.style.border = `1px solid ${RandomColorHexString()}`
 }
-exports.DEBUG_BorderLayer = _borderLayer
+export const DEBUG_BorderLayer = _borderLayer;
 //
 function DEBUG_BorderSubviews(ofView)
 {
@@ -45,7 +45,6 @@ function DEBUG_BorderSubviews(ofView)
 		}
 	)
 }
-exports.DEBUG_BorderSubviews = DEBUG_BorderSubviews
 //
 function DEBUG_BorderChildLayers(ofLayer)
 {
@@ -61,10 +60,9 @@ function DEBUG_BorderChildLayers(ofLayer)
 		}
 	)
 }
-exports.DEBUG_BorderChildLayers = DEBUG_BorderChildLayers
 //
 function RandomColorHexString()
 {
 	return `#${Math.floor(Math.random() * 16777215).toString(16)}`
 }
-exports.RandomColorHexString = RandomColorHexString	
+export default { DEBUG_BorderSubviews, DEBUG_BorderChildLayers, RandomColorHexString };	

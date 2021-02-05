@@ -27,11 +27,15 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../Views/View.web')
-const Views__cssRules = require('../Views/cssRules.web')
+import View from '../Views/View.web';
+
+import Views__cssRules from '../Views/cssRules.web';
+
 //
-const commonComponents_tables = require('./tables.web')
+import commonComponents_tables from './tables.web';
+import LocalVendor_ScrollPositionEndFixed_Animate_object from '../Animation/Vendor/velocity';
 //
 const NamespaceName = "Forms"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -76,7 +80,6 @@ function New_fieldContainerLayer(context)
 	layer.className = "form_field"
 	return layer
 }
-exports.New_fieldContainerLayer = New_fieldContainerLayer
 //
 function New_fieldTitle_labelLayer(labelText, context)
 {
@@ -97,7 +100,6 @@ function New_fieldTitle_labelLayer(labelText, context)
 	//
 	return layer
 }
-exports.New_fieldTitle_labelLayer = New_fieldTitle_labelLayer
 //
 function New_fieldTitle_rightSide_accessoryLayer(labelText, context)
 {
@@ -110,13 +112,11 @@ function New_fieldTitle_rightSide_accessoryLayer(labelText, context)
 	layer.style.marginRight = "10px"
 	return layer
 }
-exports.New_fieldTitle_rightSide_accessoryLayer = New_fieldTitle_rightSide_accessoryLayer
 //
 function ClassNameForScrollingAncestorOfScrollToAbleElement()
 {
 	return "ClassNameForScrollingAncestorOfScrollToAbleElement"
 }
-exports.ClassNameForScrollingAncestorOfScrollToAbleElement = ClassNameForScrollingAncestorOfScrollToAbleElement
 function ScrollCurrentFormElementIntoView()
 { // not a factory but a convenience function for call, e.g.. on window resize
 	const activeElement = document.activeElement
@@ -133,9 +133,8 @@ function ScrollCurrentFormElementIntoView()
 		}
 	}
 }
-exports.ScrollCurrentFormElementIntoView = ScrollCurrentFormElementIntoView
 
-var LocalVendor_ScrollPositionEndFixed_Animate = null 
+var LocalVendor_ScrollPositionEndFixed_Animate = null
 function _shared_scrollConformingElementIntoView(inputLayer)
 {
 	const selector = `.${ClassNameForScrollingAncestorOfScrollToAbleElement()}`
@@ -155,21 +154,20 @@ function _shared_scrollConformingElementIntoView(inputLayer)
 			// ^-- hopefully it will not cause problems to have multiple velocity modules connected to the same DOM
 		}
 	}
-	LocalVendor_ScrollPositionEndFixed_Animate(inputLayer, "stop")
-	LocalVendor_ScrollPositionEndFixed_Animate(scrollingAncestor, "stop")
+	//LocalVendor_ScrollPositionEndFixed_Animate(inputLayer, "stop")
+	//LocalVendor_ScrollPositionEndFixed_Animate(scrollingAncestor, "stop")
 	const navBarHeight = 44 // janky/fragile
 	const topMargin = 20 // to clear the form title labels - would be nice to source these from shared constants/metrics
-	LocalVendor_ScrollPositionEndFixed_Animate(
-		inputLayer,
-		"scroll",
-		{
-			container: scrollingAncestor, 
-			duration: 500, 
-			offset:-1 * (topMargin + navBarHeight)
-		}
-	)
+	// LocalVendor_ScrollPositionEndFixed_Animate(
+	// 	inputLayer,
+	// 	"scroll",
+	// 	{
+	// 		container: scrollingAncestor, 
+	// 		duration: 500, 
+	// 		offset:-1 * (topMargin + navBarHeight)
+	// 	}
+	// )
 }
-exports._shared_scrollConformingElementIntoView = _shared_scrollConformingElementIntoView
 //
 function New_fieldValue_textInputLayer(context, params)
 {
@@ -185,6 +183,13 @@ function New_fieldValue_textInputLayer(context, params)
 	const placeholderText = params.placeholderText
 	if (typeof placeholderText !== 'undefined' && placeholderText !== null) {
 		layer.placeholder = placeholderText
+	}
+
+	if (typeof params.suppressMobileKeyboardStorage !== 'undefined' && params.suppressMobileKeyboardStorage == true) {
+		layer.setAttribute('autocomplete', 'off')
+		layer.setAttribute('autocorrect', 'off')
+		layer.setAttribute('autocapitalize', 'off')
+		layer.setAttribute('spellcheck', false)
 	}
 	//
 	layer.Component_default_padding_h = function() { return 7 } // H for horizontal
@@ -232,7 +237,6 @@ function New_fieldValue_textInputLayer(context, params)
 	}
 	return layer
 }
-exports.New_fieldValue_textInputLayer = New_fieldValue_textInputLayer
 //
 function New_fieldValue_textAreaView(params, context)
 {
@@ -249,6 +253,14 @@ function New_fieldValue_textAreaView(params, context)
 	if (typeof placeholderText !== 'undefined' && placeholderText !== null) {
 		layer.placeholder = placeholderText
 	}
+
+	if (typeof params.suppressMobileKeyboardStorage !== 'undefined' && params.suppressMobileKeyboardStorage == true) {
+		layer.setAttribute('autocomplete', 'off')
+		layer.setAttribute('autocorrect', 'off')
+		layer.setAttribute('autocapitalize', 'off')
+		layer.setAttribute('spellcheck', false)
+	}
+
 	const padding_h = 8
 	layer.style.padding = `9px ${padding_h}px`
 	layer.style.height = `${61 - 2 * padding_h}px`
@@ -306,7 +318,6 @@ function New_fieldValue_textAreaView(params, context)
 	//
 	return view
 }
-exports.New_fieldValue_textAreaView = New_fieldValue_textAreaView
 //
 function New_fieldValue_selectLayer(params)
 {
@@ -343,7 +354,6 @@ function New_fieldValue_selectLayer(params)
 	}				
 	return layer
 }
-exports.New_fieldValue_selectLayer = New_fieldValue_selectLayer
 //
 function New_fieldAccessory_messageLayer(context)
 {
@@ -359,7 +369,6 @@ function New_fieldAccessory_messageLayer(context)
 	layer.style.webkitUserSelect = "none"
 	return layer
 }
-exports.New_fieldAccessory_messageLayer = New_fieldAccessory_messageLayer
 function New_fieldAccessory_validationMessageLayer(context)
 {
 	__injectCSSRules_ifNecessary()
@@ -367,7 +376,6 @@ function New_fieldAccessory_validationMessageLayer(context)
 	layer.style.color = "#f97777"
 	return layer
 }
-exports.New_fieldAccessory_validationMessageLayer = New_fieldAccessory_validationMessageLayer
 //
 function New_NonEditable_ValueDisplayLayer(value, context)
 {
@@ -390,21 +398,18 @@ function New_NonEditable_ValueDisplayLayer(value, context)
 	//
 	return layer
 }
-exports.New_NonEditable_ValueDisplayLayer = New_NonEditable_ValueDisplayLayer
 function New_NonEditable_ValueDisplayLayer_BreakWord(value, context)
 {
 	const layer = New_NonEditable_ValueDisplayLayer(value, context)
 	layer.style.wordBreak = "break-word"
 	return layer
 }
-exports.New_NonEditable_ValueDisplayLayer_BreakWord = New_NonEditable_ValueDisplayLayer_BreakWord
 function New_NonEditable_ValueDisplayLayer_BreakChar(value, context)
 {
 	const layer = New_NonEditable_ValueDisplayLayer(value, context)
 	layer.style.wordBreak = "break-all"
 	return layer
 }
-exports.New_NonEditable_ValueDisplayLayer_BreakChar = New_NonEditable_ValueDisplayLayer_BreakChar
 //
 function New_IconAndMessageLayer(iconPath, messageText, context, optl_imgW, optl_imgH)
 {
@@ -420,7 +425,6 @@ function New_IconAndMessageLayer(iconPath, messageText, context, optl_imgW, optl
 	
 	return layer		
 }
-exports.New_IconAndMessageLayer = New_IconAndMessageLayer
 function New_Detected_IconAndMessageLayer(context)
 {
 	const layer = New_IconAndMessageLayer( // will call `__inject…`
@@ -432,4 +436,5 @@ function New_Detected_IconAndMessageLayer(context)
 	)
 	return layer
 }
-exports.New_Detected_IconAndMessageLayer = New_Detected_IconAndMessageLayer
+let obj = { New_fieldContainerLayer, New_fieldTitle_labelLayer, New_fieldTitle_rightSide_accessoryLayer, ClassNameForScrollingAncestorOfScrollToAbleElement, ScrollCurrentFormElementIntoView, _shared_scrollConformingElementIntoView, New_fieldValue_textInputLayer, New_fieldValue_textAreaView, New_fieldValue_selectLayer, New_fieldAccessory_messageLayer, New_fieldAccessory_validationMessageLayer, New_NonEditable_ValueDisplayLayer, New_NonEditable_ValueDisplayLayer_BreakWord, New_NonEditable_ValueDisplayLayer_BreakChar, New_IconAndMessageLayer, New_Detected_IconAndMessageLayer };
+export default obj;

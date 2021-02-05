@@ -27,11 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //
-const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
+import persistable_object_utils from '../../DocumentPersister/persistable_object_utils';
+
 //
 // Constants
 const CollectionName = "FundsRequests"
-exports.CollectionName = CollectionName
 //
 // Utility functions
 function HydrateInstance(
@@ -59,7 +59,6 @@ function HydrateInstance(
 	self.description = plaintextDocument.description
 	self.is_displaying_local_wallet = plaintextDocument.is_displaying_local_wallet
 }
-exports.HydrateInstance = HydrateInstance
 //
 function SaveToDisk(
 	instance,
@@ -107,7 +106,6 @@ function SaveToDisk(
 		fn
 	)
 }
-exports.SaveToDisk = SaveToDisk
 //
 function DeleteFromDisk(
 	instance,
@@ -136,4 +134,4 @@ function DeleteFromDisk(
 		}
 	)
 }
-exports.DeleteFromDisk = DeleteFromDisk
+export default { CollectionName, HydrateInstance, SaveToDisk, DeleteFromDisk };

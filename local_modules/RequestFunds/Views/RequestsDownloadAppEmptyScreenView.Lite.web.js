@@ -27,9 +27,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const View = require('../../Views/View.web')
-const commonComponents_emptyScreens = require('../../MMAppUICommonComponents/emptyScreens.web')
+import View from '../../Views/View.web';
+
+import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web';
 //
 class RequestsDownloadAppEmptyScreenView extends View
 {
@@ -67,4 +69,4 @@ class RequestsDownloadAppEmptyScreenView extends View
 		return "Receive Monero"
 	}
 }
-module.exports = RequestsDownloadAppEmptyScreenView
+export default RequestsDownloadAppEmptyScreenView;

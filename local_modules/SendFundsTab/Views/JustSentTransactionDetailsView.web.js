@@ -27,8 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const TransactionDetailsView = require('../../Wallets/Views/TransactionDetailsView.web')
+import TransactionDetailsView from '../../Wallets/Views/TransactionDetailsView.web';
+
 //
 class JustSentTransactionDetailsView extends TransactionDetailsView
 {
@@ -44,4 +46,4 @@ class JustSentTransactionDetailsView extends TransactionDetailsView
 		// TODO: implement the contact on tx here
 	}
 }
-module.exports = JustSentTransactionDetailsView
+export default JustSentTransactionDetailsView;

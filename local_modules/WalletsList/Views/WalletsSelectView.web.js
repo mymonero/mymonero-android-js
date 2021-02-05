@@ -27,11 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 "use strict"
+
 //
-const Views__cssRules = require('../../Views/cssRules.web')
-const ListCustomSelectView = require('../../Lists/Views/ListCustomSelectView.web')
-const WalletCellContentsView = require('../../Wallets/Views/WalletCellContentsView.web')
-const commonComponents_walletIcons = require('../../MMAppUICommonComponents/walletIcons.web')
+import Views__cssRules from '../../Views/cssRules.web';
+
+import ListCustomSelectView from '../../Lists/Views/ListCustomSelectView.web';
+import WalletCellContentsView from '../../Wallets/Views/WalletCellContentsView.web';
+import commonComponents_walletIcons from '../../MMAppUICommonComponents/walletIcons.web';
 //
 const NamespaceName = "WalletSelectView"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
@@ -78,9 +80,9 @@ function __injectCSSRules_ifNecessary() { Views__cssRules.InjectCSSRules_ifNeces
 //
 function _fromContext_wantsHoverAndSelectable(context)
 {
-	if (context.isLiteApp == true) {
-		return false // special case - b/c we'll only ever have max 1 wallet
-	}
+	// if (context.isLiteApp == true) {
+	// 	return false // special case - b/c we'll only ever have max 1 wallet
+	// }
 	return true
 }
 //
@@ -139,9 +141,9 @@ class WalletsSelectView extends ListCustomSelectView
 			layer.className = "background"
 			self.options_containerView.layer.appendChild(layer)
 		}
-		if (self.context.isLiteApp == true) {
-			self.disclosureArrowLayer.style.display = "none"
-		}
+		// if (self.context.isLiteApp == true) {
+		// 	self.disclosureArrowLayer.style.display = "none"
+		// }
 	}
 	// Overrides
 	overridable_maxNumberOfCellsToDisplayAtATime() { return 2.65 }
@@ -153,4 +155,4 @@ class WalletsSelectView extends ListCustomSelectView
 		
 	} 
 }
-module.exports = WalletsSelectView
+export default WalletsSelectView;
