@@ -658,14 +658,12 @@ class DocumentPersister extends DocumentPersister_Interface
 		
 	__updateDocumentWithId(collectionName, id, updateString, fn)
 	{
-		console.log("SecureStorage: invoked __updateDocumentWithId");
-		console.log(collectionName)
-		console.log(id)
-		console.log(updateString)
+		// console.log("SecureStorage: invoked __updateDocumentWithId");
+		// console.log(collectionName)
+		// console.log(id)
+		// console.log(updateString)
 
 		let keys = SecureStoragePlugin.keys().then(keys => {
-			console.log("Promise update loop: keys");
-			console.log(keys);
 			let objectKey = collectionName + id;
 			/* We need to: 
 				1. retrieve the object
@@ -693,8 +691,8 @@ class DocumentPersister extends DocumentPersister_Interface
 				})
 
 				Promise.all([objectPromise]).then(values => {
-					console.log(values);
-					console.log("Index updated and object saved successfully");
+					
+					//console.log("Index updated and object saved successfully");
 					setTimeout(function() {
 						fn(null, values)
 					})
