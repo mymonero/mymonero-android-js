@@ -85,6 +85,7 @@ class SettingsController extends EventEmitter
 			{
 				if (err) {
 					console.error("Error while fetching existing", CollectionName, err)
+					
 					throw err
 				}
 				const contentStrings_length = contentStrings.length
@@ -106,8 +107,7 @@ class SettingsController extends EventEmitter
 				// } else {
 				// 	const doc = plaintextString;
 				// }
-				
-				doc = JSON.parse(contentStrings[0].value);
+				doc = contentStrings[0].value;
 
 				// console.log("💬  Found existing saved " + CollectionName + " with _id", doc._id)
 				_proceedTo_loadStateFromRecord(doc)
