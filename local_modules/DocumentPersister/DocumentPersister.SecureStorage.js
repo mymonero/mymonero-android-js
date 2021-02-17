@@ -381,11 +381,11 @@ class DocumentPersister extends DocumentPersister_Interface
 	//
 	__insertDocument(collectionName, id, documentToInsert, fn)
 	{
-		//console.log("SecureStorage: invoked __insertDocument");
+		console.log("SecureStorage: invoked __insertDocument");
 		let rootObject = SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
 			
-			//console.log("This document set has an index saved");
-			//console.log(returnData);
+			console.log("This document set has an index saved");
+			console.log(returnData);
 
 			let indexArray = JSON.parse(returnData.value);
 			
@@ -409,10 +409,10 @@ class DocumentPersister extends DocumentPersister_Interface
 			// Promise to update collectionName index file
 			
 			indexArray.push(id);
-			//console.log("We would update our index with this obj");
-			//console.log(indexArray);
+			console.log("We would update our index with this obj");
+			console.log(indexArray);
 			let indexPromise = SecureStoragePlugin.set({ key: collectionName, value: JSON.stringify(indexArray) }).then(() =>  {
-				//console.log("Saved successfully");
+				console.log("Saved successfully");
 			})
 
 			// Promise to create object using its id as a key
@@ -434,15 +434,18 @@ class DocumentPersister extends DocumentPersister_Interface
 			//console.log(indexArray);
 			//console.log(saveObj)
 
-			Promise.all(objectPromise).then(values => {
+			objectPromise.then(values => {
 				//console.log(values);
-				//console.log("Index updated and object saved successfully");
+				console.log("Index updated and object saved successfully");
 				setTimeout(function() {
 					fn(null, documentToInsert)
 				})
 			}).catch(error => {
-				//console.log("There was an error saving the object");
-				//console.log(error);
+				console.log("There was an error saving the object");
+				console.log(error);
+				setTimeout(function() {
+					fn(null, documentToInsert)
+				})
 			})
 
 			// this code exists for debug -- we want to hop to catch expression
@@ -658,10 +661,10 @@ class DocumentPersister extends DocumentPersister_Interface
 		
 	__updateDocumentWithId(collectionName, id, updateString, fn)
 	{
-		// console.log("SecureStorage: invoked __updateDocumentWithId");
-		// console.log(collectionName)
-		// console.log(id)
-		// console.log(updateString)
+		console.log("SecureStorage: invoked __updateDocumentWithId");
+		console.log(collectionName)
+		console.log(id)
+		console.log(updateString)
 
 		let keys = SecureStoragePlugin.keys().then(keys => {
 			let objectKey = collectionName + id;
@@ -687,12 +690,12 @@ class DocumentPersister extends DocumentPersister_Interface
 				let objectKey = collectionName + id;
 				let saveObjString = JSON.stringify(saveObj);
 				let objectPromise = SecureStoragePlugin.set({ key: objectKey, value: saveObjString }).then(() =>  {
-					//console.log("Saved successfully");
+					console.log("Saved successfully");
 				})
 
 				Promise.all([objectPromise]).then(values => {
 					
-					//console.log("Index updated and object saved successfully");
+					console.log("Index updated and object saved successfully");
 					setTimeout(function() {
 						fn(null, values)
 					})
