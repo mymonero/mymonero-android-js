@@ -381,11 +381,11 @@ class DocumentPersister extends DocumentPersister_Interface
 	//
 	__insertDocument(collectionName, id, documentToInsert, fn)
 	{
-		//console.log("SecureStorage: invoked __insertDocument");
+		console.log("SecureStorage: invoked __insertDocument");
 		let rootObject = SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
 			
-			//console.log("This document set has an index saved");
-			//console.log(returnData);
+			console.log("This document set has an index saved");
+			console.log(returnData);
 
 			let indexArray = JSON.parse(returnData.value);
 			
@@ -409,10 +409,10 @@ class DocumentPersister extends DocumentPersister_Interface
 			// Promise to update collectionName index file
 			
 			indexArray.push(id);
-			//console.log("We would update our index with this obj");
-			//console.log(indexArray);
+			console.log("We would update our index with this obj");
+			console.log(indexArray);
 			let indexPromise = SecureStoragePlugin.set({ key: collectionName, value: JSON.stringify(indexArray) }).then(() =>  {
-				//console.log("Saved successfully");
+				console.log("Saved successfully");
 			})
 
 			// Promise to create object using its id as a key
@@ -428,23 +428,24 @@ class DocumentPersister extends DocumentPersister_Interface
 
 			let objectPromise = SecureStoragePlugin.set({ key: objectKey, value: saveObjString }).then(() =>  {
 				//console.log("Saved successfully");
-				})
+			})
 
 			//console.log("We would create an object using this object and key");
 			//console.log(indexArray);
 			//console.log(saveObj)
-			
-			let promises = [indexPromise, objectPromise];
 
-			Promise.all(promises).then(values => {
+			objectPromise.then(values => {
 				//console.log(values);
-				//console.log("Index updated and object saved successfully");
+				console.log("Index updated and object saved successfully");
 				setTimeout(function() {
 					fn(null, documentToInsert)
 				})
 			}).catch(error => {
-				//console.log("There was an error saving the object");
-				//console.log(error);
+				console.log("There was an error saving the object");
+				console.log(error);
+				setTimeout(function() {
+					fn(null, documentToInsert)
+				})
 			})
 
 			// this code exists for debug -- we want to hop to catch expression
@@ -660,16 +661,53 @@ class DocumentPersister extends DocumentPersister_Interface
 		
 	__updateDocumentWithId(collectionName, id, updateString, fn)
 	{
-		//console.log("SecureStorage: invoked __updateDocumentWithId");
+		console.log("SecureStorage: invoked __updateDocumentWithId");
+		console.log(collectionName)
+		console.log(id)
+		console.log(updateString)
 
-		//console.log(collectionName)
-		//console.log(id)
-		//console.log(updateString)
+		let keys = SecureStoragePlugin.keys().then(keys => {
+			let objectKey = collectionName + id;
+			/* We need to: 
+				1. retrieve the object
+				2. JSON.parse it
+				3. update the value
+				4. JSON stringify it.
+				5. save the new stringified object
+			*/
+			SecureStoragePlugin.get({ key: objectKey }).then(jsonString => {
+				console.log(jsonString);
+				// 1. complete
+				let obj = JSON.parse(jsonString.value);
+				// 2. complete
+				obj.value = updateString;
+				// 3. complete
+				let saveObj = {
+					id: id,
+					value: updateString
+				}
 
-		setTimeout(function() {
-			fn(null, updateString)
-		})
-		
+				let objectKey = collectionName + id;
+				let saveObjString = JSON.stringify(saveObj);
+				let objectPromise = SecureStoragePlugin.set({ key: objectKey, value: saveObjString }).then(() =>  {
+					console.log("Saved successfully");
+				})
+
+				Promise.all([objectPromise]).then(values => {
+					
+					console.log("Index updated and object saved successfully");
+					setTimeout(function() {
+						fn(null, values)
+					})
+				}).catch(err => {
+					console.log("Object save failed");
+					fn(err, null)
+				});
+			})
+		});
+			//console.log("We would create an object using this object and key");
+			//console.log(indexArray);
+			//console.log(saveObj)
 		// const self = this
 		// const fileDescription = self._new_fileDescriptionWithComponents(
 		// 	collectionName,
@@ -680,7 +718,6 @@ class DocumentPersister extends DocumentPersister_Interface
 		// const self = this
 		// const collectionStringsById = self.___lazy_writable_collectionStringsById(collectionName)
 		// collectionStringsById[id] = updateString
-		
 	}
 	async __removeDocumentsWithIds(collectionName, idsToRemove, fn)
 	{ 
