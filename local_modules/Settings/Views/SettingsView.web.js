@@ -171,7 +171,7 @@ class SettingsView extends View
 				return false
 			})
 			// this will set its title on VWA
-			div.appendChild(view.layer)
+			//div.appendChild(view.layer)
 		}
 		self.form_containerLayer.appendChild(div)
 	}
@@ -730,9 +730,9 @@ class SettingsView extends View
 			// 		self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before your " + passwordType_humanReadableString + " is required"
 			// 	}
 			// }
-			if (!self.changePasswordButtonView) {
-				throw "Expected self.changePasswordButtonView"
-			}
+			// if (!self.changePasswordButtonView) {
+			// 	throw "Expected self.changePasswordButtonView"
+			// }
 			const layer = self.changePasswordButtonView.layer
 			const userSelectedTypeOfPassword = passwordController.userSelectedTypeOfPassword
 			const passwordType_humanReadableString = passwordController.HumanReadable_AvailableUserSelectableTypesOfPassword()[userSelectedTypeOfPassword]
