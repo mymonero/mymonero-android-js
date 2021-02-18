@@ -548,6 +548,16 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 				window.plugins.insomnia.keepAwake() // disable screen dim/off
 			}
 			//
+			try {
+				let ret = self.context.monero_utils.seed_and_keys_from_mnemonic(
+					self.lookup__mnemonicSeed(),
+					self.context.nettype
+				);
+			} catch (e) {
+				console.error("Invalid mnemonic!");
+				__trampolineFor_failedWithErrStr(e);
+				return
+			} 
 			self.validationMessageLayer.ClearAndHideMessage()
 			//
 			self.rightBarButtonView.layer.innerHTML = commonComponents_activityIndicators.New_Graphic_ActivityIndicatorLayer_htmlString({"margin-top": "3px"})
