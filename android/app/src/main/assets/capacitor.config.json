@@ -1,5 +1,5 @@
 {
-  "appId": "com.mymonero.official_android_application",
+  "appId": "com.mymonero.android",
   "appName": "MyMonero for Android",
   "bundledWebRuntime": false,
   "npmClient": "npm",
