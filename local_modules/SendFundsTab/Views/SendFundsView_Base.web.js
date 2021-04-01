@@ -68,6 +68,9 @@ import Currencies from '../../CcyConversionRates/Currencies';
 import { Plugins } from '@capacitor/core';
 const { CapacitorQRScanner } = Plugins;
 
+import YatMoneroLookup from "yat-monero-lookup/index.esm"
+
+let yatMoneroLookup = YatMoneroLookup.YatMoneroLookup();
 
 import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
 
@@ -1896,6 +1899,60 @@ class SendFundsView extends View
 			if (requestExists) { // means we are currently requesting still and they just hit the enter btn - just "ignore"
 				console.warn("User hit return on contact picker input while still resolving a contact. Bailing.")
 				return
+			}
+		}
+
+		// if enteredPossibleAddress length less than 7, check if it's a Yat
+		let hasEmojiCharacters = /\p{Extended_Pictographic}/u.test(enteredPossibleAddress)
+		if (hasEmojiCharacters) {
+		
+			let isYat = yatMoneroLookup.isValidYatHandle(enteredPossibleAddress);
+			self.isYatHandle = isYat;
+			if (isYat) {
+				const lookup = yatMoneroLookup.lookupMoneroAddresses(enteredPossibleAddress).then((responseMap) => {
+					// Our library returns a map with between 0 and 2 keys
+					if (responseMap.size == 0) {
+						// no monero address
+						let errorString = `There is no Monero address associated with "${enteredPossibleAddress}"`
+						self.validationMessageLayer.SetValidationError(errorString);
+					} else if (responseMap.size == 1) {
+						// Either a Monero address or a Monero subaddress was found.
+						let iterator = responseMap.values();
+						let record = iterator.next();
+						self._displayResolvedAddress(record.value);
+					} else if (responseMap.size == 2) {
+						let moneroAddress = responseMap.get('0x1001');
+						self._displayResolvedAddress(moneroAddress);
+					}
+				}).catch((error) => {
+					// If the error status is defined, handle this error according to the HTTP error status code
+					if (typeof(error.response) !== "undefined" && typeof(error.response.status) !== "undefined") {
+						if (error.response.status == 404) {
+							// Yat not found
+							let errorString = `The Yat "${enteredPossibleAddress}" does not exist`
+							self.validationMessageLayer.SetValidationError(errorString);
+							return;
+						} else if (error.response.status >= 500) {
+							// Yat server / remote network device error encountered
+							let errorString = `The Yat server is responding with an error. Please try again later. Error: ${error.message}`
+							self.validationMessageLayer.SetValidationError(errorString);
+						} else {
+							// Response code that isn't 404 or a server error (>= 500) on their side  
+							let errorString = `An unexpected error occurred when looking up the Yat Handle: ${error.message}`
+							self.validationMessageLayer.SetValidationError(errorString);
+						}
+					} else {
+						// Network connectivity issues -- could be offline / Yat server not responding
+						let errorString = `Unable to communicate with the Yat server. It may be down, or you may be experiencing internet connectivity issues. Error: ${error.message}`
+						self.validationMessageLayer.SetValidationError(errorString);
+						// If we don't have an error.response, our request failed because of a network error
+					}
+				});
+			} else {
+				// This conditional will run when a mixture of emoji and non-emoji characters are present in the address
+				let errorString = `"${enteredPossibleAddress}" is not a valid Yat handle. You may have input an emoji that is not part of the Yat emoji set, or a non-emoji character.`
+				self.validationMessageLayer.SetValidationError(errorString);
+				return;
 			}
 		}
 		// 
