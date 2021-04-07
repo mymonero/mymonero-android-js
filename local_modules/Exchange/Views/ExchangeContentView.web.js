@@ -831,10 +831,6 @@ class ExchangeContentView extends View {
                             }
                             BTCcurrencyInput.value = BTCToReceive.toFixed(8);
                         }).catch((error) => {
-                            console.log(error);
-                            console.log(error.message);
-                            let e = {...error}
-                            console.log(e);
                             let errorDiv = document.createElement('div');
                             errorDiv.classList.add('message-label');
                             let errorMessage = "";
@@ -842,14 +838,11 @@ class ExchangeContentView extends View {
                                 errorMessage = error.message
                             } else {
                                 // We may have a value in error.response.data.Error
-                                console.log(error.response)
-                                console.log(error.response.data)
                                 if (typeof(error.response.data) !== "undefined" && typeof(error.response.data.Error !== "undefined")) {
                                     errorMessage = error.response.data.Errorl
                                 } else {
                                     errorMessage = error.message
                                 }
-                                //console.log(error.response.data.Error)
                             }
                             errorDiv.id = 'server-invalid';
                             errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + errorMessage;
