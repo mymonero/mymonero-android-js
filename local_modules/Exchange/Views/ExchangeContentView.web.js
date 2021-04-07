@@ -701,7 +701,11 @@ class ExchangeContentView extends View {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
                                 error.id = 'xmrexceeded';
-                                error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
+                                if (walletMaxSpend <= 0) { 
+                                    error.innerHTML = `The currently selected wallet has insufficient funds`;
+                                } else {
+                                    error.innerHTML = `The currently selected wallet has insufficient funds. You cannot exchange more than ${walletMaxSpend} XMR`;
+                                }
                                 validationMessages.appendChild(error);
                             }
             
@@ -824,7 +828,11 @@ class ExchangeContentView extends View {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
                                 error.id = 'xmrexceeded';
-                                error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
+                                if (walletMaxSpend <= 0) { 
+                                    error.innerHTML = `The currently selected wallet has insufficient funds`;
+                                } else {
+                                    error.innerHTML = `The currently selected wallet has insufficient funds. You cannot exchange more than ${walletMaxSpend} XMR`;
+                                }
                                 validationMessages.appendChild(error);
                             }
                             if (BTCToReceive.toFixed(8) > ExchangeFunctions.currentRates.out_max) {
