@@ -1175,22 +1175,6 @@ function renderOrderStatus(order) {
                             })
                         }
                     }, 1000);
-                    // orderStatusInterval = setInterval((response) => {
-                    //     console.log(orderTimer);
-                    //     clearInterval(orderStatusInterval);
-                    //     clearInterval(orderTimerInterval);
-                    //     renderOrderStatus(orderStatusResponse).then(() => {
-                    //         console.log(orderTimer);
-                    //         // if (orderStatusResponse.status == "PAID" || orderStatusResponse.status == "TIMED_OUT"
-                    //         //     || orderStatusResponse.status == "DONE" || orderStatusResponse.status == "FLAGGED_DESTINATION_ADDRESS"
-                    //         //     || orderStatusResponse.status == "PAYMENT_FAILED" || orderStatusResponse.status == "REJECTED") 
-                    //             {
-                    //                 console.log("Try clear intervals");
-                    //                 clearInterval(orderStatusInterval);
-                    //                 clearInterval(orderTimerInterval);
-                    //         }
-                    //     });
-                    // }, 10000);
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
