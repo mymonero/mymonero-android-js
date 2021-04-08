@@ -171,7 +171,6 @@ class ExchangeContentView extends View {
         }, 2000);
 
         self.initialExchangeInit = initialExchangeInit;
-        console.log(self);
         const view = new View({}, self.context)
         {
             const layer = view.layer
@@ -206,15 +205,6 @@ class ExchangeContentView extends View {
                 </div>`
             layer.innerHTML = html;
         }
-
-        // {
-        //     const layer = document.createElement("div")
-        //     layer.classList.add("message-label")
-        //     layer.classList.add("exchangeRate")
-        //     layer.id = "explanatory-message";
-        //     layer.innerHTML = "You can exchange XMR to Bitcoin here.";
-        //     //contentContainerLayer.appendChild(layer)
-        // }
         
         {
             // Send Funds
@@ -556,7 +546,6 @@ class ExchangeContentView extends View {
             let orderCreated = false;
             let orderStatusPage = document.getElementById("orderStatusPage");
             let backBtn = document.getElementsByClassName('nav-button-left-container')[0];
-            //backBtn.style.display = "none";
             let addressValidation = document.getElementById('address-messages');
             let serverValidation = document.getElementById('server-messages');
             let explanatoryMessage = document.getElementById('explanatory-message');
