@@ -27,37 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //"use strict"
-
-//import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions'
-//import ExchangeLibrary from 'mymonero-exchange'
-//import ValidationLibrary from 'wallet-address-validator'
-//import Listeners from '../../Exchange/Javascript/ExchangeListeners'
 import View from '../../Views/View.web'
-//import ListView from '../../Lists/Views/ListView.web'
-//import emoji_web from '../../Emoji/emoji_web'
-//import ExchangeFunctions from '../Javascript/ExchangeFunctions'
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web'
-//import commonComponents_forms from '../../MMAppUICommonComponents/forms.web'
-//import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web'
-//import WalletsSelectView from '../../WalletsList/Views/WalletsSelectView.web'
-//import fs from 'fs'
-//import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web
-//import jsQR from 'jsqr'
-//import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
 import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger' // important: grab defined expo
-//import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils'
-//import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils'
-//import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config'
 import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils'
-//import documents from '../../DocumentPersister/DocumentPersister_Interface.js'
-//import ListBaseController from '../../Lists/Controllers/ListBaseController'
-//import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web'
 import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions';
 import ExchangeLibrary from 'mymonero-exchange';
-//import ExchangeUtils from '../Javascript/ExchangeUtilityFunctions';
 import ValidationLibrary from 'wallet-address-validator';
-
-//let JSBigInt = BigIntLib.BigInteger;
 
 class ExchangeContentView extends View {
     constructor(options, context) {
@@ -685,6 +661,9 @@ class ExchangeContentView extends View {
                 currencyInputTimer = setTimeout(() => {
                     ExchangeFunctions.getOfferWithOutAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, out_amount)
                         .then((response) => {
+                            // We clear error messages again here to prevent duplicates, since it's possible that a user may change the input value while a request is still waiting for a server response. This prevents duplicate error messages
+                            validationMessages.innerHTML = "";
+                            serverValidation.innerHTML = "";
                             let XMRtoReceive = parseFloat(response.in_amount);
                             let selectedWallet = document.getElementById('selected-wallet');
                             let tx_feeElem = document.getElementById('tx-fee');
@@ -815,6 +794,9 @@ class ExchangeContentView extends View {
                 currencyInputTimer = setTimeout(() => {
                     ExchangeFunctions.getOfferWithInAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, in_amount)
                         .then((response) => {
+                            // We clear error messages again here to prevent duplicates, since it's possible that a user may change the input value while a request is still waiting for a server response. This prevents duplicate error messages
+                            validationMessages.innerHTML = "";
+                            serverValidation.innerHTML = "";
                             
                             BTCToReceive = parseFloat(response.out_amount);
                             let selectedWallet = document.getElementById('selected-wallet');
