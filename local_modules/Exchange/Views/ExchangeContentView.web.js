@@ -970,33 +970,6 @@ class ExchangeContentView extends View {
             }
 
 function renderOrderStatus(order) {    
-
-/*
-
-        "btc_amount",
-        "btc_amount_partial",
-        "btc_dest_address",
-        "btc_num_confirmations_threshold",
-        "created_at",
-        "in_amount_remaining",
-        "out_amount",
-        "status",
-        "expires_at",
-        "incoming_amount_total",
-        "incoming_num_confirmations_remaining",
-        "incoming_price_btc",
-        "receiving_subaddress",
-        "recommended_mixin",
-        "remaining_amount_incoming",
-        "seconds_till_timeout",
-        "state",
-        "uses_lightning",
-        "uuid"
-        "provider_order_id"
-
-*/
-
-
     let idArr = [
         "in_amount_remaining",
         "out_amount",
