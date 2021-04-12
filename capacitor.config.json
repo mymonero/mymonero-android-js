@@ -1,6 +1,6 @@
 {
-  "appId": "com.mymonero.android",
-  "appName": "MyMonero for Android",
+  "appId": "com.mymonero.official_android_application",
+  "appName": "MyMonero",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "browser_build",
@@ -8,5 +8,9 @@
     "SplashScreen": {
       "launchShowDuration": 0
     }
+  },
+  "server": {
+    "hostname": "com.mymonero.android",
+    "androidScheme": "https"
   }
 }
