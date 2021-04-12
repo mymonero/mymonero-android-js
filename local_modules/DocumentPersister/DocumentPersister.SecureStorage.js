@@ -409,8 +409,6 @@ class DocumentPersister extends DocumentPersister_Interface
 			// Promise to update collectionName index file
 			
 			indexArray.push(id);
-			console.log("We would update our index with this obj");
-			console.log(indexArray);
 			let indexPromise = SecureStoragePlugin.set({ key: collectionName, value: JSON.stringify(indexArray) }).then(() =>  {
 				console.log("Saved successfully");
 			})
@@ -664,7 +662,7 @@ class DocumentPersister extends DocumentPersister_Interface
 		console.log("SecureStorage: invoked __updateDocumentWithId");
 		console.log(collectionName)
 		console.log(id)
-		console.log(updateString)
+		//console.log(updateString)
 
 		let keys = SecureStoragePlugin.keys().then(keys => {
 			let objectKey = collectionName + id;
@@ -676,7 +674,6 @@ class DocumentPersister extends DocumentPersister_Interface
 				5. save the new stringified object
 			*/
 			SecureStoragePlugin.get({ key: objectKey }).then(jsonString => {
-				console.log(jsonString);
 				// 1. complete
 				let obj = JSON.parse(jsonString.value);
 				// 2. complete
@@ -767,7 +764,7 @@ class DocumentPersister extends DocumentPersister_Interface
 						})
 					} else {
 						SecureStoragePlugin.remove({ key: collectionName }).then(() => {
-							//console.log(`Removed collection ${collectionName}`);
+							console.log(`Removed collection ${collectionName}`);
 						});
 					}
 				} else {
@@ -873,6 +870,11 @@ class DocumentPersister extends DocumentPersister_Interface
 		// setTimeout(function() {
 		// 	fn(null, numRemoved)
 		// })
+	}
+	__deleteIndex(collectionName, fn) {
+		SecureStoragePlugin.remove({ key: collectionName }).then(() => {
+			console.log(`Removed collection ${collectionName}`);
+		});	
 	}
 	// This only removes a specific collection's objects
 	__removeAllCollectionDocuments(collectionName, fn)

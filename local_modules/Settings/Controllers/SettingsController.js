@@ -76,7 +76,8 @@ class SettingsController extends EventEmitter
 	{	// we can afford to do this w/o any callback saying "success" because we defer execution of
 		// things which would rely on boot-time info till we've booted
 		const self = this
-
+		let doSettingsCleanup = false
+		let cleanupIds = [];
 		//
 		// first, check if any password model has been stored
 		self.context.persister.AllDocuments(
@@ -94,27 +95,58 @@ class SettingsController extends EventEmitter
 					_proceedTo_loadStateFromRecord(mocked_doc)
 					return
 				}
+				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				if (contentStrings_length > 1) {
+					// Version 1.1.19 and below had an issue where multiple settings objects were saved.
+					// Version 1.1.20 and up will loop through this state. We'll suppress the warning +Android users who have changed their default settings will encounter 
 					const errStr = "Error while fetching existing " + CollectionName + "... more than one record found. Selecting first."
+					doSettingsCleanup = true;
+					// We want to run self.context.persister.removeDocumentsWithIds(CollectionName, Ids, fn)
+					contentStrings.forEach(element => {
+						//_deleteSettingsObject(element.id);
+						cleanupIds.push(element.id);
+					});
 					console.error(errStr)
 					// this is indicative of a code fault
-					throw errStr // might as well throw then
+					//throw errStr // might as well throw then
 				}
 				var doc = {};
-				const plaintextString = contentStrings[0] // NOTE: Settings is not presently encrypted
-				// if (typeof plaintextString !== Object) {
-				// 	const doc = JSON.parse(plaintextString);
-				// } else {
-				// 	const doc = plaintextString;
-				// }
+				const plaintextString = contentStrings[0] // NOTE: Settings never gets encrypted -- no sensitive data to encrypt
 				doc = contentStrings[0].value;
-
-				// console.log("💬  Found existing saved " + CollectionName + " with _id", doc._id)
+				if (typeof(doc) == "string") {
+					try { 
+						doc = JSON.parse(doc);
+					} catch {
+						// improperly formed JSON string -- nuke the Settings object
+						doSettingsCleanup = true;
+					}
+				}
+				console.log("💬  Found existing saved " + CollectionName + " with _id", doc._id)
+				console.log(typeof(doc));
+				if (doSettingsCleanup == true) {
+					_deleteSettingsObject(self, cleanupIds);
+					const mocked_doc = JSON.parse(JSON.stringify(k_defaults_record)) // hamfisted copy
+					_proceedTo_loadStateFromRecord(mocked_doc)
+					return
+				}
 				_proceedTo_loadStateFromRecord(doc)
 			}
 		)
+
+		function _deleteSettingsObject(self, Ids) {
+			self.context.persister.RemoveDocumentsWithIds(CollectionName, Ids, () => {
+				// empty callback
+			})
+			// for safety's sake, we explicitly force deletion of the index as well
+			self.context.persister.__deleteIndex(CollectionName, () => {
+				console.log("Removed index " + CollectionName);
+			})
+		}
+
 		function _proceedTo_loadStateFromRecord(record_doc)
 		{
+			console.log(record_doc);
+			console.log(typeof(record_doc));
 			self._id = record_doc._id || undefined
 			//
 			self.specificAPIAddressURLAuthority = record_doc.specificAPIAddressURLAuthority
@@ -356,6 +388,7 @@ class SettingsController extends EventEmitter
 							}
 							self._id = _id // must save it back
 							console.log("✅  Saved newly inserted " + CollectionName + " record with _id " + self._id + ".")
+							console.log(jsonString);
 							fn()
 						}
 					)
