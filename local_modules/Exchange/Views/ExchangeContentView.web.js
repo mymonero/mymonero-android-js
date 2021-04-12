@@ -650,7 +650,7 @@ class ExchangeContentView extends View {
                 currencyInputTimer = setTimeout(() => {
                     ExchangeFunctions.getOfferWithOutAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, out_amount)
                         .then((response) => {
-                            // We clear error messages again here to prevent duplicates, since it's possible that a user may change the input value while a request is still waiting for a server response. This prevents duplicate error messages
+                            // We clear error messages again here to prevent duplicates, since it's possible that a user may change the input value while a request is still waiting for a server response. This prevents duplicate error messages                            
                             validationMessages.innerHTML = "";
                             serverValidation.innerHTML = "";
                             let XMRtoReceive = parseFloat(response.in_amount);
@@ -695,6 +695,8 @@ class ExchangeContentView extends View {
                             }
                             XMRcurrencyInput.value = XMRtoReceive.toFixed(12);
                         }).catch((error) => {
+                            validationMessages.innerHTML = "";
+                            serverValidation.innerHTML = "";
                             let errorDiv = document.createElement('div');
                             errorDiv.classList.add('message-label');
                             let errorMessage = "";
@@ -822,6 +824,9 @@ class ExchangeContentView extends View {
                             }
                             BTCcurrencyInput.value = BTCToReceive.toFixed(8);
                         }).catch((error) => {
+                            // We clear error messages again here to prevent duplicates, since it's possible that a user may change the input value while a request is still waiting for a server response. This prevents duplicate error messages
+                            validationMessages.innerHTML = "";
+                            serverValidation.innerHTML = "";
                             let errorDiv = document.createElement('div');
                             errorDiv.classList.add('message-label');
                             let errorMessage = "";
