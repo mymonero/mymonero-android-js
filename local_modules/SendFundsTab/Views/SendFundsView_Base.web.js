@@ -68,7 +68,7 @@ import Currencies from '../../CcyConversionRates/Currencies';
 import { Plugins } from '@capacitor/core';
 const { CapacitorQRScanner } = Plugins;
 
-import YatMoneroLookup from "yat-monero-lookup/index.esm"
+import YatMoneroLookup from "@mymonero/mymonero-yat-lookup/index.esm"
 
 let yatMoneroLookup = YatMoneroLookup.YatMoneroLookup();
 
