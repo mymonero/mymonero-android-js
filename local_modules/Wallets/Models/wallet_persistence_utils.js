@@ -266,6 +266,8 @@ function DeleteFromDisk(
 ) {
 	const self = instance
 	console.log("📝  Deleting wallet ", self.Description())
+	console.log("What are we passing as the ID?")
+	console.log([self._id]);
 	self.context.persister.RemoveDocumentsWithIds(
 		CollectionName,
 		[ self._id ],

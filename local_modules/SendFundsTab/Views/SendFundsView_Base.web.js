@@ -68,6 +68,9 @@ import Currencies from '../../CcyConversionRates/Currencies';
 import { Plugins } from '@capacitor/core';
 const { CapacitorQRScanner } = Plugins;
 
+import YatMoneroLookup from "@mymonero/mymonero-yat-lookup/index.esm"
+
+let yatMoneroLookup = YatMoneroLookup.YatMoneroLookup();
 
 import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
 
@@ -1630,6 +1633,11 @@ class SendFundsView extends View
 		//
 		function __proceedTo_generateSendTransaction()
 		{
+			let contact_payment_id = hasPickedAContact ? self.pickedContact.payment_id : undefined;
+			let cached_OAResolved_address = hasPickedAContact ? self.pickedContact.cached_OAResolved_XMR_address : undefined;
+			let contact_hasOpenAliasAddress = hasPickedAContact ? self.pickedContact.HasOpenAliasAddress() : undefined;
+			let contact_address = hasPickedAContact ? self.pickedContact.address : undefined;
+			console.log(self.isYatHandle);
 			wallet.SendFunds(
 				enteredAddressValue, // currency-ready wallet address, but not an OpenAlias address (resolve before calling)
 				resolvedAddress,
@@ -1639,67 +1647,77 @@ class SendFundsView extends View
 				resolvedAddress_fieldIsVisible,
 				manuallyEnteredPaymentID_fieldIsVisible,
 				resolvedPaymentID_fieldIsVisible,
-				//
-				hasPickedAContact ? self.pickedContact.payment_id : undefined,
-				hasPickedAContact ? self.pickedContact.cached_OAResolved_XMR_address : undefined,
-				hasPickedAContact ? self.pickedContact.HasOpenAliasAddress() : undefined,
-				hasPickedAContact ? self.pickedContact.address : undefined,
-				//
+				contact_payment_id,
+				cached_OAResolved_address,
+				contact_hasOpenAliasAddress,
+				contact_address,
 				"" + final_XMR_amount_Number,
 				sweeping, // when true, amount will be ignored
 				self._selected_simplePriority(),
-				//
-				function(str) // preSuccess_nonTerminal_statusUpdate_fn
-				{
-					self.validationMessageLayer.SetValidationError(str, true/*wantsXButtonHidden*/)
-				},
-				function()
-				{ // canceled_fn
-					self._dismissValidationMessageLayer()
-					_reEnableFormElements()
-				},
-				function(err, mockedTransaction)
-				{
-					console.log("err", err)
-					if (err) {
-						_trampolineToReturnWithValidationErrorString(typeof err === 'string' ? err : err.message)
-						return
-					}
-					{ // now present a mocked transaction details view, and see if we need to present an "Add Contact From Sent" screen based on whether they sent w/o using a contact
-						const stateCachedTransaction = wallet.New_StateCachedTransaction(mockedTransaction); // for display
-						self.pushDetailsViewFor_transaction(wallet, stateCachedTransaction);
-					}
-					{
-						const this_pickedContact = hasPickedAContact == true ? self.pickedContact : null
-						self.__didSendWithPickedContact(
-							this_pickedContact, 
-							enteredAddressValue_exists ? enteredAddressValue : null, 
-							resolvedAddress_exists ? resolvedAddress : null,
-							mockedTransaction
-						);
-					}
-					{ // finally, clean up form
-						setTimeout(
-							function()
-							{
-								self._clearForm()
-								// and lastly, importantly, re-enable everything
-								_reEnableFormElements()
-							},
-							500 // after the navigation transition just above has taken place
-						)
-					}
-					{ // and fire off a request to have the wallet get the latest (real) tx records
-						setTimeout(
-							function()
-							{
-								wallet.hostPollingController._fetch_transactionHistory() // TODO: maybe fix up the API for this
-							}
-						)
-					}
-				}
-			)
+				preSuccess_nonTerminal_statusUpdate_fn,
+				cancelled_fn,
+				handleResponse_fn,
+			);
 		}
+		
+		// What this is, is essentially a hack to provide feedback on the transaction based on messages returned from wallet.SendFunds
+		function preSuccess_nonTerminal_statusUpdate_fn(str)
+		{
+			self.validationMessageLayer.SetValidationError(str, true/*wantsXButtonHidden*/)
+		}
+
+		// This is for when a send is cancelled. This gets invoked on non-recoverable error
+		function cancelled_fn() 
+		{ // canceled_fn
+			self._dismissValidationMessageLayer()
+			_reEnableFormElements()
+		}
+
+		// mocked transaction gets set in wallet.js
+		function handleResponse_fn(err, mockedTransaction) 
+		{
+
+			if (err) {
+				_trampolineToReturnWithValidationErrorString(typeof err === 'string' ? err : err.message)
+				return
+			}
+			{ // now present a mocked transaction details view, and see if we need to present an "Add Contact From Sent" screen based on whether they sent w/o using a contact
+				const stateCachedTransaction = wallet.New_StateCachedTransaction(mockedTransaction); // for display
+				self.pushDetailsViewFor_transaction(wallet, stateCachedTransaction);
+			}
+			// TODO: Once we have properly developed Yat support for Contacts, remove this isYatHandle check to allow a user to save the Yat contact
+			if (self.isYatHandle == false) {
+				{
+					const this_pickedContact = hasPickedAContact == true ? self.pickedContact : null
+					self.__didSendWithPickedContact(
+						this_pickedContact, 
+						enteredAddressValue_exists ? enteredAddressValue : null, 
+						resolvedAddress_exists ? resolvedAddress : null,
+						mockedTransaction
+					);
+				}
+			} 
+			{ // finally, clean up form
+				setTimeout(
+					function()
+					{
+						self._clearForm()
+						// and lastly, importantly, re-enable everything
+						_reEnableFormElements()
+					},
+					500 // after the navigation transition just above has taken place
+				)
+			}
+			{ // and fire off a request to have the wallet get the latest (real) tx records
+				setTimeout(
+					function()
+					{
+						wallet.hostPollingController._fetch_transactionHistory() // TODO: maybe fix up the API for this
+					}
+				)
+			}
+		}
+
 	}
 	//
 	//
@@ -1898,6 +1916,60 @@ class SendFundsView extends View
 				return
 			}
 		}
+
+			// if enteredPossibleAddress length less than 7, check if it's a Yat
+			let hasEmojiCharacters = /\p{Extended_Pictographic}/u.test(enteredPossibleAddress)
+			if (hasEmojiCharacters) {
+			
+				let isYat = yatMoneroLookup.isValidYatHandle(enteredPossibleAddress);
+				self.isYatHandle = isYat;
+				if (isYat) {
+					const lookup = yatMoneroLookup.lookupMoneroAddresses(enteredPossibleAddress).then((responseMap) => {
+						// Our library returns a map with between 0 and 2 keys
+						if (responseMap.size == 0) {
+							// no monero address
+							let errorString = `There is no Monero address associated with "${enteredPossibleAddress}"`
+							self.validationMessageLayer.SetValidationError(errorString);
+						} else if (responseMap.size == 1) {
+							// Either a Monero address or a Monero subaddress was found.
+							let iterator = responseMap.values();
+							let record = iterator.next();
+							self._displayResolvedAddress(record.value);
+						} else if (responseMap.size == 2) {
+							let moneroAddress = responseMap.get('0x1001');
+							self._displayResolvedAddress(moneroAddress);
+						}
+					}).catch((error) => {
+						// If the error status is defined, handle this error according to the HTTP error status code
+						if (typeof(error.response) !== "undefined" && typeof(error.response.status) !== "undefined") {
+							if (error.response.status == 404) {
+								// Yat not found
+								let errorString = `The Yat "${enteredPossibleAddress}" does not exist`
+								self.validationMessageLayer.SetValidationError(errorString);
+								return;
+							} else if (error.response.status >= 500) {
+								// Yat server / remote network device error encountered
+								let errorString = `The Yat server is responding with an error. Please try again later. Error: ${error.message}`
+								self.validationMessageLayer.SetValidationError(errorString);
+							} else {
+								// Response code that isn't 404 or a server error (>= 500) on their side  
+								let errorString = `An unexpected error occurred when looking up the Yat Handle: ${error.message}`
+								self.validationMessageLayer.SetValidationError(errorString);
+							}
+						} else {
+							// Network connectivity issues -- could be offline / Yat server not responding
+							let errorString = `Unable to communicate with the Yat server. It may be down, or you may be experiencing internet connectivity issues. Error: ${error.message}`
+							self.validationMessageLayer.SetValidationError(errorString);
+							// If we don't have an error.response, our request failed because of a network error
+						}
+					});
+				} else {
+					// This conditional will run when a mixture of emoji and non-emoji characters are present in the address
+					let errorString = `"${enteredPossibleAddress}" is not a valid Yat handle. You may have input an emoji that is not part of the Yat emoji set, or a non-emoji character.`
+					self.validationMessageLayer.SetValidationError(errorString);
+					return;
+				}
+			}
 		// 
 		self.cancelAny_requestHandle_for_oaResolution()
 		//
