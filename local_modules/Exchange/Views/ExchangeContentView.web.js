@@ -27,37 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //"use strict"
-
-//import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions'
-//import ExchangeLibrary from 'mymonero-exchange'
-//import ValidationLibrary from 'wallet-address-validator'
-//import Listeners from '../../Exchange/Javascript/ExchangeListeners'
 import View from '../../Views/View.web'
-//import ListView from '../../Lists/Views/ListView.web'
-//import emoji_web from '../../Emoji/emoji_web'
-//import ExchangeFunctions from '../Javascript/ExchangeFunctions'
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web'
-//import commonComponents_forms from '../../MMAppUICommonComponents/forms.web'
-//import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web'
-//import WalletsSelectView from '../../WalletsList/Views/WalletsSelectView.web'
-//import fs from 'fs'
-//import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web
-//import jsQR from 'jsqr'
-//import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
 import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger' // important: grab defined expo
-//import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils'
-//import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils'
-//import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config'
 import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils'
-//import documents from '../../DocumentPersister/DocumentPersister_Interface.js'
-//import ListBaseController from '../../Lists/Controllers/ListBaseController'
-//import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web'
 import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions';
 import ExchangeLibrary from 'mymonero-exchange';
-//import ExchangeUtils from '../Javascript/ExchangeUtilityFunctions';
 import ValidationLibrary from 'wallet-address-validator';
-
-//let JSBigInt = BigIntLib.BigInteger;
 
 class ExchangeContentView extends View {
     constructor(options, context) {
@@ -195,7 +171,6 @@ class ExchangeContentView extends View {
         }, 2000);
 
         self.initialExchangeInit = initialExchangeInit;
-        console.log(self);
         const view = new View({}, self.context)
         {
             const layer = view.layer
@@ -230,15 +205,6 @@ class ExchangeContentView extends View {
                 </div>`
             layer.innerHTML = html;
         }
-
-        // {
-        //     const layer = document.createElement("div")
-        //     layer.classList.add("message-label")
-        //     layer.classList.add("exchangeRate")
-        //     layer.id = "explanatory-message";
-        //     layer.innerHTML = "You can exchange XMR to Bitcoin here.";
-        //     //contentContainerLayer.appendChild(layer)
-        // }
         
         {
             // Send Funds
@@ -580,7 +546,6 @@ class ExchangeContentView extends View {
             let orderCreated = false;
             let orderStatusPage = document.getElementById("orderStatusPage");
             let backBtn = document.getElementsByClassName('nav-button-left-container')[0];
-            //backBtn.style.display = "none";
             let addressValidation = document.getElementById('address-messages');
             let serverValidation = document.getElementById('server-messages');
             let explanatoryMessage = document.getElementById('explanatory-message');
@@ -685,6 +650,9 @@ class ExchangeContentView extends View {
                 currencyInputTimer = setTimeout(() => {
                     ExchangeFunctions.getOfferWithOutAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, out_amount)
                         .then((response) => {
+                            // We clear error messages again here to prevent duplicates, since it's possible that a user may change the input value while a request is still waiting for a server response. This prevents duplicate error messages                            
+                            validationMessages.innerHTML = "";
+                            serverValidation.innerHTML = "";
                             let XMRtoReceive = parseFloat(response.in_amount);
                             let selectedWallet = document.getElementById('selected-wallet');
                             let tx_feeElem = document.getElementById('tx-fee');
@@ -701,7 +669,11 @@ class ExchangeContentView extends View {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
                                 error.id = 'xmrexceeded';
-                                error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
+                                if (walletMaxSpend <= 0) { 
+                                    error.innerHTML = `The currently selected wallet has insufficient funds`;
+                                } else {
+                                    error.innerHTML = `The currently selected wallet has insufficient funds. You cannot exchange more than ${walletMaxSpend} XMR`;
+                                }
                                 validationMessages.appendChild(error);
                             }
             
@@ -723,11 +695,25 @@ class ExchangeContentView extends View {
                             }
                             XMRcurrencyInput.value = XMRtoReceive.toFixed(12);
                         }).catch((error) => {
+                            validationMessages.innerHTML = "";
+                            serverValidation.innerHTML = "";
                             let errorDiv = document.createElement('div');
                             errorDiv.classList.add('message-label');
+                            let errorMessage = "";
+                            if (typeof(error.response.status) == "undefined") {
+                                errorMessage = error.message
+                            } else {
+                                // We may have a value in error.response.data.Error
+                                if (typeof(error.response.data) !== "undefined" && typeof(error.response.data.Error !== "undefined")) {
+                                    errorMessage = error.response.data.Error
+                                } else {
+                                    errorMessage = error.message
+                                }
+                            }
                             errorDiv.id = 'server-invalid';
-                            errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + error.message;
+                            errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + errorMessage;
                             serverValidation.appendChild(errorDiv);
+                            
                         });
                 }, 1500);
             }
@@ -799,6 +785,9 @@ class ExchangeContentView extends View {
                 currencyInputTimer = setTimeout(() => {
                     ExchangeFunctions.getOfferWithInAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, in_amount)
                         .then((response) => {
+                            // We clear error messages again here to prevent duplicates, since it's possible that a user may change the input value while a request is still waiting for a server response. This prevents duplicate error messages
+                            validationMessages.innerHTML = "";
+                            serverValidation.innerHTML = "";
                             
                             BTCToReceive = parseFloat(response.out_amount);
                             let selectedWallet = document.getElementById('selected-wallet');
@@ -812,7 +801,11 @@ class ExchangeContentView extends View {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
                                 error.id = 'xmrexceeded';
-                                error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
+                                if (walletMaxSpend <= 0) { 
+                                    error.innerHTML = `The currently selected wallet has insufficient funds`;
+                                } else {
+                                    error.innerHTML = `The currently selected wallet has insufficient funds. You cannot exchange more than ${walletMaxSpend} XMR`;
+                                }
                                 validationMessages.appendChild(error);
                             }
                             if (BTCToReceive.toFixed(8) > ExchangeFunctions.currentRates.out_max) {
@@ -831,10 +824,24 @@ class ExchangeContentView extends View {
                             }
                             BTCcurrencyInput.value = BTCToReceive.toFixed(8);
                         }).catch((error) => {
+                            // We clear error messages again here to prevent duplicates, since it's possible that a user may change the input value while a request is still waiting for a server response. This prevents duplicate error messages
+                            validationMessages.innerHTML = "";
+                            serverValidation.innerHTML = "";
                             let errorDiv = document.createElement('div');
                             errorDiv.classList.add('message-label');
+                            let errorMessage = "";
+                            if (typeof(error.response.status) == "undefined") {
+                                errorMessage = error.message
+                            } else {
+                                // We may have a value in error.response.data.Error
+                                if (typeof(error.response.data) !== "undefined" && typeof(error.response.data.Error !== "undefined")) {
+                                    errorMessage = error.response.data.Error
+                                } else {
+                                    errorMessage = error.message
+                                }
+                            }
                             errorDiv.id = 'server-invalid';
-                            errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + error.message;
+                            errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + errorMessage;
                             serverValidation.appendChild(errorDiv);
                         });
                 }, 1500);
@@ -968,33 +975,6 @@ class ExchangeContentView extends View {
             }
 
 function renderOrderStatus(order) {    
-
-/*
-
-        "btc_amount",
-        "btc_amount_partial",
-        "btc_dest_address",
-        "btc_num_confirmations_threshold",
-        "created_at",
-        "in_amount_remaining",
-        "out_amount",
-        "status",
-        "expires_at",
-        "incoming_amount_total",
-        "incoming_num_confirmations_remaining",
-        "incoming_price_btc",
-        "receiving_subaddress",
-        "recommended_mixin",
-        "remaining_amount_incoming",
-        "seconds_till_timeout",
-        "state",
-        "uses_lightning",
-        "uuid"
-        "provider_order_id"
-
-*/
-
-
     let idArr = [
         "in_amount_remaining",
         "out_amount",
@@ -1164,22 +1144,6 @@ function renderOrderStatus(order) {
                             })
                         }
                     }, 1000);
-                    // orderStatusInterval = setInterval((response) => {
-                    //     console.log(orderTimer);
-                    //     clearInterval(orderStatusInterval);
-                    //     clearInterval(orderTimerInterval);
-                    //     renderOrderStatus(orderStatusResponse).then(() => {
-                    //         console.log(orderTimer);
-                    //         // if (orderStatusResponse.status == "PAID" || orderStatusResponse.status == "TIMED_OUT"
-                    //         //     || orderStatusResponse.status == "DONE" || orderStatusResponse.status == "FLAGGED_DESTINATION_ADDRESS"
-                    //         //     || orderStatusResponse.status == "PAYMENT_FAILED" || orderStatusResponse.status == "REJECTED") 
-                    //             {
-                    //                 console.log("Try clear intervals");
-                    //                 clearInterval(orderStatusInterval);
-                    //                 clearInterval(orderTimerInterval);
-                    //         }
-                    //     });
-                    // }, 10000);
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
@@ -1187,8 +1151,19 @@ function renderOrderStatus(order) {
                 }).catch((error) => {
                     let errorDiv = document.createElement('div');
                     errorDiv.classList.add('message-label');
+                    let errorMessage = "";
+                    if (typeof(error.response.status) == "undefined") {
+                        errorMessage = error.message
+                    } else {
+                        // We may have a value in error.response.data.Error
+                        if (typeof(error.response.data) !== "undefined" && typeof(error.response.data.Error !== "undefined")) {
+                            errorMessage = error.response.data.Error
+                        } else {
+                            errorMessage = error.message
+                        }
+                    }
                     errorDiv.id = 'server-invalid';
-                    errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + error;
+                    errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + errorMessage;
                     serverValidation.appendChild(errorDiv);
                     orderBtn.style.display = "block";
                     orderStarted = false;
@@ -1196,13 +1171,25 @@ function renderOrderStatus(order) {
             }).catch((error) => {
                 let errorDiv = document.createElement('div');
                 errorDiv.classList.add('message-label');
+                let errorMessage = "";
+                if (typeof(error.response.status) == "undefined") {
+                    errorMessage = error.message
+                } else {
+                    // We may have a value in error.response.data.Error
+                    if (typeof(error.response.data) !== "undefined" && typeof(error.response.data.Error !== "undefined")) {
+                        errorMessage = error.response.data.Error
+                    } else {
+                        errorMessage = error.message
+                    }
+                }
                 errorDiv.id = 'server-invalid';
-                errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + error;
+                errorDiv.innerHTML = `There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>` + errorMessage;
                 serverValidation.appendChild(errorDiv);
                 orderBtn.style.display = "block";
                 orderStarted = false;
             });
         } catch (Error) {
+            // Something really unusual needs to occur to have this branch executed
             console.log(Error);
         }
     }

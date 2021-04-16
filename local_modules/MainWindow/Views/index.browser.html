@@ -50,7 +50,7 @@
 			object-src 'none'; 
 			font-src 'self' https://js.intercomcdn.com/fonts/;  
 			img-src 'self' data: https://downloads.intercomcdn.com/i/o/  https://js.intercomcdn.com/images/ https://static.intercomassets.com/ https://www.google-analytics.com/r/collect https://www.google-analytics.com/collect https://stats.g.doubleclick.net/r/collect; 
-			connect-src 'self' https://thingproxy.freeboard.io https://api.mymonero.com:8443 https://api-iam.intercom.io https://cloudflare-dns.com data: blob:;">
+			connect-src 'self' https://a.y.at https://api-dev.yat.rocks https://thingproxy.freeboard.io https://api.mymonero.com:8443 https://api-iam.intercom.io https://cloudflare-dns.com data: blob:;">
 			<!-- script-src of unsafe-eval required to load wasm files at present but actual eval is disabled in renderer_setup_utils -->
 		<meta name="apple-itunes-app" content="app-id=1372508199">
 
@@ -102,22 +102,11 @@
 				to { transform: rotate(359deg); }
 			}
 		</style>
-<!-- 		<script>
-			(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/' + w.INTERCOM__APP_ID;var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
-		</script>
- -->    </head>
+
+	</head>
     <body>
     	<div class="sp sp-circle" id="loading-spinner"></div>
 
         <script type="text/javascript" src="mymonero-app-bundle.js?15"></script>
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-			ga('create', 'UA-53312765-3', 'auto');
-			ga('send', 'pageview');
-		</script>
     </body>
 </html>
