@@ -165,7 +165,6 @@ class ExceptionAlerting
 	}
 	doToastMessage(message, raw_message)
 	{
-		console.log("Do toast message");
 		var el = document.createElement("div")
 		el.classList.add("exceptiontoast")
 		el.appendChild(document.createTextNode(message)) // safely escape content
@@ -178,12 +177,6 @@ class ExceptionAlerting
 				el.classList.remove("show") // just so we can get the visibility:hidden in place -- probably not necessary
 				el.parentNode.removeChild(el)
 			}, finalRemoveDelay_s * 1000);
-		})
-		setTimeout(function()
-		{
-			window.ga('send', 'exception', {
-				'exDescription': raw_message ? raw_message : 'undefined'
-			});
 		})
 	}
 }
