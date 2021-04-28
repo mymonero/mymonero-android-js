@@ -94,6 +94,7 @@ class SendFundsView extends View
 		self.isSubmitButtonDisabled = false
 		self.setup_views()
 		self.startObserving()
+		self.isYatHandle = false
 		//
 		setTimeout(function() {
 			self.set_isSubmittable_needsUpdate() // start off disabled
