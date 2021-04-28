@@ -1592,7 +1592,7 @@ class SendFundsView extends View
 							}
 						)
 						// and of course proceed
-						__proceedTo_generateSendTransaction()
+						__proceedTo_generateSendTransaction(self)
 					}
 				)
 				//
@@ -1618,7 +1618,7 @@ class SendFundsView extends View
 							_reEnableFormElements()
 							return
 						}
-						__proceedTo_generateSendTransaction()
+						__proceedTo_generateSendTransaction(self)
 					}
 				)
 				//
@@ -1626,9 +1626,9 @@ class SendFundsView extends View
 			}
 		}
 		// fall through
-		__proceedTo_generateSendTransaction()
+		__proceedTo_generateSendTransaction(self)
 		//
-		function __proceedTo_generateSendTransaction()
+		function __proceedTo_generateSendTransaction(self)
 		{
 			wallet.SendFunds(
 				enteredAddressValue, // currency-ready wallet address, but not an OpenAlias address (resolve before calling)
