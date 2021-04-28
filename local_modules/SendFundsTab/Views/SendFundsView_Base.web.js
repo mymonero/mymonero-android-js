@@ -1595,7 +1595,7 @@ class SendFundsView extends View
 							}
 						)
 						// and of course proceed
-						__proceedTo_generateSendTransaction()
+						__proceedTo_generateSendTransaction(self)
 					}
 				)
 				//
@@ -1621,7 +1621,7 @@ class SendFundsView extends View
 							_reEnableFormElements()
 							return
 						}
-						__proceedTo_generateSendTransaction()
+						__proceedTo_generateSendTransaction(self)
 					}
 				)
 				//
@@ -1629,9 +1629,9 @@ class SendFundsView extends View
 			}
 		}
 		// fall through
-		__proceedTo_generateSendTransaction()
+		__proceedTo_generateSendTransaction(self)
 		//
-		function __proceedTo_generateSendTransaction()
+		function __proceedTo_generateSendTransaction(self)
 		{
 			let contact_payment_id = hasPickedAContact ? self.pickedContact.payment_id : undefined;
 			let cached_OAResolved_address = hasPickedAContact ? self.pickedContact.cached_OAResolved_XMR_address : undefined;
