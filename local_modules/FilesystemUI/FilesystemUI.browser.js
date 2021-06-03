@@ -34,8 +34,9 @@ import FilesystemUI_Abstract from './FilesystemUI_Abstract';
 
 
 //import 'capacitor-filepicker-plugin';
-import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
-const { Filesystem, FileSelector } = Plugins; 
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Plugins } from '@capacitor/core';
+const { FileSelector } = Plugins; 
 
 //
 class FilesytemUI extends FilesystemUI_Abstract
@@ -55,13 +56,13 @@ class FilesytemUI extends FilesystemUI_Abstract
 			// const result = await Filesystem.writeFile({
 			// 	path: 'image.png',
 			// 	data,
-			// 	directory: FilesystemDirectory.Documents,
-			// 	encoding: FilesystemEncoding.UTF8
+			// 	directory: Directory.Documents,
+			// 	encoding: Encoding.UTF8
 			// })
 			const result2 = await Filesystem.writeFile({
 				path: filename,
 				data,
-				directory: FilesystemDirectory.Documents,
+				directory: Directory.Documents,
 			}).then(() => {
 				console.log('Wrote file');
 			})
@@ -76,14 +77,14 @@ class FilesytemUI extends FilesystemUI_Abstract
 			// const result = await Filesystem.writeFile({
 			// 	path: 'image.png',
 			// 	data,
-			// 	directory: FilesystemDirectory.Documents,
-			// 	encoding: FilesystemEncoding.UTF8
+			// 	directory: Directory.Documents,
+			// 	encoding: Encoding.UTF8
 			// })
 			const result2 = await Filesystem.writeFile({
 				path: filename,
 				data,
-				directory: FilesystemDirectory.Documents,
-				encoding: FilesystemEncoding.UTF8
+				directory: Directory.Documents,
+				encoding: Encoding.UTF8
 			}).then(() => {
 				console.log('Wrote file');
 			})
@@ -123,7 +124,7 @@ class FilesytemUI extends FilesystemUI_Abstract
 			// 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android D/Capacitor: Sending plugin error: {"save":false,"callbackId":"36944607","pluginId":"Filesystem","methodName":"writeFile","success":false,"error":{"message":"NOT_CREATED_DIR"}}
 			console.log("Running native capacitor -- attempt to write file");
 			let filename = 'MyMonero-Payment-Request-' + Date.now() + '.png';
-			let writtenFile = await self.fileWrite(filename, FilesystemEncoding.UTF8, imgData_base64String);
+			let writtenFile = await self.fileWrite(filename, Encoding.UTF8, imgData_base64String);
 			console.log(writtenFile);
 			fn();
 		}
