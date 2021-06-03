@@ -8,10 +8,6 @@
 		"classpath": "de.golbros.capacitorqrscanner.CapacitorQRScanner"
 	},
 	{
-		"pkg": "capacitor-file-selector",
-		"classpath": "com.bkon.capacitor.fileselector.FileSelector"
-	},
-	{
 		"pkg": "capacitor-secure-storage-plugin",
 		"classpath": "com.whitestein.securestorage.SecureStoragePlugin"
 	}

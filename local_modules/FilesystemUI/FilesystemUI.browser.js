@@ -34,9 +34,9 @@ import FilesystemUI_Abstract from './FilesystemUI_Abstract';
 
 
 //import 'capacitor-filepicker-plugin';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-import { Plugins } from '@capacitor/core';
-const { FileSelector } = Plugins; 
+// import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+// import { FileSelector } from '@capacitor/core';
+// const { FileSelector } = Plugins; 
 
 //
 class FilesytemUI extends FilesystemUI_Abstract

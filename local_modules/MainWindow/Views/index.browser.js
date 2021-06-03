@@ -37,9 +37,9 @@ import indexContextBrowser from '../Models/index_context.browser'
 import cryptonoteUtilsNetType from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype'
 import emoji_web from '../../Emoji/emoji_web'
 import RootTabBarAndContentView from './RootTabBarAndContentView.Full.web'
-import { Plugins } from '@capacitor/core';
+import { App } from '@capacitor/core';
 
-const { App } = Plugins;
+//const { App } = Plugins;
 
 console.log(App);
 
