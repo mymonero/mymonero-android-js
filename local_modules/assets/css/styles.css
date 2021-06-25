@@ -1214,57 +1214,65 @@ div.exchange-button {
 
 /** END FROM WalletSelectView.web.js */
 
+
 #exchange-xmr {
     position: absolute;
     bottom: 25px;
     right: 12px;
     max-width: 100px;
-}
-
-.empty-page-panel {
+  }
+  
+.exchange-page-panel {
     max-width: 100%;
     display: flex;
     align-self: center;
     align-content: center;
     justify-content: center;
-    height: 100%;
+    height: calc(100% -58px);
     width: calc(100% - 32px - 2px);
+    margin: 24px auto !important;
 }
-
-.empty-page-panel .empty-page-content-container {
-    display:block;
-    margin: auto;
-}
-
-.exchangeRate {
+  .full-width td {
+    display: block;
+    width: 100%;
+    clear: both;
+  }
+  .exchange-page-panel .exchange-page-content-container {
+    display: block;
+    margin: 37px auto;
+    width: 100%;
+  }
+  
+  .exchangeRate {
     font-size: 12px;
-}
-
-input#XMRcurrencyInput {
+  }
+  
+  input#inCurrencyValue {
     min-width: 104px;
-}
-input#BTCcurrencyInput {
+  }
+  input#outCurrencyValue {
     text-align: right;
     width: 112px;
     padding: 0px 10px 0px 0px;
-}
-div#currency-table {
+  }
+  div#currency-table {
     padding: 0;
-}
-#orderStatusPage {
+  }
+  #orderStatusPage {
     padding: 0px 10px;
-}
-#tx-fee {
+  }
+  #tx-fee {
     padding: 0px 13px 7px 6px;
-}
-#monerod-updates {
+  }
+  #monerod-updates {
     display: none;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     display: block;
     width: calc(100% - 48px);
     margin-left: 24px;
     background: rgba(245, 230, 125, 0.05);
-    border: 0.5px solid rgba(245, 230, 125, 0.30);
+    border: 0.5px solid rgba(245, 230, 125, 0.3);
     border-radius: 3px;
     min-height: 29px;
     box-sizing: border-box;
@@ -1275,7 +1283,7 @@ div#currency-table {
     margin-bottom: 10px;
     height: auto;
     width: 100%;
-    color: #F5E67E;
+    color: #f5e67e;
     font-size: 11px;
     font-weight: 400;
     letter-spacing: 0.5px;
@@ -1284,9 +1292,9 @@ div#currency-table {
     position: relative;
     top: 0;
     left: 0;
-}
-
-#currencyInput { 
+  }
+  
+  #currencyInput {
     display: inline-block;
     height: 29px;
     width: 80px;
@@ -1298,12 +1306,14 @@ div#currency-table {
     padding: 0px 63px 0px 7px;
     font-family: Native-Light, input, menlo, monospace;
     outline: none;
-    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px, rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
+    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px,
+      rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
     color: rgb(223, 222, 223);
     background-color: rgb(29, 27, 29);
-}
-#currencySelect {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  .currencySelect {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: subpixel-antialiased;
     font-size: 11px;
     font-weight: 400;
@@ -1320,57 +1330,64 @@ div#currency-table {
     border-radius: 0px 4px 4px 0px;
     -webkit-appearance: none;
     top: 22px;
-}
-.selectionDisplayCellView {
+  }
+  .selectionDisplayCellView {
     word-break: break-all;
     height: 100%;
     position: relative;
     left: 0px;
     top: 0px;
-    box-shadow: rgb(22, 20, 22) 0px 0.5px 1px 0px, rgb(73, 71, 73) 0px 0.5px 0px 0px inset;    
-}
-.selectionDisplayCellView .walletIcon {
-    position: absolute; left: 16px; top: 16px; background-image: url('../../../assets/img/wallet-6B696B@3x.png');
-}
-.walletName {
-    position: relative;
-    box-sizing: border-box;
-    padding: 15px 38px 4px 66px;
-    display: block;
-    word-break: break-word;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans','Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: subpixel-antialiased;
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    color: rgb(252, 251, 252);
-    cursor: default;
-}
-.walletLabel {
-    position: relative;
-    box-sizing: border-box;
-    padding: 15px 38px 4px 66px;
-    display: block;
-    word-break: break-word;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: subpixel-antialiased;
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    color: rgb(252, 251, 252);
-    cursor: default;
-}
-.walletIcon {
+    box-shadow: rgb(22, 20, 22) 0px 0.5px 1px 0px,
+      rgb(73, 71, 73) 0px 0.5px 0px 0px inset;
+  }
+  .selectionDisplayCellView .walletIcon {
     position: absolute;
-    left: 16px; top: 16px; 
-}
-.description-label {
+    left: 16px;
+    top: 16px;
+    background-image: url("../../../assets/img/wallet-6B696B@3x.png");
+  }
+  .walletName {
+    position: relative;
+    box-sizing: border-box;
+    padding: 15px 38px 4px 66px;
+    display: block;
+    word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: rgb(252, 251, 252);
+    cursor: default;
+  }
+  .walletLabel {
+    position: relative;
+    box-sizing: border-box;
+    padding: 15px 38px 4px 66px;
+    display: block;
+    word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: rgb(252, 251, 252);
+    cursor: default;
+  }
+  .walletIcon {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+  }
+  .description-label {
     position: relative;
     box-sizing: border-box;
     padding: 0px 38px 4px 66px;
@@ -1383,12 +1400,12 @@ div#currency-table {
     word-break: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-    cursor: default;    
-}
-#exchangePage table {
+    cursor: default;
+  }
+  #exchangePage table {
     width: 100%;
-}
-.textInput { 
+  }
+  .textInput {
     display: inline-block;
     height: 29px;
     width: 80px;
@@ -1400,12 +1417,14 @@ div#currency-table {
     padding: 0px 63px 0px 7px;
     font-family: Native-Light, input, menlo, monospace;
     outline: none;
-    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px, rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
+    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px,
+      rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
     color: rgb(223, 222, 223);
     background-color: rgb(29, 27, 29);
-}
-.currencySelect {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  .currencySelect {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: subpixel-antialiased;
     font-size: 11px;
     font-weight: 400;
@@ -1422,23 +1441,26 @@ div#currency-table {
     border-radius: 0px 4px 4px 0px;
     -webkit-appearance: none;
     top: 24px;
-}
-#loader {
+  }
+  #loader {
     display: none;
-    height: 100%; min-height: 100%;
-    width:100%; min-width:100%;
-}
-#loader.active {
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    min-width: 100%;
+  }
+  #loader.active {
     display: block;
-}
-#exchangePage, #orderStatusPage {
+  }
+  #exchangePage,
+  #orderStatusPage {
     display: none;
-}
-#exchangePage.active, #orderStatusPage.active {
+  }
+  #exchangePage.active,
+  #orderStatusPage.active {
     display: block;
-}
-.longTextInput
-{
+  }
+  .longTextInput {
     display: block;
     height: 29px;
     width: calc((100% - 2px) - 14px);
@@ -1450,33 +1472,36 @@ div#currency-table {
     padding: 0px 7px;
     font-family: Native-Light, input, menlo, monospace;
     outline: none;
-    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px, rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
+    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px,
+      rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
     color: rgb(223, 222, 223);
     background-color: rgb(29, 27, 29);
-}
-#exchangeRate, #orderStatusPage {
+  }
+  #exchangeRate,
+  #orderStatusPage {
     display: none;
-}
-.exchange-button {
-    
-}
-#exchangePage .form_field {
+  }
+  .exchange-button {
+  }
+  #exchangePage .form_field {
     padding: 0px 24px 20px 0px;
-}
-.full-width {
+  }
+  .full-width {
     width: 100% !important;
-}
-.label-spacing {
+  }
+  .label-spacing {
     padding: 0px 10px 0px 0px !important;
     margin: 17px 0px 8px 0px;
-}
-#minutesRemaining, #secondsRemaining {
+  }
+  #minutesRemaining,
+  #secondsRemaining {
     padding: 4px;
     border-radius: 5px;
     font-family: Native-Light, input, menlo, monospace;
-}
-#clock {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  #clock {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: subpixel-antialiased;
     font-size: 13px;
     letter-spacing: 0;
@@ -1491,25 +1516,27 @@ div#currency-table {
     border-radius: 4px;
     -webkit-appearance: none;
     top: 24px;
-    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px, rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
+    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px,
+      rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
     background-color: rgb(29, 27, 29);
     margin-top: 6px;
     text-align: left;
     max-width: 154px;
     width: 100%;
     /* width: 80px;*/
-}
-.xmrto-order-status {
+  }
+  .xmrto-order-status {
     margin-top: 6px;
     text-align: left;
-}
-#timerSeparator {
+  }
+  #timerSeparator {
     font-size: 3em;
-}        
-.uppercase {
+  }
+  .uppercase {
     text-transform: uppercase;
-}
-.currencyOutput, .receiving-subaddress {
+  }
+  .currencyOutput,
+  .receiving-subaddress {
     height: 20px;
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0);
@@ -1517,15 +1544,15 @@ div#currency-table {
     font-size: 13px;
     font-weight: 200;
     padding: 9px 37px 0px 0px;
-}
-.hidden {
-    display: none;
-}
-#wallet-selector {
+  }
+  .hidden {
+    display: none !important;
+  }
+  #wallet-selector {
     position: relative;
-    margin: 0 0 15px;
-}
-#exchangePage #state {                    
+    padding: 0px;
+  }
+  #exchangePage #state {
     display: block;
     text-align: left;
     margin-left: 0px;
@@ -1533,10 +1560,11 @@ div#currency-table {
     text-align: left;
     margin-top: 8px;
     padding: 9px 0px 3px 6px;
-}
-
-#exchangePage .currencySelect {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  
+  #exchangePage .currencySelect {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: subpixel-antialiased;
     font-size: 11px;
     font-weight: 400;
@@ -1555,8 +1583,8 @@ div#currency-table {
     text-align: center;
     top: 5px;
     position: relative;
-}
-#wallet-options {
+  }
+  #wallet-options {
     display: none;
     position: absolute;
     width: 100%;
@@ -1564,54 +1592,59 @@ div#currency-table {
     left: 0px;
     z-index: 10;
     max-height: 174.9px;
-    height: 132px;    
-}
-#wallet-options.active {
+    height: 132px;
+  }
+  #wallet-options.active {
     display: block !important;
-}
-.background {
-    position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 10;
-}
-.options_containerView.active {
+  }
+  .background {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+  .options_containerView.active {
     background: rgb(39, 37, 39);
-}
-#exchange-xmr {
+  }
+  #exchange-xmr {
     z-index: 50;
-}
-#orderStatusPage {
+  }
+  #orderStatusPage {
     display: none;
-}
-#orderStatusPage.active {
+  }
+  #orderStatusPage.active {
     display: block;
-}
-#exchangePage {
+  }
+  #exchangePage {
     display: none;
-}
-#orderStatusPage.active {
+  }
+  #orderStatusPage.active {
     display: block;
-}
-#exchange-xmr {
+  }
+  #exchange-xmr {
     display: none;
-}
-#exchange-xmr.active {
+  }
+  #exchange-xmr.active {
     display: block;
-}
-.empty-page-panel .exchangeScreen .textInput {
+  }
+  .exchange-page-panel .exchangeScreen .textInput {
     padding: 0px 8px 0px 7px;
-}
-
-#exchangePage {
+  }
+  
+  #exchangePage {
     padding: 0px 10px 50px 10px;
-}
-
-#exchangePage .amount {
+  }
+  
+  #exchangePage .amount {
     position: relative;
     left: 0px;
     top: 0px;
     padding: 2px 22px 0px;
-}
-
-#exchangePage .field_value {
+  }
+  
+  #exchangePage .field_value {
     display: inline-block;
     height: 29px;
     width: 80px;
@@ -1623,60 +1656,64 @@ div#currency-table {
     padding: 0px 63px 0px 7px;
     font-family: Native-Light, input, menlo, monospace;
     outline: none;
-    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px, rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
+    box-shadow: rgba(56, 54, 56, 0.5) 0px 0.5px 0px 0px,
+      rgb(22, 20, 22) 0px 0.5px 0px 0px inset;
     color: rgb(223, 222, 223);
     background-color: rgb(29, 27, 29);
-}
-
-#exchangePage select {
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
-     -webkit-font-smoothing: subpixel-antialiased;
-     font-size: 11px;
-     font-weight: 400;
-     letter-spacing: 0.5px;
-     text-indent: 10px;
-     color: rgb(223, 222, 223);
-     background-color: rgba(80, 74, 80, 0.55);
-     position: absolute;
-     left: 117.5px;
-     width: 56px;
-     height: 29.5px;
-     border: 0px;
-     padding: 0px;
-     border-radius: 0px 4px 4px 0px;
-     -webkit-appearance: none;
-     top: 24px;
-
-}
-
-#exchangePage #exchangeRate {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  
+  #exchangePage select {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+      Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-indent: 10px;
+    color: rgb(223, 222, 223);
+    background-color: rgba(80, 74, 80, 0.55);
+    position: absolute;
+    left: 117.5px;
+    width: 56px;
+    height: 29.5px;
+    border: 0px;
+    padding: 0px;
+    border-radius: 0px 4px 4px 0px;
+    -webkit-appearance: none;
+    top: 24px;
+  }
+  
+  #exchangePage #exchangeRate {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.5px;
-}
-
-
-.description-label {
-    position: relative;    
+  }
+  
+  .description-label {
+    position: relative;
     box-sizing: border-box;
-    padding: 0px 38px 4px 66px; 
-    font-size: 13px; 
-    font-family: Native-Light, input, menlo, monospace; 
-    font-weight: 100; 
-    -webkit-font-smoothing: subpixel-antialiased; 
-    max-height: 32px; color: rgb(158, 156, 158); 
-    word-break: normal; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    padding: 0px 38px 4px 66px;
+    font-size: 13px;
+    font-family: Native-Light, input, menlo, monospace;
+    font-weight: 100;
+    -webkit-font-smoothing: subpixel-antialiased;
+    max-height: 32px;
+    color: rgb(158, 156, 158);
+    word-break: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
     cursor: default;
-}
-
-#validation-messages, #address-messages, #server-messages {
+  }
+  
+  #validation-messages,
+  #address-messages,
+  #server-messages {
     max-width: fit-content;
-}
-
-#view-order {
+  }
+  
+  #view-order {
     width: auto;
     margin-top: 10px;
     background-image: none !important;
@@ -1684,7 +1721,7 @@ div#currency-table {
     font-weight: bold !important;
     float: right;
     background-color: #00c6ff;
-    box-shadow: 0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 rgba(255, 255, 255, 0.20);
+    box-shadow: 0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 rgba(255, 255, 255, 0.2);
     color: #161416;
     cursor: default;
     -webkit-font-smoothing: subpixel-antialiased;
@@ -1696,7 +1733,8 @@ div#currency-table {
     background-position: center;
     border-radius: 3px;
     height: 24px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     text-align: center;
     border: none;
     text-decoration: none;
@@ -1705,32 +1743,52 @@ div#currency-table {
     width: auto;
     padding: 0 8px;
     display: none;
-}
-
-.label-spacer {
-    border-radius: 3px; 
-    background-color: rgb(56, 54, 56); 
-    padding: 8px 11px; 
-    box-sizing: border-box; width: 100%; height: auto; color: rgb(124, 122, 124); font-size: 13px; font-weight: 100; font-family: Native-Light, input, menlo, monospace; -webkit-font-smoothing: subpixel-antialiased; 
+  }
+  
+  .label-spacer {
+    border-radius: 3px;
+    background-color: rgb(56, 54, 56);
+    padding: 8px 11px;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    color: rgb(124, 122, 124);
+    font-size: 13px;
+    font-weight: 100;
+    font-family: Native-Light, input, menlo, monospace;
+    -webkit-font-smoothing: subpixel-antialiased;
     word-break: break-all;
-}
-
-#localmonero a, #indacoin a {
+  }
+  
+  /* Exchange styles */
+#minimum-fee {
+    float: right;
+  }
+  #minimum-fee-text, #tx-fee, #addressValidationLoaderText {
+    font-size: 10px;
+  }
+  #localmonero {
+    clear: left;
+  }
+  #localmonero a,
+  #indacoin a {
     margin: 8px 0px 0px 0px !important;
-}
-
-#localmonero-anchor, #indacoin-anchor {
+  }
+  
+  #localmonero-anchor,
+  #indacoin-anchor {
     text-decoration: none;
     text-transform: uppercase;
-}
-
-#indacoin, #localmonero {
+  }
+  
+  #indacoin,
+  #localmonero {
     display: none;
-}
-
-.clickableLinkButton {
-    color: rgb(17, 187, 236); 
-    cursor: pointer; 
+  }
+  
+  .clickableLinkButton {
+    color: rgb(17, 187, 236);
+    cursor: pointer;
     user-select: none;
     font-family: Native-Light, input, menlo, monospace;
     -webkit-font-smoothing: subpixel-antialiased;
@@ -1743,52 +1801,87 @@ div#currency-table {
     margin: 8px 0px 0px 7px;
     font-weight: 300;
     float: none;
-}
-
-.full-width {
+  }
+  
+  .full-width {
     width: 100%;
-}
-table.side-padding {
+  }
+  table.side-padding {
     padding: 0px 15px;
-}
-
-#clock {
+  }
+  
+  @media screen and (max-width: 450px) {
+    .form-field-title {
+      max-width: 100%;
+      margin: 0px 0 5px 0 !important;
+    }
+    #exchangePage div.currencySelect {
+      display: none !important;
+    }
+    .currencySelect {
+      position: absolute;
+      left: 117.5px;
+      width: 56px;
+      height: 29.5px;
+      border: 0px;
+      padding: 0px;
+      border-radius: 0px 4px 4px 0px;
+      -webkit-appearance: none;
+      top: 20px !important;
+    }
+    #exchangePage .currencyOutput {
+      /* width: calc(100% - 72px); */
+      /* max-width: calc(100% - 72px); */
+      padding: 0px 0px;
+      text-indent: 148px;
+      position: relative;
+      /* right: -85px; */
+      left: -4px !important;
+      padding: 5px 8px 0 0 !important;
+      margin-right: 20px !important;
+      text-indent: 20px !important;
+      height: 24px !important;
+      top: 0px !important;
+      width: calc(100% - 4px) !important;
+    }
+  }
+  #clock {
     text-align: right;
     max-width: unset !important;
     width: calc(100% - 20px) !important;
     height: 24px;
     top: 0px;
     width: calc(100% - 62px);
-}
-
-.empty-page-panel { 
+  }
+  
+  .empty-page-panel {
     margin: 19px auto;
     word-break: break-word;
-}
-.empty-page-panel td {
+  }
+  .empty-page-panel td {
     display: block;
     clear: both;
     width: 100%;
-}
-.form-field-title {
+  }
+  .form-field-title {
     max-width: 100%;
-    margin: 15px 0 9px 0;
-}
-
-#btc-address {
+    margin: 15px 0 8px 0;
+  }
+  #btc-address {
     padding: 0px 13px 7px 0px;
-}
-#orderStatusPage {
+  }
+  #orderStatusPage {
     padding: 0px 0px;
-}
-div#currency-table {
+  }
+  div#currency-table {
     padding: 0;
-}
-#currencySelect {
+  }
+  .currencySelect {
     right: 5px;
     left: auto;
-}
-input#XMRcurrencyInput, input#BTCcurrencyInput {
+  }
+  input#inCurrencyValue,
+  input#outCurrencyValue {
     width: calc(100% - 70px);
     padding: 0px 0px;
     text-indent: 148px;
@@ -1798,9 +1891,9 @@ input#XMRcurrencyInput, input#BTCcurrencyInput {
     padding: 0px 3px;
     margin-right: 5px;
     text-indent: 20px;
-}
-
-#exchangePage .currencyOutput {
+  }
+  
+  #exchangePage .currencyOutput {
     width: calc(100% - 65px);
     padding: 0px 0px;
     text-indent: 148px;
@@ -1811,8 +1904,8 @@ input#XMRcurrencyInput, input#BTCcurrencyInput {
     margin-right: 0px;
     text-indent: 20px;
     height: 24px;
-    top: 0px;    
-        /* width: calc(100% - 72px); */
+    top: 0px;
+    /* width: calc(100% - 72px); */
     /* max-width: calc(100% - 72px); */
     padding: 0px 0px;
     text-indent: 148px;
@@ -1825,31 +1918,32 @@ input#XMRcurrencyInput, input#BTCcurrencyInput {
     height: 24px;
     top: 0px;
     width: calc(100% - 62px);
-}
-
-#exchangePage .currencySelect {
+  }
+  
+  #exchangePage .currencySelect {
     position: absolute;
     right: 0px;
     margin: 0px;
     right: -1px;
     left: auto;
     top: 22px;
-}
-
-#retry-rates {
+  }
+  
+  #retry-rates {
     max-width: 100px;
     margin: 0 auto;
-}
-
-#exchangePage #state {
+  }
+  
+  #exchangePage #state {
     padding: 9px 5px 3px 6px;
     width: calc(100% - 10px);
     text-align: right;
     margin-right: 5px;
-}
-#clock {
+  }
+  #clock {
     text-align: right;
-}
+  }
+  
 .label-spacing {
     padding: 0px 0px 0px 0px !important;
 }
