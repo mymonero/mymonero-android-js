@@ -14,7 +14,7 @@
     "postinstall": "bin/update_submodules"
   },
   "engines": {
-    "node": "12.4.0"
+    "node": ">=12.4.0"
   },
   "dependencies": {
     "@capacitor/android": "^2.4.7",
