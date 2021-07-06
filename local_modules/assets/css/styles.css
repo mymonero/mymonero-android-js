@@ -1711,6 +1711,7 @@ div.exchange-button {
   #address-messages,
   #server-messages {
     max-width: fit-content;
+    clear: left;
   }
   
   #view-order {
