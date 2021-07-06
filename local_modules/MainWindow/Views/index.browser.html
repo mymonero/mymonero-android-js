@@ -36,11 +36,9 @@
 
 		<meta name="msapplication-config" content="assets/img/favicon/browserconfig.xml">
 		<meta name="theme-color" content="#ffffff">
-		<link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
 		<link rel="manifest" href="assets/img/favicon/manifest.json">
-		<link rel="mask-icon" href="assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
 		<link rel="shortcut icon" href="assets/img/favicon/favicon.ico">
 
 		<meta http-equiv="Content-Security-Policy"
@@ -52,7 +50,6 @@
 			img-src 'self' data: https://downloads.intercomcdn.com/i/o/  https://js.intercomcdn.com/images/ https://static.intercomassets.com/ https://www.google-analytics.com/r/collect https://www.google-analytics.com/collect https://stats.g.doubleclick.net/r/collect; 
 			connect-src 'self' https://a.y.at https://api-dev.yat.rocks https://thingproxy.freeboard.io https://api.mymonero.com https://api-iam.intercom.io https://cloudflare-dns.com data: blob:;">
 			<!-- script-src of unsafe-eval required to load wasm files at present but actual eval is disabled in renderer_setup_utils -->
-		<meta name="apple-itunes-app" content="app-id=1372508199">
 
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
@@ -60,15 +57,6 @@
 
 		    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
         <link rel="stylesheet" type="text/css" href="assets/css/clear.browser.css">
-        <script>
-			window.INTERCOM__APP_ID = /*production*/"hi3rzlw0"  // "qa83i5n9"/*development*/  // TODO: select this via webpack env
-			window.intercomSettings = 
-			{
-				app_id: window.INTERCOM__APP_ID,
-				vertical_padding: 100,
-				hide_default_launcher: true 
-			};
-		</script>
 		<style>
 			body {
 				background-color: #272527;
