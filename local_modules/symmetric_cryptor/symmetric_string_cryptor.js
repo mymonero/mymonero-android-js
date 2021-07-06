@@ -34,8 +34,6 @@
 //
 import crypto from 'crypto';
 
-//
-console.log("symmetric string cryptor included")
 var currentVersionCryptorFormatVersion = 3;
 var cryptor_settings = 
 {
@@ -148,9 +146,6 @@ function New_DecryptedString__Async(
 	fn
 ) {
 	Buffer.isBuffer(password) || (password = new Buffer(password, 'utf8'));
-	console.log("symmetric_string_cryptor: New_DecryptedString__Async invoked");
-	console.log(encrypted_msg_base64_string);
-	console.log(password);
 	if (!encrypted_msg_base64_string || typeof encrypted_msg_base64_string === 'undefined') {
 		console.warn("New_DecryptedString__Async was passed nil encrypted_msg_base64_string")
 		return fn(null, encrypted_msg_base64_string)
@@ -202,12 +197,11 @@ function New_DecryptedString__Async(
 // Shared
 function _new_encrypted_base64_unpacked_components_object(b64str) 
 {
-	console.log("sym-string-crpytor: _new_encrypted_base64_unpacked_components_object invoked")
 	if (!b64str || typeof b64str === 'undefined') { // prevent toString() exception
 		throw "_new_encrypted_base64_unpacked_components_object was passed nil b64str"
 		// return undefined
 	}
-	console.log(b64str);
+
 	var data = new Buffer(b64str, 'base64')
 	var components = 
 	{

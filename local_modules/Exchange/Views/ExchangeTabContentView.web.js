@@ -44,7 +44,6 @@ class ExchangeTabContentView extends StackAndModalNavigationView
 			const options = {}
 
 			const view = new ExchangeContentView(options, self.context)
-			console.log(view);
 			self.exchangeContentView = view
 		}
 		self.SetStackViews(

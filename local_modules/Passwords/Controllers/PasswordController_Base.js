@@ -456,7 +456,6 @@ class PasswordController_Base extends EventEmitter
 	OnceBooted_GetNewPasswordAndTypeOrExistingPasswordFromUserAndEmitIt()
 	{	// This function must be called in order to initiate a password entry screen being shown to the user and to initiate any "password obtained" emits
 		const self = this
-		console.log("PasswordController: invoked OnceBooted_GetNewPasswordAndTypeOrExistingPasswordFromUserAndEmitIt");
 		self._executeWhenBooted(
 			function()
 			{

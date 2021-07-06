@@ -89,7 +89,6 @@ function newEstimatedNetworkFeeString(fee_JSBigInt) {
     // New refactored
     _setup_tabButtonClickListener(context) {
       const self = this;
-      console.log("Setting up tab button click listener");
       let tabElement = document.getElementById('tabButton-exchange');
       //tabElement.addEventListener('click', self.renderExchangeForm.bind(context))
     }
@@ -198,7 +197,6 @@ function newEstimatedNetworkFeeString(fee_JSBigInt) {
         // layer.classList.add("xmr_input");
         // We clone the first element of the template so that we get an instance of the first element, rather than a document fragment. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template
         let html = self.exchangeFormTemplate.content.firstElementChild.cloneNode(true);
-        console.log("We have just cloned the form template")
         layer.appendChild(html)
         contentContainerLayer.appendChild(layer)
       }

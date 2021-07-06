@@ -41,8 +41,6 @@ import { Plugins } from '@capacitor/core';
 
 const { App } = Plugins;
 
-console.log(App);
-
 window.BootApp = function()
 { // encased in a function to prevent scope being lost/freed on mobile
 	const isDebug = false
