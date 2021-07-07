@@ -2,7 +2,7 @@
   "name": "MyMonero",
   "author": "MyMonero",
   "description": "The simplest way to use Monero",
-  "version": "1.1.19",
+  "version": "1.1.22",
   "license": "SEE LICENSE IN LICENSE.txt",
   "repository": "https://github.com/mymonero/mymonero-android-js",
   "scripts": {
@@ -45,7 +45,7 @@
     "babel-minify": "0.5.1",
     "eslint": "5.6.0",
     "request": "2.88.0",
-    "webpack": "^4.46.0",
+    "webpack": "^5.43.0",
     "webpack-cli": "^3.3.12",
     "webpack-merge": "4.2.2",
     "worker-loader": "2.0.0"
