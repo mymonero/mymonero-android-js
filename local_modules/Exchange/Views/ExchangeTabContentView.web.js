@@ -44,7 +44,6 @@ class ExchangeTabContentView extends StackAndModalNavigationView
 			const options = {}
 
 			const view = new ExchangeContentView(options, self.context)
-			console.log(view);
 			self.exchangeContentView = view
 		}
 		self.SetStackViews(
@@ -53,7 +52,9 @@ class ExchangeTabContentView extends StackAndModalNavigationView
 			]
 		)
 	}
-
+	// TabBarItem_icon_customStyle () {
+	// 	return 'tabButton-exchange'
+	// }	
 	TabBarItem_layer_customStyle()
 	{
 		return {}
@@ -65,7 +66,8 @@ class ExchangeTabContentView extends StackAndModalNavigationView
 			backgroundImage: "url(Exchange/Resources/XMRtoBTCInactive.svg)",
 			backgroundPosition: "center",
 			backgroundRepeat: "no-repeat",
-			backgroundSize: "39px"
+			backgroundSize: "39px",
+			divId: "tabButton-exchange"
 		}
 	}
 	TabBarItem_icon_selected_customStyle()

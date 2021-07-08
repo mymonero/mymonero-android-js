@@ -37,7 +37,6 @@ import commonComponents_forms from './forms.web';
 //
 import emoji_web from '../Emoji/emoji_web';
 
-console.log("Imported contactpicker.web.js");
 //
 const NamespaceName = "contactPicker"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName

@@ -74,7 +74,6 @@ class SettingsView extends View
 	}
 	_setup_self_layer()
 	{
-		console.log("Settings: invoked _setup_self_layer()");
 		const self = this
 		//
 		const layer = self.layer
@@ -96,7 +95,6 @@ class SettingsView extends View
 	}
 	_setup_form_containerLayer()
 	{
-		console.log("Settings: invoked _setup_form_containerLayer()");
 		const self = this
 		const containerLayer = document.createElement("div")
 		self.form_containerLayer = containerLayer
@@ -129,7 +127,6 @@ class SettingsView extends View
 	}
 	_setup_aboutAppButton()
 	{
-		console.log("Settings: invoked _setup_aboutAppButton()");
 		const self = this
 		const div = document.createElement("div")
 		div.style.padding = "12px 0 12px 33px"
@@ -152,7 +149,6 @@ class SettingsView extends View
 	}
 	_setup_form_field_changePasswordButton()
 	{
-		console.log("Settings: invoked _setup_form_field_changePasswordButton()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		div.style.padding = "19px 24px 20px 24px"
@@ -177,7 +173,6 @@ class SettingsView extends View
 	}
 	_setup_form_field_appTimeoutSlider()
 	{
-		console.log("Settings: invoked _setup_form_field_appTimeoutSlider()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		div.style.paddingTop = "5px" // special case
@@ -236,7 +231,6 @@ class SettingsView extends View
 	}
 	_setup_form_field_authentication()
 	{
-		console.log("Settings: invoked _setup_form_field_authentication()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		{
@@ -347,7 +341,6 @@ class SettingsView extends View
 	}
 	_setup_form_field_serverURL()
 	{
-		console.log("Settings: invoked _setup_form_field_serverURL()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		{
@@ -391,7 +384,6 @@ class SettingsView extends View
 	}
 	_setup_form_field_appUpdates()
 	{
-		console.log("Settings: invoked _setup_form_field_appUpdates()");
 		const self = this
 		const div = commonComponents_forms.New_fieldContainerLayer(self.context)
 		{
@@ -449,7 +441,6 @@ class SettingsView extends View
 	}
 	_setup_form_field_displayCcy()
 	{
-		console.log("Settings: invoked _setup_form_field_displayCcy()");
 		const self = this
 		let selectLayer_w = 132 // disclosure arrow visual alignment with change pw content right edge
 		let selectLayer_h = 32
@@ -537,7 +528,6 @@ class SettingsView extends View
 	}
 	_setup_deleteEverythingButton()
 	{
-		console.log("Settings: invoked _setup_deleteEverythingButton()");
 		const self = this
 		const div = document.createElement("div")
 		div.style.paddingTop = "23px"

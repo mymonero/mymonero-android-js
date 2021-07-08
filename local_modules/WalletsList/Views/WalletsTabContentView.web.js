@@ -36,7 +36,6 @@ class WalletsTabContentView extends StackAndModalNavigationView
 {
 	constructor(options, context)
 	{
-		console.log('WalletsTabContentView constructor invoked')
 		super(options, context)
 	}
 	setup()

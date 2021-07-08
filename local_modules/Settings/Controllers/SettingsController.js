@@ -122,7 +122,7 @@ class SettingsController extends EventEmitter
 					}
 				}
 				console.log("💬  Found existing saved " + CollectionName + " with _id", doc._id)
-				console.log(typeof(doc));
+
 				if (doSettingsCleanup == true) {
 					_deleteSettingsObject(self, cleanupIds);
 					const mocked_doc = JSON.parse(JSON.stringify(k_defaults_record)) // hamfisted copy
@@ -139,14 +139,12 @@ class SettingsController extends EventEmitter
 			})
 			// for safety's sake, we explicitly force deletion of the index as well
 			self.context.persister.__deleteIndex(CollectionName, () => {
-				console.log("Removed index " + CollectionName);
+				// Removed index
 			})
 		}
 
 		function _proceedTo_loadStateFromRecord(record_doc)
 		{
-			console.log(record_doc);
-			console.log(typeof(record_doc));
 			self._id = record_doc._id || undefined
 			//
 			self.specificAPIAddressURLAuthority = record_doc.specificAPIAddressURLAuthority

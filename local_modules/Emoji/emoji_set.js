@@ -124,6 +124,4 @@ function unicodeCodePointOrPairToChar(unicode)
 	return String.fromCharCode(s);
 }
 let obj = { Emojis, EmojiCategories }
-console.log("Emojis export");
-console.log(obj);
 export default obj;

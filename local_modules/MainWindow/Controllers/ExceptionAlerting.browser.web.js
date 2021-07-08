@@ -150,11 +150,9 @@ class ExceptionAlerting
 	// Imperatives
 	alertErrMsg(message, handlerId)
 	{
-		console.log("invoking alertErrMsg");
 		const self = this;
 		self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
 		if (message.indexOf("undefined") !== -1 && message.indexOf("handler") !== -1) {
-			console.log("ignored error");
 			return // most likely an error from webflow - can skip erroring these ; TODO: remove this when removing webflow
 		}
 		if (typeof message !== 'undefined' && message && message !== "") {

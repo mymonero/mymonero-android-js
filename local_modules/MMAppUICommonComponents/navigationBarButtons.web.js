@@ -216,7 +216,5 @@ function New_RightSide_ValueDisplayLabelButtonView(context)
 	}
 	return view	
 }
-console.log("navigationBarButtons")
-console.log(New_RightSide_SaveButtonView);
 let obj = { New_GreyButtonView, New_BlueButtonView, New_LeftSide_BackButtonView, New_RightSide_AddButtonView, New_LeftSide_CancelButtonView, New_RightSide_SaveButtonView, New_RightSide_EditButtonView, New_RightSide_ValueDisplayLabelButtonView };
 export default obj;
