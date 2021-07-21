@@ -35,7 +35,7 @@ import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-j
 import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions';
 import ExchangeLibrary from 'mymonero-exchange';
 import ValidationLibrary from 'wallet-address-validator';
-import ExchangeHelper from '@mymonero/mymonero-exchange-helper/index.esm';
+import ExchangeHelper from '@mymonero/mymonero-exchange-helper';
 let exchangeHelper = new ExchangeHelper();
 
 let handleOfferError = exchangeHelper.errorHelper.handleOfferError;

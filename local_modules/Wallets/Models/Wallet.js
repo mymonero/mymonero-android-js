@@ -27,10 +27,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-const async = require('async')
+/** 
+ * 
+ * const async = require('async')
 const EventEmitter = require('events')
 const extend = require('util')._extend
 const uuidV1 = require('uuid/v1')
+
 const monero_txParsing_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_txParsing_utils')
 const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
 const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
@@ -46,6 +49,26 @@ const { default: symmetric_string_cryptor } = require('../../symmetric_cryptor/s
 // console.log(wallet_persistence_utils);
 // console.log(wallet_persistence_utils.SaveToDisk);
 // console.log(wallet_persistence_utils.default.SaveToDisk);
+//
+*/
+
+const async = require('async')
+const EventEmitter = require('events')
+const extend = require('util')._extend
+const uuidV1 = require('uuid/v1')
+//
+const monero_txParsing_utils = require('@mymonero/mymonero-tx-parsing-utils')
+const monero_sendingFunds_utils = require('@mymonero/mymonero-sendfunds-utils')
+const JSBigInt = require('@mymonero/mymonero-bigint').BigInteger
+const monero_amount_format_utils = require('@mymonero/mymonero-money-format')
+const monero_config = require('@mymonero/mymonero-monero-config')
+const mnemonic_languages = require('@mymonero/mymonero-locales')
+import wallet_persistence_utils from './wallet_persistence_utils';
+//
+const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
+//const wallet_persistence_utils = require('./wallet_persistence_utils')
+const WalletHostPollingController = require('../Controllers/WalletHostPollingController')
+const { default: symmetric_string_cryptor } = require('../../symmetric_cryptor/symmetric_string_cryptor')
 //
 const wallet_currencies =
 {
@@ -259,9 +282,10 @@ class Wallet extends EventEmitter
 		//
 		// and be sure to delete the managed key image cache
 		self.context.backgroundAPIResponseParser.DeleteManagedKeyImagesForWalletWith(self.public_address, function() {})
+		self.context.wallets = null;
 	}
 	abortAnyLogInRequest()
-	{ // acct info
+	{ // acct info 
 		console.log("Wallet.js: abortAnyLogInRequest")
 		const self = this
 		let req = self.requestHandle_for_logIn
