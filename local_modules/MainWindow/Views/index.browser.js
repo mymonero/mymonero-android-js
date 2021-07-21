@@ -32,7 +32,7 @@
 //
 import RootView from '../Views/RootView.Lite.web' // electron uses .web files as it has a web DOM
 import setup_utils from '../../MMAppRendererSetup/renderer_setup.browser'
-import MyMoneroLibAppBridge from '../../mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge'
+//import MyMoneroLibAppBridge from '../../mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge'
 import indexContextBrowser from '../Models/index_context.browser'
 import cryptonoteUtilsNetType from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype'
 import emoji_web from '../../Emoji/emoji_web'
@@ -74,12 +74,12 @@ window.BootApp = function()
 	//
 	// context
 	var isHorizontalBar = isMobile;
-	MyMoneroLibAppBridge({}).then(function(coreBridge_instance) // we can just use this directly in the browser version
-	{
-		const context = indexContextBrowser.NewHydratedContext({
+	//MyMoneroLibAppBridge({}).then(function(coreBridge_instance) // we can just use this directly in the browser version
+	require('@mymonero/mymonero-app-bridge')({}).then(function (coreBridge_instance) {
+		const context = require('./MainWindow/Models/index_context.browser').NewHydratedContext({
 		//const context = require('../Models/index_context.browser').NewHydratedContext({
 			//nettype: require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype').network_type.MAINNET, // critical setting
-			nettype: cryptonoteUtilsNetType.network_type.MAINNET,
+			nettype: require('@mymonero/mymonero-nettype').network_type.MAINNET, // critical setting
 			app: app,
 			isDebug: isDebug,
 			isLiteApp: true, // used sparingly for to disable (but not redact) functionality
