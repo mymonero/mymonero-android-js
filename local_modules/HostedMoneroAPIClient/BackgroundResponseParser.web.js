@@ -98,7 +98,7 @@ class BackgroundResponseParser
 	) {
 		monero_keyImage_cache_utils.DeleteManagedKeyImagesForWalletWith(address)
 		if (fn) {
-			setImmediate(fn)
+			//setImmediate(fn)
 		}
 	}
 }
