@@ -157,8 +157,7 @@ class Wallet extends EventEmitter
 		}
 		context.wallets = [];
 		context.wallets.forEach((element) => {
-			console.log('checking element');
-			console.log(element);
+			//console.log(element);
 		});
 		context.wallets.push(self);
 	}
@@ -1125,13 +1124,17 @@ class Wallet extends EventEmitter
 		const self = this
 		var total_received = self.total_received
 		var total_sent = self.total_sent
+
 		if (typeof total_received === 'undefined') {
 			total_received = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
 		}
+
 		if (typeof total_sent === 'undefined') {
 			total_sent = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
 		}
+
 		const balance_JSBigInt = total_received.subtract(total_sent)
+
 		if (balance_JSBigInt.compare(0) < 0) {
 			return new JSBigInt(0)
 		}
@@ -1218,16 +1221,14 @@ class Wallet extends EventEmitter
 	}
 	HasLockedFunds()
 	{
-		const self = this
-		var locked_balance_JSBigInt = self.locked_balance
-		if (typeof locked_balance_JSBigInt === 'undefined') {
+		if (typeof self.locked_balance === 'undefined') {
 			return false
-		}
-		if (locked_balance_JSBigInt === new JSBigInt(0)) {
+		  }
+		  if (self.locked_balance.compareAbs(0) === 0) {
 			return false
-		}
-		//
-		return true
+		  }
+	  
+		  return true
 	}
 	HumanReadable_walletCurrency()
 	{
@@ -1673,9 +1674,6 @@ class Wallet extends EventEmitter
 		ratesBySymbol
 	) {
 		const self = this
-		//
-		// console.log("_didFetch_accountInfo")
-		//
 		setTimeout(
 			function()
 			{ // just so as not to interfere w/ the _didFetch_accountInfo 'meat'
