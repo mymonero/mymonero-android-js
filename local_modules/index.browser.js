@@ -32,9 +32,9 @@
 //
 import RootView from './MainWindow/Views/RootView.Lite.web' // electron uses .web files as it has a web DOM
 import setup_utils from './MMAppRendererSetup/renderer_setup.browser'
-import MyMoneroLibAppBridge from './mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge'
+import MyMoneroLibAppBridge from '@mymonero/mymonero-app-bridge'
 import indexContextBrowser from './MainWindow/Models/index_context.browser'
-import cryptonoteUtilsNetType from './mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype'
+import cryptonoteUtilsNetType from '@mymonero/mymonero-nettype'
 import emoji_web from './Emoji/emoji_web'
 import RootTabBarAndContentView from './MainWindow/Views/RootTabBarAndContentView.Full.web'
 import { Plugins } from '@capacitor/core';
@@ -53,6 +53,9 @@ window.BootApp = function()
 		getName: function() 
 		{ 
 			return "MyMonero"
+		},
+		getApiUrl: function () {
+			return 'api.mymonero.com'
 		},
 		getDeviceManufacturer: function() { 
 			throw 'app.getDeviceManufacturer(): Unsupported platform'

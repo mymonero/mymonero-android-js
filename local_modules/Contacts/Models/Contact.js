@@ -40,7 +40,7 @@ import persistable_object_utils from '../../DocumentPersister/persistable_object
 import contact_persistence_utils from './contact_persistence_utils';
 
 //
-import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
+import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils';
 
 //
 import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';

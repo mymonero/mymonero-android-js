@@ -38,7 +38,7 @@ import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hover
 //
 import Currencies from '../../CcyConversionRates/Currencies';
 
-//import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+//import monero_amount_format_utils from '@mymonero/mymonero-money-format';
 import monero_amount_format_utils from '@mymonero/mymonero-money-format'
 //
 class WalletCellContentsView extends View

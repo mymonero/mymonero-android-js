@@ -50,12 +50,12 @@ import commonComponents_actionButtons from '../../MMAppUICommonComponents/action
 import JustSentTransactionDetailsView from './JustSentTransactionDetailsView.web';
 
 //
-import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils';
+import monero_sendingFunds_utils from '@mymonero/mymonero-sendfunds-utils';
 
 import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils';
-import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
-import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils';
+import monero_config from '@mymonero/mymonero-monero-config';
+import monero_amount_format_utils from '@mymonero/mymonero-money-format';
 
 //
 import jsQR from 'jsqr';
@@ -72,7 +72,7 @@ import YatMoneroLookup from "@mymonero/mymonero-yat-lookup/index.esm"
 
 let yatMoneroLookup = YatMoneroLookup.YatMoneroLookup();
 
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
+import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint'; // important: grab defined export
 
 let rateServiceDomainText = "cryptocompare.com"
 //

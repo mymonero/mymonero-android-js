@@ -39,8 +39,8 @@ import Locale from "../../Locale/Locale.browser";
 import symmetric_cryptor from "../../symmetric_cryptor/BackgroundStringCryptor.noOp";
 import ContactsListController from "../../Contacts/Controllers/ContactsListController"
 import DocumentPersister from "../../DocumentPersister/DocumentPersister.SecureStorage";
-import backgroundAPIResponseParser from "../../HostedMoneroAPIClient/BackgroundResponseParser.web";
-import HostedMoneroAPIClient from "../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
+import backgroundAPIResponseParser from "@mymonero/mymonero-response-parser-utils";
+import HostedMoneroAPIClient from "@mymonero/mymonero-hosted-api"; 
 import OpenAlias from "../../OpenAlias/OpenAliasResolver";
 import Theme from "../../Theme/ThemeController";
 import FundsRequestsListController from "../../RequestFunds/Controllers/FundsRequestsListController"
@@ -137,6 +137,7 @@ function NewHydratedContext(initialContext)
 			options: {
 				appUserAgent_product: app.getName(),
 				appUserAgent_version: app.getVersion(),
+				apiUrl: app.getApiUrl(),
 				request_conformant_module: require('xhr') 
 			}
 		},

@@ -29,7 +29,7 @@
 //
 import persistable_object_utils from '../../DocumentPersister/persistable_object_utils';
 
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint';
 //
 const CollectionName = "Wallets"
 //console.log("Wallet persistence loaded")
