@@ -2,7 +2,7 @@
   "name": "MyMonero",
   "author": "MyMonero",
   "description": "The simplest way to use Monero",
-  "version": "1.1.19",
+  "version": "1.2.0",
   "license": "SEE LICENSE IN LICENSE.txt",
   "repository": "https://github.com/mymonero/mymonero-android-js",
   "scripts": {
@@ -25,7 +25,7 @@
     "@mymonero/mymonero-app-bridge": "^1.1.13",
     "@mymonero/mymonero-bigint": "^1.1.13",
     "@mymonero/mymonero-exchange": "^1.1.13",
-    "@mymonero/mymonero-exchange-helper": "^1.1.15",
+    "@mymonero/mymonero-exchange-helper": "^1.1.16",
     "@mymonero/mymonero-locales": "^1.1.9",
     "@mymonero/mymonero-monero-config": "^1.1.13",
     "@mymonero/mymonero-money-format": "^1.1.13",
