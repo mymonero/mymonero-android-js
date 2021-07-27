@@ -7,12 +7,10 @@
   "repository": "https://github.com/mymonero/mymonero-android-js",
   "scripts": {
     "start": "bin/start_dev_browser",
-    "build": "npm run build-js; npm run build-android",
-    "build-android": "npx cap sync; npx cap open android",
-    "build-js": "node bin/__assemble_browser_build.node.js; webpack --config webpack.browser.dev.config.js --display-modules",
-    "watch": "(webpack --config webpack.browser.dev.config.js --display-modules --watch) & bin/start_dev_browser",
-    "webpack-5-build-serve": "(webpack --config webpack.production.config.js --display-modules  --optimize-max-chunks 1); cd browser_build; python2 -m SimpleHTTPServer 9110",
-    "webpack-5-watch": "(webpack --config webpack.development.config.js --watch); python2 -m SimpleHTTPServer 9110",
+    "build": "npm run build-prod",
+    "update-android": "npx cap sync; npx cap open android",
+    "build-prod": "node bin/__assemble_browser_build.node.js; (webpack --config webpack.production.config.js); npm run update-android",
+    "watch": "(webpack --config webpack.development.config.js --watch) & (cd browser_build; python2 -m SimpleHTTPServer 9110)",
     "postinstall": "bin/update_submodules"
   },
   "engines": {
@@ -27,7 +25,7 @@
     "@mymonero/mymonero-app-bridge": "^1.1.13",
     "@mymonero/mymonero-bigint": "^1.1.13",
     "@mymonero/mymonero-exchange": "^1.1.13",
-    "@mymonero/mymonero-exchange-helper": "^1.1.14",
+    "@mymonero/mymonero-exchange-helper": "^1.1.15",
     "@mymonero/mymonero-locales": "^1.1.9",
     "@mymonero/mymonero-monero-config": "^1.1.13",
     "@mymonero/mymonero-money-format": "^1.1.13",
