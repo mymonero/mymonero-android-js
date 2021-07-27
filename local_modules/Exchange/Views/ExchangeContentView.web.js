@@ -32,7 +32,7 @@ import View from '../../Views/View.web'
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web'
 import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger' // important: grab defined expo
 import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils'
-import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions';
+import ExchangeUtils from '../../Exchange/Javascript/ExchangeUtilityFunctions';
 import ExchangeLibrary from 'mymonero-exchange';
 import ValidationLibrary from 'wallet-address-validator';
 import ExchangeHelper from '@mymonero/mymonero-exchange-helper';
