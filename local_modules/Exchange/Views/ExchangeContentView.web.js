@@ -97,10 +97,8 @@ function newEstimatedNetworkFeeString(fee_JSBigInt) {
     renderExchangeForm(context) {
       // Let's check whether we're unlocked, and if yes, refresh the wallet selector
       const self = this 
-      console.log(self.exchangeFormTemplate);
       if (self.walletsListController.records.length > 0) {
         let walletHtml = exchangeHelper.walletSelectorTemplate(self)
-        console.log(walletHtml);
         let walletSelector = document.getElementById('wallet-selector');
         walletSelector.innerHTML = walletHtml;
       }   
@@ -118,8 +116,6 @@ function newEstimatedNetworkFeeString(fee_JSBigInt) {
         if (parentElementToAttachListenerTo !== null) {
           self._setup_tabButtonClickListener(self.context);
           clearInterval(self.initialExchangeInit)
-          // TODO: We need to move the walletExchangeOptions init somewhere else
-          //self._setup_walletExchangeOptions(self.context)
         }
       }, 200)
   
@@ -147,6 +143,7 @@ function newEstimatedNetworkFeeString(fee_JSBigInt) {
         layer.classList.add('exchangeRate')
         layer.id = 'explanatory-message'
         layer.innerHTML = 'You can exchange XMR to Bitcoin here. Please wait while we load rates.'
+        layer.style.marginTop = "48px";
         contentContainerLayer.appendChild(layer)
       }
   
