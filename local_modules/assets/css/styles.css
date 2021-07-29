@@ -1232,7 +1232,7 @@ div.exchange-button {
   justify-content: center;
   height: calc(100% -58px);
   width: calc(100% - 32px - 2px);
-  margin: 42px auto24px auto !important;
+  margin: 42px auto 24px auto !important;
 }
 .full-width td {
   display: block;
@@ -1241,7 +1241,7 @@ div.exchange-button {
 }
 .exchange-page-panel .exchange-page-content-container {
   display: block;
-  margin: 37px auto;
+  margin: 37px 0px 15px 22px;
   width: 100%;
 }
 
@@ -2095,6 +2095,7 @@ input#outCurrencyValue {
 
 .emptyScreens {
   position: relative;
+  margin: 0 auto;
   display: table; /* for valign */
   border-radius: 5px;
 }
