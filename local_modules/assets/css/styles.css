@@ -1232,7 +1232,7 @@ div.exchange-button {
   justify-content: center;
   height: calc(100% -58px);
   width: calc(100% - 32px - 2px);
-  margin: 42px auto 24px auto !important;
+  margin: 42px auto24px auto !important;
 }
 .full-width td {
   display: block;
@@ -1713,6 +1713,7 @@ div#currency-table {
 #address-messages,
 #server-messages {
   max-width: fit-content;
+  clear: left;
 }
 
 #view-order {
