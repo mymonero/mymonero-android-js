@@ -9,8 +9,8 @@
     "start": "bin/start_dev_browser",
     "build": "npm run build-prod",
     "update-android": "npx cap sync; npx cap open android",
-    "build-prod": "node bin/__assemble_browser_build.node.js; (webpack --config webpack.production.config.js); npm run update-android",
-    "watch": "(webpack --config webpack.development.config.js --watch) & (cd browser_build; python2 -m SimpleHTTPServer 9110)"
+    "build-prod": "node bin/__assemble_browser_build.node.js; (webpack --config webpack.config.js); npm run update-android",
+    "watch": "(webpack --config webpack.config.js --watch) & (cd browser_build; python2 -m SimpleHTTPServer 9110)"
   },
   "engines": {
     "node": ">=12.4.0"
