@@ -247,8 +247,8 @@ function newEstimatedNetworkFeeString(fee_JSBigInt) {
           layer.style.fontWeight = '300'
         }
       }
-      
-      return view
+      // Candidate for deletion -- we don't need a top right button on the landing page
+      // return view
     }
   }
   
