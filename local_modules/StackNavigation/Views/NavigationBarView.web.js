@@ -149,11 +149,11 @@ class NavigationBarView extends View
 			self.rightBarButtonHolderView = view
 			const layer = view.layer
 			// layer.style.position = "absolute"
-			// layer.style.right = "16px"
+			layer.style.right = "16px"
 			// layer.style.width = "15%"
 			// layer.style.minWidth = `${self.NavigationBarHeight()}px`
 			// layer.style.height = `${self.NavigationBarHeight()}px`
-			layer.id = "leftBarButtonHolderView";
+			layer.id = "rightBarButtonHolderView";
 			layer.classList.add('rightBarButtonHolderView')
 			self.addSubview(view)
 		}
