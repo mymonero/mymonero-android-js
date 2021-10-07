@@ -80,7 +80,8 @@ class NavigationBarView extends View
 		__injectCSSRules_ifNecessary()
 		{ // self.layer
 			const layer = self.layer
-			layer.classList.add(NamespaceName)
+			layer.classList.add('NavigationBarView')
+			layer.id = 'NavigationBarView'
 			layer.style.position = "absolute" // https://developers.google.com/web/updates/2016/12/position-sticky
 			layer.style.top = "0%"
 			layer.style.zIndex = "9"
@@ -139,6 +140,7 @@ class NavigationBarView extends View
 			// layer.style.width = "15%"
 			// layer.style.minWidth = `${self.NavigationBarHeight()}px`
 			// layer.style.height = `${self.NavigationBarHeight()}px`
+			layer.id = "leftBarButtonHolderView";
 			layer.classList.add('nav-button-left-container')
 			self.addSubview(view)
 		}
@@ -147,10 +149,11 @@ class NavigationBarView extends View
 			self.rightBarButtonHolderView = view
 			const layer = view.layer
 			// layer.style.position = "absolute"
-			// layer.style.right = "16px"
+			layer.style.right = "16px"
 			// layer.style.width = "15%"
 			// layer.style.minWidth = `${self.NavigationBarHeight()}px`
 			// layer.style.height = `${self.NavigationBarHeight()}px`
+			layer.id = "rightBarButtonHolderView";
 			layer.classList.add('nav-button-right-container')
 			self.addSubview(view)
 		}

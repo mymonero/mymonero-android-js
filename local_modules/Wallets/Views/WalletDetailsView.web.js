@@ -29,9 +29,9 @@
 "use strict"
 
 //
-import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+import monero_config from '@mymonero/mymonero-monero-config';
 
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint';
 
 //
 import View from '../../Views/View.web';
@@ -57,7 +57,7 @@ import FundsRequestQRDisplayView from '../../RequestFunds/Views/FundsRequestQRDi
 //
 import Currencies from '../../CcyConversionRates/Currencies';
 
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import monero_amount_format_utils from '@mymonero/mymonero-money-format';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 import { Plugins } from '@capacitor/core';

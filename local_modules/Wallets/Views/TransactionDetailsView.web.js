@@ -34,8 +34,8 @@ import View from '../../Views/View.web';
 import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
 import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import monero_amount_format_utils from '@mymonero/mymonero-money-format';
+import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint';
 //
 class TransactionDetailsView extends View
 {

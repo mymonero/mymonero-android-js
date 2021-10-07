@@ -1,51 +1,20 @@
-// Copyright (c) 2014-2019, MyMonero.com
-//
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without modification, are
-// permitted provided that the following conditions are met:
-//
-// 1. Redistributions of source code must retain the above copyright notice, this list of
-//	conditions and the following disclaimer.
-//
-// 2. Redistributions in binary form must reproduce the above copyright notice, this list
-//	of conditions and the following disclaimer in the documentation and/or other
-//	materials provided with the distribution.
-//
-// 3. Neither the name of the copyright holder nor the names of its contributors may be
-//	used to endorse or promote products derived from this software without specific
-//	prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
-// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
-// THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
-// THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-
 const async = require('async')
 const EventEmitter = require('events')
 const extend = require('util')._extend
 const uuidV1 = require('uuid/v1')
-const monero_txParsing_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_txParsing_utils')
-const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
-const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
-const monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
-const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
-const mnemonic_languages = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages')
-const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
+//
+const monero_txParsing_utils = require('@mymonero/mymonero-tx-parsing-utils')
+const monero_sendingFunds_utils = require('@mymonero/mymonero-sendfunds-utils')
+const JSBigInt = require('@mymonero/mymonero-bigint').BigInteger
+const monero_amount_format_utils = require('@mymonero/mymonero-money-format')
+const monero_config = require('@mymonero/mymonero-monero-config')
+const mnemonic_languages = require('@mymonero/mymonero-locales')
 import wallet_persistence_utils from './wallet_persistence_utils';
+//
+const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
+//const wallet_persistence_utils = require('./wallet_persistence_utils')
 const WalletHostPollingController = require('../Controllers/WalletHostPollingController')
 const { default: symmetric_string_cryptor } = require('../../symmetric_cryptor/symmetric_string_cryptor')
-
-// console.log("Logging wpu");
-// console.log(wallet_persistence_utils);
-// console.log(wallet_persistence_utils.SaveToDisk);
-// console.log(wallet_persistence_utils.default.SaveToDisk);
 //
 const wallet_currencies =
 {
@@ -134,8 +103,7 @@ class Wallet extends EventEmitter
 		}
 		context.wallets = [];
 		context.wallets.forEach((element) => {
-			console.log('checking element');
-			console.log(element);
+			//console.log(element);
 		});
 		context.wallets.push(self);
 	}
@@ -180,7 +148,7 @@ class Wallet extends EventEmitter
 		}
 		function _createWithLocale(currentLocale/*TODO rename*/)
 		{
-			var compatibleLocaleCode = mnemonic_languages.compatible_code_from_locale(currentLocale)
+			var compatibleLocaleCode = mnemonic_languages.compatibleCodeFromLocale(currentLocale)
 			if (compatibleLocaleCode == null) {
 				compatibleLocaleCode = "en" // fall back to English 
 			}
@@ -259,9 +227,10 @@ class Wallet extends EventEmitter
 		//
 		// and be sure to delete the managed key image cache
 		self.context.backgroundAPIResponseParser.DeleteManagedKeyImagesForWalletWith(self.public_address, function() {})
+		self.context.wallets = null;
 	}
 	abortAnyLogInRequest()
-	{ // acct info
+	{ // acct info 
 		console.log("Wallet.js: abortAnyLogInRequest")
 		const self = this
 		let req = self.requestHandle_for_logIn
@@ -1101,13 +1070,17 @@ class Wallet extends EventEmitter
 		const self = this
 		var total_received = self.total_received
 		var total_sent = self.total_sent
+
 		if (typeof total_received === 'undefined') {
 			total_received = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
 		}
+
 		if (typeof total_sent === 'undefined') {
 			total_sent = new JSBigInt(0) // patch up to avoid crash as this doesn't need to be fatal
 		}
+
 		const balance_JSBigInt = total_received.subtract(total_sent)
+
 		if (balance_JSBigInt.compare(0) < 0) {
 			return new JSBigInt(0)
 		}
@@ -1194,16 +1167,14 @@ class Wallet extends EventEmitter
 	}
 	HasLockedFunds()
 	{
-		const self = this
-		var locked_balance_JSBigInt = self.locked_balance
-		if (typeof locked_balance_JSBigInt === 'undefined') {
+		if (typeof self.locked_balance === 'undefined') {
 			return false
-		}
-		if (locked_balance_JSBigInt === new JSBigInt(0)) {
+		  }
+		  if (self.locked_balance.compareAbs(0) === 0) {
 			return false
-		}
-		//
-		return true
+		  }
+	  
+		  return true
 	}
 	HumanReadable_walletCurrency()
 	{
@@ -1649,9 +1620,6 @@ class Wallet extends EventEmitter
 		ratesBySymbol
 	) {
 		const self = this
-		//
-		// console.log("_didFetch_accountInfo")
-		//
 		setTimeout(
 			function()
 			{ // just so as not to interfere w/ the _didFetch_accountInfo 'meat'

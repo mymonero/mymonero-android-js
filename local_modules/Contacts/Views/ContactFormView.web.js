@@ -38,8 +38,6 @@ import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents
 
 //
 import emoji_selection from '../../Emoji/emoji_selection';
-console.log("Emoji_selection object");
-console.log(emoji_selection);
 
 //
 class ContactFormView extends View

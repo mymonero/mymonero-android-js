@@ -31,7 +31,7 @@
 //
 import ContactFormView from './ContactFormView.web';
 
-import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
+import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils';
 import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
 import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web';
 

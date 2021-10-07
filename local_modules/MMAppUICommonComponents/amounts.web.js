@@ -39,7 +39,7 @@ import commonComponents_forms from './forms.web';
 import commonComponents_ccySelect from './ccySelect.web';
 
 //
-import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+import monero_config from '@mymonero/mymonero-monero-config';
 
 //
 const NamespaceName = "Forms.Amounts"

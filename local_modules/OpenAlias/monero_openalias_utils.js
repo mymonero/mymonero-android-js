@@ -29,7 +29,7 @@
 "use strict"
 
 //
-import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+import monero_config from '@mymonero/mymonero-monero-config';
 
 // ^-- TODO: remove this
 //

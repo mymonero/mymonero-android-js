@@ -41,9 +41,9 @@ import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.we
 import WalletsSelectView from '../../WalletsList/Views/WalletsSelectView.web';
 
 //
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import monero_amount_format_utils from '@mymonero/mymonero-money-format';
 
-import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils';
+import monero_sendingFunds_utils from '@mymonero/mymonero-sendfunds-utils';
 //
 class ImportTransactionsModalView extends View
 {
