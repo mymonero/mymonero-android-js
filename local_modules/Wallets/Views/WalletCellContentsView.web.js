@@ -31,14 +31,15 @@
 //
 import View from '../../Views/View.web';
 
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint';
 import commonComponents_walletIcons from '../../MMAppUICommonComponents/walletIcons.web';
 import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
 
 //
 import Currencies from '../../CcyConversionRates/Currencies';
 
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+//import monero_amount_format_utils from '@mymonero/mymonero-money-format';
+import monero_amount_format_utils from '@mymonero/mymonero-money-format'
 //
 class WalletCellContentsView extends View
 {
@@ -298,11 +299,13 @@ class WalletCellContentsView extends View
 		} else {
 			amount_JSBigInt = self.wallet.Balance_JSBigInt()
 		}
+
 		const balance_displayStrComponents = Currencies.displayStringComponentsFrom( // this converts to whatever ccy they have selected
 			self.context.CcyConversionRates_Controller_shared,
 			amount_JSBigInt,
 			self.context.settingsController.displayCcySymbol
 		)
+
 		if (self.options.wantsOnlySpendableBalance == true && self.wallet.HasLockedFunds()) {
 			return balance_displayStrComponents.amt_str+"&nbsp;"+balance_displayStrComponents.ccy_str+" unlocked"
 		} else {
@@ -320,6 +323,7 @@ class WalletCellContentsView extends View
 		}
 		self.titleLayer.innerHTML = wallet.walletLabel
 		var descriptionLayer_innerHTML;
+		
 		{
 			if (wallet.isLoggingIn == true) {
 				descriptionLayer_innerHTML = "Logging in…"
@@ -334,7 +338,6 @@ class WalletCellContentsView extends View
 					descriptionLayer_innerHTML = self.__primaryBalanceLabelText()
 				} else {
 					descriptionLayer_innerHTML = ""
-					//
 					const hasLockedFunds = wallet.HasLockedFunds()
 					const amountPending_JSBigInt = wallet.AmountPending_JSBigInt()
 					const hasPendingFunds = amountPending_JSBigInt.compare(0) > 0

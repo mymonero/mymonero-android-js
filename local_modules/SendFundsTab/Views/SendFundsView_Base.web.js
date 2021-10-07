@@ -50,12 +50,12 @@ import commonComponents_actionButtons from '../../MMAppUICommonComponents/action
 import JustSentTransactionDetailsView from './JustSentTransactionDetailsView.web';
 
 //
-import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils';
+import monero_sendingFunds_utils from '@mymonero/mymonero-sendfunds-utils';
 
 import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils';
-import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
-import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils';
+import monero_config from '@mymonero/mymonero-monero-config';
+import monero_amount_format_utils from '@mymonero/mymonero-money-format';
 
 //
 import jsQR from 'jsqr';
@@ -72,7 +72,7 @@ import YatMoneroLookup from "@mymonero/mymonero-yat-lookup/index.esm"
 
 let yatMoneroLookup = YatMoneroLookup.YatMoneroLookup();
 
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
+import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint'; // important: grab defined export
 
 let rateServiceDomainText = "cryptocompare.com"
 //
@@ -284,7 +284,6 @@ class SendFundsView extends View
 		// `
 		// div.innerHTML = html;
 		//
-		console.log(self);
 		self.form_containerLayer.appendChild(div);
 	}
 	_setup_form_walletSelectLayer()
@@ -416,7 +415,6 @@ class SendFundsView extends View
 		}
 		div.appendChild(labelLayer)
 		//
-		console.log(self);
 		const layer = self._new_required_contactPickerLayer()
 		layer.ContactPicker_inputLayer.autocorrect = "off"
 		layer.ContactPicker_inputLayer.autocomplete = "off"
@@ -1595,7 +1593,7 @@ class SendFundsView extends View
 							}
 						)
 						// and of course proceed
-						__proceedTo_generateSendTransaction(self)
+						__proceedTo_generateSendTransaction()
 					}
 				)
 				//
@@ -1621,7 +1619,7 @@ class SendFundsView extends View
 							_reEnableFormElements()
 							return
 						}
-						__proceedTo_generateSendTransaction(self)
+						__proceedTo_generateSendTransaction()
 					}
 				)
 				//
@@ -1629,15 +1627,15 @@ class SendFundsView extends View
 			}
 		}
 		// fall through
-		__proceedTo_generateSendTransaction(self)
+		__proceedTo_generateSendTransaction()
 		//
-		function __proceedTo_generateSendTransaction(self)
+		function __proceedTo_generateSendTransaction()
 		{
 			let contact_payment_id = hasPickedAContact ? self.pickedContact.payment_id : undefined;
 			let cached_OAResolved_address = hasPickedAContact ? self.pickedContact.cached_OAResolved_XMR_address : undefined;
 			let contact_hasOpenAliasAddress = hasPickedAContact ? self.pickedContact.HasOpenAliasAddress() : undefined;
 			let contact_address = hasPickedAContact ? self.pickedContact.address : undefined;
-			console.log(self.isYatHandle);
+
 			wallet.SendFunds(
 				enteredAddressValue, // currency-ready wallet address, but not an OpenAlias address (resolve before calling)
 				resolvedAddress,
@@ -2285,7 +2283,6 @@ class SendFundsView extends View
 	//	
 	__didSelect_actionButton_chooseFile()
 	{
-		console.log("Choose file");
 		const self = this
 		self.context.userIdleInWindowController.TemporarilyDisable_userIdle() // TODO: this is actually probably a bad idea - remove this and ensure that file picker canceled on app teardown
 		if (typeof self.context.Cordova_disallowLockDownOnAppPause !== 'undefined') {
@@ -2296,7 +2293,6 @@ class SendFundsView extends View
 			"Open Monero Request",
 			function(err, absoluteFilePath)
 			{
-				console.log("In return handler from actionButton)_chooseField");
 				self.context.userIdleInWindowController.ReEnable_userIdle()					
 				if (typeof self.context.Cordova_disallowLockDownOnAppPause !== 'undefined') {
 					self.context.Cordova_disallowLockDownOnAppPause -= 1 // remove lock
@@ -2310,7 +2306,6 @@ class SendFundsView extends View
 					self.validationMessageLayer.ClearAndHideMessage() // clear to resolve ambiguity in case existing error is displaying
 					return // nothing picked / canceled
 				}
-				console.log(absoluteFilePath);
 				self._shared_didPickQRCodeWithImageSrcValue(absoluteFilePath)
 			}
 		)
@@ -2319,9 +2314,6 @@ class SendFundsView extends View
 	async startScanning() {
 		let self = this;
 		let result = await CapacitorQRScanner.scan();
-		console.log("Here is the camera scanning result");
-		console.log(result);
-		console.log(result.code);
 		self._shared_didPickPossibleRequestURIStringForAutofill(result.code)
 	}
 	__didSelect_actionButton_useCamera()
@@ -2490,7 +2482,6 @@ class SendFundsView extends View
 		fn // this MUST be called
 	) {
 		const self = this
-		console.log(self.constructor.name + " passwordController_DeleteEverything")
 		self.cancelAny_requestHandle_for_oaResolution()
 		self._clearForm()
 		fn()

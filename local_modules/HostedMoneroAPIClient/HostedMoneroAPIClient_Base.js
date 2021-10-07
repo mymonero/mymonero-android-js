@@ -32,10 +32,10 @@
 import async from 'async';
 
 //
-import { BigInteger as JSBigInt } from '../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
+import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint'; // important: grab defined export
 
-import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
-import net_service_utils from '../mymonero_libapp_js/mymonero-core-js/hostAPI/net_service_utils';
+import monero_config from '@mymonero/mymonero-monero-config';
+import net_service_utils from '@mymonero/mymonero-net-service-utils';
 
 //
 import config__MyMonero from './config__MyMonero';

@@ -30,15 +30,16 @@
 
 //
 // In the future this could implement web workers
-import response_parser_utils from '../mymonero_libapp_js/mymonero-core-js/hostAPI/response_parser_utils';
+import response_parser_utils from '@mymonero/mymonero-response-parser-utils';
 
-import monero_keyImage_cache_utils from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_keyImage_cache_utils';
-//
+import monero_keyImage_cache_utils from '@mymonero/mymonero-keyimage-cache';
+
+let response_parser_utils_instance = response_parser_utils();
+
 class BackgroundResponseParser
 {
 	constructor(options, context)
 	{
-		console.log("Imported backgroundResponseParder.web.js");
 		if (typeof options.coreBridge_instance == 'undefined' || options.coreBridge_instance == null) {
 			throw "BackgroundResponseParser.web expected options.coreBridge_instance"
 		}
@@ -99,7 +100,7 @@ class BackgroundResponseParser
 	) {
 		monero_keyImage_cache_utils.DeleteManagedKeyImagesForWalletWith(address)
 		if (fn) {
-			setImmediate(fn)
+			//setImmediate(fn)
 		}
 	}
 }

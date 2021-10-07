@@ -35,7 +35,7 @@ import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
 import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web';
 
 //
-import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
+import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils';
 
 //
 class EditContactFromContactsTabView extends ContactFormView

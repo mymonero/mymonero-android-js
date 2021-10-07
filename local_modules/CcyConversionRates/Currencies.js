@@ -29,10 +29,10 @@
 "use strict"
 
 //
-import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+import monero_config from '@mymonero/mymonero-monero-config';
 
-import monero_amount_format_utils from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
-import { BigInteger as JSBigInt } from '../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import monero_amount_format_utils from '@mymonero/mymonero-money-format';
+import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint';
 //
 let ccySymbolsByCcy = 
 {

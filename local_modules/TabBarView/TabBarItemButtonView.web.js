@@ -84,14 +84,19 @@ class TabBarItemButtonView extends View
 			self.__applyStylesToLayer(self.layer_baseStyleTemplate, self.layer)
 		}
 		{ // icon
-			const layer = document.createElement("div")
-			layer.style.webkitAppRegion = "no-drag" // make clickable
-			layer.style.width = `100%`
-			layer.style.height = `100%`
-			layer.style.border = "none"
+			const layer = document.createElement('div')
+			layer.style.webkitAppRegion = 'no-drag' // make clickable
+			layer.style.width = '100%'
+			layer.style.height = '100%'
+			layer.style.border = 'none'
 			self.iconImageLayer = layer
 			self.layer.appendChild(self.iconImageLayer)
 			self.__applyStylesToLayer(self.icon_baseStyleTemplate, self.iconImageLayer)
+			
+			if (self.icon_baseStyleTemplate.hasOwnProperty('divId')) {
+				self.iconImageLayer.id = self.icon_baseStyleTemplate.divId;
+				self.iconImageLayer.classList.add(self.icon_baseStyleTemplate.divId);
+			}
 		}
 		{ // observation
 			self.layer.addEventListener(

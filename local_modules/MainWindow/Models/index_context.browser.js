@@ -1,33 +1,4 @@
-// Copyright (c) 2014-2019, MyMonero.com
-//
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without modification, are
-// permitted provided that the following conditions are met:
-//
-// 1. Redistributions of source code must retain the above copyright notice, this list of
-//	conditions and the following disclaimer.
-//
-// 2. Redistributions in binary form must reproduce the above copyright notice, this list
-//	of conditions and the following disclaimer in the documentation and/or other
-//	materials provided with the distribution.
-//
-// 3. Neither the name of the copyright holder nor the names of its contributors may be
-//	used to endorse or promote products derived from this software without specific
-//	prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
-// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
-// THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
-// THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 "use strict"
-
 //
 import TXTRecordResolver from '../../OpenAlias/TXTResolver.web';
 import Pasteboard from '../../Pasteboard/Pasteboard.browser';
@@ -39,8 +10,8 @@ import Locale from "../../Locale/Locale.browser";
 import symmetric_cryptor from "../../symmetric_cryptor/BackgroundStringCryptor.noOp";
 import ContactsListController from "../../Contacts/Controllers/ContactsListController"
 import DocumentPersister from "../../DocumentPersister/DocumentPersister.SecureStorage";
-import backgroundAPIResponseParser from "../../HostedMoneroAPIClient/BackgroundResponseParser.web";
-import HostedMoneroAPIClient from "../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
+import backgroundAPIResponseParser from "@mymonero/mymonero-response-parser-utils";
+import HostedMoneroAPIClient from "@mymonero/mymonero-hosted-api"; 
 import OpenAlias from "../../OpenAlias/OpenAliasResolver";
 import Theme from "../../Theme/ThemeController";
 import FundsRequestsListController from "../../RequestFunds/Controllers/FundsRequestsListController"
@@ -137,6 +108,7 @@ function NewHydratedContext(initialContext)
 			options: {
 				appUserAgent_product: app.getName(),
 				appUserAgent_version: app.getVersion(),
+				apiUrl: app.getApiUrl(),
 				request_conformant_module: require('xhr') 
 			}
 		},

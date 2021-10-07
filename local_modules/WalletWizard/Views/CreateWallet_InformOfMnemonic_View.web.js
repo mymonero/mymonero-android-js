@@ -1,31 +1,3 @@
-// Copyright (c) 2014-2019, MyMonero.com
-//
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without modification, are
-// permitted provided that the following conditions are met:
-//
-// 1. Redistributions of source code must retain the above copyright notice, this list of
-//	conditions and the following disclaimer.
-//
-// 2. Redistributions in binary form must reproduce the above copyright notice, this list
-//	of conditions and the following disclaimer in the documentation and/or other
-//	materials provided with the distribution.
-//
-// 3. Neither the name of the copyright holder nor the names of its contributors may be
-//	used to endorse or promote products derived from this software without specific
-//	prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
-// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
-// THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
-// THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 "use strict"
 
 //
@@ -36,7 +8,7 @@ import commonComponents_walletMnemonicBox from '../../MMAppUICommonComponents/wa
 import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
 
 //
-import mnemonic_languages from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages';
+import mnemonic_languages from '@mymonero/mymonero-locales';
 
 //
 import BaseView_AWalletWizardScreen from './BaseView_AWalletWizardScreen.web';
@@ -112,12 +84,12 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 			//
 			let selectLayer = document.createElement("select")
 			{
-				const currentValue = mnemonic_languages.compatible_code_from_locale(self.wizardController.currentWalletUsedLocaleCode)
+				const currentValue = mnemonic_languages.compatibleCodeFromLocale(self.wizardController.currentWalletUsedLocaleCode)
 				if (currentValue == null) {
 					throw "Expected to find compatible locale code"
 				}
-				let values = mnemonic_languages.supported_short_codes
-				let descriptions = mnemonic_languages.mnemonic_languages
+				let values = mnemonic_languages.supportedShortCodes
+				let descriptions = mnemonic_languages.mnemonicLanguages
 				let numberOf_values = values.length
 				for (var i = 0 ; i < numberOf_values ; i++) {
 					let value = values[i]
@@ -296,7 +268,7 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 	_reconfigureLanguageSelect()
 	{
 		const self = this
-		const currentValue = mnemonic_languages.compatible_code_from_locale(self.wizardController.currentWalletUsedLocaleCode)
+		const currentValue = mnemonic_languages.compatibleCodeFromLocale(self.wizardController.currentWalletUsedLocaleCode)
 		if (currentValue == null) {
 			throw "Expected to find compatible locale code"
 		}

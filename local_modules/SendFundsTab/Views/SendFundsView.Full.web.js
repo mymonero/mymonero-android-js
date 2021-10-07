@@ -36,10 +36,6 @@ import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
 import AddContactFromSendTabView from '../../Contacts/Views/AddContactFromSendTabView.web';
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web';
 
-console.log("SendFundsViewCommonComponentsContactPicker");
-console.log(typeof(commonComponents_contactPicker));
-console.log(commonComponents_contactPicker.New_contactPickerLayer);
-console.log(typeof(commonComponents_contactPicker.New_contactPickerLayer))
 //
 class SendFundsView extends SendFundsView_Base
 {

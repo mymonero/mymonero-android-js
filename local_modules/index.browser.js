@@ -30,18 +30,16 @@
 //
 "use strict"
 //
-import RootView from '../Views/RootView.Lite.web' // electron uses .web files as it has a web DOM
-import setup_utils from '../../MMAppRendererSetup/renderer_setup.browser'
-import MyMoneroLibAppBridge from '../../mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge'
-import indexContextBrowser from '../Models/index_context.browser'
-import cryptonoteUtilsNetType from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype'
-import emoji_web from '../../Emoji/emoji_web'
-import RootTabBarAndContentView from './RootTabBarAndContentView.Full.web'
+import RootView from './MainWindow/Views/RootView.Lite.web' // electron uses .web files as it has a web DOM
+import setup_utils from './MMAppRendererSetup/renderer_setup.browser'
+import MyMoneroLibAppBridge from '@mymonero/mymonero-app-bridge'
+import indexContextBrowser from './MainWindow/Models/index_context.browser'
+import cryptonoteUtilsNetType from '@mymonero/mymonero-nettype'
+import emoji_web from './Emoji/emoji_web'
+import RootTabBarAndContentView from './MainWindow/Views/RootTabBarAndContentView.Full.web'
 import { Plugins } from '@capacitor/core';
 
 const { App } = Plugins;
-
-console.log(App);
 
 window.BootApp = function()
 { // encased in a function to prevent scope being lost/freed on mobile
@@ -50,11 +48,14 @@ window.BootApp = function()
 	{ // implementing some methods to provide same API as electron
 		getVersion: function() 
 		{ 
-			return "1.1.21" // TODO: read from config.. don't want to ship package.json with app though
+			return "1.2.0" // TODO: read from config.. don't want to ship package.json with app though
 		},
 		getName: function() 
 		{ 
 			return "MyMonero"
+		},
+		getApiUrl: function () {
+			return 'api.mymonero.com'
 		},
 		getDeviceManufacturer: function() { 
 			throw 'app.getDeviceManufacturer(): Unsupported platform'
@@ -125,7 +126,7 @@ window.BootApp = function()
 				// when window resized on mobile (i.e. possibly when device rotated - 
 				// though we don't support that yet
 				// if(/Android/.test(navigator.appVersion)) {
-				const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
+				const commonComponents_forms = require('./MMAppUICommonComponents/forms.web')
 				
 				// MYM only supports portrait mode for now
 				// window.addEventListener("resize", function()
