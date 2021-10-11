@@ -2637,3 +2637,9 @@ div.customSelect {}
 .selectIndicator {
   pointer-events: none; border: none; position: absolute; width: 8px; height: 13px;  z-index: 9; background-image: url(../../../assets/img/smallSelect_disclosureArrow@3x.png); background-repeat: no-repeat; background-position: center center; background-size: 8px 13px; 
 }
+
+@media screen and (max-width: 416px) and (max-height: 720px) {
+  #stack-view-stage-view {
+    overflow-y: scroll !important;
+  }
+}

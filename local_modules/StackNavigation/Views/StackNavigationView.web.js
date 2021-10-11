@@ -91,6 +91,7 @@ class StackNavigationView extends View
 				layer.style.top = "0"
 				layer.style.width = "100%"
 				layer.style.height = "100%"
+				layer.id = "stack-view-stage-view"
 				layer.style.overflow = "hidden" // we're going to say subviews are not allowed to hijack scroll - if they want to, they have to create their own wrapper - or else transitions cause scroll bar to appear
 			}
 			self.addSubview(view)
