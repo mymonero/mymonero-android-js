@@ -48,7 +48,7 @@ window.BootApp = function()
 	{ // implementing some methods to provide same API as electron
 		getVersion: function() 
 		{ 
-			return "1.2.0" // TODO: read from config.. don't want to ship package.json with app though
+			return "1.2.1" // TODO: read from config.. don't want to ship package.json with app though
 		},
 		getName: function() 
 		{ 
