@@ -40,7 +40,7 @@ const NamespaceName = "walletMnemonicBox"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
 {
-	const useMobRendOpts = context.Views_selectivelyEnableMobileRenderingOptimizations === true
+	const useMobRendOpts = true
 	const cssRules =
 	[
 		`.mnemonic-container {

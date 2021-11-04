@@ -148,11 +148,6 @@ class StackAndModalNavigationView extends StackNavigationView
 				modalView_layer.style.position = "absolute"
 				modalView_layer.style.zIndex = "20" // 20 because we'll want to insert a semi-trans curtain view under the modalView_layer above the old_topStackView
 				modalView_layer.style.top = `${ self.layer.offsetHeight }px`
-				//
-				if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-					const to_boxShadow = "0px 0px 100px 2px rgba(0,0,0,0.5)"
-					modalView_layer.style.boxShadow = to_boxShadow
-				}
 			}
 			{ // manually simulate a view visibility events
 				old_topStackView.viewWillDisappear()
@@ -180,9 +175,6 @@ class StackAndModalNavigationView extends StackNavigationView
 								complete: function()
 								{
 									__configureModalLayerForTransitionEnd()
-									if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) { // since we didn't change it if this is not the case
-										modalView_layer.style.boxShadow = preExisting_boxShadow // restore pre-existing, in case consumer had put one on
-									}
 									_afterHavingFullyPresentedNewModalView_removeOldTopModalView()
 									__trampolineFor_transitionEnded()
 								}

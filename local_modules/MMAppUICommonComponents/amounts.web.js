@@ -142,15 +142,13 @@ function New_AmountInputFieldPKG(
 		const this_layer = this
 		commonComponents_forms._shared_scrollConformingElementIntoView(this_layer)
 	}
-	if (context.CommonComponents_Forms_scrollToInputOnFocus == true) {
-		valueLayer.addEventListener(
-			"focus",
-			function()
-			{
-				valueLayer.Component_ScrollIntoViewInFormContainerParent()
-			}
-		)
-	}
+	valueLayer.addEventListener(
+		"focus",
+		function()
+		{
+			valueLayer.Component_ScrollIntoViewInFormContainerParent()
+		}
+	)
 	//
 	// Currency picker
 	// TODO: move these into class + css rules

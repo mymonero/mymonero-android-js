@@ -250,11 +250,7 @@ class FundsRequestsListView extends ListView
 			} else {
 				layer.style.margin = "16px 16px 15px 16px"
 				layer.style.background = "#383638"
-				if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-					layer.style.boxShadow = "0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749"
-				} else {
-					layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
-				}
+				layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
 				layer.style.borderRadius = "5px"
 				layer.style.overflow = "hidden" // to cut off hover style at borders
 				layer.style.clipPath = "inset(0 0 0 0 round 5px)" // cause chrome to properly mask children on hover

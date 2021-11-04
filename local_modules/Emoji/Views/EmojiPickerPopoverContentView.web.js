@@ -150,9 +150,6 @@ class EmojiPickerPopoverContentView extends View
 			emoji
 		)
 		layer.classList.add("EmojiButtonView")
-		if (self.context.Emoji_renderWithNativeEmoji !== true) {
-			layer.classList.add("withNonNativeEmoji")
-		}
 		layer.addEventListener(
 			"click",
 			function(e)

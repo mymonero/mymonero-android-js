@@ -641,11 +641,7 @@ class NavigationBarView extends View
 		const self = this
 		if (self.isShowingScrollShadow !== false) {
 			self.isShowingScrollShadow = false
-			if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				self.layer.style.boxShadow = "none"
-			} else {
-				self.layer.style.backgroundColor = "none"
-			}
+			self.layer.style.backgroundColor = "none"
 		}
 	}
 	_configureNavBarScrollShadowAs_positiveScroll_showShadow()
@@ -653,11 +649,7 @@ class NavigationBarView extends View
 		const self = this
 		if (self.isShowingScrollShadow !== true) {
 			self.isShowingScrollShadow = true
-			if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				self.layer.style.boxShadow = "0 1px 0 0 rgba(0,0,0,0.60), 0 3px 6px 0 rgba(0,0,0,0.40)"
-			} else { // avoiding shadow
-				self.layer.style.backgroundColor = "black"
-			}
+			self.layer.style.backgroundColor = "black"
 		}
 	}
 }

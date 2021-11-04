@@ -116,30 +116,17 @@ function New_ActionButtonView(
 			layer.classList.add(commonComponents_hoverableCells.ClassFor_GreyCell())
 			layer.style.color = "#FCFBFC"
 			layer.style.backgroundColor = "#383638"
-			if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749"
-			} else { // avoiding shadow gradient
-				layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
-			}
+			layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
 			context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
 				layer,
 				true // bright content, dark bg
 			)
-			if (context.ThemeController_isMobileBrowser !== true) { // note: using the same flag as themeController for toggling font sizes - slightly fragile tho
-				layer.style.lineHeight = (ActionButton_h+2) + "px" // set for smaller font size so layout isn't messed
-			} else {
-				layer.style.lineHeight = ActionButton_h + "px" // reset/set on mobile - cause font size is consistent
-			}
+			layer.style.lineHeight = ActionButton_h + "px" // reset/set on mobile - cause font size is consistent
 		} else if (colorType == "blue") {
 			layer.classList.add(commonComponents_hoverableCells.ClassFor_BlueCell())
 			layer.style.color = "#161416"
 			layer.style.backgroundColor = "#00C6FF"
-			if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "inset 0 0.5px 0 0 rgba(255,255,255,0.20)"
-			} else {
-				// TODO: add replacement box shadow w/effective color and 1.0 opacity
-				layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
-			}
+			layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
 			context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
 				layer,
 				false // dark content, bright bg
@@ -150,12 +137,7 @@ function New_ActionButtonView(
 			layer.classList.add(commonComponents_hoverableCells.ClassFor_RedCell())
 			layer.style.color = "#161416"
 			layer.style.backgroundColor = "#f97777"
-			if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "inset 0 0.5px 0 0 rgba(255,255,255,0.20)"
-			} else {
-				// TODO: add replacement box shadow w/effective color and 1.0 opacity
-				layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
-			}
+			layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
 			context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
 				layer,
 				false // dark content, bright bg

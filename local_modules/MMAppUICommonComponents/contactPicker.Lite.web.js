@@ -76,10 +76,7 @@ function New_contactPickerLayer_Lite(
 			function(event)
 			{
 				isFocused = true
-				//
-				if (context.CommonComponents_Forms_scrollToInputOnFocus == true) {
-					inputLayer.Component_ScrollIntoViewInFormContainerParent()
-				}
+				inputLayer.Component_ScrollIntoViewInFormContainerParent()
 			}
 		)
 		inputLayer.Component_ScrollIntoViewInFormContainerParent = function()

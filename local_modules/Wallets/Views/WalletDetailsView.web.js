@@ -135,11 +135,7 @@ class WalletDetailsView extends View
 			layer.style.height = "71px"
 			layer.style.marginTop = "16px"
 			layer.style.padding = "17px 17px"
-			if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "0 0.5px 1px 0 rgba(0,0,0,0.20), inset 0 0.5px 0 0 rgba(255,255,255,0.20)"
-			} else { // avoiding shadow
-				layer.style.boxShadow = "inset 0 0.5px 0 0 rgba(255,255,255,0.20)"
-			}
+			layer.style.boxShadow = "inset 0 0.5px 0 0 rgba(255,255,255,0.20)"
 			layer.style.borderRadius = "5px"
 			//
 			layer.style.whiteSpace = "nowrap"
@@ -865,11 +861,7 @@ class WalletDetailsView extends View
 		self.transactions_listContainerLayer = listContainerLayer
 		listContainerLayer.style.margin = `16px 0 16px 0`
 		listContainerLayer.style.background = "#383638"
-		if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-			listContainerLayer.style.boxShadow = "0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749"
-		} else { // avoiding shadow
-			listContainerLayer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
-		}
+		listContainerLayer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
 		listContainerLayer.style.borderRadius = "5px"
 		listContainerLayer.style.overflow = "hidden" // mask to bounds, for corner radius on cell hover highlight
 		{

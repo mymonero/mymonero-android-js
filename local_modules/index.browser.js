@@ -37,13 +37,8 @@ window.BootApp = function()
 			TabBarView_thickness: isHorizontalBar ? 48 : 79,
 			rootViewFooterHeight: 32,
 			TabBarView_isHorizontalBar: isHorizontalBar,
-			ThemeController_isMobileBrowser: isMobile,
-			Tooltips_nonHoveringBehavior: isMobile, // be able to dismiss on clicks etc
-			Emoji_renderWithNativeEmoji: isMobile, // b/c this is a browser, we could be on desktop, i.e. w/o guaranteed native emoji support
 			appDownloadLink_domainAndPath: "mymonero.com",
 			HostedMoneroAPIClient_DEBUGONLY_mockSendTransactionSuccess: false,
-			Views_selectivelyEnableMobileRenderingOptimizations: isMobile,
-			CommonComponents_Forms_scrollToInputOnFocus: isMobile,
 			monero_utils: coreBridge_instance
 		})
 		window.MyMonero_context = context

@@ -212,12 +212,7 @@ function New_fieldValue_textInputLayer(context, params)
 	layer.style.padding = `0 ${padding_h}px`
 	layer.style.fontFamily = context.themeController.FontFamily_monospaceLight()
 	layer.style.outline = "none" // no focus ring
-	// editable:true
-	if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-		layer.style.boxShadow = "0 0.5px 0 0 rgba(56,54,56,0.50), inset 0 0.5px 0 0 #161416"
-	} else { // avoiding shadow
-		layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
-	}
+	layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
 	layer.style.color = "#dfdedf"
 	layer.style.backgroundColor = "#1d1b1d"
 	layer.disabled = false
@@ -226,15 +221,13 @@ function New_fieldValue_textInputLayer(context, params)
 		const this_layer = this
 		_shared_scrollConformingElementIntoView(this_layer)
 	}
-	if (context.CommonComponents_Forms_scrollToInputOnFocus == true) {
-		layer.addEventListener(
-			"focus",
-			function()
-			{
-				layer.Component_ScrollIntoViewInFormContainerParent()
-			}
-		)
-	}
+	layer.addEventListener(
+		"focus",
+		function()
+		{
+			layer.Component_ScrollIntoViewInFormContainerParent()
+		}
+	)
 	return layer
 }
 //
@@ -279,11 +272,7 @@ function New_fieldValue_textAreaView(params, context)
 	view.SetEnabled = function(isEnabled)
 	{
 		if (isEnabled) {
-			if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "0 0.5px 0 0 rgba(56,54,56,0.50), inset 0 0.5px 0 0 #161416"
-			} else { // avoiding shadow
-				layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
-			}
+			layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
 			//
 			layer.style.color = "#dfdedf"
 			layer.style.backgroundColor = "#1d1b1d"
@@ -305,17 +294,15 @@ function New_fieldValue_textAreaView(params, context)
 		const this_layer = this
 		_shared_scrollConformingElementIntoView(this_layer)
 	}
-	if (context.CommonComponents_Forms_scrollToInputOnFocus == true) {
-		layer.addEventListener(
-			"focus",
-			function()
-			{
-				// TODO: retain cycle?
-				layer.Component_ScrollIntoViewInFormContainerParent()
-			}
-		)
-	}
-	//
+	layer.addEventListener(
+		"focus",
+		function()
+		{
+			// TODO: retain cycle?
+			layer.Component_ScrollIntoViewInFormContainerParent()
+		}
+	)
+	
 	return view
 }
 //
