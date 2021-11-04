@@ -191,7 +191,7 @@ class EditWalletView extends View
 						return false
 					}
 					self.context.windowDialogs.PresentQuestionAlertDialogWith(
-						self.context.isLiteApp == true ? 'Delete Wallet?' : 'Deleting Wallet', 
+						'Delete Wallet?', 
 						'You are about to delete a wallet.\n\nMake sure you saved your mnemonic! It can be found by clicking the arrow next to Address on the Wallet screen. You will need your mnemonic to recover access to this wallet.\n\nAre you sure you want to log out of this wallet?',						
 						'Delete Wallet',
 						'Cancel',

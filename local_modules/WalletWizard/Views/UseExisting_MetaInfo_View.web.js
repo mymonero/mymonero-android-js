@@ -454,17 +454,11 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 	lookup__walletName()
 	{
 		const self = this
-		// if (self.context.isLiteApp == true) {
-		// 	return self.context.walletsListController.LiteAppWalletName()
-		// }
 		return self.walletNameInputLayer.value
 	}
 	lookup__colorHexString()
 	{
 		const self = this
-		// if (self.context.isLiteApp == true) {
-		// 	return self.context.walletsListController.LiteAppWalletSwatchColor()
-		// }
 		return self.walletColorPickerInputView.Component_Value()
 	}
 	lookup__mnemonicSeed()

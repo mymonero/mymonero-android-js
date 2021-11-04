@@ -27,10 +27,6 @@ const txtRecordResolver = new TXTRecordResolver({})
 function NewHydratedContext(initialContext)
 {
 	initialContext = initialContext || {}
-	const app = initialContext.app
-	if (!app) {
-		throw "app required"
-	}
 	//
 	// placing context_object_instantiation_descriptions in here so we can get the console opened in time to catch any errors (sigh)
 	var context_object_instantiation_descriptions =
@@ -79,22 +75,6 @@ function NewHydratedContext(initialContext)
 			options: {
 			}
 		},
-		// {
-		// 	module: require("../../HostedMoneroAPIClient/BackgroundResponseParser.web"),
-		// 	instance_key: "backgroundAPIResponseParser",
-		// 	options: {
-		// 		coreBridge_instance: initialContext.monero_utils // the same as coreBridge_instance
-		// 	}
-		// },
-		// {
-		// 	module: require("../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"),
-		// 	instance_key: "hostedMoneroAPIClient",
-		// 	options: {
-		// 		appUserAgent_product: app.getName(),
-		// 		appUserAgent_version: app.getVersion(),
-		// 		request_conformant_module: require('xhr') 
-		// 	}
-		// },
 		{
 			module: backgroundAPIResponseParser,
 			instance_key: "backgroundAPIResponseParser",
@@ -106,9 +86,9 @@ function NewHydratedContext(initialContext)
 			module: HostedMoneroAPIClient,
 			instance_key: "hostedMoneroAPIClient",
 			options: {
-				appUserAgent_product: app.getName(),
-				appUserAgent_version: app.getVersion(),
-				apiUrl: app.getApiUrl(),
+				appUserAgent_product: initialContext.name,
+				appUserAgent_version: initialContext.version,
+				apiUrl: initialContext.apiUrl,
 				request_conformant_module: require('xhr') 
 			}
 		},

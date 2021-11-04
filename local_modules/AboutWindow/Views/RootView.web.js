@@ -96,7 +96,7 @@ class RootView extends View
 			layer.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
 			layer.style.color = "#FCFBFC"
 			layer.style.webkitFontSmoothing = "subpixel-antialiased"
-			layer.innerHTML = `Version ${self.context.app.getVersion()}`
+			layer.innerHTML = `Version ${self.context.version}`
 			self.layer.appendChild(layer)
 		}
 		{

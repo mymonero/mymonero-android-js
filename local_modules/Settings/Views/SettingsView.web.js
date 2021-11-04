@@ -99,28 +99,14 @@ class SettingsView extends View
 		const containerLayer = document.createElement("div")
 		self.form_containerLayer = containerLayer
 		{
-			if (self.context.Settings_shouldDisplayAboutAppButton === true) {
-				self._setup_aboutAppButton()
-			}
-			//if (self.context.isLiteApp != true) {
-				self._setup_form_field_changePasswordButton()
-			//}
+			self._setup_aboutAppButton()
+			self._setup_form_field_changePasswordButton()
 			self._setup_form_field_appTimeoutSlider()
-			//if (self.context.isLiteApp != true) {
-				self._setup_form_field_authentication() // no password protecting Lite app
-			//}
+			self._setup_form_field_authentication() // no password protecting Lite app
 			self._setup_form_field_displayCcy()
-			//if (self.context.isLiteApp != true) {
-				self._setup_form_field_serverURL()
-			//}
-			if (self.context.isLiteApp != true) {
-				const isLinux = typeof process.platform !== 'undefined' && process.platform && /linux/.test(process.platform)
-				if (isLinux != true) { // because there is no software update support under linux (yet) .. TODO: possibly just encode this under a self.context.appHasSoftwareUpdateSupport so we can switch it in one place
-					self._setup_form_field_appUpdates()
-				}
-			}
+			self._setup_form_field_serverURL()
 			self._setup_deleteEverythingButton()
-			//
+			
 			containerLayer.style.paddingBottom = "64px"
 		}
 		self.layer.appendChild(containerLayer)
@@ -702,27 +688,6 @@ class SettingsView extends View
 		}
 		const passwordController = self.context.passwordController
 		{ // config change pw btn text, app timeout slider, …
-			// if (self.context.isLiteApp == true) {
-			// 	if (self.changePasswordButtonView) {
-			// 		throw "Did not expect self.changePasswordButtonView"
-			// 	}
-			// 	self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before automatic log-out"
-			// } else {
-			// 	if (!self.changePasswordButtonView) {
-			// 		throw "Expected self.changePasswordButtonView"
-			// 	}
-			// 	const layer = self.changePasswordButtonView.layer
-			// 	const userSelectedTypeOfPassword = passwordController.userSelectedTypeOfPassword
-			// 	const passwordType_humanReadableString = passwordController.HumanReadable_AvailableUserSelectableTypesOfPassword()[userSelectedTypeOfPassword]
-			// 	if (typeof passwordType_humanReadableString !== 'undefined') {
-			// 		const capitalized_passwordType = passwordType_humanReadableString.charAt(0).toUpperCase() + passwordType_humanReadableString.slice(1)
-			// 		layer.innerHTML = "Change " + capitalized_passwordType
-			// 		self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before your " + passwordType_humanReadableString + " is required"
-			// 	}
-			// }
-			// if (!self.changePasswordButtonView) {
-			// 	throw "Expected self.changePasswordButtonView"
-			// }
 			const layer = self.changePasswordButtonView.layer
 			const userSelectedTypeOfPassword = passwordController.userSelectedTypeOfPassword
 			const passwordType_humanReadableString = passwordController.HumanReadable_AvailableUserSelectableTypesOfPassword()[userSelectedTypeOfPassword]

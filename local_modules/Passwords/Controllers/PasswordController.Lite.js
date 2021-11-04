@@ -41,9 +41,6 @@ class PasswordController extends PasswordController_Base
 	setupAndBoot()
 	{
 		const self = this
-		if (self.context.isLiteApp != true) {
-			throw "Expected self.context.isLiteApp=true"
-		}
 		setTimeout( // for effect / simulated synchronization
 			function()
 			{

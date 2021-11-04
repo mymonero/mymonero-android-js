@@ -680,10 +680,6 @@ class WalletDetailsView extends View
 	{
 		const self = this
 		const view = commonComponents_navigationBarButtons.New_RightSide_EditButtonView(self.context)
-		// if (self.context.isLiteApp == true) {
-		// 	view.layer.innerHTML = "Log&nbsp;Out"
-		// 	view.layer.style.width = "64px"
-		// }
 		const layer = view.layer
 		layer.addEventListener(
 			"click",
