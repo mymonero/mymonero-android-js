@@ -158,7 +158,9 @@ function New_AmountInputFieldPKG(
 	let ccySelectLayer = commonComponents_ccySelect.new_selectLayer()
 	var ccySelect_disclosureArrow_layer; // will be set
 	{
-		context.themeController.StyleLayer_FontAsSmallSemiboldSansSerif(ccySelectLayer)
+		ccySelectLayer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+		ccySelectLayer.style.fontSize = "11px"
+		ccySelectLayer.style.fontWeight = "600" // semibold desired but "semibold" doesn't apparently work
 		//
 		// TODO: move these into class + css rules
 		//
@@ -232,7 +234,9 @@ function New_AmountInputFieldPKG(
 	effectiveAmountLabelLayer.style.margin = "0 0 0 8px"
 	effectiveAmountLabelLayer.style.verticalAlign = "middle"
 	effectiveAmountLabelLayer.style.color = "#8D8B8D"
-	context.themeController.StyleLayer_FontAsSubMiddlingRegularMonospace(effectiveAmountLabelLayer)
+	effectiveAmountLabelLayer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+	effectiveAmountLabelLayer.style.fontSize = "12px"
+	effectiveAmountLabelLayer.style.fontWeight = "normal"
 	div.appendChild(effectiveAmountLabelLayer)
 	//
 	var max_buttonView;

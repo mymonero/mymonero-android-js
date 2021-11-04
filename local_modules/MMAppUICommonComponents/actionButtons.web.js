@@ -117,20 +117,20 @@ function New_ActionButtonView(
 			layer.style.color = "#FCFBFC"
 			layer.style.backgroundColor = "#383638"
 			layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
-			context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
-				layer,
-				true // bright content, dark bg
-			)
+			layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+			layer.style.fontSize = "13px"
+			layer.style.letterSpacing = "0"
+			layer.style.fontWeight = "600"
 			layer.style.lineHeight = ActionButton_h + "px" // reset/set on mobile - cause font size is consistent
 		} else if (colorType == "blue") {
 			layer.classList.add(commonComponents_hoverableCells.ClassFor_BlueCell())
 			layer.style.color = "#161416"
 			layer.style.backgroundColor = "#00C6FF"
 			layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
-			context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
-				layer,
-				false // dark content, bright bg
-			)
+			layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+			layer.style.fontSize = "13px"
+			layer.style.letterSpacing = "0"
+			layer.style.fontWeight = "600"
 			layer.style.transform = "none" // reset
 			layer.style.lineHeight = ActionButton_h + "px" // reset/set
 		} else if (colorType === "red") {
@@ -138,10 +138,10 @@ function New_ActionButtonView(
 			layer.style.color = "#161416"
 			layer.style.backgroundColor = "#f97777"
 			layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
-			context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
-				layer,
-				false // dark content, bright bg
-			)
+			layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+			layer.style.fontSize = "13px"
+			layer.style.letterSpacing = "0"
+			layer.style.fontWeight = "600"
 			layer.style.lineHeight = ActionButton_h + "px" // reset/set
 		} else {
 			throw "unrecognized colorType " + colorType
@@ -172,7 +172,7 @@ function New_ActionButtonView(
 		}		
 		layer.style.textDecoration = "none"
 		layer.style.textAlign = "center"
-		layer.style.fontFamily = context.themeController.FontFamily_sansSerif()
+		layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 		if (isRightmostButtonInContainer !== true) {
 			layer.style.marginRight = ActionButton_rightMargin + "px"
 		}

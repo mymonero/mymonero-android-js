@@ -53,7 +53,6 @@ import JustSentTransactionDetailsView from './JustSentTransactionDetailsView.web
 import monero_sendingFunds_utils from '@mymonero/mymonero-sendfunds-utils';
 
 import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils';
-import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils';
 import monero_config from '@mymonero/mymonero-monero-config';
 import monero_amount_format_utils from '@mymonero/mymonero-money-format';
 
@@ -615,10 +614,10 @@ class SendFundsView extends View
 				selectLayer.style.MozAppearance = "none"
 				selectLayer.style.msAppearance = "none"
 				selectLayer.style.appearance = "none"
-				self.context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
-					selectLayer,
-					true // bright content, dark bg
-				)
+				selectLayer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+				selectLayer.style.fontSize = "13px"
+				selectLayer.style.letterSpacing = "0"
+				selectLayer.style.fontWeight = "600"
 				if (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 					selectLayer.style.textIndent = "4px"
 				} else {
@@ -761,7 +760,7 @@ class SendFundsView extends View
 			div.style.marginTop = "24px"
 			//
 			div.style.fontSize = "13px"
-			div.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
+			div.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 			div.style.color = "#9E9C9E"
 			div.style.fontWeight = "300"
 			div.style.webkitFontSmoothing = "subpixel-antialiased"

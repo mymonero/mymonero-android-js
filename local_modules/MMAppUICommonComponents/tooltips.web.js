@@ -202,7 +202,7 @@ const cssRules =
 		color: #161416;
 		font-weight: normal;
 		-webkit-font-smoothing: subpixel-antialiased;
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; /* the one place where i can't easily access context.themeController.FontFamily_sansSerif */
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 	}`,
 
 ]

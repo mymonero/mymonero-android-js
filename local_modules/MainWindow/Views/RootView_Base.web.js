@@ -45,7 +45,6 @@ class RootView extends View
 	setup()
 	{
 		const self = this
-		// figure this is a better place to do this than index.js and themeController
 		commonComponents_assetPreloader.PreLoadImages(self.context)
 		self.setup_views()
 	}

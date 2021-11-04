@@ -51,7 +51,7 @@ function cssRules_generatorFn(context)
 			border: 1px solid rgba(255, 255, 255, 0.3);
 			padding: 16px;
 			position: fixed;
-			font-family: ${context.themeController.FontFamily_sansSerif()};
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 			z-index: 500000000;
 			left: 50%;
 			bottom: 30px;

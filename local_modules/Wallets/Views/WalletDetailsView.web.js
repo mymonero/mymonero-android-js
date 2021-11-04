@@ -146,7 +146,7 @@ class WalletDetailsView extends View
 		const mainLabelSpan = document.createElement("span")
 		{
 			const layer = mainLabelSpan
-			layer.style.fontFamily = self.context.themeController.FontFamily_monospaceLight()
+			layer.style.fontFamily = 'Native-Light, input, menlo, monospace'
 			layer.style.fontWeight = "100"
 			layer.style.fontSize = "32px"
 			view.layer.appendChild(layer)
@@ -154,7 +154,7 @@ class WalletDetailsView extends View
 		const secondarySectionLabelSpan = document.createElement("span")
 		{
 			const layer = secondarySectionLabelSpan
-			layer.style.fontFamily = self.context.themeController.FontFamily_monospaceLight()
+			layer.style.fontFamily = 'Native-Light, input, menlo, monospace'
 			layer.style.fontWeight = "100"
 			layer.style.fontSize = "32px"
 			view.layer.appendChild(layer)
@@ -235,8 +235,9 @@ class WalletDetailsView extends View
 		layer.style.padding = "12px 6px 0 6px" // 0 btm b/c it already exists
 		layer.style.textAlign = "left"
 		layer.style.color = "#9E9C9E"
-		self.context.themeController.StyleLayer_FontAsMiddlingRegularMonospace(layer)
-		//
+		layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+		layer.style.fontSize = "13px"
+		layer.style.fontWeight = "normal"
 		self.layer.appendChild(layer)
 	}
 	_new_fieldBaseView(entitled, isTruncatedPreviewForm, isSecretData)
@@ -914,7 +915,7 @@ class WalletDetailsView extends View
 						div.style.height = "34px"
 						div.style.boxSizing = "border-box"
 						div.style.padding = "21px 0 0 16px"
-						div.style.fontFamily = self.context.themeController.FontFamily_monospaceRegular()
+						div.style.fontFamily = 'Native-Regular, input, menlo, monospace'
 						div.style.color = tx.approx_float_amount < 0 ? "#F97777" : "#FCFBFC"
 						//
 						// div.style.webkitUserSelect = "all" // decided to comment this because it interferes with cell click
@@ -935,7 +936,7 @@ class WalletDetailsView extends View
 						div.style.height = "34px"
 						div.style.boxSizing = "border-box"
 						div.style.padding = "21px 41px 0 0"
-						div.style.fontFamily = self.context.themeController.FontFamily_monospaceLight()
+						div.style.fontFamily = 'Native-Light, input, menlo, monospace'
 						div.style.color = "#FCFBFC"
 						const date = tx.timestamp // TODO: this in UTC?
 						const dateString = date.toLocaleDateString( // (e.g. 27 NOV 2016)
@@ -964,7 +965,7 @@ class WalletDetailsView extends View
 						div.style.overflow = "hidden"
 						div.style.textOverflow = "ellipsis"
 						//
-						div.style.fontFamily = self.context.themeController.FontFamily_monospaceLight()
+						div.style.fontFamily = 'Native-Light, input, menlo, monospace'
 						div.style.fontSize = "13px" 
 						div.style.color = "#9E9C9E"
 						div.style.fontWeight = "100"
@@ -979,7 +980,7 @@ class WalletDetailsView extends View
 						div.style.textAlign = "right"
 						div.style.verticalAlign = "top"
 
-						div.style.fontFamily = self.context.themeController.FontFamily_monospaceRegular()
+						div.style.fontFamily = 'Native-Regular, input, menlo, monospace'
 						div.style.fontWeight = "500"
 						div.style.fontSize = "10px" // design says 11 but next to 13px->12px, looks too big, so, 10
 						div.style.letterSpacing = "0.5px"
@@ -1090,7 +1091,9 @@ class WalletDetailsView extends View
 				progressLabelLayer.style.right = "19px"
 				progressLabelLayer.style.top = "8px"
 				//
-				self.context.themeController.StyleLayer_FontAsSmallRegularMonospace(layer)
+				layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+				layer.style.fontSize = "11px"
+				layer.style.fontWeight = "lighter"
 				//
 				progressLabelLayer.style.color = "#9E9C9E"
 				layer.appendChild(progressLabelLayer)

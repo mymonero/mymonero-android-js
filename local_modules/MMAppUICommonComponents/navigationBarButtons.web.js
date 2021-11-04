@@ -49,7 +49,7 @@ function _New_ButtonBase_View(context, optl_didConfigureInteractivity_fn)
 	layer.style.borderRadius = "3px"
 	layer.style.height = "24px"
 	//
-	layer.style.fontFamily = context.themeController.FontFamily_sansSerif()
+	layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 	layer.style.textAlign = "center"
 	layer.style.border = "none"
 	layer.style.textDecoration = "none"
@@ -82,7 +82,9 @@ function New_GreyButtonView(context)
 	layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
 	layer.style.backgroundColor = "#383638"
 	layer.style.color = "#FCFBFC"
-	context.themeController.StyleLayer_FontAsMiddlingSemiboldSansSerif(layer)
+	layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+	layer.style.fontSize = "13px"
+	layer.style.fontWeight = "600" // semibold desired but "semibold" doesn't apparently work
 	layer.classList.add(commonComponents_hoverableCells.ClassFor_Disableable()) // allowing this to be auto-styled as disabled
 	return view
 }
@@ -200,7 +202,9 @@ function New_RightSide_ValueDisplayLabelButtonView(context)
 		layer.style.width = "auto"
 		layer.style.height = "auto"
 		layer.style.textDecoration = "none"
-		context.themeController.StyleLayer_FontAsSmallRegularMonospace(layer)
+		layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+		layer.style.fontSize = "11px"
+		layer.style.fontWeight = "lighter"
 		layer.style.color = "#9E9C9E"
 		layer.style.lineHeight = "200%" // % extra to get + aligned properly
 		layer.style.textAlign = "center"

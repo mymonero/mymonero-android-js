@@ -154,7 +154,9 @@ function New_clickableLinkButtonView(
 	a.style.color = "#11bbec"
 	a.style.cursor = "pointer"
 	a.style.webkitUserSelect = "none" // disable selection
-	context.themeController.StyleLayer_FontAsSmallRegularMonospace(a)
+	a.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+	a.style.fontSize = "11px"
+	a.style.fontWeight = "lighter"
 
 	a.style.width = "auto"
 	a.style.display = "block"
@@ -212,9 +214,11 @@ function New_fieldTitle_labelLayer(labelText, context)
 	layer.innerHTML = labelText
 	layer.style.float = "left"
 	layer.style.textAlign = "left"
-	context.themeController.StyleLayer_FontAsMiddlingSemiboldSansSerif(layer)
+	layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+	layer.style.fontSize = "13px"
+	layer.style.fontWeight = "600" // semibold desired but "semibold" doesn't apparently work
 	layer.style.color = "#FFFFFF"
-	layer.style.fontFamily = context.themeController.FontFamily_sansSerif()
+	layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 	//
 	return layer
 }
@@ -231,7 +235,7 @@ function New_fieldValue_labelLayer(labelText, context)
 	layer.style.fontSize = "13px"
 	layer.style.color = "#9E9C9E"
 	layer.style.fontWeight = "100"
-	layer.style.fontFamily = context.themeController.FontFamily_monospaceLight()
+	layer.style.fontFamily = 'Native-Light, input, menlo, monospace'
 	layer.Component_SetValue = function(value)
 	{
 		layer.innerHTML = value
@@ -278,7 +282,7 @@ function New_customButton_aLayer(context, buttonTitleText, enabled_orTrue, click
 		layer.style.float = "right"
 		layer.style.textAlign = "right"
 		layer.style.fontSize = "15px"
-		layer.style.fontFamily = context.themeController.FontFamily_sansSerif()
+		layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 		layer.style.fontWeight = "500"
 		layer.style.fontSize = "11px"
 		layer.style.webkitFontSmoothing = "subpixel-antialiased"
@@ -387,7 +391,9 @@ function New_redTextButtonView(text, context)
 	layer.style.marginLeft = "32px"
 	//
 	layer.style.color = "#F97777"
-	context.themeController.StyleLayer_FontAsSmallRegularMonospace(layer)
+	layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+	layer.style.fontSize = "11px"
+	layer.style.fontWeight = "lighter"
 	//
 	layer.style.textDecoration = "none"
 	//
@@ -473,7 +479,7 @@ function New_inlineMessageDialogLayer(context, messageString, optl_immediatelyVi
 	__injectCSSRules_ifNecessary(context)
 	const layer = document.createElement("div")
 	layer.classList.add("inlineMessageDialogLayer")
-	layer.style.fontFamily = context.themeController.FontFamily_sansSerif()
+	layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 	layer.style.display = immediatelyVisible ? "block" : "none" // initial visibility
 	//
 	const messageLayer = document.createElement("span")

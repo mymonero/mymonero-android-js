@@ -49,26 +49,6 @@ class SendFundsView extends SendFundsView_Base
 	{
 		const self = this
 		super.startObserving() // must call
-		// { // urlOpeningController
-		// 	const controller = self.context.urlOpeningCoordinator
-		// 	controller.on(
-		// 		controller.EventName_TimeToHandleReceivedMoneroRequestURL(),
-		// 		function(url)
-		// 		{
-		// 			self.navigationController.DismissModalViewsToView( // dismissing these b/c of checks in __shared_isAllowedToPerformDropOrURLOpeningOps
-		// 				null, // null -> to top stack view
-		// 				false // not animated
-		// 			)
-		// 			self.navigationController.PopToRootView(false) // in case they're not on root
-		// 			//
-		// 			if (self.__shared_isAllowedToPerformDropOrURLOpeningOps() != true) {
-		// 				console.warn("Not allowed to perform URL opening ops yet.")
-		// 				return false
-		// 			}
-		// 			self._shared_didPickRequestConfirmedURIStringForAutofill(url)
-		// 		}
-		// 	)
-		// }
 	}
 	//
 	// Overrides - Required - Setup - Accessors
