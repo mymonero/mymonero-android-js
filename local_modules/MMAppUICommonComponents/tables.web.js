@@ -42,7 +42,7 @@ const NamespaceName = "Tables"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
 {
-	const assetsPath = "../../" + (context.crossPlatform_indexContextRelativeAssetsRootPathSuffix || "")
+	const assetsPath = "../../../../"
 	const cssRules =
 	[
 		`.table_field {

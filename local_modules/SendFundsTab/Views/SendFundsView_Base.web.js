@@ -102,9 +102,7 @@ class SendFundsView extends View
 	_isUsingRelativeNotFixedActionButtonsContainer()
 	{
 		const self = this
-		if (self.context.themeController.TabBarView_isHorizontalBar() === false) {
-			return false
-		}
+		
 		return true
 	}
 	setup_views()
@@ -123,7 +121,7 @@ class SendFundsView extends View
 			const margin_h = 16
 			var view;
 			if (self._isUsingRelativeNotFixedActionButtonsContainer() == false) {
-				const margin_fromWindowLeft = self.context.themeController.TabBarView_thickness() + margin_h // we need this for a position:fixed, width:100% container
+				const margin_fromWindowLeft = 48 + margin_h // we need this for a position:fixed, width:100% container
 				const margin_fromWindowRight = margin_h
 				view = commonComponents_actionButtons.New_ActionButtonsContainerView(
 					margin_fromWindowLeft, 

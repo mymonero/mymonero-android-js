@@ -38,7 +38,7 @@ const NamespaceName = "ThemeController"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
 {
-	const assetsPath = "../../" + (context.crossPlatform_indexContextRelativeAssetsRootPathSuffix || "")
+	const assetsPath = "../../../../"
 	const cssRules =
 	[
 		`@font-face {
@@ -77,23 +77,6 @@ class ThemeController
 	}
 	injectCSSRules_ifNecessary(context) 
 	{
-		// Views__cssRules.InjectCSSRules_ifNecessary(
-		// 	haveCSSRulesBeenInjected_documentKey, 
-		// 	cssRules_generatorFn,
-		// 	context
-		// )
-	}
-	//
-	// Accessors - UI - Metrics - Layout
-	TabBarView_thickness()
-	{
-		const self = this
-		return self.context.TabBarView_thickness
-	}
-	TabBarView_isHorizontalBar()
-	{
-		const self = this
-		return self.context.TabBarView_isHorizontalBar
 	}
 	//
 	// Accessors - UI - Metrics - Fonts

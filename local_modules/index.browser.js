@@ -4,7 +4,6 @@ import RootView from './MainWindow/Views/RootView.Lite.web' // electron uses .we
 import setup_utils from './MMAppRendererSetup/renderer_setup.browser'
 import MyMoneroLibAppBridge from '@mymonero/mymonero-app-bridge'
 import indexContextBrowser from './MainWindow/Models/index_context.browser'
-import RootTabBarAndContentView from './MainWindow/Views/RootTabBarAndContentView.Full.web'
 import { Plugins } from '@capacitor/core';
 
 const { App } = Plugins;
@@ -21,7 +20,6 @@ window.BootApp = function()
 	})
 	//
 	// context
-	var isHorizontalBar = isMobile;
 	MyMoneroLibAppBridge({}).then(function(coreBridge_instance) // we can just use this directly in the browser version
 	{
 		const context = indexContextBrowser.NewHydratedContext({
@@ -30,13 +28,7 @@ window.BootApp = function()
     	version: version,
     	name: 'MyMonero',
 			isDebug: isDebug,
-			isMobile: isMobile,
 			Cordova_isMobile: false, // (this can be renamed or maybe deprecated)
-			crossPlatform_indexContextRelativeAssetsRootPathSuffix: "../../", // b/c index_context is in MainWindow/Views; must end up /
-			platformSpecific_RootTabBarAndContentView: RootTabBarAndContentView, // slightly messy place to put this but it works
-			TabBarView_thickness: isHorizontalBar ? 48 : 79,
-			rootViewFooterHeight: 32,
-			TabBarView_isHorizontalBar: isHorizontalBar,
 			appDownloadLink_domainAndPath: "mymonero.com",
 			HostedMoneroAPIClient_DEBUGONLY_mockSendTransactionSuccess: false,
 			monero_utils: coreBridge_instance
@@ -44,12 +36,9 @@ window.BootApp = function()
 		window.MyMonero_context = context
 		{ // configure native UI elements
 			document.addEventListener("touchstart", function(){}, true) // to allow :active styles to work in your CSS on a page in Mobile Safari:
-			//
-			if (isMobile) {
-				// disable tap -> click delay on mobile browsers
-				var attachFastClick = require('fastclick')
-				attachFastClick.attach(document.body)
-			}
+			// disable tap -> click delay on mobile browsers
+			var attachFastClick = require('fastclick')
+			attachFastClick.attach(document.body)
 		}
 		{ // root view
 			const rootView = new RootView({}, context) // hang onto reference

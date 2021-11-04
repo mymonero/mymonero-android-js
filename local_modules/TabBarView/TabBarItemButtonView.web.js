@@ -42,8 +42,6 @@ class TabBarItemButtonView extends View
 		const self = this
 		{
 			self.isHorizontalBar = typeof options.isHorizontalBar !== 'undefined' ? options.isHorizontalBar : true
-			self.tabBarView_thickness = options.tabBarView_thickness
-			//
 			self.layer_baseStyleTemplate = options.layer_baseStyleTemplate || {}
 			self.icon_baseStyleTemplate = options.icon_baseStyleTemplate || {}
 			self.icon_selected_baseStyleTemplate = options.icon_selected_baseStyleTemplate || self.icon_baseStyleTemplate // fall back to non-selected
@@ -73,14 +71,8 @@ class TabBarItemButtonView extends View
 			layer.style.position = "relative"
 			layer.style.webkitAppRegion = "no-drag" // make clickable
 			layer.style.webkitTapHighlightColor = "rgba(0,0,0,0)" // disable highlight under Cordova/MobileSafari
-			const stackedThickness = 56
-			if (self.isHorizontalBar) {
-				layer.style.width = `${100/self.numberOf_tabs}%`
-				layer.style.height = `${self.tabBarView_thickness}px`
-			} else {
-				layer.style.width = `${self.tabBarView_thickness}px`
-				layer.style.height = `${stackedThickness}px`
-			}
+			layer.style.width = `${100/self.numberOf_tabs}%`
+			layer.style.height = `48px`
 			self.__applyStylesToLayer(self.layer_baseStyleTemplate, self.layer)
 		}
 		{ // icon

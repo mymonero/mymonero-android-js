@@ -83,14 +83,13 @@ class TabBarAndContentView extends View
 		}
 		{
 			// default behavior is bar on bottom of screen
-			const tabBarView_thickness = self.overridable_tabBarView_thickness()
 			{
 				const layer = self.tabBarView.layer
 				layer.style.position = "absolute"
-				layer.style.top = `calc(100% - ${tabBarView_thickness}px)`
+				layer.style.top = `calc(100% - 48px)`
 				layer.style.left = "0px"
 				layer.style.width = "100%"
-				layer.style.height = `${tabBarView_thickness}px`
+				layer.style.height = `48px`
 			}
 			{
 				const layer = self.contentAreaView.layer
@@ -98,7 +97,7 @@ class TabBarAndContentView extends View
 				layer.style.top = "0px"
 				layer.style.left = "0px"
 				layer.style.width = "100%"
-				layer.style.height = `calc(100% - ${tabBarView_thickness}px)`
+				layer.style.height = `calc(100% - 48px)`
 			}
 		}
 	}
@@ -110,22 +109,7 @@ class TabBarAndContentView extends View
 	{
 		return "EventName_triedButAlreadySelectedTabBarItemAtIndex"
 	}	
-	//
-	//
-	// Runtime - Accessors - UI - Properties - Overridable
-	//
-	overridable_tabBarView_thickness()
-	{
-		return 48
-	}
-	overridable_isHorizontalBar()
-	{
-		return true
-	}
-	//
-	//
-	// Runtime - Accessors - Tabs - Lookups
-	//
+
 	IndexOfTabBarContentView(tabBarContentView)
 	{
 		const self = this
@@ -174,8 +158,7 @@ class TabBarAndContentView extends View
 			}
 		}
 		{ // add tab bar item button views, and new tabBarContentViews
-			const isHorizontalBar = self.overridable_isHorizontalBar()
-			const tabBarView_thickness = self.overridable_tabBarView_thickness()
+			const isHorizontalBar = true
 			const numberOf_tabs = to_tabBarContentViews.length
 			to_tabBarContentViews.forEach(
 				function(to_tabBarContentView, idx)
@@ -214,8 +197,6 @@ class TabBarAndContentView extends View
 						const options = 
 						{
 							isHorizontalBar: isHorizontalBar,
-							tabBarView_thickness: tabBarView_thickness,
-							//
 							layer_baseStyleTemplate: layer_baseStyleTemplate,
 							icon_baseStyleTemplate: icon_baseStyleTemplate,
 							icon_selected_baseStyleTemplate: icon_selected_baseStyleTemplate,

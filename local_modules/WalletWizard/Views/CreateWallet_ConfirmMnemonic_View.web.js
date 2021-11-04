@@ -132,23 +132,12 @@ class CreateWallet_ConfirmMnemonic_View extends BaseView_AWalletWizardScreen
 		{ // action buttons toolbar
 			const margin_h = 16
 			var actionButtonsContainerView;
-			if (self.context.themeController.TabBarView_isHorizontalBar() === false) {
-				const margin_fromWindowLeft = self.context.themeController.TabBarView_thickness() + margin_h // we need this for a position:fixed, width:100% container
-				const margin_fromWindowRight = margin_h
-				actionButtonsContainerView = commonComponents_actionButtons.New_ActionButtonsContainerView(
-					margin_fromWindowLeft, 
-					margin_fromWindowRight, 
-					self.context
-				)
-				actionButtonsContainerView.layer.style.paddingLeft = margin_h+"px"
-			} else {
-				actionButtonsContainerView = commonComponents_actionButtons.New_Stacked_ActionButtonsContainerView(
-					margin_h, 
-					margin_h, 
-					15,
-					self.context
-				)
-			}
+			actionButtonsContainerView = commonComponents_actionButtons.New_Stacked_ActionButtonsContainerView(
+				margin_h, 
+				margin_h, 
+				15,
+				self.context
+			)
 			actionButtonsContainerView.layer.style.display = "none" // for now
 			self.actionButtonsContainerView = actionButtonsContainerView
 			{

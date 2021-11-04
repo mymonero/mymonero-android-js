@@ -1052,14 +1052,8 @@ class WalletDetailsView extends View
 					var messageText;
 					var progressLabelLayer_innerHTMLStr = "" // default
 					const nBlocks = self.wallet.NBlocksBehind()
-/*					if (wallet.IsFetchingAnyUpdates()) {
-						messageText = self.context.isMobile == true
-							? "FETCHING…" 
-							: "FETCHING UPDATES…"
-					} else */if (wallet.IsScannerCatchingUp()) {
-						messageText = self.context.isMobile == true
-							? "SCANNING…" 
-							: "SCANNING BLOCKCHAIN…"
+					if (wallet.IsScannerCatchingUp()) {
+						messageText = "SCANNING…" 
 					} else {
 						throw "Illegal: !wallet.IsFetchingAnyUpdates() && !wallet.IsScannerCatchingUp()"
 					}

@@ -45,7 +45,7 @@ class RootFooterView extends View
 	{
 		const self = this
 		const layer = self.layer
-		layer.style.height = `${self.context.rootViewFooterHeight}px`
+		layer.style.height = `32px`
 		layer.style.backgroundColor = "#171416"
 		//
 		const primaryUtilityLink_colorValue = "rgb(250, 246, 250)"
