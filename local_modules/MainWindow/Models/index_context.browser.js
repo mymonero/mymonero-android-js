@@ -6,7 +6,6 @@ import URLBrowser from '../../URLBrowser/URLBrowser.browser'
 import FilesystemUI from '../../FilesystemUI/FilesystemUI.browser'
 import WindowDialogs from '../../WindowDialogs/WindowDialogs.browser'
 import CcyConversionRates from '../../CcyConversionRates/Controller'
-import Locale from '../../Locale/Locale.browser'
 import SymmetricCryptor from '../../symmetric_cryptor/BackgroundStringCryptor.noOp'
 import ContactsListController from '../../Contacts/Controllers/ContactsListController'
 import DocumentPersister from '../../DocumentPersister/DocumentPersister.SecureStorage'
@@ -33,7 +32,6 @@ function NewHydratedContext (initialContext) {
   context.filesystemUI = new FilesystemUI({}, context)
   context.windowDialogs = new WindowDialogs({}, context)
   context.CcyConversionRates_Controller_shared = new CcyConversionRates({}, context)
-  context.locale = new Locale({}, context)
   context.string_cryptor__background = new SymmetricCryptor({}, context)
   context.persister = new DocumentPersister({}, context)
   context.backgroundAPIResponseParser = new BackgroundAPIResponseParser({
