@@ -1,39 +1,9 @@
-// Copyright (c) 2014-2019, MyMonero.com
-//
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without modification, are
-// permitted provided that the following conditions are met:
-//
-// 1. Redistributions of source code must retain the above copyright notice, this list of
-//	conditions and the following disclaimer.
-//
-// 2. Redistributions in binary form must reproduce the above copyright notice, this list
-//	of conditions and the following disclaimer in the documentation and/or other
-//	materials provided with the distribution.
-//
-// 3. Neither the name of the copyright holder nor the names of its contributors may be
-//	used to endorse or promote products derived from this software without specific
-//	prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
-// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
-// THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
-// THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-"use strict"
+'use strict'
 
-//
-import Views__cssRules from '../Views/cssRules.web';
+import Views__cssRules from '../Views/cssRules.web'
 
-//
-const NamespaceName = "hoverableCell"
-const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
+const NamespaceName = 'hoverableCell'
+const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
 const cssRules =
 [
 	`.hoverable-cell {
@@ -53,47 +23,41 @@ const cssRules =
 	 	opacity: 0.5;
 	}`
 ]
-function __injectCSSRules_ifNecessary()
-{
-	Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules)
+function __injectCSSRules_ifNecessary () {
+  Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules)
 }
 
-const ClassFor_HoverableCell = function()
-{
-	__injectCSSRules_ifNecessary() 
-	return "hoverable-cell"
-};
+const ClassFor_HoverableCell = function () {
+  __injectCSSRules_ifNecessary()
+  return 'hoverable-cell'
+}
 
-const ClassFor_GreyCell = function()
-{
-	__injectCSSRules_ifNecessary()
-	return "utility"
-};
+const ClassFor_GreyCell = function () {
+  __injectCSSRules_ifNecessary()
+  return 'utility'
+}
 
-const ClassFor_BlueCell = function()
-{
-	__injectCSSRules_ifNecessary()
-	return "action"
-};
+const ClassFor_BlueCell = function () {
+  __injectCSSRules_ifNecessary()
+  return 'action'
+}
 
-const ClassFor_RedCell = function()
-{
-	__injectCSSRules_ifNecessary()
-	return "destructive"
-};
+const ClassFor_RedCell = function () {
+  __injectCSSRules_ifNecessary()
+  return 'destructive'
+}
 
-const ClassFor_Disableable = function()
-{
-	__injectCSSRules_ifNecessary() 
-	return "disableable"
-};
+const ClassFor_Disableable = function () {
+  __injectCSSRules_ifNecessary()
+  return 'disableable'
+}
 
 let obj = {
-	ClassFor_HoverableCell,
-	ClassFor_GreyCell,
-	ClassFor_BlueCell,
-	ClassFor_RedCell,
-	ClassFor_Disableable
+  ClassFor_HoverableCell,
+  ClassFor_GreyCell,
+  ClassFor_BlueCell,
+  ClassFor_RedCell,
+  ClassFor_Disableable
 }
 
-export default obj;
+export default obj
