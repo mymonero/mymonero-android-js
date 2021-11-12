@@ -61,42 +61,11 @@ function stylesheetPaths_generatorFn(context)
 	]
 	return stylesheetPaths
 }
-function __injectCSS_ifNecessary(context) 
-{
-	// Wtaf, again? TODO: Move css to stylesheets
-	// Views__cssRules.InjectCSSFiles_ifNecessary(
-	// 	stylesheetPaths_generatorFn,
-	// 	context
-	// ) 
-}
 //
 var cached_spritesheetImages = [];
 function PreLoadAndSetUpEmojiOne(context)
 { // ^ be sure to call this in order to inject the stylesheets
-	// preload sprites to prevent delay
-	if (context.Emoji_renderWithNativeEmoji !== true) {
-		const categories = emojiCategories
-		categories.forEach(
-			function(
-				categoryDescription, 
-				i
-			) {
-				const key = categoryDescription.key
-				const pathBase = "../../" 
-					+ "Emoji/Vendor/emojione-sprite-32-" 
-					+ key
-				//
-				const image = new Image()
-				image.src = pathBase+".png"
-				cached_spritesheetImages.push(image)
-				//
-				const image_2x = new Image()
-				image_2x.src = pathBase+"@2x.png"
-				cached_spritesheetImages.push(image_2x)
-			}
-		);
-		__injectCSS_ifNecessary(context) // good time to do this
-	}
+	
 }
 // 
 //
@@ -110,10 +79,6 @@ function NativeEmojiTextToImageBackedEmojiText_orUnlessDisabled_NativeEmojiText(
 	const text = emojione.unicodeToImage(nativeEmojiText)
 	//
 	return text
-	// if (context.Emoji_renderWithNativeEmoji !== true) {
-	// 	return nativeEmojiTextToImageBackedEmojiText(nativeEmojiText)
-	// }
-	// return nativeEmojiText
 }
 
 function nativeEmojiTextToImageBackedEmojiText(nativeEmojiText)

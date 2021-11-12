@@ -126,10 +126,7 @@ function New_contactPickerLayer(
 				isFocused = true
 				// always search, even if no query, as long as focused
 				_searchForAndDisplaySearchResults()
-				//
-				if (context.CommonComponents_Forms_scrollToInputOnFocus == true) {
-					inputLayer.Component_ScrollIntoViewInFormContainerParent()
-				}
+				inputLayer.Component_ScrollIntoViewInFormContainerParent()
 			}
 		)
 		inputLayer.Component_ScrollIntoViewInFormContainerParent = function()
@@ -400,7 +397,7 @@ function _new_autocompleteResultRowLayer(context, contact, isAtEnd, clicked_fn)
 	layer.style.color = "#1D1B1D"
 	layer.style.fontSize = "13px"
 	layer.style.fontWeight = "500"
-	layer.style.fontFamily = context.themeController.FontFamily_sansSerif()
+	layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 	layer.style.lineHeight = height+"px" // this is commented because it's overridden in the CSS rules above
 	layer.style.webkitUserSelect = "none" // redundant but for explicitness
 	layer.style.cursor = "pointer"
@@ -412,9 +409,6 @@ function _new_autocompleteResultRowLayer(context, contact, isAtEnd, clicked_fn)
 		contact.emoji
 	)
 	var titleClasses = "title"
-	if (context.Emoji_renderWithNativeEmoji !== true) {
-		titleClasses += " withNonNativeEmoji"
-	}
 	layer.innerHTML = `${imageBackedEmojiHTMLString}&nbsp;<span class="${titleClasses}">${contact.fullname}</span>`
 	{
 		layer.addEventListener("mouseover", function() { this.highlight() })
@@ -469,37 +463,24 @@ function _new_pickedContactLayer(context, contact, didClickCloseBtn_fn)
 			contact.emoji
 		)
 		var titleClasses = "title"
-		if (context.Emoji_renderWithNativeEmoji !== true) {
-			titleClasses += " withNonNativeEmoji"
-		}
 		contentLayer.innerHTML = `${imageBackedEmojiHTMLString}&nbsp;<span class="${titleClasses}">${contact.fullname}</span>`
 		contentLayer.style.boxSizing = "border-box"
 		contentLayer.style.position = "relative"
 		contentLayer.style.maxWidth = "274px"
-		if (context.Emoji_renderWithNativeEmoji !== true) {
-			contentLayer.style.left = "0"
-			contentLayer.style.height = "31px"
-			contentLayer.style.padding = `8px ${8 + 30}px 5px 10px`
-		} else {
-			contentLayer.style.padding = `3px ${8 + 30}px 5px 10px`
-		}
+		contentLayer.style.padding = `3px ${8 + 30}px 5px 10px`
 		contentLayer.style.whiteSpace = "nowrap"
 		contentLayer.style.overflow = "hidden"
 		contentLayer.style.textOverflow = "ellipsis"
 		contentLayer.style.backgroundColor = "#383638"
-		if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-			contentLayer.style.boxShadow = "0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749"
-		} else { // avoiding drop shadow
-			contentLayer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
+		contentLayer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
 
-		}
 		contentLayer.style.borderRadius = "3px"
 		contentLayer.style.display = "inline-block"
 		contentLayer.style.cursor = "default"
 
 		contentLayer.style.fontSize = "13px"
 		contentLayer.style.fontWeight = "300"
-		contentLayer.style.fontFamily = context.themeController.FontFamily_monospaceRegular()
+		contentLayer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
 
 		contentLayer.style.color = "#FCFBFC"
 		// contentLayer.style.webkitFontSmoothing = "subpixel-antialiased"

@@ -53,7 +53,6 @@ import JustSentTransactionDetailsView from './JustSentTransactionDetailsView.web
 import monero_sendingFunds_utils from '@mymonero/mymonero-sendfunds-utils';
 
 import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils';
-import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils';
 import monero_config from '@mymonero/mymonero-monero-config';
 import monero_amount_format_utils from '@mymonero/mymonero-money-format';
 
@@ -102,9 +101,7 @@ class SendFundsView extends View
 	_isUsingRelativeNotFixedActionButtonsContainer()
 	{
 		const self = this
-		if (self.context.themeController.TabBarView_isHorizontalBar() === false) {
-			return false
-		}
+		
 		return true
 	}
 	setup_views()
@@ -123,7 +120,7 @@ class SendFundsView extends View
 			const margin_h = 16
 			var view;
 			if (self._isUsingRelativeNotFixedActionButtonsContainer() == false) {
-				const margin_fromWindowLeft = self.context.themeController.TabBarView_thickness() + margin_h // we need this for a position:fixed, width:100% container
+				const margin_fromWindowLeft = 48 + margin_h // we need this for a position:fixed, width:100% container
 				const margin_fromWindowRight = margin_h
 				view = commonComponents_actionButtons.New_ActionButtonsContainerView(
 					margin_fromWindowLeft, 
@@ -141,17 +138,12 @@ class SendFundsView extends View
 			}
 			self.actionButtonsContainerView = view
 			{
-				//if (self.context.Cordova_isMobile === true /* but not context.isMobile */) { // til we have Electron support
 					self._setup_actionButton_useCamera()
-				//}
-				//if (self.context.isLiteApp != true) {
 					self._setup_actionButton_chooseFile()
-				//}
 			}
 			self.addSubview(view)
 		}
 		self._setup_qrCodeInputs_containerView()
-		// self.DEBUG_BorderChildLayers()
 	}
 	_setup_self_layer()
 	{
@@ -622,10 +614,10 @@ class SendFundsView extends View
 				selectLayer.style.MozAppearance = "none"
 				selectLayer.style.msAppearance = "none"
 				selectLayer.style.appearance = "none"
-				self.context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
-					selectLayer,
-					true // bright content, dark bg
-				)
+				selectLayer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+				selectLayer.style.fontSize = "13px"
+				selectLayer.style.letterSpacing = "0"
+				selectLayer.style.fontWeight = "600"
 				if (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 					selectLayer.style.textIndent = "4px"
 				} else {
@@ -768,7 +760,7 @@ class SendFundsView extends View
 			div.style.marginTop = "24px"
 			//
 			div.style.fontSize = "13px"
-			div.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
+			div.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 			div.style.color = "#9E9C9E"
 			div.style.fontWeight = "300"
 			div.style.webkitFontSmoothing = "subpixel-antialiased"
@@ -2424,9 +2416,6 @@ class SendFundsView extends View
 		if (absoluteFilePath != null && absoluteFilePath != "" && typeof absoluteFilePath !== 'undefined') {
 			self._shared_didPickQRCodeAtPath(absoluteFilePath)
 		} else if (file_size) { // going to assume we're in a browser
-			if (self.context.isLiteApp != true) {
-				throw "Expected this to be Lite app aka browser"
-			}
 			if (!/^image\//.test(file.type)) {
 				self.validationMessageLayer.SetValidationError("Please select a QR code image file.")
 				return

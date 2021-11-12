@@ -80,9 +80,6 @@ function __injectCSSRules_ifNecessary() { Views__cssRules.InjectCSSRules_ifNeces
 //
 function _fromContext_wantsHoverAndSelectable(context)
 {
-	// if (context.isLiteApp == true) {
-	// 	return false // special case - b/c we'll only ever have max 1 wallet
-	// }
 	return true
 }
 //
@@ -124,11 +121,7 @@ class WalletsSelectView extends ListCustomSelectView
 		{
 			const layer = self.selectionDisplayCellView.layer
 			layer.style.backgroundColor = "none"
-			if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749"
-			} else { // avoiding shadow
-				layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
-			}
+			layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
 		}
 		{
 			const layer = document.createElement("div")
@@ -141,9 +134,6 @@ class WalletsSelectView extends ListCustomSelectView
 			layer.className = "background"
 			self.options_containerView.layer.appendChild(layer)
 		}
-		// if (self.context.isLiteApp == true) {
-		// 	self.disclosureArrowLayer.style.display = "none"
-		// }
 	}
 	// Overrides
 	overridable_maxNumberOfCellsToDisplayAtATime() { return 2.65 }

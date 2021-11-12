@@ -46,31 +46,7 @@ class RootTabBarAndContentView_Full extends RootTabBarAndContentView_Base
 	{
 		super(options, context)
 	}
-	// _setup_startObserving()
-	// {
-	// 	const self = this
-	// 	super._setup_startObserving()
-	// 	{ // menuController
-	// 		const emitter = self.context.menuController
-	// 		emitter.on( // on the main process -- so this will be synchronous IPC
-	// 			emitter.EventName_menuItemSelected_Preferences(),
-	// 			function()
-	// 			{
-	// 				self.selectTab_settings()
-	// 			}
-	// 		)
-	// 	}
-	// 	{ // urlOpeningController
-	// 		const controller = self.context.urlOpeningCoordinator
-	// 		controller.on(
-	// 			controller.EventName_TimeToHandleReceivedMoneroRequestURL(),
-	// 			function(url)
-	// 			{
-	// 				self.selectTab_sendFunds()
-	// 			}
-	// 		)
-	// 	}
-	// }
+	
 	_setup_addTabBarContentViews()
 	{
 		const self = this

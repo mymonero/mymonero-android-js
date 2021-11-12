@@ -202,7 +202,7 @@ const cssRules =
 		color: #161416;
 		font-weight: normal;
 		-webkit-font-smoothing: subpixel-antialiased;
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; /* the one place where i can't easily access context.themeController.FontFamily_sansSerif */
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 	}`,
 
 ]
@@ -253,15 +253,12 @@ function New_TooltipSpawningButtonView(tooltipText, context)
 		shadowOffset: [ 0, 19 ],
 		shadowColor: "rgba(0,0,0,0.26)"
 	}
-	if (context.Tooltips_nonHoveringBehavior == true) {
-		tooltip_options.showOn = "click"
-		tooltip_options.hideOn = "click"
-		_once_listenForTouchStartToDismissTooltip()
-	}
+	tooltip_options.showOn = "click"
+	tooltip_options.hideOn = "click"
+	_once_listenForTouchStartToDismissTooltip()
 	const tooltip = new Opentip(layer, tooltip_options)
 	tooltip.setContent(tooltipText)
 	return view 
 }
 let obj = { New_TooltipSpawningButtonView };
 export default obj;
-

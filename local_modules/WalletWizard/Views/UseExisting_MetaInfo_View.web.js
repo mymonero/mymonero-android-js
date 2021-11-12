@@ -300,7 +300,9 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 	{
 		const self = this
 		const layer = document.createElement("div")
-		self.context.themeController.StyleLayer_FontAsSmallRegularMonospace(layer)
+		layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+		layer.style.fontSize = "11px"
+		layer.style.fontWeight = "lighter"
 		layer.style.fontSize = "11px" // must set 11px so it matches visual weight of other labels
 		layer.style.letterSpacing = "0"
 		layer.style.color = "#8d8b8d"
@@ -454,17 +456,11 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 	lookup__walletName()
 	{
 		const self = this
-		// if (self.context.isLiteApp == true) {
-		// 	return self.context.walletsListController.LiteAppWalletName()
-		// }
 		return self.walletNameInputLayer.value
 	}
 	lookup__colorHexString()
 	{
 		const self = this
-		// if (self.context.isLiteApp == true) {
-		// 	return self.context.walletsListController.LiteAppWalletSwatchColor()
-		// }
 		return self.walletColorPickerInputView.Component_Value()
 	}
 	lookup__mnemonicSeed()

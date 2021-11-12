@@ -161,7 +161,9 @@ function New_GraphicAndLabel_ActivityIndicatorLayer(messageText, context)
 	layer.classList.add("graphicAndLabel")
 	layer.classList.add(NamespaceName)
 	layer.classList.add(className_onNormalBackground)
-	context.themeController.StyleLayer_FontAsSmallRegularMonospace(layer)
+	layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+	layer.style.fontSize = "11px"
+	layer.style.fontWeight = "lighter"
 	layer.style.color = "#F8F7F8"
 	//
 	layer.Component_setMessageText = function(to_messageText)

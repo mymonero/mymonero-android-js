@@ -28,16 +28,10 @@
 //
 "use strict"
 
-//
 import Animate from 'velocity-animate';
-
-//
 import View from '../../Views/View.web';
-
-import BarButtonBaseView from './BarButtonBaseView.web';
-
-//
 import emoji_web from '../../Emoji/emoji_web';
+import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
 
 //
 // CSS rules
@@ -114,7 +108,9 @@ class NavigationBarView extends View
 			layer.style.color = self.defaultNavigationBarTitleColor
 			layer.style.position = "absolute"
 			layer.style.top = "-1px"
-			self.context.themeController.StyleLayer_FontAsMiddlingBoldSansSerif(layer)
+			layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+			layer.style.fontSize = "13px"
+			layer.style.fontWeight = "bold"
 			self.titleLayer_marginX_pxComponent = 16
 			self.titleLayer_marginX_pctComponent = .15
 			layer.style.boxSizing = "border-box"
@@ -211,7 +207,7 @@ class NavigationBarView extends View
 		if (typeof themeController === 'undefined' || !themeController) {
 			throw self.constructor.name + " didn't find a context.themeController"
 		}
-		const _new_back_leftBarButtonView__fn = themeController.NavigationBarView__New_back_leftBarButtonView
+		const _new_back_leftBarButtonView__fn = self.NavigationBarView__New_back_leftBarButtonView
 		if (typeof _new_back_leftBarButtonView__fn !== 'function' || !_new_back_leftBarButtonView__fn) {
 			throw "themeController didn't implement NavigationBarView__New_back_leftBarButtonView"
 		}
@@ -219,6 +215,22 @@ class NavigationBarView extends View
 		if (view == null || typeof view === 'undefined') {
 			throw "Got nil leftBarButtonView from themeController"
 		}
+		return view
+	}
+
+	NavigationBarView__New_back_leftBarButtonView(clicked_fn)
+	{
+		const self = this
+		const view = commonComponents_navigationBarButtons.New_LeftSide_BackButtonView(self.context)
+		const layer = view.layer
+		layer.addEventListener("click", function(e) {
+				e.preventDefault()
+				if (view.isEnabled !== false) { // button is enabled
+					clicked_fn()
+				}
+				return false
+			}
+		)
 		return view
 	}
 	//
@@ -641,11 +653,7 @@ class NavigationBarView extends View
 		const self = this
 		if (self.isShowingScrollShadow !== false) {
 			self.isShowingScrollShadow = false
-			if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				self.layer.style.boxShadow = "none"
-			} else {
-				self.layer.style.backgroundColor = "none"
-			}
+			self.layer.style.backgroundColor = "none"
 		}
 	}
 	_configureNavBarScrollShadowAs_positiveScroll_showShadow()
@@ -653,11 +661,7 @@ class NavigationBarView extends View
 		const self = this
 		if (self.isShowingScrollShadow !== true) {
 			self.isShowingScrollShadow = true
-			if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				self.layer.style.boxShadow = "0 1px 0 0 rgba(0,0,0,0.60), 0 3px 6px 0 rgba(0,0,0,0.40)"
-			} else { // avoiding shadow
-				self.layer.style.backgroundColor = "black"
-			}
+			self.layer.style.backgroundColor = "black"
 		}
 	}
 }

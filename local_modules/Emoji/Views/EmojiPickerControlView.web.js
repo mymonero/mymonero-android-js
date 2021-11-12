@@ -47,7 +47,7 @@ const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+Names
 function cssRules_generatorFn(context)
 {
 	const assetsPath = "../../" + (context.ThemeController_rootPathSuffixPrefixingPathToFontFiles || "")
-	const useMobRendOpts = context.Views_selectivelyEnableMobileRenderingOptimizations === true
+	const useMobRendOpts = true
 	const cssRules =
 	[
 		`.${NamespaceName} {

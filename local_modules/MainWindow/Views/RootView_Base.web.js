@@ -28,11 +28,11 @@
 //
 "use strict"
 
-//
 import View from '../../Views/View.web';
 import ConnectivityMessageBarView from './ConnectivityMessageBarView.web'
 import commonComponents_assetPreloader from '../../MMAppUICommonComponents/assetPreloader';
-//
+import RootTabBarAndContentView_Full from './RootTabBarAndContentView.Full.web'
+
 class RootView extends View
 {
 	constructor(options, context)
@@ -45,7 +45,6 @@ class RootView extends View
 	setup()
 	{
 		const self = this
-		// figure this is a better place to do this than index.js and themeController
 		commonComponents_assetPreloader.PreLoadImages(self.context)
 		self.setup_views()
 	}
@@ -76,13 +75,9 @@ class RootView extends View
 	setup_tabBarAndContentView()
 	{
 		const self = this
-		const platformSpecific_RootTabBarAndContentView = self.context.platformSpecific_RootTabBarAndContentView // slightly messy way of doing this, but it works
-		if (!platformSpecific_RootTabBarAndContentView) {
-			throw `${self.constructor.name} requires a self.context.platformSpecific_RootTabBarAndContentView`
-		}
-		const tabBarViewAndContentView = new platformSpecific_RootTabBarAndContentView({}, self.context)
-		self.tabBarViewAndContentView = tabBarViewAndContentView
-		self.addSubview(tabBarViewAndContentView)
+		const tabBarViewAndContentView = new RootTabBarAndContentView_Full({}, self.context)
+    self.tabBarViewAndContentView = tabBarViewAndContentView
+    self.addSubview(tabBarViewAndContentView)
 	}
 	setup_passwordEntryViewController()
 	{

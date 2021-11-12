@@ -48,7 +48,7 @@ function New_ActionButtonsContainerView(
 	const layer = view.layer
 	{
 		layer.style.position = "fixed"
-		layer.style.top = `calc(100% - ${ActionButtonsContainerView_h}px - ${ActionButtonsContainerView_bottomMargin}px - ${context.rootViewFooterHeight}px)`
+		layer.style.top = `calc(100% - ${ActionButtonsContainerView_h}px - ${ActionButtonsContainerView_bottomMargin}px - 32px)`
 		layer.style.width = `calc(100% - ${margin_fromWindowLeft}px - ${margin_fromWindowRight}px)`
 		layer.style.height = ActionButtonsContainerView_h + "px"
 		layer.style.zIndex = 1000
@@ -116,50 +116,32 @@ function New_ActionButtonView(
 			layer.classList.add(commonComponents_hoverableCells.ClassFor_GreyCell())
 			layer.style.color = "#FCFBFC"
 			layer.style.backgroundColor = "#383638"
-			if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749"
-			} else { // avoiding shadow gradient
-				layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
-			}
-			context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
-				layer,
-				true // bright content, dark bg
-			)
-			if (context.ThemeController_isMobileBrowser !== true) { // note: using the same flag as themeController for toggling font sizes - slightly fragile tho
-				layer.style.lineHeight = (ActionButton_h+2) + "px" // set for smaller font size so layout isn't messed
-			} else {
-				layer.style.lineHeight = ActionButton_h + "px" // reset/set on mobile - cause font size is consistent
-			}
+			layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
+			layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+			layer.style.fontSize = "13px"
+			layer.style.letterSpacing = "0"
+			layer.style.fontWeight = "600"
+			layer.style.lineHeight = ActionButton_h + "px" // reset/set on mobile - cause font size is consistent
 		} else if (colorType == "blue") {
 			layer.classList.add(commonComponents_hoverableCells.ClassFor_BlueCell())
 			layer.style.color = "#161416"
 			layer.style.backgroundColor = "#00C6FF"
-			if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "inset 0 0.5px 0 0 rgba(255,255,255,0.20)"
-			} else {
-				// TODO: add replacement box shadow w/effective color and 1.0 opacity
-				layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
-			}
-			context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
-				layer,
-				false // dark content, bright bg
-			)
+			layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
+			layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+			layer.style.fontSize = "13px"
+			layer.style.letterSpacing = "0"
+			layer.style.fontWeight = "600"
 			layer.style.transform = "none" // reset
 			layer.style.lineHeight = ActionButton_h + "px" // reset/set
 		} else if (colorType === "red") {
 			layer.classList.add(commonComponents_hoverableCells.ClassFor_RedCell())
 			layer.style.color = "#161416"
 			layer.style.backgroundColor = "#f97777"
-			if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "inset 0 0.5px 0 0 rgba(255,255,255,0.20)"
-			} else {
-				// TODO: add replacement box shadow w/effective color and 1.0 opacity
-				layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
-			}
-			context.themeController.StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
-				layer,
-				false // dark content, bright bg
-			)
+			layer.style.boxShadow = "none" // temporary until replaced - to reset potential 'grey'
+			layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+			layer.style.fontSize = "13px"
+			layer.style.letterSpacing = "0"
+			layer.style.fontWeight = "600"
 			layer.style.lineHeight = ActionButton_h + "px" // reset/set
 		} else {
 			throw "unrecognized colorType " + colorType
@@ -190,7 +172,7 @@ function New_ActionButtonView(
 		}		
 		layer.style.textDecoration = "none"
 		layer.style.textAlign = "center"
-		layer.style.fontFamily = context.themeController.FontFamily_sansSerif()
+		layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 		if (isRightmostButtonInContainer !== true) {
 			layer.style.marginRight = ActionButton_rightMargin + "px"
 		}

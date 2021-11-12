@@ -100,7 +100,7 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 		const self = this
 		const layer = document.createElement("h3")
 		layer.innerHTML = contentString
-		layer.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
+		layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 		layer.style.fontSize = "13px"
 		layer.style.lineHeight = "20px"
 		layer.style.fontWeight = "500"
@@ -113,7 +113,7 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 		const self = this
 		const layer = document.createElement("p")
 		layer.innerHTML = contentString
-		layer.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
+		layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
 		layer.style.fontWeight = "normal"
 		layer.style.fontSize = "13px"
 		layer.style.color = "#8D8B8D"
@@ -140,12 +140,6 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 			"Use it like an actual wallet",
 			"For large amounts and better privacy, make a cold-storage wallet or set your own server in Preferences."
 		])
-		// if (self.context.isLiteApp == true) {
-		// 	list.push([
-		// 		"Web browsers are insecure",
-		// 		"The convenience of MyMonero for web comes at a security cost. <a href='https://mymonero.com' target='_blank' style='color: #11bbec; cursor: pointer; -webkit-user-select: none; text-decoration: none;'>Download the desktop or mobile app</a>."
-		// 	])
-		// }
 		return list
 	}
 	_new_acceptCheckboxButtonView()
@@ -164,21 +158,14 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 			layer.style.display = "block"
 			layer.style.padding = "10px 12px"
 			layer.style.textIndent = `${37 - 12}px`
-			const isMacOS = process.platform === 'darwin' // TODO: check for iOS too I suppose
-			if (isMacOS) {
-				layer.style.width = "72px"
-			} else {
-				layer.style.width = "85px"
-			}
+			layer.style.width = "85px"
 			layer.style.height = `${32 - 10 * 2 }px`
-			self.context.themeController.StyleLayer_FontAsMessageBearingSmallLightMonospace(layer)
+			layer.style.fontSize = "11px" // we need this to visually stand out slightly more given how it's used
+			layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+			layer.style.fontWeight = "lighter"
 			layer.style.color = "#f8f7f8"
 			layer.style.background = "#383638"
-			if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749"
-			} else { // avoiding shadow
-				layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
-			}
+			layer.style.boxShadow = "inset 0 0.5px 0 0 #494749"
 			layer.style.borderRadius = "3px"
 		}
 		var checkboxIconLayer;
@@ -190,11 +177,7 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 			layer.style.left = "9px"
 			layer.style.top = "9px"
 			layer.style.background = "#1d1b1d"
-			if (self.context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "0 0.5px 0 0 rgba(56,54,56,0.50), inset 0 0.5px 0 0 #161416"
-			} else { // avoiding shadow
-				layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
-			}
+			layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
 			layer.style.borderRadius = "3px"
 			layer.style.width = "16px"
 			layer.style.height = "16px"
@@ -267,9 +250,6 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 	Navigation_New_LeftBarButtonView()
 	{
 		const self = this
-		if (self.context.isLiteApp != true) {
-			return null // we want null or maybe a back button
-		}
 		// we need a cancel button
 		const view = commonComponents_navigationBarButtons.New_LeftSide_CancelButtonView(self.context)
 		const layer = view.layer
@@ -322,10 +302,6 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 	_userSelectedNextButton()
 	{
 		const self = this 
-		// if (self.context.isLiteApp == true) { // must be set manually since we do not show the meta-info screen for this
-		// 	self.wizardController.walletMeta_name = self.context.walletsListController.LiteAppWalletName()
-		// 	self.wizardController.walletMeta_colorHexString = self.context.walletsListController.LiteAppWalletSwatchColor() // possibly change this to random color at some point
-		// }
 		self.wizardController.GenerateAndUseNewWallet(
 			function(err, walletInstance)
 			{

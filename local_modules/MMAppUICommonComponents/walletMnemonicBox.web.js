@@ -40,7 +40,7 @@ const NamespaceName = "walletMnemonicBox"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
 {
-	const useMobRendOpts = context.Views_selectivelyEnableMobileRenderingOptimizations === true
+	const useMobRendOpts = true
 	const cssRules =
 	[
 		`.mnemonic-container {
@@ -120,7 +120,7 @@ function New_MnemonicTextDisplayView(mnemonicString, context)
 	layer.style.webkitUserSelect = "all" // decided to allow copying 
 	layer.style.mozUserSelect = "all" // decided to allow copying 
 	layer.style.msUserSelect = "all" // decided to allow copying 
-	layer.style.fontFamily = context.themeController.FontFamily_monospaceRegular()
+	layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
 	layer.innerHTML = mnemonicString
 	//
 	return view
@@ -256,7 +256,9 @@ function _new_MnemonicConfirmation_WordView(word, wordUUID, context)
 	const layer = view.layer
 	layer.className = "mnemonic-pill"
 	layer.href = "#" // clickable by default
-	context.themeController.StyleLayer_FontAsSmallPillLightMonospace(layer)
+	layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+	layer.style.fontSize = "11px"
+	layer.style.fontWeight = "lighter"
 	layer.ondragstart = function(e) { e.preventDefault(); return false; } // disable link dragging
 	layer.innerHTML = word.toUpperCase()
 	{ // for retrieval later

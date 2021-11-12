@@ -109,23 +109,12 @@ class ContactDetailsView extends View
 		self._setup_URIContainerLayer()
 		{ // action buttons toolbar
 			var view;
-			if (self.context.themeController.TabBarView_isHorizontalBar() === false) {
-				const actionButtonsContainerView_margin_h = 16
-				const margin_fromWindowLeft = self.context.themeController.TabBarView_thickness() + actionButtonsContainerView_margin_h // we need this for a position:fixed, width:100% container
-				const margin_fromWindowRight = actionButtonsContainerView_margin_h
-				view = commonComponents_actionButtons.New_ActionButtonsContainerView(
-					margin_fromWindowLeft, 
-					margin_fromWindowRight, 
-					self.context
-				)
-			} else {
-				view = commonComponents_actionButtons.New_Stacked_ActionButtonsContainerView(
-					0, 
-					0, 
-					15,
-					self.context
-				)
-			}
+			view = commonComponents_actionButtons.New_Stacked_ActionButtonsContainerView(
+				0, 
+				0, 
+				15,
+				self.context
+			)
 			self.actionButtonsContainerView = view
 			{
 				self._setup_actionButton_send()
@@ -425,12 +414,7 @@ class ContactDetailsView extends View
 		var title = ""
 		const emoji = self.contact.emoji
 		if (typeof emoji !== 'undefined' && emoji) {
-			var spacing;
-			if (self.context.Emoji_renderWithNativeEmoji === true) {
-				spacing = "&nbsp;&nbsp;&nbsp;&nbsp;"
-			} else {
-				spacing = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-			}
+			var spacing = "&nbsp;&nbsp;&nbsp;&nbsp;"
 			title += emoji + spacing // extra spaces for emoji
 		}
 		title += self.contact.fullname

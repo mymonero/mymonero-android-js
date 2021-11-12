@@ -96,7 +96,9 @@ function New_fieldTitle_labelLayer(labelText, context)
 	layer.style.textAlign = "left"
 	layer.style.color = "#F8F7F8"
 	//
-	context.themeController.StyleLayer_FontAsSmallRegularMonospace(layer)
+	layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+	layer.style.fontSize = "11px"
+	layer.style.fontWeight = "lighter"
 	//
 	return layer
 }
@@ -210,14 +212,9 @@ function New_fieldValue_textInputLayer(context, params)
 	layer.style.fontSize = "13px"
 	layer.style.fontWeight = "200"
 	layer.style.padding = `0 ${padding_h}px`
-	layer.style.fontFamily = context.themeController.FontFamily_monospaceLight()
+	layer.style.fontFamily = 'Native-Light, input, menlo, monospace'
 	layer.style.outline = "none" // no focus ring
-	// editable:true
-	if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-		layer.style.boxShadow = "0 0.5px 0 0 rgba(56,54,56,0.50), inset 0 0.5px 0 0 #161416"
-	} else { // avoiding shadow
-		layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
-	}
+	layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
 	layer.style.color = "#dfdedf"
 	layer.style.backgroundColor = "#1d1b1d"
 	layer.disabled = false
@@ -226,15 +223,13 @@ function New_fieldValue_textInputLayer(context, params)
 		const this_layer = this
 		_shared_scrollConformingElementIntoView(this_layer)
 	}
-	if (context.CommonComponents_Forms_scrollToInputOnFocus == true) {
-		layer.addEventListener(
-			"focus",
-			function()
-			{
-				layer.Component_ScrollIntoViewInFormContainerParent()
-			}
-		)
-	}
+	layer.addEventListener(
+		"focus",
+		function()
+		{
+			layer.Component_ScrollIntoViewInFormContainerParent()
+		}
+	)
 	return layer
 }
 //
@@ -273,17 +268,13 @@ function New_fieldValue_textAreaView(params, context)
 	layer.style.lineHeight = "15px"
 	layer.style.resize = "none" // not user-resizable
 	layer.style.outline = "none" // no focus ring
-	layer.style.fontFamily = context.themeController.FontFamily_monospaceLight()
+	layer.style.fontFamily = 'Native-Light, input, menlo, monospace'
 	layer.style.wordBreak = "break-word"
 	//
 	view.SetEnabled = function(isEnabled)
 	{
 		if (isEnabled) {
-			if (context.Views_selectivelyEnableMobileRenderingOptimizations !== true) {
-				layer.style.boxShadow = "0 0.5px 0 0 rgba(56,54,56,0.50), inset 0 0.5px 0 0 #161416"
-			} else { // avoiding shadow
-				layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
-			}
+			layer.style.boxShadow = "inset 0 0.5px 0 0 #161416"
 			//
 			layer.style.color = "#dfdedf"
 			layer.style.backgroundColor = "#1d1b1d"
@@ -305,17 +296,15 @@ function New_fieldValue_textAreaView(params, context)
 		const this_layer = this
 		_shared_scrollConformingElementIntoView(this_layer)
 	}
-	if (context.CommonComponents_Forms_scrollToInputOnFocus == true) {
-		layer.addEventListener(
-			"focus",
-			function()
-			{
-				// TODO: retain cycle?
-				layer.Component_ScrollIntoViewInFormContainerParent()
-			}
-		)
-	}
-	//
+	layer.addEventListener(
+		"focus",
+		function()
+		{
+			// TODO: retain cycle?
+			layer.Component_ScrollIntoViewInFormContainerParent()
+		}
+	)
+	
 	return view
 }
 //
@@ -359,7 +348,9 @@ function New_fieldAccessory_messageLayer(context)
 {
 	__injectCSSRules_ifNecessary()
 	const layer = document.createElement("p")
-	context.themeController.StyleLayer_FontAsMessageBearingSmallLightMonospace(layer) // name needs improvement
+	layer.style.fontSize = "11px" // we need this to visually stand out slightly more given how it's used
+	layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
+	layer.style.fontWeight = "lighter"
 	layer.style.lineHeight = "15px"
 	layer.style.margin = "7px 7px 0 7px"
 	layer.style.color = "#8d8b8d"
@@ -392,7 +383,7 @@ function New_NonEditable_ValueDisplayLayer(value, context)
 	layer.style.color = "#7C7A7C"
 	layer.style.fontSize = "13px"
 	layer.style.fontWeight = "100"
-	layer.style.fontFamily = context.themeController.FontFamily_monospaceLight()
+	layer.style.fontFamily = 'Native-Light, input, menlo, monospace'
 	layer.style.webkitFontSmoothing = "subpixel-antialiased"
 	layer.innerHTML = value
 	//
@@ -417,7 +408,7 @@ function New_IconAndMessageLayer(iconPath, messageText, context, optl_imgW, optl
 	const layer = document.createElement("div")
 	layer.classList.add("iconAndMessageLayer")
 	layer.innerHTML = `<img src="${iconPath}" ${optl_imgW ? 'width="'+ optl_imgW + '"' : ""} ${optl_imgH ? 'height="'+ optl_imgH + '"' : ""} />&nbsp;<span>${messageText}</span>`
-	layer.style.fontFamily = context.themeController.FontFamily_monospaceLight()
+	layer.style.fontFamily = 'Native-Light, input, menlo, monospace'
 	layer.style.webkitFontSmoothing = "subpixel-antialiased"
 	layer.style.fontSize = "11px"
 	layer.style.fontWeight = "100"
