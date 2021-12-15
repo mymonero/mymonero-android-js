@@ -1,7 +1,7 @@
 # MyMonero Android Wallet 
 
 <p align="center">
-  <img alt="MyMonero" src="https://user-images.githubusercontent.com/1645428/120083066-8a394a00-c0c6-11eb-9bc5-1ce02784dab3.png">
+  <img alt="MyMonero" src="https://user-images.githubusercontent.com/1645428/146000939-b06f8fd3-9ed2-4a5e-bdd6-3981281dde9c.png">
 </p>
 
 <p align="center">
@@ -21,7 +21,6 @@ Developers and pre-release testers who would like to use and work on the app can
 
 To get set up with the source code, please see **Getting the Source Code** below.
 
-
 ### Where is user data saved?
 
 * Android: The data is encrypted and saved to the Android device using an implementation that leverages AndroidKeyStore and SharedPreferences.
@@ -39,14 +38,6 @@ If you would like to report an issue or share a feature request, please create a
 If you're reporting a bug, be sure to include all information which we would need to reproduce the issue, such as the operating system and app version on which you saw the bug, and the steps you took, if you can tell. 
 
 Please don't use the Issues tracker for general support or inquiries. You can also [contact us](https://mymonero.com/support) directly.
-
-
-# Contributing & Testing
-
-
-## Getting the Source Code
-
-### Download & Build
 
 ## Installation
 
@@ -151,3 +142,9 @@ Contributors to each release are credited in release notes.
 * 🔥 `mds` ([Matt Smith](http://mds.is)) MVP designer
 
 * 🌠 Your name here?
+
+## License and Copyrights
+
+See `LICENSE.txt` for license.
+
+All app source code and assets copyright © 2014-2021 by MyMonero. All rights reserved.
