@@ -26,12 +26,16 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+import Swal from 'sweetalert2'
+import { Plugins } from '@capacitor/core';
+
+const { Clipboard } = Plugins;
+
 "use strict"
 //
 const animationDuration_s = 0.5
 const displayDelay_s = 20
 
-//
 import Views__cssRules from '../../Views/cssRules.web';
 
 const NamespaceName = "ExceptionAlerting"
@@ -122,7 +126,6 @@ class ExceptionAlerting
 	}
 	setup()
 	{
-		console.log("Setting up exception alerting");
 		const self = this
 		__injectCSSRules_ifNecessary(self.context)
 		self._startObserving()
@@ -150,16 +153,48 @@ class ExceptionAlerting
 	// Imperatives
 	alertErrMsg(message, handlerId)
 	{
-		const self = this;
-		self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
-		if (message.indexOf("undefined") !== -1 && message.indexOf("handler") !== -1) {
-			return // most likely an error from webflow - can skip erroring these ; TODO: remove this when removing webflow
-		}
-		if (typeof message !== 'undefined' && message && message !== "") {
-			self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
-		} else {
-			self.doToastMessage("Unrecognized error occured. Please contact Support with steps and browser informations.", undefined)
-		}
+		// const self = this;
+		// self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
+		// if (message.indexOf("undefined") !== -1 && message.indexOf("handler") !== -1) {
+		// 	return // most likely an error from webflow - can skip erroring these ; TODO: remove this when removing webflow
+		// }
+		// if (typeof message !== 'undefined' && message && message !== "") {
+		// 	self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
+		// } else {
+		// 	self.doToastMessage("Unrecognized error occured. Please contact Support with steps and browser informations.", undefined)
+		// }
+		var errorHtml = "An unexpected application error occurred.\n\nPlease let us know of ";
+		errorHtml += `the following error message as it could be a bug:\n\n <p><span style='font-size: 11px;'>${message}`
+		errorHtml += "</span></p>";
+
+		let errStr = `An unexpected application error occurred. The following error message was encountered: \n\n ${message}`
+		// append stack trace to error we copy to clipboard
+
+		errStr += navigator.userAgent;
+
+		Swal.fire({
+			title: 'MyMonero has encountered an error',
+			html: errorHtml,
+			background: "#272527",
+			titleColor: "#FFFFFF",
+			color: "#FFFFFF",
+			text: 'Do you want to continue',
+			confirmButtonColor: "#11bbec",
+			confirmButtonText: 'Copy Error To Clipboard',
+			cancelButtonText: 'Close',
+			showCloseButton: true,
+			showCancelButton: true,
+			preConfirm: async () => {	
+				//navigator.clipboard.writeText(errStr)
+				await Clipboard.write({
+					string: errStr
+				});
+			},
+			customClass: {
+				confirmButton: 'base-button hoverable-cell navigation-blue-button-enabled action right-save-button',
+				cancelButton: 'base-button hoverable-cell navigation-blue-button-enabled action right-save-button disabled navigation-blue-button-disabled'
+			},
+		})
 	}
 	doToastMessage(message, raw_message)
 	{
