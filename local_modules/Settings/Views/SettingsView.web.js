@@ -67,7 +67,8 @@ class SettingsView extends View {
     {
       self._setup_aboutAppButton()
       self._setup_form_field_changePasswordButton()
-      self._setup_form_field_appTimeoutSlider()
+	  self._setup_form_field_appTimeoutSlider()
+	  self._setup_Yat_Links()
       self._setup_form_field_authentication() // no password protecting Lite app
       self._setup_form_field_displayCcy()
       self._setup_form_field_serverURL()
@@ -98,6 +99,13 @@ class SettingsView extends View {
     div.appendChild(buttonView.layer)
     self.form_containerLayer.appendChild(div)
   }
+
+  _setup_Yat_Links() {
+	const self = this;
+	const component = document.createElement("mym-yat-settings-view");
+	component.context = self.context;
+	self.form_containerLayer.appendChild(component);
+}
 
   _setup_form_field_changePasswordButton () {
     const self = this

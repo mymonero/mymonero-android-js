@@ -1,9 +1,38 @@
-'use strict'
+// Copyright (c) 2014-2019, MyMonero.com
+//
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without modification, are
+// permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of
+//	conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list
+//	of conditions and the following disclaimer in the documentation and/or other
+//	materials provided with the distribution.
+//
+// 3. Neither the name of the copyright holder nor the names of its contributors may be
+//	used to endorse or promote products derived from this software without specific
+//	prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+// THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+// THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+import Swal from 'sweetalert2'
+import { Plugins } from '@capacitor/core';
 
-const animationDuration_s = 0.5
-const displayDelay_s = 20
+const { Clipboard } = Plugins;
 
-import Views__cssRules from '../../Views/cssRules.web'
+"use strict"
+
 
 const NamespaceName = 'ExceptionAlerting'
 const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
@@ -68,16 +97,7 @@ function cssRules_generatorFn (context) {
 	]
   return cssRules
 }
-function __injectCSSRules_ifNecessary (context)
-{
-  // This is just an absolute wtf, and it's breaking ES6 migration
-  Views__cssRules.InjectCSSRules_ifNecessary(
-    haveCSSRulesBeenInjected_documentKey,
-    cssRules_generatorFn,
-    context
-  )
-  console.log('Tried to inject exception styles')
-}
+
 //
 class ExceptionAlerting {
   constructor (options, context) {
@@ -90,9 +110,7 @@ class ExceptionAlerting {
   }
 
   setup () {
-    console.log('Setting up exception alerting')
-		const self = this
-    __injectCSSRules_ifNecessary(self.context)
+	const self = this
     self._startObserving()
   }
 
@@ -108,40 +126,73 @@ class ExceptionAlerting {
       self.alertErrMsg(e.error.message, 2)
       return false
 		})
-    window.addEventListener('unhandledrejection', function (e)
-    {
-      self.alertErrMsg(e.reason.message, 3)
-      return false
-    })
-  }
+		window.addEventListener('unhandledrejection', function(e) 
+		{
+			self.alertErrMsg(e.reason.message, 3)
+			return false
+		})
+	}
+	//
+	// Imperatives
+	alertErrMsg(message, handlerId)
+	{
+		// const self = this;
+		// self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
+		// if (message.indexOf("undefined") !== -1 && message.indexOf("handler") !== -1) {
+		// 	return // most likely an error from webflow - can skip erroring these ; TODO: remove this when removing webflow
+		// }
+		// if (typeof message !== 'undefined' && message && message !== "") {
+		// 	self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
+		// } else {
+		// 	self.doToastMessage("Unrecognized error occured. Please contact Support with steps and browser informations.", undefined)
+		// }
+		var errorHtml = "An unexpected application error occurred.\n\nPlease let us know of ";
+		errorHtml += `the following error message as it could be a bug:\n\n <p><span style='font-size: 11px;'>${message}`
+		errorHtml += "</span></p>";
 
-  //
-  // Imperatives
-  alertErrMsg (message, handlerId) {
-    const self = this
-		self.doToastMessage('Unhandled error. Please inform MyMonero Support of this message: ' + message, message)
-		if (message.indexOf('undefined') !== -1 && message.indexOf('handler') !== -1) {
-      return // most likely an error from webflow - can skip erroring these ; TODO: remove this when removing webflow
-    }
-    if (typeof message !== 'undefined' && message && message !== '') {
-      self.doToastMessage('Unhandled error. Please inform MyMonero Support of this message: ' + message, message)
-		} else {
-      self.doToastMessage('Unrecognized error occured. Please contact Support with steps and browser informations.', undefined)
-    }
-  }
+		let errStr = `An unexpected application error occurred. The following error message was encountered: \n\n ${message}`
+		// append stack trace to error we copy to clipboard
 
-  doToastMessage (message, raw_message) {
-    let el = document.createElement('div')
-    el.classList.add('exceptiontoast')
-    el.appendChild(document.createTextNode(message)) // safely escape content
-    document.body.appendChild(el)
-    setTimeout(function () {
-      el.classList.add('show')
-      const finalRemoveDelay_s = animationDuration_s + displayDelay_s
-      setTimeout(function () {
-        el.classList.remove('show') // just so we can get the visibility:hidden in place -- probably not necessary
-        el.parentNode.removeChild(el)
-      }, finalRemoveDelay_s * 1000)
+		errStr += navigator.userAgent;
+
+		Swal.fire({
+			title: 'MyMonero has encountered an error',
+			html: errorHtml,
+			background: "#272527",
+			titleColor: "#FFFFFF",
+			color: "#FFFFFF",
+			text: 'Do you want to continue',
+			confirmButtonColor: "#11bbec",
+			confirmButtonText: 'Copy Error To Clipboard',
+			cancelButtonText: 'Close',
+			showCloseButton: true,
+			showCancelButton: true,
+			preConfirm: async () => {	
+				//navigator.clipboard.writeText(errStr)
+				await Clipboard.write({
+					string: errStr
+				});
+			},
+			customClass: {
+				confirmButton: 'base-button hoverable-cell navigation-blue-button-enabled action right-save-button',
+				cancelButton: 'base-button hoverable-cell navigation-blue-button-enabled action right-save-button disabled navigation-blue-button-disabled'
+			},
+		})
+	}
+	doToastMessage(message, raw_message)
+	{
+		var el = document.createElement("div")
+		el.classList.add("exceptiontoast")
+		el.appendChild(document.createTextNode(message)) // safely escape content
+		document.body.appendChild(el)
+		setTimeout(function()
+		{
+			el.classList.add("show")
+			const finalRemoveDelay_s = animationDuration_s + displayDelay_s
+			setTimeout(function() { 
+				el.classList.remove("show") // just so we can get the visibility:hidden in place -- probably not necessary
+				el.parentNode.removeChild(el)
+			}, finalRemoveDelay_s * 1000);
 		})
   }
 }
