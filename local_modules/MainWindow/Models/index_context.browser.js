@@ -1,5 +1,5 @@
 'use strict'
-
+import WebComponents from "@mymonero/mymonero-web-components";
 import TXTRecordResolver from '../../OpenAlias/TXTResolver.web'
 import Pasteboard from '../../Pasteboard/Pasteboard.browser'
 import URLBrowser from '../../URLBrowser/URLBrowser.browser'
