@@ -45,7 +45,7 @@ class RootFooterView extends View
 	{
 		const self = this
 		const layer = self.layer
-		layer.style.height = `${self.context.rootViewFooterHeight}px`
+		layer.style.height = `32px`
 		layer.style.backgroundColor = "#171416"
 		//
 		const primaryUtilityLink_colorValue = "rgb(250, 246, 250)"
@@ -109,7 +109,9 @@ class RootFooterView extends View
 		a.style.MozUserSelect = "none"
 		a.style.msUserSelect = "none"
 		a.style.userSelect = "none"
-		self.context.themeController.StyleLayer_FontAsSmallRegularSansSerif(a)
+		a.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+		a.style.fontSize = "12px"
+		a.style.fontWeight = "500"
 		a.style.webkitTapHighlightColor = "rgba(0,0,0,0)" 
 		a.style.margin = "0"
 		a.style.width = "auto"

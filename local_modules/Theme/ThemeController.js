@@ -38,7 +38,7 @@ const NamespaceName = "ThemeController"
 const haveCSSRulesBeenInjected_documentKey = "__haveCSSRulesBeenInjected_"+NamespaceName
 function cssRules_generatorFn(context)
 {
-	const assetsPath = "../../" + (context.crossPlatform_indexContextRelativeAssetsRootPathSuffix || "")
+	const assetsPath = "../../../../"
 	const cssRules =
 	[
 		`@font-face {
@@ -77,23 +77,6 @@ class ThemeController
 	}
 	injectCSSRules_ifNecessary(context) 
 	{
-		// Views__cssRules.InjectCSSRules_ifNecessary(
-		// 	haveCSSRulesBeenInjected_documentKey, 
-		// 	cssRules_generatorFn,
-		// 	context
-		// )
-	}
-	//
-	// Accessors - UI - Metrics - Layout
-	TabBarView_thickness()
-	{
-		const self = this
-		return self.context.TabBarView_thickness
-	}
-	TabBarView_isHorizontalBar()
-	{
-		const self = this
-		return self.context.TabBarView_isHorizontalBar
 	}
 	//
 	// Accessors - UI - Metrics - Fonts
@@ -129,31 +112,13 @@ class ThemeController
 		layer.style.fontFamily = self.FontFamily_sansSerif()
 		layer.style.fontSize = "12px"
 		layer.style.fontWeight = "500"
-		if (self.context.ThemeController_isMobileBrowser === true) {
-			//
-		} else { 
-			layer.style.webkitFontSmoothing = "subpixel-antialiased" // for chrome browser
-			layer.style.letterSpacing = "0.5px"
-		}
 	}
 	StyleLayer_FontAsSmallRegularMonospace(layer)
 	{
 		const self = this
-		if (self.context.ThemeController_isMobileBrowser === true) {
-			layer.style.fontFamily = self.FontFamily_monospaceRegular()
-			layer.style.fontSize = "11px"
-			layer.style.fontWeight = "lighter"
-		} else { 
-			layer.style.fontFamily = self.FontFamily_monospaceLight()
-			layer.style.webkitFontSmoothing = "subpixel-antialiased" // for chrome browser
-			layer.style.fontSize = "10px"
-			layer.style.letterSpacing = "0.5px"
-			if (typeof process !== 'undefined' && process.platform === "linux") {
-				layer.style.fontWeight = "700" // surprisingly does not render well w/o this… not linux thing but font size thing. would be nice to know which font it uses and toggle accordingly. platform is best guess for now
-			} else {
-				layer.style.fontWeight = "300"
-			}
-		}
+		layer.style.fontFamily = self.FontFamily_monospaceRegular()
+		layer.style.fontSize = "11px"
+		layer.style.fontWeight = "lighter"
 	}
 	StyleLayer_FontAsMiddlingRegularMonospace(layer)
 	{
@@ -173,82 +138,43 @@ class ThemeController
 	{
 		const self = this
 		layer.style.fontSize = "11px" // we need this to visually stand out slightly more given how it's used
-		if (self.context.ThemeController_isMobileBrowser === true) { 
-			layer.style.fontFamily = self.FontFamily_monospaceRegular()
-			layer.style.fontWeight = "lighter"
-		} else {
-			layer.style.fontFamily = self.FontFamily_monospaceLight()
-			layer.style.fontWeight = "100" // instead of 500, cause this color, white, is rendered strong
-		}
+		layer.style.fontFamily = self.FontFamily_monospaceRegular()
+		layer.style.fontWeight = "lighter"
 	}
 	StyleLayer_FontAsSmallLightMonospace(layer)
 	{
 		const self = this
-		if (self.context.ThemeController_isMobileBrowser === true) { 
-			layer.style.fontFamily = self.FontFamily_monospaceRegular()
-			layer.style.fontSize = "11px"
-			layer.style.fontWeight = "lighter"
-		} else {
-			layer.style.fontFamily = self.FontFamily_monospaceLight()
-			layer.style.fontSize = "10px" // design says 11 but chrome renders too strongly; simulating with 10/0.5/500
-			layer.style.letterSpacing = "0.5px"
-			layer.style.fontWeight = "100" // instead of 500, cause this color, white, is rendered strong
-		}
+		layer.style.fontFamily = self.FontFamily_monospaceRegular()
+		layer.style.fontSize = "11px"
+		layer.style.fontWeight = "lighter"
 	}
 	StyleLayer_FontAsSmallPillLightMonospace(layer)
 	{
 		const self = this
-		if (self.context.ThemeController_isMobileBrowser === true) { 
-			layer.style.fontFamily = self.FontFamily_monospaceRegular()
-			layer.style.fontSize = "11px"
-			layer.style.fontWeight = "lighter"
-		} else {
-			layer.style.fontFamily = self.FontFamily_monospaceLight()
-			layer.style.fontSize = "10px"
-			layer.style.letterSpacing = "0.8px"
-			layer.style.fontWeight = "100"
-		}
+		layer.style.fontFamily = self.FontFamily_monospaceRegular()
+		layer.style.fontSize = "11px"
+		layer.style.fontWeight = "lighter"
 	}
 	StyleLayer_FontAsMiddlingBoldSansSerif(layer)
 	{
 		const self = this
 		layer.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
-		if (self.context.ThemeController_isMobileBrowser === true) { 
-			layer.style.fontSize = "13px"
-			layer.style.fontWeight = "bold"
-	} else {
-			layer.style.fontSize = "12px" // design says 13 but chrome/webkit/electron renders oddly, simulating with…
-			layer.style.fontWeight = "500"
-			layer.style.letterSpacing = "0.5px"
-		}
+		layer.style.fontSize = "13px"
+		layer.style.fontWeight = "bold"
 	}
 	StyleLayer_FontAsMiddlingSemiboldSansSerif(layer)
 	{
 		const self = this
 		layer.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
-		if (self.context.ThemeController_isMobileBrowser === true) { 
-			layer.style.fontSize = "13px"
-			layer.style.fontWeight = "600" // semibold desired but "semibold" doesn't apparently work
-		} else {
-			layer.style.webkitFontSmoothing = "subpixel-antialiased"
-			layer.style.fontSize = "12px" // design says 13 but chrome/desktop renders it too large
-			layer.style.fontWeight = "400" // semibold desired
-			layer.style.letterSpacing = "0.5px"
-		}
+		layer.style.fontSize = "13px"
+		layer.style.fontWeight = "600" // semibold desired but "semibold" doesn't apparently work
 	}
 	StyleLayer_FontAsSmallSemiboldSansSerif(layer)
 	{
 		const self = this
 		layer.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
-		if (self.context.ThemeController_isMobileBrowser === true) { 
-			layer.style.fontSize = "11px"
-			layer.style.fontWeight = "600" // semibold desired but "semibold" doesn't apparently work
-		} else {
-			layer.style.webkitFontSmoothing = "subpixel-antialiased"
-			layer.style.fontSize = "11px"
-			layer.style.fontWeight = "400" // semibold desired
-			layer.style.letterSpacing = "0.5px"
-		}
+		layer.style.fontSize = "11px"
+		layer.style.fontWeight = "600" // semibold desired but "semibold" doesn't apparently work
 	}
 	StyleLayer_FontAsMiddlingNormalSansSerif(layer)
 	{
@@ -256,12 +182,7 @@ class ThemeController
 		layer.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
 		layer.style.letterSpacing = "0"
 		layer.style.fontSize = "13px"
-		if (self.context.ThemeController_isMobileBrowser === true) { 
-			layer.style.fontWeight = "normal"
-		} else {
-			layer.style.webkitFontSmoothing = "subpixel-antialiased"
-			layer.style.fontWeight = "300"
-		}
+		layer.style.fontWeight = "normal"
 	}
 	StyleLayer_FontAsMiddlingButtonContentSemiboldSansSerif(
 		layer, 
@@ -270,22 +191,9 @@ class ThemeController
 	{
 		const self = this
 		layer.style.fontFamily = self.context.themeController.FontFamily_sansSerif()
-		if (self.context.ThemeController_isMobileBrowser === true) { 
-			layer.style.fontSize = "13px"
-			layer.style.letterSpacing = "0"
-			layer.style.fontWeight = "600"
-		} else { // chrome/desktop/electron:
-			layer.style.webkitFontSmoothing = "subpixel-antialiased"
-			if (isContentBrightNotDark == true) {
-				layer.style.fontSize = "12px" // appears slightly too small but 13 is far to big
-				layer.style.letterSpacing = "0.5px"
-				layer.style.fontWeight = "400"
-			} else {
-				layer.style.fontSize = "13px" // appears /slightly/ too bug but waygd 
-				layer.style.letterSpacing = "0"
-				layer.style.fontWeight = "600"
-			}
-		}
+		layer.style.fontSize = "13px"
+		layer.style.letterSpacing = "0"
+		layer.style.fontWeight = "600"
 	}
 	//
 	// Delegation/Accessors/Protocol - Navigation Bar View - Buttons - Back button

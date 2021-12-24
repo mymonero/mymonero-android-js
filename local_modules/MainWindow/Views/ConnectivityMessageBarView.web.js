@@ -61,9 +61,7 @@ class ConnectivityMessageBarView extends View
 		layer.style.position = "fixed"
 		layer.style.zIndex = 100
 		var leftMargin = 16
-		if (self.context.themeController.TabBarView_isHorizontalBar() !== true) {
-			leftMargin += self.context.themeController.TabBarView_thickness()
-		}
+		
 		layer.style.width = `calc(100% - ${leftMargin}px - 16px)`
 		layer.style.minHeight = "24px"
 		layer.style.padding = "4px 8px"
@@ -78,7 +76,9 @@ class ConnectivityMessageBarView extends View
 		layer.style.borderRadius = "3px"
 		layer.style.boxSizing = "border-box"
 		layer.style.color = "#F5E67E"
-		self.context.themeController.StyleLayer_FontAsSmallSemiboldSansSerif(layer)
+		layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+		layer.style.fontSize = "11px"
+		layer.style.fontWeight = "600" // semibold desired but "semibold" doesn't apparently work
 		layer.style.wordBreak = "break-word"
 	}
 	startObserving()
