@@ -45,7 +45,7 @@
     "async": "3.1.0",
     "bitcoin-address-validation": "^1.0.2",
     "capacitor-file-selector": "^0.0.5",
-    "capacitor-secure-storage-plugin": "^0.5.0",
+    "capacitor-secure-storage-plugin": "^0.6.2",
     "copy-webpack-plugin": "^9.0.1",
     "crypto-browserify": "^3.12.0",
     "css-loader": "^6.5.1",
