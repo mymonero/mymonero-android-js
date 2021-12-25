@@ -62,7 +62,7 @@
     "terser": "^5.7.1",
     "uglify-js": "^3.14.1",
     "util": "^0.12.4",
-    "uuid": "3.3.2",
+    "uuid": "3.4.0",
     "velocity-animate": "1.5.2",
     "wallet-address-validator": "^0.2.4",
     "xhr": "2.5.0"
