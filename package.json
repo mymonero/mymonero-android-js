@@ -21,7 +21,7 @@
     "@capacitor/cli": "^2.4.7",
     "@capacitor/core": "^2.4.7",
     "@ionic/pwa-elements": "^3.0.2",
-    "@johnbraum/capacitor-qrscanner": "1.0.1",
+    "@johnbraum/capacitor-qrscanner": "1.1.13",
     "@mymonero/mymonero-app-bridge": "^1.1.13",
     "@mymonero/mymonero-bigint": "^1.1.15",
     "@mymonero/mymonero-bridge-utils": "^1.1.15",
