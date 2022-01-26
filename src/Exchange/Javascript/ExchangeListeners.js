@@ -6,246 +6,244 @@ const serverValidation = document.getElementById('server-messages')
 const orderBtn = document.getElementById('order-button')
 const loaderPage = document.getElementById('loader')
 
-let exchangeXmrDiv = document.getElementById('exchange-xmr')
-let backBtn = document.getElementsByClassName('nav-button-left-container')[0]  
-let XMRcurrencyInput = document.getElementById('XMRcurrencyInput')
-let BTCcurrencyInput = document.getElementById('BTCcurrencyInput')
+const exchangeXmrDiv = document.getElementById('exchange-xmr')
+const backBtn = document.getElementsByClassName('nav-button-left-container')[0]
+const XMRcurrencyInput = document.getElementById('XMRcurrencyInput')
+const BTCcurrencyInput = document.getElementById('BTCcurrencyInput')
 let currencyInputTimer
 
-let BTCAddressInputListener = function () {
+const BTCAddressInputListener = function () {
   const div = document.getElementById('btc-invalid')
-    let btcAddressInput = document.getElementById('btcAddress')
-    console.log(Utils.validateBTCAddress(btcAddressInput.value))
-    if ((Utils.validateBTCAddress(btcAddressInput.value) == false) && div == null) {
+  const btcAddressInput = document.getElementById('btcAddress')
+  console.log(Utils.validateBTCAddress(btcAddressInput.value))
+  if ((Utils.validateBTCAddress(btcAddressInput.value) == false) && div == null) {
     const error = document.createElement('div')
-        error.classList.add('message-label')
-        error.id = 'btc-invalid'
-        error.innerHTML = 'Your BTC address is not valid.';
+    error.classList.add('message-label')
+    error.id = 'btc-invalid'
+    error.innerHTML = 'Your BTC address is not valid.'
     addressValidation.appendChild(error)
-    } else {
+  } else {
     if (!(div == null)) {
       div.remove()
-        }
+    }
   }
 }
 
 const walletSelectorClickListener = function (event) {
   const walletElement = document.getElementById('wallet-options')
-    let selectedWallet = document.getElementById('selected-wallet')
-    walletElement.classList.add('active')
-    if (event.srcElement.parentElement.className.includes('optionCell')) {
+  const selectedWallet = document.getElementById('selected-wallet')
+  walletElement.classList.add('active')
+  if (event.srcElement.parentElement.className.includes('optionCell')) {
     const dataAttributes = event.srcElement.parentElement.dataset
-        selectedWallet.dataset.walletlabel = dataAttributes.walletlabel
-        selectedWallet.dataset.walletbalance = dataAttributes.walletbalance
-        selectedWallet.dataset.swatch = dataAttributes.swatch
-        selectedWallet.dataset.walletselected = true
-        selectedWallet.dataset.walletoffset = dataAttributes.walletoffset
-        let walletLabel = document.getElementById('selected-wallet-label') 
-        let walletBalance = document.getElementById('selected-wallet-balance') 
-        let walletIcon = document.getElementById('selected-wallet-icon') 
-        walletElement.classList.remove('active')
-        walletIcon.style.backgroundImage = `url('./src/assets/img/wallet-${dataAttributes.swatch}@3x.png'`
-        walletLabel.innerText = dataAttributes.walletlabel
-        walletBalance.innerText = dataAttributes.walletbalance + ' XMR';
+    selectedWallet.dataset.walletlabel = dataAttributes.walletlabel
+    selectedWallet.dataset.walletbalance = dataAttributes.walletbalance
+    selectedWallet.dataset.swatch = dataAttributes.swatch
+    selectedWallet.dataset.walletselected = true
+    selectedWallet.dataset.walletoffset = dataAttributes.walletoffset
+    const walletLabel = document.getElementById('selected-wallet-label')
+    const walletBalance = document.getElementById('selected-wallet-balance')
+    const walletIcon = document.getElementById('selected-wallet-icon')
+    walletElement.classList.remove('active')
+    walletIcon.style.backgroundImage = `url('./assets/img/wallet-${dataAttributes.swatch}@3x.png'`
+    walletLabel.innerText = dataAttributes.walletlabel
+    walletBalance.innerText = dataAttributes.walletbalance + ' XMR'
     const walletSelector = document.getElementById('wallet-selector')
-        walletSelector.dataset.walletchosen = true
-        clearCurrencies()
-    }
+    walletSelector.dataset.walletchosen = true
+    clearCurrencies()
+  }
   if (event.srcElement.parentElement.className.includes('selectionDisplayCellView')) {
     walletElement.classList.add('active')
-    }
+  }
   if (event.srcElement == 'div.hoverable-cell.utility.selectionDisplayCellView') {
 
   }
 }
 
-const CurrencyInputKeydownListener = function(event) {
+const CurrencyInputKeydownListener = function (event) {
+  if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190)
+    {return;}
 
-    if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190) 
-    return;
-
-    if ( (event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) ) {
-        return;
+  if ((event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105)) {
+    return
     }
 
-    if (!Utils.checkDecimals(BTCcurrencyInput.value, 8)) {
-        event.preventDefault();
+  if (!Utils.checkDecimals(BTCcurrencyInput.value, 8)) {
+    event.preventDefault()
         return;
-    }
-    event.preventDefault();
+  }
+  event.preventDefault()
     
 }
 
 const xmrBalanceChecks = function (exchangeFunctions) {
   console.log(exchangeFunctions)
-    serverValidation.innerHTML = '';
+  serverValidation.innerHTML = ''
   let BTCToReceive
-    let XMRbalance = parseFloat(XMRcurrencyInput.value)
-    let in_amount = XMRbalance.toFixed(12)
-    console.log(currencyInputTimer)
-    BTCcurrencyInput.value = 'Loading...';
+  const XMRbalance = parseFloat(XMRcurrencyInput.value)
+  const in_amount = XMRbalance.toFixed(12)
+  console.log(currencyInputTimer)
+  BTCcurrencyInput.value = 'Loading...'
   if (currencyInputTimer !== undefined) {
     clearTimeout(currencyInputTimer)
-    }
+  }
   if (exchangeFunctions.currentRates.in_min > XMRbalance) {
     const error = document.createElement('div')
-        error.classList.add('message-label')
-        error.id = 'xmrexceeded'
-        error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min} XMR`
-        validationMessages.appendChild(error)
-        return;
+    error.classList.add('message-label')
+    error.id = 'xmrexceeded'
+    error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min} XMR`
+    validationMessages.appendChild(error)
+    return
   }
   if (exchangeFunctions.currentRates.in_max < XMRbalance) {
     const error = document.createElement('div')
-        error.classList.add('message-label')
-        error.id = 'xmrexceeded'
-        error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max} XMR`
-        validationMessages.appendChild(error)
-        return;
+    error.classList.add('message-label')
+    error.id = 'xmrexceeded'
+    error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max} XMR`
+    validationMessages.appendChild(error)
+    return
   }
-  validationMessages.innerHTML = '';
-  serverValidation.innerHTML = '';
+  validationMessages.innerHTML = ''
+  serverValidation.innerHTML = ''
   currencyInputTimer = setTimeout(() => {
     exchangeFunctions.getOfferWithInAmount(exchangeFunctions.in_currency, exchangeFunctions.out_currency, in_amount)
       .then((response) => {
         console.log('async return', response)
-                BTCToReceive = parseFloat(response.out_amount)
-                let selectedWallet = document.getElementById('selected-wallet')
-                let tx_feeElem = document.getElementById('tx-fee')
-                let tx_fee = tx_feeElem.dataset.txFee
-                let tx_fee_double = parseFloat(tx_fee)
-                let walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance)
-                let walletMaxSpend = walletMaxSpendDouble - tx_fee
-                
-                if ((walletMaxSpend - XMRbalance) < 0) {
+        BTCToReceive = parseFloat(response.out_amount)
+        const selectedWallet = document.getElementById('selected-wallet')
+        const tx_feeElem = document.getElementById('tx-fee')
+        const tx_fee = tx_feeElem.dataset.txFee
+        const tx_fee_double = parseFloat(tx_fee)
+        const walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance)
+        const walletMaxSpend = walletMaxSpendDouble - tx_fee
+
+        if ((walletMaxSpend - XMRbalance) < 0) {
           const error = document.createElement('div')
-                    error.classList.add('message-label')
-                    error.id = 'xmrexceeded'
-                    error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`
-                    validationMessages.appendChild(error)
-                }
+          error.classList.add('message-label')
+          error.id = 'xmrexceeded'
+          error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`
+          validationMessages.appendChild(error)
+        }
         if (BTCToReceive.toFixed(8) > exchangeFunctions.currentRates.out_max) {
           const error = document.createElement('div')
-                    error.classList.add('message-label')
-                    error.id = 'xmrexceeded'
-                    error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max.toFixed(12)} XMR`
-                    validationMessages.appendChild(error)
-                }
+          error.classList.add('message-label')
+          error.id = 'xmrexceeded'
+          error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max.toFixed(12)} XMR`
+          validationMessages.appendChild(error)
+        }
         if (BTCToReceive.toFixed(8) < exchangeFunctions.currentRates.lower_limit) {
           const error = document.createElement('div')
-                    error.classList.add('message-label')
-                    error.id = 'xmrtoolow'
-                    error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min.toFixed(12)} XMR.`
-                    validationMessages.appendChild(error)
-                }
+          error.classList.add('message-label')
+          error.id = 'xmrtoolow'
+          error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min.toFixed(12)} XMR.`
+          validationMessages.appendChild(error)
+        }
         BTCcurrencyInput.value = BTCToReceive.toFixed(8)
-            }).catch((error) => {
+      }).catch((error) => {
         const errorDiv = document.createElement('div')
-                errorDiv.classList.add('message-label')
-                errorDiv.id = 'server-invalid'
-                errorDiv.innerHTML = 'There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>' + error.message
-                serverValidation.appendChild(errorDiv)
-            })
-    }, 1500)
+        errorDiv.classList.add('message-label')
+        errorDiv.id = 'server-invalid'
+        errorDiv.innerHTML = 'There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>' + error.message
+        serverValidation.appendChild(errorDiv)
+      })
+  }, 1500)
 }
 
 const btcBalanceChecks = function (exchangeFunctions) {
   console.log(exchangeFunctions)
-    
-    let BTCToReceive
-    let BTCbalance = parseFloat(BTCcurrencyInput.value)
-    let out_amount = BTCbalance.toFixed(12)
-    XMRcurrencyInput.value = 'Loading...';
+
+  let BTCToReceive
+  const BTCbalance = parseFloat(BTCcurrencyInput.value)
+  const out_amount = BTCbalance.toFixed(12)
+  XMRcurrencyInput.value = 'Loading...'
   if (currencyInputTimer !== undefined) {
     clearTimeout(currencyInputTimer)
-    }
+  }
 
   if (exchangeFunctions.currentRates.out_min > BTCbalance) {
     const error = document.createElement('div')
-        error.classList.add('message-label')
-        error.id = 'xmrexceeded'
-        error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.out_min} BTC`
-        validationMessages.appendChild(error)
-        return;
+    error.classList.add('message-label')
+    error.id = 'xmrexceeded'
+    error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.out_min} BTC`
+    validationMessages.appendChild(error)
+    return
   }
   if (exchangeFunctions.currentRates.out_max < BTCbalance) {
     const error = document.createElement('div')
-        error.classList.add('message-label')
-        error.id = 'xmrexceeded'
-        error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.out_max} BTC`
-        validationMessages.appendChild(error)
-        return;
+    error.classList.add('message-label')
+    error.id = 'xmrexceeded'
+    error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.out_max} BTC`
+    validationMessages.appendChild(error)
+    return
   }
-  validationMessages.innerHTML = '';
-  serverValidation.innerHTML = '';
+  validationMessages.innerHTML = ''
+  serverValidation.innerHTML = ''
   currencyInputTimer = setTimeout(() => {
     exchangeFunctions.getOfferWithOutAmount(exchangeFunctions.in_currency, exchangeFunctions.out_currency, out_amount)
       .then((response) => {
         const XMRtoReceive = parseFloat(response.in_amount)
-                let selectedWallet = document.getElementById('selected-wallet')
-                let tx_feeElem = document.getElementById('tx-fee')
-                let tx_fee = tx_feeElem.dataset.txFee
-                let tx_fee_double = parseFloat(tx_fee)
-                let walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance)
-                let walletMaxSpend = walletMaxSpendDouble - tx_fee
-                //let BTCToReceive = XMRcurrencyInput.value * exchangeFunctions.currentRates.price;
-                //let XMRbalance = parseFloat(XMRcurrencyInput.value);
-                let BTCCurrencyValue = parseFloat(BTCcurrencyInput.value)
+        const selectedWallet = document.getElementById('selected-wallet')
+        const tx_feeElem = document.getElementById('tx-fee')
+        const tx_fee = tx_feeElem.dataset.txFee
+        const tx_fee_double = parseFloat(tx_fee)
+        const walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance)
+        const walletMaxSpend = walletMaxSpendDouble - tx_fee
+        // let BTCToReceive = XMRcurrencyInput.value * exchangeFunctions.currentRates.price;
+        // let XMRbalance = parseFloat(XMRcurrencyInput.value);
+        const BTCCurrencyValue = parseFloat(BTCcurrencyInput.value)
 
-
-                if ((walletMaxSpend - XMRtoReceive) < 0) {
+        if ((walletMaxSpend - XMRtoReceive) < 0) {
           const error = document.createElement('div')
-                    error.classList.add('message-label')
-                    error.id = 'xmrexceeded'
-                    error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`
-                    validationMessages.appendChild(error)
-                }
+          error.classList.add('message-label')
+          error.id = 'xmrexceeded'
+          error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`
+          validationMessages.appendChild(error)
+        }
 
         if (BTCCurrencyValue.toFixed(12) > exchangeFunctions.currentRates.upper_limit) {
           const error = document.createElement('div')
-                    error.id = 'xmrexceeded'
-                    error.classList.add('message-label')
-                    let btc_amount = parseFloat(exchangeFunctions.currentRates.upper_limit)
-                    error.innerHTML = `You cannot exchange more than ${btc_amount} BTC.`
-                    validationMessages.appendChild(error)
-                }
+          error.id = 'xmrexceeded'
+          error.classList.add('message-label')
+          const btc_amount = parseFloat(exchangeFunctions.currentRates.upper_limit)
+          error.innerHTML = `You cannot exchange more than ${btc_amount} BTC.`
+          validationMessages.appendChild(error)
+        }
         if (BTCCurrencyValue.toFixed(8) < exchangeFunctions.currentRates.lower_limit) {
           const error = document.createElement('div')
-                    error.id = 'xmrtoolow'
-                    error.classList.add('message-label')
-                    let btc_amount = parseFloat(exchangeFunctions.currentRates.lower_limit)
-                    error.innerHTML = `You cannot exchange less than ${btc_amount} BTC.`
-                    validationMessages.appendChild(error)
-                }
+          error.id = 'xmrtoolow'
+          error.classList.add('message-label')
+          const btc_amount = parseFloat(exchangeFunctions.currentRates.lower_limit)
+          error.innerHTML = `You cannot exchange less than ${btc_amount} BTC.`
+          validationMessages.appendChild(error)
+        }
         XMRcurrencyInput.value = XMRtoReceive.toFixed(12)
-            }).catch((error) => {
+      }).catch((error) => {
         const errorDiv = document.createElement('div')
-                errorDiv.classList.add('message-label')
-                errorDiv.id = 'server-invalid'
-                errorDiv.innerHTML = 'There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>' + error.message
-                serverValidation.appendChild(errorDiv)
-            })
-    }, 1500)
+        errorDiv.classList.add('message-label')
+        errorDiv.id = 'server-invalid'
+        errorDiv.innerHTML = 'There was a problem communicating with the server. <br>If this problem keeps occurring, please contact support with a screenshot of the following error: <br>' + error.message
+        serverValidation.appendChild(errorDiv)
+      })
+  }, 1500)
 }
 
 const backButtonClickListener = function () {
   const backBtn = document.getElementsByClassName('nav-button-left-container')[0]
-    let viewOrderBtn = document.getElementById('view-order')
-    orderCreated = false
-    document.getElementById('orderStatusPage').classList.add('active')
-    backBtn.style.display = 'none';
+  const viewOrderBtn = document.getElementById('view-order')
+  orderCreated = false
+  document.getElementById('orderStatusPage').classList.add('active')
+  backBtn.style.display = 'none'
   const orderStatusDiv = document.getElementById('exchangePage')
-    loaderPage.classList.remove('active')
-    orderStatusDiv.classList.remove('active')
-    exchangeXmrDiv.classList.remove('active')
-    console.log(viewOrderBtn)
-    viewOrderBtn.style.display = 'block';
+  loaderPage.classList.remove('active')
+  orderStatusDiv.classList.remove('active')
+  exchangeXmrDiv.classList.remove('active')
+  console.log(viewOrderBtn)
+  viewOrderBtn.style.display = 'block'
   console.log(viewOrderBtn)
 }
 
 function clearCurrencies () {
-  XMRcurrencyInput.value = '';
-  BTCcurrencyInput.value = '';
+  XMRcurrencyInput.value = ''
+  BTCcurrencyInput.value = ''
 }
 
 // TODO: Finish refactoring this to clean up ExchangeScript.js

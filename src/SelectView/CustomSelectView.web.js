@@ -28,8 +28,8 @@ class CustomSelectView extends View {
       //
       self.didUpdateSelection_fn = self.options.didUpdateSelection_fn || function () {}
       // constructing/configuring lists
-      self.cellView_createAndReturnOne_fn = self.options.cellView_createAndReturnOne_fn || function (selectView) { throw 'You must implement options.cellView_createAndReturnOne_fn in ' + self.constructor.name /*return null; */ }
-      self.cellView_height_fn = self.options.cellView_height_fn || function (selectView, cellView) { throw 'You must implement options.cellView_height_fn in ' + self.constructor.name /*return 0; */ }
+      self.cellView_createAndReturnOne_fn = self.options.cellView_createAndReturnOne_fn || function (selectView) { throw 'You must implement options.cellView_createAndReturnOne_fn in ' + self.constructor.name /* return null; */ }
+      self.cellView_height_fn = self.options.cellView_height_fn || function (selectView, cellView) { throw 'You must implement options.cellView_height_fn in ' + self.constructor.name /* return 0; */ }
       self.cellView_prepareForReuse_fn = self.options.cellView_prepareForReuse_fn || function (selectView, cellView) {}
       self.lookup_uidFromRowItemForRow_fn = self.options.lookup_uidFromRowItemForRow_fn || function (rowItem) {}
       self.cellView_configureWithRowItem_fn = self.options.cellView_configureWithRowItem_fn || function (selectView, cellView, rowItem) {}
@@ -102,7 +102,7 @@ class CustomSelectView extends View {
       layer.style.right = '16px'
       layer.style.top = '0'
       layer.style.zIndex = '100' // above options_containerView
-      layer.style.backgroundImage = 'url(./src/assets/img/dropdown-arrow-down@3x.png)'
+      layer.style.backgroundImage = 'url(./assets/img/dropdown-arrow-down@3x.png)'
       layer.style.backgroundRepeat = 'no-repeat'
       layer.style.backgroundPosition = 'center'
       layer.style.backgroundSize = w + 'px ' + h + 'px'

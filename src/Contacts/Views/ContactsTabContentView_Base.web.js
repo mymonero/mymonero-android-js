@@ -20,7 +20,7 @@ class ContactsTabContentView extends StackAndModalNavigationView {
   TabBarItem_icon_customStyle () {
     const self = this
     return {
-      backgroundImage: 'url(./src/assets/img/icon_tabBar_contacts@3x.png)',
+      backgroundImage: 'url(./assets/img/icon_tabBar_contacts@3x.png)',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: '24px 23px'
@@ -30,7 +30,7 @@ class ContactsTabContentView extends StackAndModalNavigationView {
   TabBarItem_icon_selected_customStyle () {
     const self = this
     return {
-      backgroundImage: 'url(./src/assets/img/icon_tabBar_contacts__active@3x.png)',
+      backgroundImage: 'url(./assets/img/icon_tabBar_contacts__active@3x.png)',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: '24px 23px'

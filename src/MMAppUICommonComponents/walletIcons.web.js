@@ -55,7 +55,7 @@ function New_WalletIconLayer (context, optl_sizeClass) {
   //
   div.ConfigureWithHexColorString = function (to_hexColorString) {
     const to_hexColorString_sansPound = to_hexColorString.substring(1, to_hexColorString.length)
-    div.style.backgroundImage = `url(./src/assets/img/wallet-${to_hexColorString_sansPound}@3x.png)`
+    div.style.backgroundImage = `url(./assets/img/wallet-${to_hexColorString_sansPound}@3x.png)`
   }
   //
   return div

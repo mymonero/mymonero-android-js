@@ -92,7 +92,7 @@ function New_LeftSide_BackButtonView (context) {
   layer.style.marginTop = '10px'
   layer.style.width = '26px'
   layer.style.height = '24px'
-  layer.style.backgroundImage = 'url(./src/assets/img/backButtonIcon@3x.png)'
+  layer.style.backgroundImage = 'url(./assets/img/backButtonIcon@3x.png)'
   layer.style.backgroundSize = '9px 14px'
   layer.style.backgroundRepeat = 'no-repeat'
   layer.style.backgroundPosition = '8px 5px'
@@ -105,7 +105,7 @@ function New_RightSide_AddButtonView (context) {
   layer.style.float = 'right' // so it sticks to the right of the right btn holder view layer
   layer.style.marginTop = '10px'
   layer.style.width = '26px' // instead of 24px - slightly wider than H
-  layer.style.backgroundImage = 'url(./src/assets/img/addButtonIcon_10@3x.png)'
+  layer.style.backgroundImage = 'url(./assets/img/addButtonIcon_10@3x.png)'
   layer.style.backgroundSize = '10px 10px'
   layer.style.backgroundRepeat = 'no-repeat'
   layer.style.backgroundPosition = 'center'

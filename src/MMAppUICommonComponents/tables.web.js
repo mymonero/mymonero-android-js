@@ -561,7 +561,7 @@ function New_tableCell_accessoryChevronLayer (context) {
   //
   const image_filename = 'list_rightside_chevron@3x.png'
   const layer = document.createElement('img')
-  layer.src = './src/assets/img/' + image_filename
+  layer.src = './assets/img/' + image_filename
   layer.style.position = 'absolute'
   layer.style.pointerEvents = 'none' // b/c we actually don't want to pick up pointer events nor prevent them from being received by the cell
   layer.style.width = '7px'

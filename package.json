@@ -9,7 +9,7 @@
     "start": "(webpack --mode=development) & node server",
     "build": "webpack --mode=production",
     "update-android": "npx cap sync; npx cap open android",
-    "build-prod": "node bin/__assemble_browser_build.node.js; (webpack --config webpack.config.js); npm run update-android",
+    "build-prod": "npm run build; npm run update-android",
     "watch": "(webpack --config webpack.config.js --watch) & (node server.js)"
   },
   "engines": {

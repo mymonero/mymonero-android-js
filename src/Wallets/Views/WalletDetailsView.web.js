@@ -313,7 +313,7 @@ class WalletDetailsView extends View {
     const self = this
     const buttonView = commonComponents_actionButtons.New_ActionButtonView(
       'Receive',
-      './src/assets/img/actionButton_iconImage__request@3x.png', // relative to index.html
+      './assets/img/actionButton_iconImage__request@3x.png', // relative to index.html
       // TODO?: borrowing another module's asset. sort of bad
       false,
       function (layer, e) {
@@ -346,7 +346,7 @@ class WalletDetailsView extends View {
     const self = this
     const buttonView = commonComponents_actionButtons.New_ActionButtonView(
       'Send',
-      './src/assets/img/actionButton_iconImage__send@3x.png', // relative to index.html
+      './assets/img/actionButton_iconImage__send@3x.png', // relative to index.html
       true,
       function (layer, e) {
         self.context.walletAppCoordinator.Trigger_sendFundsFromWallet(self.wallet)

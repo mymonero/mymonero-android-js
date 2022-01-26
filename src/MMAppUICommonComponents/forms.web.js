@@ -363,7 +363,7 @@ function New_IconAndMessageLayer (iconPath, messageText, context, optl_imgW, opt
 }
 function New_Detected_IconAndMessageLayer (context) {
   const layer = New_IconAndMessageLayer( // will call `__inject…`
-    './src/assets/img/detectedCheckmark@3x.png',
+    './assets/img/detectedCheckmark@3x.png',
     'Detected',
     context,
     '9px',

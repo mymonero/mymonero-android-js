@@ -266,7 +266,7 @@ class ContactDetailsView extends View {
     const self = this
     const buttonView = commonComponents_actionButtons.New_ActionButtonView(
       'Pay',
-      './src/assets/img/actionButton_iconImage__send@3x.png', // relative to index.html
+      './assets/img/actionButton_iconImage__send@3x.png', // relative to index.html
       false,
       function (layer, e) {
         self.context.walletAppCoordinator.Trigger_sendFundsToContact(self.contact)
@@ -283,7 +283,7 @@ class ContactDetailsView extends View {
     const self = this
     const buttonView = commonComponents_actionButtons.New_ActionButtonView(
       'Request',
-      './src/assets/img/actionButton_iconImage__request@3x.png', // relative to index.html
+      './assets/img/actionButton_iconImage__request@3x.png', // relative to index.html
       true,
       function (layer, e) {
         self.context.walletAppCoordinator.Trigger_requestFundsFromContact(self.contact)

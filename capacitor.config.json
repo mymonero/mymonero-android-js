@@ -3,7 +3,7 @@
   "appName": "MyMonero",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "browser_build",
+  "webDir": "dist",
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0

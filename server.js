@@ -5,9 +5,9 @@ const path = require('path')
 http.createServer(function (request, response) {
   console.log('request ', request.url)
 
-  let filePath = '.' + request.url
-  if (filePath == './') {
-    filePath = './index.html'
+  let filePath = './dist' + request.url
+  if (filePath == './dist/') {
+    filePath = './dist/index.html'
   }
 
   const extname = String(path.extname(filePath)).toLowerCase()
@@ -41,7 +41,7 @@ http.createServer(function (request, response) {
       } else {
         console.log(filePath)
         response.writeHead(500)
-        response.end('Sorry, check with the site admin for error: ' + error.code + ' ' + error.message + '..\n')
+        response.end('Sorry, check with the site admin for error: ' + error.code + '..\n')
       }
     } else {
       response.writeHead(200, { 'Content-Type': contentType })
