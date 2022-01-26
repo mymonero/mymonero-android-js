@@ -5,7 +5,7 @@ import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils'
 import commonComponents_activityIndicators from '../../MMAppUICommonComponents/activityIndicators.web'
 import commonComponents_actionButtons from '../../MMAppUICommonComponents/actionButtons.web'
 import jsQR from 'jsqr'
-import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
+import monero_requestURI_utils from '@mymonero/mymonero-request-utils'
 
 class AddContactView extends ContactFormView {
   setup () {

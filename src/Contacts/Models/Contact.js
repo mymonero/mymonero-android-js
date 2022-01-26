@@ -5,7 +5,7 @@ import Emojis from '../../Emoji/emoji_set'
 import persistable_object_utils from '../../DocumentPersister/persistable_object_utils'
 import contact_persistence_utils from './contact_persistence_utils'
 import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils'
-import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
+import monero_requestURI_utils from '@mymonero/mymonero-request-utils'
 import QRCode from 'qrcode'
 
 class Contact extends EventEmitter {
@@ -106,7 +106,6 @@ class Contact extends EventEmitter {
   _setup_fetchExistingDocumentWithId () {
     const self = this
     persistable_object_utils.read(
-      self.context.string_cryptor__background,
       self.context.persister,
       contact_persistence_utils.CollectionName,
       self, // because an _id was supposed to have been passed in

@@ -5,7 +5,6 @@ import Pasteboard from '../../Pasteboard/Pasteboard.browser'
 import FilesystemUI from '../../FilesystemUI/FilesystemUI.browser'
 import WindowDialogs from '../../WindowDialogs/WindowDialogs.browser'
 import CcyConversionRates from '../../CcyConversionRates/Controller'
-import SymmetricCryptor from '../../symmetric_cryptor/BackgroundStringCryptor.noOp'
 import ContactsListController from '../../Contacts/Controllers/ContactsListController'
 import DocumentPersister from '../../DocumentPersister/DocumentPersister.SecureStorage'
 import BackgroundAPIResponseParser from '@mymonero/mymonero-response-parser-utils'
@@ -29,7 +28,6 @@ function NewHydratedContext (initialContext) {
   context.filesystemUI = new FilesystemUI({}, context)
   context.windowDialogs = new WindowDialogs({}, context)
   context.CcyConversionRates_Controller_shared = new CcyConversionRates({}, context)
-  context.string_cryptor__background = new SymmetricCryptor({}, context)
   context.persister = new DocumentPersister({}, context)
   context.backgroundAPIResponseParser = new BackgroundAPIResponseParser({
     coreBridge_instance: initialContext.monero_utils // the same as coreBridge_instance

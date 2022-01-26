@@ -2,7 +2,6 @@ import uuidV1 from 'uuid/v1'
 import string_cryptor from '../symmetric_cryptor/symmetric_string_cryptor'
 
 function read (
-  string_cryptor__background,
   persister, // DocumentPersister.SecureStorage
   CollectionName,
   persistableObject, // you must set ._id on this before call
@@ -60,7 +59,6 @@ function read (
 }
 //
 function write (
-  string_cryptor__background,
   persister,
   persistableObject, // for reading and writing the _id
   CollectionName,
@@ -75,7 +73,6 @@ function write (
     plaintextDocument._id = _id
   }
   const plaintextJSONString = JSON.stringify(plaintextDocument)
-  // string_cryptor__background.New_EncryptedBase64String__Async(
 
   string_cryptor.New_EncryptedBase64String__Async(
     plaintextJSONString,

@@ -2,7 +2,7 @@
 
 import SendFundsView_Base from './SendFundsView_Base.web'
 import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web'
-import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
+import monero_requestURI_utils from '@mymonero/mymonero-request-utils'
 import AddContactFromSendTabView from '../../Contacts/Views/AddContactFromSendTabView.web'
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web'
 
