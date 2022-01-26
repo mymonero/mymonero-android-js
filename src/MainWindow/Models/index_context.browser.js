@@ -2,7 +2,6 @@
 import WebComponents from '@mymonero/mymonero-web-components'
 import TXTRecordResolver from '../../OpenAlias/TXTResolver.web'
 import Pasteboard from '../../Pasteboard/Pasteboard.browser'
-import URLBrowser from '../../URLBrowser/URLBrowser.browser'
 import FilesystemUI from '../../FilesystemUI/FilesystemUI.browser'
 import WindowDialogs from '../../WindowDialogs/WindowDialogs.browser'
 import CcyConversionRates from '../../CcyConversionRates/Controller'
@@ -12,7 +11,6 @@ import DocumentPersister from '../../DocumentPersister/DocumentPersister.SecureS
 import BackgroundAPIResponseParser from '@mymonero/mymonero-response-parser-utils'
 import HostedMoneroAPIClient from '@mymonero/mymonero-hosted-api'
 import OpenAlias from '../../OpenAlias/OpenAliasResolver'
-import Theme from '../../Theme/ThemeController'
 import FundsRequestsListController from '../../RequestFunds/Controllers/FundsRequestsListController'
 import Passwords from '../../Passwords/Controllers/PasswordController.Full'
 import Settings from '../../Settings/Controllers/SettingsController'
@@ -28,7 +26,6 @@ function NewHydratedContext (initialContext) {
   const context = initialContext != null ? initialContext : {}
 
   context.pasteboard = new Pasteboard({}, context)
-  context.urlBrowser = new URLBrowser({}, context)
   context.filesystemUI = new FilesystemUI({}, context)
   context.windowDialogs = new WindowDialogs({}, context)
   context.CcyConversionRates_Controller_shared = new CcyConversionRates({}, context)
@@ -46,7 +43,6 @@ function NewHydratedContext (initialContext) {
   context.openAliasResolver = new OpenAlias({
     txtRecordResolver: txtRecordResolver
   }, context)
-  context.themeController = new Theme({}, context)
   context.passwordController = new Passwords({}, context)
   context.settingsController = new Settings({}, context)
   context.contactsListController = new ContactsListController({}, context)

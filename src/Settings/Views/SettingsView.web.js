@@ -13,7 +13,6 @@ import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hover
 import commonComponents_tooltips from '../../MMAppUICommonComponents/tooltips.web'
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web'
 import ModalStandaloneAboutView from '../../AboutWindow/Views/ModalStandaloneAboutView.web'
-import config__MyMonero from '../../HostedMoneroAPIClient/config__MyMonero'
 
 class SettingsView extends View {
   constructor (options, context) {
@@ -572,7 +571,7 @@ class SettingsView extends View {
     {
       if (mutable_value != '') {
         if (mutable_value.indexOf('.') == -1 && mutable_value.indexOf(':') == -1 && mutable_value.indexOf('localhost') == -1) {
-          preSubmission_validationError = `Please enter a valid URL authority, e.g. ${config__MyMonero.API__authority}.`
+          preSubmission_validationError = 'Please enter a valid URL authority, e.g. api.mymonero.com.'
         } else { // important else in the absence of reorganizing this code
           // strip http:// and https:// prefix here.. there's got to be a better way to do this..
           // ... probably not a good idea to naively strip "*://" prefix ... or is it?

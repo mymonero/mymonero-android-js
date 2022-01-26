@@ -337,6 +337,27 @@
   font-family: Native-Regular, input, menlo, monospace;
 }
 
+@font-face {
+  font-family: Native-Regular;
+  src: url("../font/Native-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: Native-Light;
+  src: url("../font/Native-Light.otf") format("opentype");
+}
+@font-face {
+  font-family: Native-Bold;
+  src: url("../font/Native-Bold.otf") format("opentype");
+}
+
+.NavigationBarView .title-label {
+},
+.NavigationBarView .title-label .emojione {
+  transform: scale(.5);
+  margin: 7px 0 0 -16px;
+  position: absolute; 
+}
+
 /** FROM tables.web.js */
 .table_field {
   padding: 0;

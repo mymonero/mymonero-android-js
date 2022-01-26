@@ -5,22 +5,6 @@ import View from '../../Views/View.web'
 import emoji_web from '../../Emoji/emoji_web'
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web'
 
-const NamespaceName = 'NavigationBarView'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-const cssRules =
-[
-	`.${NamespaceName} .title-label {
-	}`,
-	`.${NamespaceName} .title-label .emojione {
-		transform: scale(.5);
-		margin: 7px 0 0 -16px;
-		position: absolute; 
-	}`
-]
-function __injectCSSRules_ifNecessary () {
-  // Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules)
-}
-//
 class NavigationBarView extends View {
   constructor (options, context) {
     super(options, context)
@@ -37,7 +21,6 @@ class NavigationBarView extends View {
 
   setup () {
     const self = this
-    __injectCSSRules_ifNecessary()
     { // self.layer
       const layer = self.layer
       layer.classList.add('NavigationBarView')
@@ -167,10 +150,7 @@ class NavigationBarView extends View {
     const clicked_fn = function () {
       self.emit(self.EventName_backButtonTapped()) // animated
     }
-    const themeController = self.context.themeController
-    if (typeof themeController === 'undefined' || !themeController) {
-      throw self.constructor.name + " didn't find a context.themeController"
-    }
+
     const _new_back_leftBarButtonView__fn = self.NavigationBarView__New_back_leftBarButtonView
     if (typeof _new_back_leftBarButtonView__fn !== 'function' || !_new_back_leftBarButtonView__fn) {
       throw "themeController didn't implement NavigationBarView__New_back_leftBarButtonView"

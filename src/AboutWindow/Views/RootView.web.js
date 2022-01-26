@@ -48,7 +48,7 @@ class RootView extends View {
       layer.href = 'https://' + self.context.appDownloadLink_domainAndPath
       layer.addEventListener('click', function (e) {
         e.preventDefault()
-        self.context.urlBrowser.OpenURLInSystemBrowser(this.href)
+        window.open(this.href, '_blank')
         return false
       })
 
@@ -89,7 +89,7 @@ class RootView extends View {
       })
       layer.addEventListener('click', function (e) {
         e.preventDefault()
-        self.context.urlBrowser.OpenURLInSystemBrowser(this.href)
+        window.open(this.href, '_blank')
         return false
       })
       self.layer.appendChild(layer)
