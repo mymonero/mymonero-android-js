@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="UTF-8">
+<!--
+	Copyright (c) 2014-2019, MyMonero.com
+	
+	All rights reserved.
+	
+	Redistribution and use in source and binary forms, with or without modification, are
+	permitted provided that the following conditions are met:
+	
+	1. Redistributions of source code must retain the above copyright notice, this list of
+	conditions and the following disclaimer.
+	
+	2. Redistributions in binary form must reproduce the above copyright notice, this list
+	of conditions and the following disclaimer in the documentation and/or other
+	materials provided with the distribution.
+	
+	3. Neither the name of the copyright holder nor the names of its contributors may be
+	used to endorse or promote products derived from this software without specific
+	prior written permission.
+	
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+	MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+	THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+	THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+    	<title>MyMonero</title>
+
+		<meta name="msapplication-config" content="./src/assets/img/favicon/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="icon" type="image/png" sizes="32x32" href="./src/assets/img/favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="./src/assets/img/favicon/favicon-16x16.png">
+		<link rel="manifest" href="./src/assets/img/favicon/manifest.json">
+		<link rel="shortcut icon" href="./src/assets/img/favicon/favicon.ico">
+
+		<meta http-equiv="Content-Security-Policy"
+			content="default-src * data: gap: blob: https://ssl.gstatic.com http://localhost 'unsafe-eval' 'unsafe-inline';
+			style-src 'self' 'unsafe-inline';
+			script-src 'self' https://www.google-analytics.com/analytics.js https://widget.intercom.io/widget/hi3rzlw0 https://widget.intercom.io/widget/qa83i5n9 https://js.intercomcdn.com 'unsafe-inline' 'unsafe-eval';
+			object-src 'none'; 
+			font-src 'self' https://js.intercomcdn.com/fonts/;  
+			img-src 'self' data: https://downloads.intercomcdn.com/i/o/  https://js.intercomcdn.com/images/ https://static.intercomassets.com/ https://www.google-analytics.com/r/collect https://www.google-analytics.com/collect https://stats.g.doubleclick.net/r/collect; 
+			connect-src 'self' https://a.y.at https://api-dev.yat.rocks https://api.changenow.io https://thingproxy.freeboard.io https://api.mymonero.com:443 https://api.mymonero.com:8443 https://api-iam.intercom.io https://cloudflare-dns.com data: blob:;">
+			<!-- script-src of unsafe-eval required to load wasm files at present but actual eval is disabled in renderer_setup_utils -->
+
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
+		<style>
+			body {
+				background-color: #272527;
+			}
+
+			#loading-spinner{
+				position: absolute;
+				left: 50%;
+				top: 40%;
+				margin-top: 0px;
+				margin-left: -16px;
+			}
+			.sp {
+				width: 32px;
+				height: 32px;
+				clear: both;
+			}
+			.sp-circle {
+				border: 4px rgba(255,255,255,0.25) solid;
+				border-top: 4px rgba(255,255,255,0.65) solid;
+				border-radius: 50%;
+				-webkit-animation: spCircRot .8s infinite linear;
+				animation: spCircRot .6s infinite linear;
+			}
+			@-webkit-keyframes spCircRot {
+				from { -webkit-transform: rotate(0deg); }
+				to { -webkit-transform: rotate(359deg); }
+			}
+			@keyframes spCircRot {
+				from { transform: rotate(0deg); }
+				to { transform: rotate(359deg); }
+			}
+		</style>
+
+	</head>
+    <body>
+    	<div class="sp sp-circle" id="loading-spinner"></div>
+        <script type="text/javascript" src="dist/bundle.js"></script>
+    </body>
+</html>

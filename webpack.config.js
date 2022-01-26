@@ -3,11 +3,10 @@ const webpack = require('webpack')
 const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
-  entry: './local_modules/index.browser.js',
+  entry: './src/index.browser.js',
   output: {
-    filename: 'mymonero-app-bundle.js',
-    path: path.resolve(__dirname, 'browser_build')
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
   },
   module: {
     rules: [
@@ -32,9 +31,9 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: "node_modules/@mymonero/mymonero-app-bridge/MyMoneroLibAppCpp_WASM.js", to: "../browser_build/MoneroLibAppCpp_WASM.js" },
-        { from: "node_modules/@mymonero/mymonero-app-bridge/MyMoneroLibAppCpp_WASM.wasm", to: "../browser_build/assets/MyMoneroLibAppCpp_WASM.wasm" },
-        { from: 'local_modules', to: '../browser_build' },
+        { from: 'node_modules/@mymonero/mymonero-app-bridge/MyMoneroLibAppCpp_WASM.js', to: '../assets/MoneroLibAppCpp_WASM.js' },
+        { from: 'node_modules/@mymonero/mymonero-app-bridge/MyMoneroLibAppCpp_WASM.wasm', to: '../assets/MyMoneroLibAppCpp_WASM.wasm' },
+        { from: '*.svg', to: '../dist/assets/img', context: path.resolve(__dirname, 'src', 'assets/img') }
       ]
     })
   ],
