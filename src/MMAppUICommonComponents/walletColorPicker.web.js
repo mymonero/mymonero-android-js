@@ -2,71 +2,8 @@
 
 import View from '../Views/View.web'
 import commonComponents_walletIcons from './walletIcons.web'
-import Views__cssRules from '../Views/cssRules.web'
 import commonComponents_hoverableCells from './hoverableCells.web'
 
-const NamespaceName = 'walletColorPicker'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-const cssRules =
-[
-	`.oneOfN-walletColorPicker{
-		margin-left: -9px;
-	}`,
-	// set bg clr on .walletIcon and .walletIcon > span
-	`.oneOfN-walletColorPicker li {
-		position: relative;
-		left: 0;
-		top: 0;
-		background:#383638;
-		border-radius:5px;
-		width:88px;
-		height:88px;
-		display: inline-block;
-		margin: 0 0 4px 9px;
-	}`,
-	`.oneOfN-walletColorPicker li .walletIcon {
-		position: absolute;
-		top: 20px;
-		left: 20px;
-		z-index: 0;
-	}`,
-	`.oneOfN-walletColorPicker li label {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		width: 88px;
-		height: 88px;
-		z-index: 1;
-	}`,
-	`.oneOfN-walletColorPicker li input {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		width: 88px;
-		height: 88px;
-		z-index: 3;
-		visibility: hidden;
-	}`,
-	`.oneOfN-walletColorPicker li .selectionIndicator {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		width: 80px;
-		height: 80px;
-		z-index: 2;
-		border-radius: 5px;
-	}`,
-	`.oneOfN-walletColorPicker li input:checked ~ .selectionIndicator {
-		border: 4px solid #00c6ff;
-	}`,
-	`.oneOfN-walletColorPicker li.disabled input:checked ~ .selectionIndicator {
-		border: 4px solid #d4d4d4;
-	}`
-]
-function __injectCSSRules_ifNecessary () {
-  Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules)
-}
-//
 function New_1OfN_WalletColorPickerInputView (context, selectHexColorString_orUndefForDefault) {
   const walletsListController = context.walletsListController
   const hexColorStrings = walletsListController.All_SwatchHexColorStrings()
@@ -78,7 +15,7 @@ function New_1OfN_WalletColorPickerInputView (context, selectHexColorString_orUn
     } else {
       const alreadyInUseHexStrings = walletsListController.GivenBooted_SwatchesInUse()
       let aFree_hexColorString = null
-			for (let i = 0; i < numberOf_hexColorStrings; i++) {
+      for (let i = 0; i < numberOf_hexColorStrings; i++) {
         const this_hexColorString = hexColorStrings[i]
         if (alreadyInUseHexStrings.indexOf(this_hexColorString) === -1) {
           aFree_hexColorString = this_hexColorString
@@ -92,9 +29,6 @@ function New_1OfN_WalletColorPickerInputView (context, selectHexColorString_orUn
       }
     }
   }
-  //
-  __injectCSSRules_ifNecessary()
-  //
 
   const view = new View({ tag: 'ul' }, context)
   const fieldName = view.View_UUID()
@@ -153,7 +87,7 @@ function New_1OfN_WalletColorPickerInputView (context, selectHexColorString_orUn
     ul.appendChild(li)
   }
   view.Component_Value = function () {
-    let inputs = document.getElementsByName(fieldName) // fieldName is unique
+    const inputs = document.getElementsByName(fieldName) // fieldName is unique
     const numberOf_inputs = inputs.length // should be same as numberOf_hexColorStrings
     for (let i = 0; i < numberOf_inputs; i++) {
       const input = inputs[i]

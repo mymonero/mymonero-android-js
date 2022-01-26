@@ -1,96 +1,10 @@
 'use strict'
 
 import View from '../Views/View.web'
-import Views__cssRules from '../Views/cssRules.web'
 import activityIndicators from './activityIndicators.web'
 import commonComponents_forms from './forms.web'
 
-const NamespaceName = 'Tables'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-function cssRules_generatorFn (context) {
-  const assetsPath = '../../../../'
-  const cssRules =
-	[
-		`.table_field {
-			padding: 0;
-		}`,
-		`.table_field a.clickableLinkButton {
-			
-		}`,
-		`.table_field .field_value {
-			
-		}`,
-		`.table_field .field_value a,
-		.table_field .field_value a:active,
-		.table_field .field_value a:hover
-		{
-			color: #FFFFFF;
-			cursor: default;
-			text-decoration: none;
-		}`,
-		`.table_field .field_value p {
-			display: block;
-			padding: 0 0 18px 0;
-			word-break: break-word;
-		}`,
-		//
-		`.inlineMessageDialogLayer {
-			background: rgba(245,230,125,0.05);
-			border: 0.5px solid rgba(245,230,125,0.30);
-			border-radius: 3px;
-			min-height: 29px;
-			box-sizing: border-box;
-			margin-left: 0;
-			margin-right: 0;
-			padding: 6px 8px 8px 8px;
-			margin-top: 15px;
-			margin-bottom: 10px;
-			height: auto;
-			width: 100%; /* feel free to set, along with margin left */
-			color: #F5E67E;
-			font-size: 11px;
-			font-weight: 400;
-			letter-spacing: 0.5px;
-			-webkit-font-smoothing: subpixel-antialiased;
-			word-break: break-word;
-			position: relative;
-			top: 0;
-			left: 0;
-		}`,
-		`.inlineMessageDialogLayer.wantsCloseButton {
-			padding-right: 18px;
-		}`,
-		`.inlineMessageDialogLayer > a.close-btn {
-			background-image: url(${assetsPath}assets/img/inlineMessageDialog_closeBtn@3x.png);
-			background-size: 8px 8px;
-			background-repeat: no-repeat;
-			background-position: center;
-			width: 27px;
-			height: 27px;
-			position: absolute;
-			right: 0px;
-			top: 0px;
-			display: block; /* for bounds as an a tag */
-			opacity: 0.8;
-			transition: opacity 0.05s ease-out;
-		}`,
-		`.inlineMessageDialogLayer > a.close-btn:hover {
-			opacity: 1.0;
-		}`
-	]
-  return cssRules
-}
-function __injectCSSRules_ifNecessary (context) {
-  Views__cssRules.InjectCSSRules_ifNecessary(
-    haveCSSRulesBeenInjected_documentKey,
-    cssRules_generatorFn,
-    context
-  )
-}
-//
 function New_fieldContainerLayer (context) {
-  __injectCSSRules_ifNecessary(context)
-  //
   const layer = document.createElement('div')
   layer.className = 'table_field'
   //
@@ -107,8 +21,6 @@ function New_clickableLinkButtonView (
   clicked_fn = clicked_fn || function () {}
   const mouseEnter_fn = optl__mouseEnter_fn || function () {}
   const mouseLeave_fn = optl__mouseLeave_fn || function () {}
-  //
-  __injectCSSRules_ifNecessary(context)
   //
   const view = new View({ tag: 'a' }, context)
   const a = view.layer
@@ -166,8 +78,6 @@ function New_clickableLinkButtonView (
 }
 //
 function New_fieldTitle_labelLayer (labelText, context) {
-  __injectCSSRules_ifNecessary(context)
-  //
   const layer = document.createElement('span')
   layer.innerHTML = labelText
   layer.style.float = 'left'
@@ -182,8 +92,6 @@ function New_fieldTitle_labelLayer (labelText, context) {
 }
 //
 function New_fieldValue_labelLayer (labelText, context) {
-  __injectCSSRules_ifNecessary(context)
-  //
   const layer = document.createElement('span')
   layer.innerHTML = labelText
   layer.className = 'field_value'
@@ -201,8 +109,6 @@ function New_fieldValue_labelLayer (labelText, context) {
 }
 //
 function New_fieldValue_base64DataImageLayer (imageData_base64String, context) {
-  __injectCSSRules_ifNecessary(context)
-  //
   const layer = document.createElement('img')
   layer.className = 'field_value'
   layer.style.backgroundColor = 'black' // not strictly necessary… mostly for debug
@@ -215,8 +121,6 @@ function New_fieldValue_base64DataImageLayer (imageData_base64String, context) {
 }
 //
 function New_separatorLayer (context) {
-  __injectCSSRules_ifNecessary(context)
-  //
   const layer = document.createElement('div')
   layer.style.width = '100%'
   layer.style.height = '0.5px'
@@ -226,7 +130,6 @@ function New_separatorLayer (context) {
 }
 //
 function New_customButton_aLayer (context, buttonTitleText, enabled_orTrue, clicked_fn) {
-  __injectCSSRules_ifNecessary(context)
   const layer = document.createElement('a')
   { // setup
     layer.innerHTML = buttonTitleText
@@ -322,8 +225,6 @@ function New_copyButton_aLayer (context, value__orValuesByContentType, enabled_o
 }
 //
 function New_redTextButtonView (text, context) {
-  __injectCSSRules_ifNecessary(context)
-  //
   const view = new View({ tag: 'a' }, context)
   const layer = view.layer
   layer.innerHTML = text
@@ -386,7 +287,6 @@ function New_createNewRecordNamedButtonView (
   context,
   clicked_fn
 ) {
-  __injectCSSRules_ifNecessary(context)
   //
   const text = '+ CREATE NEW ' + lowercased_humanReadable_recordName
   const layer = New_clickableLinkButtonView(text, context, clicked_fn)
@@ -411,7 +311,6 @@ function New_spacerLayer () {
 function New_inlineMessageDialogLayer (context, messageString, optl_immediatelyVisible, optl_wantsXButtonHidden) {
   const immediatelyVisible = optl_immediatelyVisible === true // These are configured to not by default be initially visible
   //
-  __injectCSSRules_ifNecessary(context)
   const layer = document.createElement('div')
   layer.classList.add('inlineMessageDialogLayer')
   layer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
@@ -472,8 +371,6 @@ function New_copyable_longStringValueField_component_fieldContainerLayer (
   optl_isTruncatedPreviewForm, // single line, … trunc, etc
   optl_isSecretData // IMPORTANT: defaults to false if undefined
 ) {
-  __injectCSSRules_ifNecessary(context)
-  //
   const isTruncatedPreviewForm = optl_isTruncatedPreviewForm == true // undefined -> false
   const isSecretData = optl_isSecretData == true // undefined -> false
   const wantsCopyButton = isSecretData == false // only allow copy if not secret
@@ -557,8 +454,6 @@ function New_copyable_longStringValueField_component_fieldContainerLayer (
 }
 //
 function New_tableCell_accessoryChevronLayer (context) {
-  __injectCSSRules_ifNecessary(context)
-  //
   const image_filename = 'list_rightside_chevron@3x.png'
   const layer = document.createElement('img')
   layer.src = './assets/img/' + image_filename

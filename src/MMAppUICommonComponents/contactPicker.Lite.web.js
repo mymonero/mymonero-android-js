@@ -1,25 +1,16 @@
 'use strict'
 
-import Views__cssRules from '../Views/cssRules.web'
 import commonComponents_forms from './forms.web'
 
-const NamespaceName = 'contactPicker_Lite'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-const cssRules =
-[
-]
-function __injectCSSRules_ifNecessary () { Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) }
-//
 function New_contactPickerLayer_Lite (
   context,
   placeholderText,
   didFinishTypingInInput_fn // ((event) -> Void)?
 ) //  -> Component (which is just a customized DOM element obj)
 { // NOTE: You must be able (the interface must exist) to call Component_TearDown when you're done with this component to comply with the Full contact picker
-  __injectCSSRules_ifNecessary()
   //
   const containerLayer = document.createElement('div')
-  containerLayer.classList.add(NamespaceName)
+  containerLayer.classList.add('contactPicker_Lite')
   containerLayer.style.position = 'relative'
   containerLayer.style.width = '100%'
   containerLayer.style.webkitUserSelect = 'none' // disable selection

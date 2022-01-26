@@ -1,11 +1,6 @@
 'use strict'
 
 import emojione from './Vendor/emojione.min'
-//
-import emoji_set from './emoji_set'
-
-//
-import Views__cssRules from '../Views/cssRules.web'
 
 emojione.imageType = 'png' // png instead of svg as svg appear too slow to display en-masse
 emojione.sprites = true

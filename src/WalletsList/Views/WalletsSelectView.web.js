@@ -1,53 +1,9 @@
 'use strict'
 
-import Views__cssRules from '../../Views/cssRules.web'
 import ListCustomSelectView from '../../Lists/Views/ListCustomSelectView.web'
 import WalletCellContentsView from '../../Wallets/Views/WalletCellContentsView.web'
 import commonComponents_walletIcons from '../../MMAppUICommonComponents/walletIcons.web'
 
-const NamespaceName = 'WalletSelectView'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-const cssRules =
-[
-	`.${NamespaceName} {
-		display: block; /* own line */
-		outline: none; /* no focus ring */
-
-		height: 66px;
-		width: 100%;
-		padding: 0;
-		box-sizing: border-box;
-
-		appearance: none;
-		background: #383638;
-		border-width: 0;
-		box-shadow: 0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749;
-		border-radius: 5px;
-
-		text-align: left;
-		font-size: 14px;
-		color: #FCFBFC;
-	}`,
-	`.${NamespaceName} .selectionDisplayCellView,
-	 .${NamespaceName} .options_containerView {
-		border-radius: 5px;
-		overflow: hidden;
-	}`,
-	`.${NamespaceName} > .options_containerView {
-		border-radius: 5px;
-		box-shadow: 0 15px 12px 0 rgba(0,0,0,0.22), 0 19px 38px 0 rgba(0,0,0,0.30);
-	}`,
-	`.${NamespaceName} > .options_containerView > .background {
-		background: #383638;
-		border-radius: 5px;
-		box-shadow: 0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749;
-	}`,
-	`.${NamespaceName} > .options_containerView .optionCell.active {
-		background-color: rgba(73, 71, 73, 0.95) !important;
-	}`
-]
-function __injectCSSRules_ifNecessary () { Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) }
-//
 function _fromContext_wantsHoverAndSelectable (context) {
   return true
 }
@@ -73,15 +29,13 @@ class WalletsSelectView extends ListCustomSelectView {
 
   overridable_wantsSelectionDisplayCellView_clickable () {
     return _fromContext_wantsHoverAndSelectable(this.context)
-	}
+  }
 
   setup_views () {
-    __injectCSSRules_ifNecessary() // may as well do this here
-    //
     const self = this
     {
       const layer = self.layer
-      layer.classList.add(NamespaceName) // must add class for css rules
+      layer.classList.add('WalletSelectView') // must add class for css rules
     }
     super.setup_views()
     {

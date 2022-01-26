@@ -3,45 +3,9 @@
 import View from '../../Views/View.web'
 import emoji_set from '../emoji_set'
 import emoji_web from '../emoji_web'
-import Views__cssRules from '../../Views/cssRules.web'
 
 const EmojiButtonView_height = 40
-const NamespaceName = 'EmojiPickerPopoverContentView'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-const cssRules =
-[
-  // `.${NamespaceName} {
-  // 	overflow-y: auto;
-  // }`,
-  // `.${NamespaceName} > .EmojiButtonView {
-  // 	width: 42px;
-  // 	height: ${EmojiButtonView_height}px;
-  // 	line-height: ${EmojiButtonView_height}px;
-  // 	text-indent: 0px; /* native emoji */
-  // 	display: inline-block;
-  // 	text-align: center;
-  // 	vertical-align: middle;
-  // 	font-size: 24px;
-  // 	cursor: pointer;
-  // 	background: rgba(0,0,0,0);
-  // 	/* transition: background-color 0.05s ease-out, box-shadow 0.05s ease-out; */
-  // }`,
-  // `.${NamespaceName} > .EmojiButtonView.withNonNativeEmoji {
-  // }`,
-  // `.${NamespaceName} > .EmojiButtonView.active,
-  //  .${NamespaceName} > .EmojiButtonView:hover {
- 	// 	background: #F2F1F2;
- 	// 	box-shadow: 0 0.5px 0 0 #FFFFFF, inset 0 0.5px 1px 0 #DFDEDF;
- 	// 	border-radius: 3px;
-  // }`,
-  // `.${NamespaceName} > .EmojiButtonView .emojione {
-  // 	transform: scale(.75);
-  // 	margin-left: 3px;
-  // 	margin-top: 0px;
-  // }`
-]
-function __injectCSSRules_ifNecessary () { Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) }
-//
+
 class EmojiPickerPopoverContentView extends View {
   // Lifecycle - Init
   constructor (options, context) {
@@ -63,7 +27,6 @@ class EmojiPickerPopoverContentView extends View {
 
   setup_views () {
     const self = this
-    __injectCSSRules_ifNecessary()
     const layer = self.layer
     self.padding_top = 8
     self.padding_bottom = 7
@@ -79,12 +42,12 @@ class EmojiPickerPopoverContentView extends View {
     layer.style.overflowX = 'hidden'
     layer.style.overflowY = 'auto'
     layer.style.webkitOverflowScrolling = 'auto' // I would like to set this to "touch", but a strange rendering error occurs
-    layer.classList.add(NamespaceName)
+    layer.classList.add('EmojiPickerPopoverContentView')
     //
     const emojis = emoji_set.Emojis
     const emojis_length = emojis.length
     let firstEmoji = null
-		for (let i = 0; i < emojis_length; i++) {
+    for (let i = 0; i < emojis_length; i++) {
       const emoji = emojis[i]
       const emojiButtonView = self._new_emojiButtonView(emoji)
       self.emojiButtonsViews_byEmoji[emoji] = emojiButtonView
@@ -94,13 +57,12 @@ class EmojiPickerPopoverContentView extends View {
 
       if (firstEmoji == null) {
         firstEmoji = emoji
-			}
+      }
     }
 
     self._configureAsHavingSelectedEmoji(firstEmoji, true)
-		self.SelectEmoji(firstEmoji)
-
-	}
+    self.SelectEmoji(firstEmoji)
+  }
 
   _new_emojiButtonView (emoji) {
     const self = this
@@ -175,8 +137,8 @@ class EmojiPickerPopoverContentView extends View {
       self.layer.scrollTop = 0
     }
     const offsetTop = self.selected_emojiButtonView.layer.offsetTop
-    const naive__scrollTop = offsetTop
-								- self.height / 2 + // to 'middle'
+    const naive__scrollTop = offsetTop -
+								self.height / 2 + // to 'middle'
 								EmojiButtonView_height / 2
     // ^ this -h/2 etc ordinarily would be irresponsible w/o bounds checking/conditions but
     // the DOM will handle chopping out of bounds values for us when we set the scroll

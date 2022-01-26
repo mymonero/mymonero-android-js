@@ -1,49 +1,8 @@
 'use strict'
 
-import Views__cssRules from '../Views/cssRules.web'
 import commonComponents_forms from './forms.web'
 import emoji_web from '../Emoji/emoji_web'
 
-const NamespaceName = 'contactPicker'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-const cssRules =
-[
-	// autocomplete-results rows
-	`.${NamespaceName} .autocomplete-results .row .emojione {
-		position: absolute;
-		left: 5px;
-		top: -1px;
-		transform: scale(.5);
-	}`,
-	`.${NamespaceName} .autocomplete-results .row .title {
-		position: absolute;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-
-		top: 0px;
-		left: 48px;
-		width: calc(100% - 48px - 12px)
-	}`,
-	`.${NamespaceName} .autocomplete-results .row .title.withNonNativeEmoji	 {
-	}`,
-	//
-	// picked contacts
-	`.${NamespaceName} .picked-contact .emojione {
-		position: absolute;
-		left: 1px;
-		top: -1px;
-		transform: scale(.5);
-	}`,
-	`.${NamespaceName} .picked-contact .title {
-		margin-left: 10px;
-	}`,
-	`.${NamespaceName} .picked-contact .title.withNonNativeEmoji {
-		margin-left: 21px;
-	}`
-]
-function __injectCSSRules_ifNecessary () { Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) }
-//
 function New_contactPickerLayer (
   context,
   placeholderText,
@@ -56,10 +15,9 @@ function New_contactPickerLayer (
   if (!contactsListController) {
     throw 'New_contactPickerLayer requires a contactsListController'
   }
-  __injectCSSRules_ifNecessary()
   //
   const containerLayer = document.createElement('div')
-  containerLayer.classList.add(NamespaceName)
+  containerLayer.classList.add('contactPicker')
   containerLayer.style.position = 'relative'
   containerLayer.style.width = '100%'
   containerLayer.style.webkitUserSelect = 'none' // disable selection

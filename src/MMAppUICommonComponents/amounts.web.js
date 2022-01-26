@@ -1,18 +1,10 @@
 'use strict'
 
-import Views__cssRules from '../Views/cssRules.web'
 import commonComponents_tables from './tables.web'
 import commonComponents_forms from './forms.web'
 import commonComponents_ccySelect from './ccySelect.web'
 import monero_config from '@mymonero/mymonero-monero-config'
 
-const NamespaceName = 'Forms.Amounts'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-const cssRules =
-[
-]
-function __injectCSSRules_ifNecessary () { Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) }
-//
 function New_AmountInputFieldPKG (
   context,
   isOptional,

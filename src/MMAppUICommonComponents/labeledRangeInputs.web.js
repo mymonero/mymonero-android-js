@@ -1,117 +1,10 @@
 'use strict'
 
 import View from '../Views/View.web'
-import Views__cssRules from '../Views/cssRules.web'
 
 const k_knobWidth = 12
-const k_visibleTrackHeight = 2
-const k_runnableTrackHeight = k_knobWidth + 2
-const NamespaceName = 'labeledRangeInputs'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
 
-const thumbCSS = `-webkit-appearance: none;
-	-moz-appearance: none;
-	-ms-appearance: none;
-	appearance: none;
-	
-	height: ${k_knobWidth}px;
-	width: ${k_knobWidth}px;
-	border-radius:100%;
-	margin-top: 1px; /* minor visual */
-
-	background:#494749;
-	cursor: pointer;
-	box-shadow:0 2px 4px 0 rgba(0,0,0,0.50), 0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #6b696b;
-`
-const active_thumbCSS = `background:#404040;
-	box-shadow:0 1px 1px 0 rgba(0,0,0,0.50), 0 0.5px 0.5px 0 #161416, inset 0 0.5px 0 0 #505050;
-`
-const runnableTrackCSS = `-webkit-appearance: none;
-	-moz-appearance: none;
-	-ms-appearance: none;
-	appearance: none;
-
-	cursor: pointer;
-
-	width:100%;
-	height: ${k_runnableTrackHeight}px;
-`
-const cssRules =
-[
-	`.labeledRangeInput-container {
-		background: none;
-	}`,
-	`.labeledRangeInput-container.disabled {
-		opacity: 0.5;
-	}`,
-	`.labeledRangeInput-container input[type=range] {
-		-webkit-appearance: none;
-		background: none;
-		position: relative;
-		z-index: 100; /* above custom track */
-	}`,
-	`.labeledRangeInput-container input[type=range]:focus {
-		-webkit-appearance: none;
-		outline: none;
-	}`,
-	`.labeledRangeInput-container input[type=range]::-webkit-slider-thumb {
-		${thumbCSS}
-	}`,
-	`.labeledRangeInput-container input[type=range]::-moz-range-thumb {
-		${thumbCSS}
-	}`,
-	`.labeledRangeInput-container input[type=range]::-ms-thumb {
-		${thumbCSS}
-	}`,
-	// :active
-	`.labeledRangeInput-container:not(.disabled) input[type=range]:active::-webkit-slider-thumb {
-		${active_thumbCSS}
-	}`,
-	`.labeledRangeInput-container:not(.disabled) input[type=range]:active::-moz-range-thumb {
-		${active_thumbCSS}
-	}`,
-	`.labeledRangeInput-container:not(.disabled) input[type=range]:active::-ms-thumb {
-		${active_thumbCSS}
-	}`,
-	`.labeledRangeInput-container input[type=range]::-webkit-slider-runnable-track {
-		${runnableTrackCSS}
-	}`,
-	`.labeledRangeInput-container input[type=range]::-moz-range-track {
-		${runnableTrackCSS}
-	}`,
-	`.labeledRangeInput-container input[type=range]::-ms-track {
-		${runnableTrackCSS}
-	}`,
-	`.labeledRangeInput-container .slider-runnable-track {		
-		position: absolute;
-		z-index: 1;
-		left: ${k_knobWidth / 2}px;
-		right: ${k_knobWidth / 2}px;
-		bottom: ${k_runnableTrackHeight / 2 - k_visibleTrackHeight / 2 + 3}px;
-		background:#1d1b1d;
-		box-shadow:0 0 0 0 rgba(56,54,56,0.50), inset 0 0 0 0 #161416;
-		border-radius:${k_visibleTrackHeight / 2}px;
-		height:${k_visibleTrackHeight}px;
-	}`,
-	`.labeledRangeInput-container.disabled input[type=range]::-webkit-slider-thumb,
-	 .labeledRangeInput-container.disabled input[type=range]::-webkit-slider-runnable-track {
-		cursor: default !important;
-	}`,
-	`.labeledRangeInput-container.disabled input[type=range]::-moz-range-thumb,
-	 .labeledRangeInput-container.disabled input[type=range]::-moz-range-track {
-		cursor: default !important;
-	}`,
-	`.labeledRangeInput-container.disabled input[type=range]::-ms-thumb,
-	 .labeledRangeInput-container.disabled input[type=range]::-ms-track {
-		cursor: default !important;
-	}`
-]
-function __injectCSSRules_ifNecessary () {
-  Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules)
-}
-//
 function New_fieldValue_labeledRangeInputView (params, context) {
-  __injectCSSRules_ifNecessary()
   //
   const changed_fn = params.changed_fn || function (value) {}
   const finalized_labelText_fn = params.finalized_labelText_fn || function (float_inputValue) { return '' + float_inputValue }
@@ -123,9 +16,9 @@ function New_fieldValue_labeledRangeInputView (params, context) {
   const optl_existingValue = params.existingValue
   const optl_defaultValue = params.default
   const value = typeof optl_existingValue !== 'undefined' && optl_existingValue !== null
-? optl_existingValue
+    ? optl_existingValue
     : typeof optl_defaultValue !== 'undefined' && optl_defaultValue !== null
-? optl_defaultValue
+      ? optl_defaultValue
       : min
   const isMaxInfinity = params.isMaxInfinity === true
   const labelForInfinity = params.labelForInfinity || 'Infinity' // like "Never"
@@ -284,7 +177,7 @@ function New_fieldValue_labeledRangeInputView (params, context) {
 //
 function New_fieldValue_timeBasedLabeledRangeInputView (params, context) {
   const optl_displayAsMinutesAtXMin = params.displayAsMinutesAtXMin
-  let isToDisplayAsMinsAfterXMin = typeof optl_displayAsMinutesAtXMin !== 'undefined'
+  const isToDisplayAsMinsAfterXMin = typeof optl_displayAsMinutesAtXMin !== 'undefined'
   params.finalized_labelText_fn = function (float_inputValue) {
     if (isToDisplayAsMinsAfterXMin) {
       const secondsAtWhichToDisplayAsMins = optl_displayAsMinutesAtXMin * 60.0

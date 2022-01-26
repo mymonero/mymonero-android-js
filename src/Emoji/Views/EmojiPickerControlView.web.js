@@ -5,63 +5,7 @@ import View from '../../Views/View.web'
 import dom_traversal from '../../Views/dom_traversal.web'
 import EmojiPickerPopoverView from './EmojiPickerPopoverView.web'
 import emoji_web from '../emoji_web'
-import Views__cssRules from '../../Views/cssRules.web'
 
-const NamespaceName = 'EmojiPickerControlView'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-function cssRules_generatorFn (context) {
-  const useMobRendOpts = true
-  const cssRules =
-	[
-		`.${NamespaceName} {
-			box-sizing: border-box;
-			width: 58px;
-			height: 31px;
-		}`,
-		`.${NamespaceName} > a {
-			border-radius: 3px;
-			
-			display: block;
-			box-sizing: border-box;
-			width: 58px;
-			height: 31px;
-			
-			text-decoration: none;
-			text-align: left;
-			text-indent: 8px;
-			line-height: 31px;
-			font-size: 13px;
-			
-			background-image: url(/assets/img/popoverDisclosureArrow@3x.png);
-			background-size: 8px 7px;
-			background-position: 42px 13px;
-			background-repeat: no-repeat;
-			
-			transition: background-color 0.1s ease-out, box-shadow 0.1s ease-out;
-			background-color: #383638;
-			box-shadow: ${useMobRendOpts ? '' : '0 0.5px 1px 0 #161416, '}inset 0 0.5px 0 0 #494749;
-		}`,
-		`.${NamespaceName} > a.active,
-		 .${NamespaceName} > a:hover {
-			 background-color: #494749;
-			 box-shadow: ${useMobRendOpts ? '' : '0 0.5px 1px 0 #161416, '}inset 0 0.5px 0 0 #5A585A;
-		}`,
-		`.${NamespaceName} > a .emojione {
-			transform: scale(.5);
-			margin-left: -7px;
-			margin-top: 0px;
-		}`
-	]
-  return cssRules
-}
-function __injectCSSRules_ifNecessary (context) {
-  Views__cssRules.InjectCSSRules_ifNecessary(
-    haveCSSRulesBeenInjected_documentKey,
-    cssRules_generatorFn,
-    context
-  )
-}
-//
 class EmojiPickerControlView extends View {
   // Lifecycle - Init
   constructor (options, context) {
@@ -92,7 +36,6 @@ class EmojiPickerControlView extends View {
     const self = this
     const layer = self.layer
     layer.classList.add('EmojiPickerControlView')
-    __injectCSSRules_ifNecessary(self.context)
     layer.style.position = 'relative' // for pos:abs children
   }
 

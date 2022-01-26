@@ -1,53 +1,14 @@
 'use strict'
 
 import View from '../Views/View.web'
-import Views__cssRules from '../Views/cssRules.web'
 
-const NamespaceName = 'Forms'
-const haveCSSRulesBeenInjected_documentKey = '__haveCSSRulesBeenInjected_' + NamespaceName
-const cssRules =
-[
-	`.form_field {
-		padding: 0 24px 20px 24px;
-	}`,
-	`.form_field .field_title {
-	}`,
-	`.form_field .field_value {
-		-webkit-font-smoothing: subpixel-antialiased;
-	}`,
-	`.form_field .field_value::-webkit-input-placeholder {
-		-webkit-font-smoothing: subpixel-antialiased;
-		color: #6B696B;
-	}`,
-	// add/remove .placeholderAsValue if you want to display fixed input without making it the value
-	`.form_field .field_value.placeholderAsValue::-webkit-input-placeholder {
-		color: #dfdedf;
-	}`,
-	//
-	// .iconAndMessageLayer
-	`.iconAndMessageLayer {
-		padding: 7px 10px 7px 10px;
-	}`,
-	`.iconAndMessageLayer > img {
-		display: inline-block;
-		position: relative;
-		top: 1px;
-	}`,
-	`.iconAndMessageLayer > span {
-		display: inline-block;
-	}`
-]
-function __injectCSSRules_ifNecessary () { Views__cssRules.InjectCSSRules_ifNecessary(haveCSSRulesBeenInjected_documentKey, cssRules) }
-//
 function New_fieldContainerLayer (context) {
-  __injectCSSRules_ifNecessary()
   const layer = document.createElement('div')
   layer.className = 'form_field'
   return layer
 }
 //
 function New_fieldTitle_labelLayer (labelText, context) {
-  __injectCSSRules_ifNecessary()
   const layer = document.createElement('span')
   layer.className = 'field_title'
   layer.innerHTML = labelText
@@ -68,7 +29,6 @@ function New_fieldTitle_labelLayer (labelText, context) {
 }
 //
 function New_fieldTitle_rightSide_accessoryLayer (labelText, context) {
-  __injectCSSRules_ifNecessary()
   const layer = New_fieldTitle_labelLayer('optional', context)
   layer.style.float = 'right'
   layer.style.color = '#6B696B'
@@ -132,7 +92,6 @@ function _shared_scrollConformingElementIntoView (inputLayer) {
 }
 //
 function New_fieldValue_textInputLayer (context, params) {
-  __injectCSSRules_ifNecessary()
   const layer = document.createElement('input')
   layer.className = 'field_value'
   layer.type = params.customInputType || 'text'
@@ -191,7 +150,6 @@ function New_fieldValue_textInputLayer (context, params) {
 }
 //
 function New_fieldValue_textAreaView (params, context) {
-  __injectCSSRules_ifNecessary()
   const view = new View({ tag: 'textarea' }, context)
   const layer = view.layer
   layer.className = 'field_value'
@@ -262,7 +220,6 @@ function New_fieldValue_textAreaView (params, context) {
 }
 //
 function New_fieldValue_selectLayer (params) {
-  __injectCSSRules_ifNecessary()
   const values = params.values || []
   const layer = document.createElement('select')
   {
@@ -296,7 +253,6 @@ function New_fieldValue_selectLayer (params) {
 }
 //
 function New_fieldAccessory_messageLayer (context) {
-  __injectCSSRules_ifNecessary()
   const layer = document.createElement('p')
   layer.style.fontSize = '11px' // we need this to visually stand out slightly more given how it's used
   layer.style.fontFamily = 'Native-Regular, input, menlo, monospace'
@@ -311,14 +267,12 @@ function New_fieldAccessory_messageLayer (context) {
   return layer
 }
 function New_fieldAccessory_validationMessageLayer (context) {
-  __injectCSSRules_ifNecessary()
   const layer = New_fieldAccessory_messageLayer(context)
   layer.style.color = '#f97777'
   return layer
 }
 //
 function New_NonEditable_ValueDisplayLayer (value, context) {
-  __injectCSSRules_ifNecessary()
   const layer = document.createElement('div')
   layer.value = value // setting this so there is a common interface with _textView above - some consumers rely on it. this should be standardized into a Value() method of a View
   layer.style.borderRadius = '3px'
@@ -349,7 +303,6 @@ function New_NonEditable_ValueDisplayLayer_BreakChar (value, context) {
 }
 //
 function New_IconAndMessageLayer (iconPath, messageText, context, optl_imgW, optl_imgH) {
-  __injectCSSRules_ifNecessary()
   const layer = document.createElement('div')
   layer.classList.add('iconAndMessageLayer')
   layer.innerHTML = `<img src="${iconPath}" ${optl_imgW ? 'width="' + optl_imgW + '"' : ''} ${optl_imgH ? 'height="' + optl_imgH + '"' : ''} />&nbsp;<span>${messageText}</span>`
