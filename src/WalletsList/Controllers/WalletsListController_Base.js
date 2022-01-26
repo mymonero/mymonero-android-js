@@ -294,8 +294,8 @@ class WalletsListController extends ListBaseController {
 					  }
 					}
           console.log('About to invoke new Wallet(options, context)')
-          console.log(options)
-          console.log(context)
+          // console.log(options)
+          // console.log(context)
           const wallet = new Wallet(options, context)
         }
       }

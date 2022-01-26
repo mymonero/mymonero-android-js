@@ -9,7 +9,9 @@
     "start": "(webpack --mode=development) & node server",
     "build": "webpack --mode=production",
     "update-android": "npx cap sync; npx cap open android",
+    "update-ios": "npx cap sync; npx cap open ios",
     "build-prod": "npm run build; npm run update-android",
+    "build-ios": "npm run build; npm run update-ios",
     "watch": "(webpack --config webpack.config.js --watch) & (node server.js)"
   },
   "engines": {

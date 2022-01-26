@@ -23,7 +23,6 @@ import ExceptionAlerting from '../Controllers/ExceptionAlerting.browser.web.js'
 
 const txtRecordResolver = new TXTRecordResolver({})
 function NewHydratedContext (initialContext) {
-  console.log('IM HEREEEEEEEEEEEEE')
   initialContext = initialContext || {}
 
   const context = initialContext != null ? initialContext : {}
