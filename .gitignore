@@ -1,18 +1,12 @@
-.DS_Store
+*.DS_Store
 .idea
 
 node_modules
 npm-debug.log
-dist
-browser_build
-browser_build.zip
-
-test_products
+dist/
+assets/MyMoneroLibAppCpp_WASM.js
+assets/MyMoneroLibAppCpp_WASM.wasm
 **/tests_config.js
-
-electron_child_crashReport_tmp
-
-stats.json
 
 cordova_res/build/*
 cordova.android.build.json
