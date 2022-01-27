@@ -1,10 +1,10 @@
 'use strict'
 
 import View from '../../Views/View.web'
-import ConnectivityMessageBarView from './ConnectivityMessageBarView.web'
+import ConnectivityMessageBarView from './ConnectivityMessageBarView'
 import RootTabBarAndContentView from './RootTabBarAndContentView'
 import PasswordEntryViewController from '../../Passwords/Controllers/PasswordEntryViewController.web'
-import RootFooterView from './RootFooterView.web'
+import RootFooterView from './RootFooterView'
 
 class RootView extends View {
   constructor (options, context) {
@@ -47,7 +47,7 @@ class RootView extends View {
     const tabBarViewAndContentView = new RootTabBarAndContentView({}, self.context)
     self.tabBarViewAndContentView = tabBarViewAndContentView
     self.addSubview(tabBarViewAndContentView)
-    const self = this
+
     const layer = self.tabBarViewAndContentView.layer
     layer.style.height = 'calc(100% - 0px)'
 
