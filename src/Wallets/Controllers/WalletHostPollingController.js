@@ -1,26 +1,22 @@
 'use strict'
 
-const manualRefreshCoolDownMinimumTimeInterval_s = 10
-const pollingPeriodTimeInterval_s = 30
-//
-class WalletHostPollingController {
-  /// /////////////////////////////////////////////////////////////////////////////
-  // Lifecycle - Setup
+const manualRefreshCoolDownMinimumTimeInterval = 10 // seconds
+const pollingPeriodTimeInterval = 30 // seconds
 
+class WalletHostPollingController {
   constructor (options, context) {
     const self = this
     self.options = options
     self.context = context
-    //
+
     self.factorOfIsFetchingStateDidUpdate_fn = self.options.factorOfIsFetchingStateDidUpdate_fn || function () {}
-    //
+
     // This controller is to be instantiated and owned by a HostedWallet instance
     self.wallet = self.options.wallet
     if (typeof self.wallet === 'undefined' || self.wallet === null) {
-      throw 'wallet must not be nil'
+      throw Error('wallet must not be nil')
     }
-    //
-    //
+
     self.setup()
   }
 
@@ -35,24 +31,22 @@ class WalletHostPollingController {
     self.startPollingTimer()
   }
 
-  //
-  // Lifecycle - Teardown
   TearDown () { // this is public and must be called manually by wallet
     const self = this
     console.log(`♻️  Tearing down ${self.constructor.name}`)
-    self._tearDown_stopTimers()
-    self._tearDown_abortAndFreeRequests()
+    self._tearDownStopTimers()
+    self._tearDownAbortAndFreeRequests()
   }
 
-  _tearDown_stopTimers () {
+  _tearDownStopTimers () {
     const self = this
     if (typeof self.intervalTimeout === 'undefined' || self.intervalTimeout === null) {
-      throw '_tearDown_stopTimers called but self.intervalTimeout already nil'
+      throw Error('_tearDown_stopTimers called but self.intervalTimeout already nil')
     }
     self.invalidateTimer()
   }
 
-  _tearDown_abortAndFreeRequests () {
+  _tearDownAbortAndFreeRequests () {
     const self = this
     { // acct info
       const req = self.requestHandle_for_accountInfo
@@ -70,49 +64,45 @@ class WalletHostPollingController {
       }
       self.requestHandle_for_transactions = null
     }
-    self._didUpdate_factorOf_isFetchingState() // not sure if we care about this here - we're tearing down - is emitting not desired then? probably doesn't matter
+    self._didUpdateFactorOfIsFetchingState() // not sure if we care about this here - we're tearing down - is emitting not desired then? probably doesn't matter
   }
 
-  //
-  // Runtime - Accessors - State
   IsFetchingAnyUpdates () {
     const self = this
-    //
-    return self.IsFetching_accountInfo() || self.IsFetching_transactions()
+
+    return self.IsFetchingAccountInfo() || self.IsFetchingTransactions()
   }
 
-  IsFetching_accountInfo () {
+  IsFetchingAccountInfo () {
     const self = this
-    //
+
     return typeof self.requestHandle_for_accountInfo !== 'undefined' && self.requestHandle_for_accountInfo !== null
   }
 
-  IsFetching_transactions () {
+  IsFetchingTransactions () {
     const self = this
-    //
+
     return typeof self.requestHandle_for_transactions !== 'undefined' && self.requestHandle_for_transactions !== null
   }
 
-  //
-  // Imperatives - Manual refresh
   requestFromUI_manualRefresh () {
     const self = this
-    if (self.IsFetching_accountInfo() || self.IsFetching_transactions()) {
+    if (self.IsFetchingAccountInfo() || self.IsFetchingTransactions()) {
       return // still refreshing.. no need
     }
     // now since addressInfo and addressTransactions are nearly happening at the same time (with failures and delays unlikely), I'm just going to use time since addressTransactions to approximate length since last collective refresh
-    let mutable_hasBeenLongEnoughSinceLastRefreshToRefresh = false
+    let hasBeenLongEnoughSinceLastRefreshToRefresh = false
     if (self._dateOfLast_fetch_addressTransactions == null || typeof self._dateOfLast_fetch_addressTransactions === 'undefined') {
-      mutable_hasBeenLongEnoughSinceLastRefreshToRefresh = true
+      hasBeenLongEnoughSinceLastRefreshToRefresh = true
     } else {
       // we know a request is not _currently_ happening, so nil date means one has never happened
-      const msDiff_sinceLastRefresh = (new Date()).getTime() - self._dateOfLast_fetch_addressTransactions.getTime()
-      const s_sinceLastRefresh = Math.abs(msDiff_sinceLastRefresh / 1000)
-      if (s_sinceLastRefresh >= manualRefreshCoolDownMinimumTimeInterval_s) {
-        mutable_hasBeenLongEnoughSinceLastRefreshToRefresh = true
+      const msDiffSinceLastRefresh = (new Date()).getTime() - self._dateOfLast_fetch_addressTransactions.getTime()
+      const sSinceLastRefresh = Math.abs(msDiffSinceLastRefresh / 1000)
+      if (sSinceLastRefresh >= manualRefreshCoolDownMinimumTimeInterval) {
+        hasBeenLongEnoughSinceLastRefreshToRefresh = true
       }
     }
-    const hasBeenLongEnough = mutable_hasBeenLongEnoughSinceLastRefreshToRefresh
+    const hasBeenLongEnough = hasBeenLongEnoughSinceLastRefreshToRefresh
     if (hasBeenLongEnough) {
       // and here we again know we don't have any requests to cancel
       self.performRequests() // approved manual refresh
@@ -122,11 +112,9 @@ class WalletHostPollingController {
     }
   }
 
-  //
-  // Runtime - Imperatives - Polling
   performRequests () {
     const self = this
-    self._fetch_accountInfo()
+    self._fetchAccountInfo()
     self._fetch_transactionHistory()
   }
 
@@ -142,48 +130,27 @@ class WalletHostPollingController {
     // it would be cool to change the sync polling interval to faster while any transactions are pending confirmation, then dial it back while passively waiting
     self.intervalTimeout = setInterval(function () {
       self.performRequests()
-    }, pollingPeriodTimeInterval_s * 1000 /* ms */)
+    }, pollingPeriodTimeInterval * 1000 /* ms */)
   }
 
-  //
-  // Runtime - Imperatives - Private - Requests
-  _fetch_accountInfo () { // -> HostedMoneroAPIClient_RequestHandle
-    const __debug_fnName = '_fetch_accountInfo'
+  _fetchAccountInfo () { // -> HostedMoneroAPIClient_RequestHandle
     const self = this
     const wallet = self.wallet
-    const fn = function (errOrNil) {
-      if (errOrNil) {
-        // TODO: how to handle this? we'll retry soon enough
-      }
-      // success
-    }
-    //
+
     if (typeof self.requestHandle_for_accountInfo !== 'undefined' && self.requestHandle_for_accountInfo !== null) {
-      const warnStr = '⚠️  _fetch_accountInfo called but request already taking place. Bailing'
-      console.warn(warnStr)
-      fn() // not an error we'd necessarily want to bubble
+      console.warn('⚠️  _fetchAccountInfo called but request already taking place. Bailing')
       return
     }
-    //
     if (wallet.isLoggedIn !== true) {
-      const errStr = '❌  Unable to ' + __debug_fnName + ' as isLoggedIn !== true'
-      console.error(errStr)
-      const err = new Error(errStr)
-      fn(err)
+      console.error('❌  Unable to _fetchAccountInfo as isLoggedIn !== true')
       return
     }
     if (typeof wallet.public_address === 'undefined' && wallet.public_address === null || wallet.public_address === '') {
-      const errStr = '❌  Unable to ' + __debug_fnName + ' as no public_address'
-      console.error(errStr)
-      const err = new Error(errStr)
-      fn(err)
+      console.error('❌  Unable to _fetchAccountInfo as no public_address')
       return
     }
     if (typeof wallet.private_keys === 'undefined' && wallet.private_keys === null) {
-      const errStr = '❌  Unable to ' + __debug_fnName + ' as no private_keys'
-      console.error(errStr)
-      const err = new Error(errStr)
-      fn(err)
+      console.error('❌  Unable to _fetchAccountInfo as no private_keys')
       return
     }
     const requestHandle = self.context.hostedMoneroAPIClient.AddressInfo_returningRequestHandle(
@@ -206,13 +173,11 @@ class WalletHostPollingController {
       ) {
         // immediately unlock this request fetch
         self.requestHandle_for_accountInfo = null
-        self._didUpdate_factorOf_isFetchingState()
-        //
+        self._didUpdateFactorOfIsFetchingState()
         if (err) { // already logged
-          fn(err)
           return
         }
-        //
+
         // i figure it should be okay to directly call this as this is
         // an intra-module rather than inter-module call; a protocol would
         // be used to enforce this at compile-time
@@ -231,46 +196,26 @@ class WalletHostPollingController {
       }
     )
     self.requestHandle_for_accountInfo = requestHandle
-    self._didUpdate_factorOf_isFetchingState()
+    self._didUpdateFactorOfIsFetchingState()
   }
 
   _fetch_transactionHistory () { // fn: (err?) -> HostedMoneroAPIClient_RequestHandle
-    const __debug_fnName = '_fetch_transactionHistory'
     const self = this
     const wallet = self.wallet
-    const fn = function (errOrNil) {
-      if (errOrNil) {
-        // TODO: how to handle this? we'll retry soon enough
-      }
-      // success
-    }
-    //
     if (typeof self.requestHandle_for_transactions !== 'undefined' && self.requestHandle_for_transactions !== null) {
-      const warnStr = '⚠️  _fetch_transactionHistory called but request already taking place. Bailing'
-      console.warn(warnStr)
-      fn() // not an error we'd necessarily want to bubble
+      console.warn('⚠️  _fetch_transactionHistory called but request already taking place. Bailing')
       return
     }
-    //
     if (wallet.isLoggedIn !== true) {
-      const errStr = '❌  Unable to ' + __debug_fnName + ' as isLoggedIn !== true'
-      console.error(errStr)
-      const err = new Error(errStr)
-      fn(err)
+      console.error('❌  Unable to _fetch_transactionHistory as isLoggedIn !== true')
       return
     }
     if (typeof wallet.public_address === 'undefined' && wallet.public_address === null || wallet.public_address === '') {
-      const errStr = '❌  Unable to ' + __debug_fnName + ' as no public_address'
-      console.error(errStr)
-      const err = new Error(errStr)
-      fn(err)
+      console.error('❌  Unable to _fetch_transactionHistory as no public_address')
       return
     }
     if (typeof wallet.private_keys === 'undefined' && wallet.private_keys === null) {
-      const errStr = '❌  Unable to ' + __debug_fnName + ' as no private_keys'
-      console.error(errStr)
-      const err = new Error(errStr)
-      fn(err)
+      console.error('❌  Unable to _fetch_transactionHistory as no private_keys')
       return
     }
     const requestHandle = self.context.hostedMoneroAPIClient.AddressTransactions_returningRequestHandle(
@@ -288,16 +233,15 @@ class WalletHostPollingController {
         transactions
       ) {
         self._dateOfLast_fetch_addressTransactions = new Date()
-        //
+
         // immediately unlock this request fetch
         self.requestHandle_for_transactions = null
-        self._didUpdate_factorOf_isFetchingState()
-        //
+        self._didUpdateFactorOfIsFetchingState()
+
         if (err) { // already logged
-          fn(err)
           return
         }
-        //
+
         wallet._WalletHostPollingController_didFetch_transactionHistory(
           account_scanned_height,
           account_scanned_block_height,
@@ -309,26 +253,22 @@ class WalletHostPollingController {
       }
     )
     self.requestHandle_for_transactions = requestHandle
-    self._didUpdate_factorOf_isFetchingState()
+    self._didUpdateFactorOfIsFetchingState()
   }
 
-  //
-  // Delegation - Internal
-  _didUpdate_factorOf_isFetchingState () {
+  _didUpdateFactorOfIsFetchingState () {
     const self = this
     const lastEmittedState = self.lastEmitted_isFetchingUpdate
     const currentState = self.IsFetchingAnyUpdates()
     self.lastEmitted_isFetchingUpdate = currentState
-    function __really_emit () {
-      self.factorOfIsFetchingStateDidUpdate_fn()
-    }
+
     if (lastEmittedState !== true && lastEmittedState !== false) { // not yet been one recorded
-      __really_emit()
+      self.factorOfIsFetchingStateDidUpdate_fn()
     } else if (lastEmittedState != currentState) { // change in state
-      __really_emit()
+      self.factorOfIsFetchingStateDidUpdate_fn()
     } else {
       // a request finished but one is still going
-      if (!self.IsFetching_accountInfo() && !self.IsFetching_transactions()) {
+      if (!self.IsFetchingAccountInfo() && !self.IsFetchingTransactions()) {
         // assert false
       }
     }

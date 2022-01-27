@@ -3,7 +3,7 @@
 import './assets/css/styles.css'
 import './assets/css/clear.browser.css'
 
-import RootView from './MainWindow/Views/RootView.Lite.web' // electron uses .web files as it has a web DOM
+import RootView from './MainWindow/Views/RootView' // electron uses .web files as it has a web DOM
 import setup_utils from './MMAppRendererSetup/renderer_setup.browser'
 import MyMoneroLibAppBridge from '@mymonero/mymonero-app-bridge'
 import indexContextBrowser from './MainWindow/Models/index_context.browser'
