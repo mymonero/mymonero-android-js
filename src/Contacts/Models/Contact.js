@@ -5,7 +5,7 @@ import Emojis from '../../Emoji/emoji_set'
 import persistable_object_utils from '../../DocumentPersister/persistable_object_utils'
 import contact_persistence_utils from './contact_persistence_utils'
 import monero_paymentID_utils from '@mymonero/mymonero-paymentid-utils'
-import monero_requestURI_utils from '@mymonero/mymonero-request-utils'
+import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
 import QRCode from 'qrcode'
 
 class Contact extends EventEmitter {

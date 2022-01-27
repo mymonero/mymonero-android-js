@@ -3,7 +3,7 @@
 import EventEmitter from 'events'
 import persistable_object_utils from '../../DocumentPersister/persistable_object_utils'
 import fundsRequest_persistence_utils from './fundsRequest_persistence_utils'
-import monero_requestURI_utils from '@mymonero/mymonero-request-utils'
+import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
 import QRCode from 'qrcode'
 
 class FundsRequest extends EventEmitter {

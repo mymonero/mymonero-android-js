@@ -151,11 +151,7 @@ class NavigationBarView extends View {
       self.emit(self.EventName_backButtonTapped()) // animated
     }
 
-    const _new_back_leftBarButtonView__fn = self.NavigationBarView__New_back_leftBarButtonView
-    if (typeof _new_back_leftBarButtonView__fn !== 'function' || !_new_back_leftBarButtonView__fn) {
-      throw "themeController didn't implement NavigationBarView__New_back_leftBarButtonView"
-    }
-    const view = _new_back_leftBarButtonView__fn.apply(themeController, [clicked_fn])
+    const view = self.NavigationBarView__New_back_leftBarButtonView(clicked_fn)
     if (view == null || typeof view === 'undefined') {
       throw 'Got nil leftBarButtonView from themeController'
     }
