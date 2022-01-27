@@ -9,15 +9,18 @@ import MyMoneroLibAppBridge from '@mymonero/mymonero-app-bridge'
 import indexContextBrowser from './MainWindow/Models/index_context.browser'
 import { Plugins } from '@capacitor/core'
 
-const { App } = Plugins
+const { App, Device } = Plugins
 
-window.BootApp = function () { // encased in a function to prevent scope being lost/freed on mobile
+window.BootApp = async function () { // encased in a function to prevent scope being lost/freed on mobile
   const isDebug = false
   const version = '1.2.1'
   setup_utils({
     appVersion: version,
     reporting_processName: 'BrowserWindow'
   })
+
+  let deviceInfo = await Device.getInfo();
+  
   //
   // context
   MyMoneroLibAppBridge({}).then(function (coreBridge_instance) {
@@ -45,6 +48,7 @@ window.BootApp = function () { // encased in a function to prevent scope being l
       // manually attach the rootView to the DOM and specify view's usual managed reference(s)
       const superlayer = document.body
       rootView.superlayer = superlayer
+      superlayer.classList.add(`${deviceInfo.platform}`);
       superlayer.appendChild(rootView.layer) // the `layer` is actually the DOM element
     }
     { // and remove the loader (possibly fade this out)
