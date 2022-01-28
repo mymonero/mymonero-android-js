@@ -21,6 +21,7 @@ class RootTabBarAndContentView extends TabBarAndContentView {
     {
       const layer = self.tabBarView.layer
       layer.style.background = '#171416'
+      layer.id = "rootTabBarAndContentView";
     }
     {
       const layer = self.contentAreaView.layer
