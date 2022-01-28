@@ -48,6 +48,7 @@ window.BootApp = async function () { // encased in a function to prevent scope b
       // manually attach the rootView to the DOM and specify view's usual managed reference(s)
       const superlayer = document.body
       rootView.superlayer = superlayer
+      rootView.layer.id = "rootView";
       superlayer.classList.add(`${deviceInfo.platform}`);
       superlayer.appendChild(rootView.layer) // the `layer` is actually the DOM element
     }
