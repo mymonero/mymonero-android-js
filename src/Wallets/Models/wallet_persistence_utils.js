@@ -116,7 +116,7 @@ function SaveToDisk (
   fn
 ) {
   const self = walletInstance
-  console.log('📝  Saving wallet to disk ', self.Description())
+  // console.log('📝  Saving wallet to disk ', self.Description())
   //
   const persistencePassword = self.persistencePassword
   if (persistencePassword === null || typeof persistencePassword === 'undefined' || persistencePassword === '') {
@@ -219,9 +219,7 @@ function DeleteFromDisk (
   fn
 ) {
   const self = instance
-  console.log('📝  Deleting wallet ', self.Description())
-  console.log('What are we passing as the ID?')
-  console.log([self._id])
+  // console.log('📝  Deleting wallet ', self.Description())
   self.context.persister.RemoveDocumentsWithIds(
     CollectionName,
     [self._id],
