@@ -7,7 +7,6 @@ function read (
   persistableObject, // you must set ._id on this before call
   fn // (err?, plaintextDocument?)
 ) {
-  console.log('Persistable_object_utils: read')
   const self = persistableObject
   persister.DocumentsWithIds(
     CollectionName,
@@ -86,7 +85,7 @@ function write (
       if (self._id === null) {
         _proceedTo_insertNewDocument(encryptedBase64String)
       } else {
-        console.log('sucessfully decrypted document')
+        // sucessfully decrypted document
         _proceedTo_updateExistingDocument(encryptedBase64String)
       }
     }
@@ -103,7 +102,7 @@ function write (
           return
         }
         self._id = plaintextDocument._id // so we have it in runtime memory now…
-        console.log('✅  Saved newly inserted object with _id ' + self._id + '.')
+        // Saved newly inserted object
         fn()
       }
     )
@@ -119,7 +118,7 @@ function write (
           fn(err)
           return
         }
-        console.log('✅  Saved update to object with _id ' + self._id + '.')
+        // console.log('✅  Saved update to object with _id ' + self._id + '.')
         fn()
       }
     )

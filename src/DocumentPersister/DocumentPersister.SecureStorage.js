@@ -586,33 +586,12 @@ class DocumentPersister extends DocumentPersister_Interface {
         fn(null, documentCollectionArr)
       })
     }).catch(error => {
-      // console.log("There was a problem retrieveing allDocument values ");
+      // console.log("There was a problem retrieving allDocument values ");
       // console.log(error);
     })
-
-    // console.log("Originally returned this: ");
-    // const collectionStringsById = self.store[collectionName] || {}
-    // const ids = Object.keys(collectionStringsById)
-    // const ids_length = ids.length
-
-    // for (var i = 0 ; i < ids_length ; i++) {
-    // 	const id = ids[i]
-    // 	const stringWithId = collectionStringsById[id] || null
-    // 	strings.push(stringWithId)
-    // }
-    // //console.log(strings)
-    // return empty array for now
-    // setTimeout(function() {
-    // 	fn(null, [])
-    // })
-    // fn(err, []);
   }
 
   __updateDocumentWithId (collectionName, id, updateString, fn) {
-    console.log('SecureStorage: invoked __updateDocumentWithId')
-    console.log(collectionName)
-    console.log(id)
-    // console.log(updateString)
 
     const keys = SecureStoragePlugin.keys().then(keys => {
       const objectKey = collectionName + id
@@ -637,33 +616,20 @@ class DocumentPersister extends DocumentPersister_Interface {
         const objectKey = collectionName + id
         const saveObjString = JSON.stringify(saveObj)
         const objectPromise = SecureStoragePlugin.set({ key: objectKey, value: saveObjString }).then(() => {
-          console.log('Saved successfully')
+          // console.log('Saved successfully')
         })
 
         Promise.all([objectPromise]).then(values => {
-          console.log('Index updated and object saved successfully')
+          // console.log('Index updated and object saved successfully')
           setTimeout(function () {
             fn(null, values)
           })
         }).catch(err => {
-          console.log('Object save failed')
+          console.error('Object save failed')
           fn(err, null)
         })
       })
     })
-    // console.log("We would create an object using this object and key");
-    // console.log(indexArray);
-    // console.log(saveObj)
-    // const self = this
-    // const fileDescription = self._new_fileDescriptionWithComponents(
-    // 	collectionName,
-    // 	id
-    // )
-    // self.___write_fileDescriptionDocumentContentString(fileDescription, update, fn)
-
-    // const self = this
-    // const collectionStringsById = self.___lazy_writable_collectionStringsById(collectionName)
-    // collectionStringsById[id] = updateString
   }
 
   async __removeDocumentsWithIds (collectionName, idsToRemove, fn) {
@@ -671,49 +637,34 @@ class DocumentPersister extends DocumentPersister_Interface {
     SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
       // console.log("removeDocumentsWithIds: This is what we have for " + collectionName);
       const jsonString = returnData.value
-      // console.log(jsonString);
-      // console.log(typeof(jsonString));
-
       const obj = JSON.parse(jsonString)
-      // console.log(obj);
-      // console.log(typeof(obj))
-
-      // console.log(obj);
 
       for (let i = 0; i < idsToRemove.length; i++) {
-        // console.log("filter this obj");
-        // console.log(obj);
-        // console.log("Using:");
-        // console.log(idsToRemove[i]);
         const keyToCompare = collectionName + idsToRemove[i]
-        // console.log(keyToCompare);
-        // console.log(Object.keys(obj));
         const newIndexArr = []
         for (let j = 0; j < Object.keys(obj).length; j++) {
-          // console.log(`Comparing ${obj[j]} to ${idsToRemove[i]}`);
+          // Comparing ${obj[j]} to ${idsToRemove[i]}
           if (obj[j] !== idsToRemove[i]) {
             newIndexArr.push(obj[j])
           }
         }
-        // obj.filter(id => id !== keyToCompare);
 
-        // console.log("Filter result");
-        // console.log(newIndexArr);
         const key = collectionName + idsToRemove[i]
         const data = {
           key: key
         }
         if (newIndexArr.length == 0) {
-          // console.log("No more of this collection left");
+          // No more of this collection left
           if (collectionName == 'Wallets') {
             // Delete passwordmeta since we have no more wallets, and don't want to be made to use the old password when a new wallet is added
             // We delete everything here, since we won't be able to decrypt old data using a new PIN unless it is exactly the same as the old one
             SecureStoragePlugin.clear().then(() => {
-              // console.log("Cleared everything due to no wallets being left");
+              // Cleared everything due to no wallets being left
             })
           } else {
+            // Removed collection ${collectionName}
             SecureStoragePlugin.remove({ key: collectionName }).then(() => {
-              console.log(`Removed collection ${collectionName}`)
+              // finished removing collection
             })
           }
         } else {

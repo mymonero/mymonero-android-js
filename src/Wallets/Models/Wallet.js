@@ -74,7 +74,7 @@ class Wallet extends EventEmitter {
     }
     self.successfullyInitialized_cb = function () { // v--- Trampoline by executing on next tick to avoid instantiators having undefined instance ref when success cb called
       setTimeout(function () {
-        console.log('Wallet.js: successfullyInitialized_cb setTimeout')
+        // console.log('Wallet.js: successfullyInitialized_cb setTimeout')
         const fn = self.options.successfullyInitialized_cb || function (walletInstance) {}
         fn(self)
       })
@@ -587,46 +587,34 @@ class Wallet extends EventEmitter {
 
   //
   // Runtime - Imperatives - Private - Booting
-  _trampolineFor_successfullyBooted (
-    fn // (err?) -> Void
-  ) {
-    console.log('Wallet.js: _trampolineFor_successfullyBooted')
+  _trampolineFor_successfullyBooted (fn) { // (err?) -> Void
     const self = this
-    {
-      if (typeof self.account_seed === 'undefined' || self.account_seed === null || self.account_seed == '') {
-        console.warn('⚠️  Wallet initialized without an account_seed.')
-        self.wasInitializedWith_addrViewAndSpendKeysInsteadOfSeed = true
-      } else {
-        // TODO: move this to -before- the initial saveToDisk()
-        const derived_mnemonicString = self.context.monero_utils.mnemonic_from_seed(self.account_seed, self.mnemonic_wordsetName)
-        if (self.mnemonicString != null && typeof self.mnemonicString !== 'undefined') {
-          const areMnemonicsEqual = self.context.monero_utils.are_equal_mnemonics(
-            self.mnemonicString,
-            derived_mnemonicString
-          )
-          if (areMnemonicsEqual == false) { // would be rather odd
-            throw 'Different mnemonicString derived from accountSeed than was entered for login'
-          }
-          console.log("Not setting mnemonicSeed because the instance was initialized with one and it's the same as the one derived from the account_seed.")
+    if (typeof self.account_seed === 'undefined' || self.account_seed === null || self.account_seed == '') {
+      console.warn('⚠️  Wallet initialized without an account_seed.')
+      self.wasInitializedWith_addrViewAndSpendKeysInsteadOfSeed = true
+    } else {
+      // TODO: move this to -before- the initial saveToDisk()
+      const derived_mnemonicString = self.context.monero_utils.mnemonic_from_seed(self.account_seed, self.mnemonic_wordsetName)
+      if (self.mnemonicString != null && typeof self.mnemonicString !== 'undefined') {
+        const areMnemonicsEqual = self.context.monero_utils.are_equal_mnemonics(
+          self.mnemonicString,
+          derived_mnemonicString
+        )
+        if (areMnemonicsEqual == false) { // would be rather odd
+          throw 'Different mnemonicString derived from accountSeed than was entered for login'
         }
-        self.mnemonicString = derived_mnemonicString // in all cases, save derived mnemonic in case input mnemonic was truncated words form - so we always recover full form
+        console.log("Not setting mnemonicSeed because the instance was initialized with one and it's the same as the one derived from the account_seed.")
       }
+      self.mnemonicString = derived_mnemonicString // in all cases, save derived mnemonic in case input mnemonic was truncated words form - so we always recover full form
     }
     // console.info("✅  Successfully instantiated", self.Description())
-    {
-      self.isBooted = true
-    }
-    { // ensure we call the callback
-      fn()
-    }
-    { // notify listeners
-      self.emit(self.EventName_booted())
-    }
-    {
-      self.__do_localTxCleanupJob()
-      self._startTimer__localTxCleanupJob() // mark dropped txs as dead
-      self._atRuntime_setup_hostPollingController() // instantiate (and kick off) polling controller
-    }
+    self.isBooted = true
+    // ensure we call the callback
+    fn()
+    self.emit(self.EventName_booted())
+    self.__do_localTxCleanupJob()
+    self._startTimer__localTxCleanupJob() // mark dropped txs as dead
+    self._atRuntime_setup_hostPollingController() // instantiate (and kick off) polling controller
   }
 
   _atRuntime_setup_hostPollingController () {
@@ -806,7 +794,6 @@ class Wallet extends EventEmitter {
   }
 
   regenerate_shouldDisplayImportAccountOption () {
-    console.log('Wallet.js: regenerate_shouldDisplayImportAccountOption')
     const self = this
     const isAPIBeforeGeneratedLocallyAPISupport = typeof self.login__generated_locally === 'undefined' || typeof self.account_scan_start_height === 'undefined'
     if (isAPIBeforeGeneratedLocallyAPISupport) {

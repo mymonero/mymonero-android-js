@@ -26,12 +26,7 @@ var cryptor_settings =
 }
 //
 // Encryption
-function New_EncryptedBase64String__Async (
-  plaintext_msg,
-  password,
-  fn
-) {
-  console.log('sym-string-crpytor: New encrypted string attempt')
+function New_EncryptedBase64String__Async (plaintext_msg, password, fn) {
   if (typeof plaintext_msg === 'undefined') {
     return undefined
   }

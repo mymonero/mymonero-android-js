@@ -87,7 +87,7 @@ class SettingsController extends EventEmitter {
             doSettingsCleanup = true
           }
         }
-        console.log('💬  Found existing saved ' + CollectionName + ' with _id', doc._id)
+        // console.log('💬  Found existing saved ' + CollectionName + ' with _id', doc._id)
 
         if (doSettingsCleanup == true) {
           _deleteSettingsObject(self, cleanupIds)

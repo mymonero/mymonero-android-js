@@ -2718,3 +2718,16 @@ div.customSelect {}
 .swal2-confirm {
   background-color: #7066e0;
 }
+
+/* iOS styles */
+.ios .NavigationBarView {
+  margin:
+      env(safe-area-inset-top, 1em)
+      env(safe-area-inset-right, 1em)
+      env(safe-area-inset-bottom, 1em)
+      env(safe-area-inset-left, 1em);
+}
+
+.ios #rootView > div {
+  height: calc(98%) !important;
+}

@@ -29,7 +29,7 @@ class ContactsListController extends ListBaseController {
     forOverrider_instance_didBoot_fn,
     forOverrider_instance_didFailBoot_fn
   ) {
-    console.log('ContactsListController: override_booting_reconstituteRecordInstanceOptionsWithBase')
+
     const self = this
     optionsBase.persistencePassword = persistencePassword
     //
