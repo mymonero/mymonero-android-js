@@ -109,9 +109,9 @@
   opacity: 0.5;
 }
 
-.red-button:hover {
+/* .red-button:hover {
   text-decoration: underline;
-}
+} */
 
 .table-chevron {
   position: absolute;
@@ -370,14 +370,14 @@
 .table_field .field_value {
 
 }
-
+/* 
 .table_field .field_value a,
 .table_field .field_value a:active,
 .table_field .field_value a:hover {
   color: #FFFFFF;
   cursor: default;
   text-decoration: none;
-}
+} */
 
 .table_field .field_value p {
   display: block;
@@ -428,9 +428,9 @@
   transition: opacity 0.05s ease-out;
 }
 
-.inlineMessageDialogLayer > a.close-btn:hover {
+/* .inlineMessageDialogLayer > a.close-btn:hover {
   opacity: 1.0;
-}
+} */
 
 /** END FROM tables.web.js */
 
@@ -494,12 +494,12 @@
 .EmojiPickerPopoverContentView > .EmojiButtonView.withNonNativeEmoji {
 }
 
-.EmojiPickerPopoverContentView > .EmojiButtonView.active,
+/* .EmojiPickerPopoverContentView > .EmojiButtonView.active,
 .EmojiPickerPopoverContentView > .EmojiButtonView:hover {
   background: #F2F1F2;
   box-shadow: 0 0.5px 0 0 #FFFFFF, inset 0 0.5px 1px 0 #DFDEDF;
   border-radius: 3px;
-}
+} */
 
 .EmojiPickerPopoverContentView > .EmojiButtonView .emojione {
   transform: scale(.75);
@@ -549,7 +549,7 @@
 /** END FROM walleticons.web.js */
 
 /** FROM hoverableCells.web.js */
-.hoverable-cell {
+/* .hoverable-cell {
   transition: background-color 0.1s ease-out;
 }
 
@@ -568,7 +568,7 @@
 .hoverable-cell.disableable[disabled=disabled],
 .hoverable-cell.disableable.disabled {
   opacity: 0.5;
-}
+} */
 
 /** END FROM hoverableCells.web.js */
 
@@ -783,11 +783,11 @@ div.exchange-button {
   box-shadow: 0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #494749;
 }
 
-.EmojiPickerControlView > a.active,
+/* .EmojiPickerControlView > a.active,
 .EmojiPickerControlView > a:hover {
   background-color: #494749;
   box-shadow: 0 0.5px 1px 0 #161416, inset 0 0.5px 0 0 #5A585A;
-}
+} */
 
 .EmojiPickerControlView > a .emojione {
   transform: scale(.5);
@@ -829,12 +829,12 @@ div.exchange-button {
   display: inline-block;
 }
 
-.mnemonic-pill:not(.disabled):hover,
+/* .mnemonic-pill:not(.disabled):hover,
 .mnemonic-pill--selectedPlaceholder:not(.disabled):hover {
   background: #494749;
   box-shadow: inset 0 0.5px 0 0 #5A585A, 0 0.5px 1px 0 #161416;
   transition: all 0.1s ease-out;
-}
+} */
 
 .mnemonic-pill--selectedPlaceholder {
   color: #1D1B1D;
@@ -2301,7 +2301,7 @@ div.customSelect {}
 .hoverable-cell {
   transition: background-color 0.1s ease-out;
 }
-.hoverable-cell.utility:not(.disabled):not(.active):not([disabled]):hover {
+/* .hoverable-cell.utility:not(.disabled):not(.active):not([disabled]):hover {
   background-color: #3f3e3f !important;
 }
 .hoverable-cell.action:not(.disabled):not(.active):not([disabled]):hover {
@@ -2313,7 +2313,7 @@ div.customSelect {}
 .hoverable-cell.disableable[disabled=disabled],
  .hoverable-cell.disableable.disabled {
    opacity: 0.5;
-}
+} */
 
 .activityIndicators .loader > .block  {
   margin: 1px;
@@ -2730,4 +2730,12 @@ div.customSelect {}
 
 .ios #rootView > div {
   height: calc(98%) !important;
+}
+
+.ios #stack-view-stage-view {
+  top: 40px !important;
+}
+
+.ios .actionButtonView {
+  top: -25px !important;
 }
