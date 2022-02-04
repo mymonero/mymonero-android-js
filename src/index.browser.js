@@ -9,7 +9,7 @@ import MyMoneroLibAppBridge from '@mymonero/mymonero-app-bridge'
 import indexContextBrowser from './MainWindow/Models/index_context.browser'
 import { Plugins } from '@capacitor/core'
 
-const { App, Device } = Plugins
+const { App, Device, Browser } = Plugins
 
 window.BootApp = async function () { // encased in a function to prevent scope being lost/freed on mobile
   const isDebug = false
@@ -33,7 +33,9 @@ window.BootApp = async function () { // encased in a function to prevent scope b
       Cordova_isMobile: false, // (this can be renamed or maybe deprecated)
       appDownloadLink_domainAndPath: 'mymonero.com',
       HostedMoneroAPIClient_DEBUGONLY_mockSendTransactionSuccess: false,
-      monero_utils: coreBridge_instance
+      monero_utils: coreBridge_instance,
+      deviceInfo: deviceInfo,
+      capacitorBrowser: Browser
     })
     window.MyMonero_context = context
     { // configure native UI elements
