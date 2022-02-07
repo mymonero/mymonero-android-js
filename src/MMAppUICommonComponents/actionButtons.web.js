@@ -33,6 +33,7 @@ function New_Stacked_ActionButtonsContainerView (
 ) {
   const view = new View({}, context)
   const layer = view.layer
+  layer.classList.add("actionButtonView")
   {
     layer.style.position = 'relative'
     layer.style.width = `calc(100% - ${margin_left}px - ${margin_right}px)`

@@ -48,6 +48,7 @@ class PickCreateOrUseExisting_Landing_View extends BaseView_AWalletWizardScreen 
       self._setup_actionButton_useExistingWallet()
       self._setup_actionButton_createNewWallet()
     }
+    view.id = "addWalletActionButtons";
     self.addSubview(view)
   }
 
