@@ -2,11 +2,29 @@
 include ':capacitor-android'
 project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
 
+include ':capacitor-app'
+project(':capacitor-app').projectDir = new File('../node_modules/@capacitor/app/android')
+
+include ':capacitor-browser'
+project(':capacitor-browser').projectDir = new File('../node_modules/@capacitor/browser/android')
+
+include ':capacitor-clipboard'
+project(':capacitor-clipboard').projectDir = new File('../node_modules/@capacitor/clipboard/android')
+
+include ':capacitor-device'
+project(':capacitor-device').projectDir = new File('../node_modules/@capacitor/device/android')
+
+include ':capacitor-filesystem'
+project(':capacitor-filesystem').projectDir = new File('../node_modules/@capacitor/filesystem/android')
+
+include ':capacitor-toast'
+project(':capacitor-toast').projectDir = new File('../node_modules/@capacitor/toast/android')
+
 include ':johnbraum-capacitor-qrscanner'
 project(':johnbraum-capacitor-qrscanner').projectDir = new File('../node_modules/@johnbraum/capacitor-qrscanner/android')
 
-include ':capacitor-file-selector'
-project(':capacitor-file-selector').projectDir = new File('../node_modules/capacitor-file-selector/android')
+include ':capacitor-file-picker'
+project(':capacitor-file-picker').projectDir = new File('../node_modules/capacitor-file-picker/android')
 
 include ':capacitor-secure-storage-plugin'
 project(':capacitor-secure-storage-plugin').projectDir = new File('../node_modules/capacitor-secure-storage-plugin/android')

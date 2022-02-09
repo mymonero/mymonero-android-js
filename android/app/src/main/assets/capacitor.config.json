@@ -1,16 +1,26 @@
 {
-  "appId": "com.mymonero.official_android_application",
-  "appName": "MyMonero",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "dist",
-  "plugins": {
-    "SplashScreen": {
-      "launchShowDuration": 0
-    }
-  },
-  "server": {
-    "hostname": "com.mymonero.android",
-    "androidScheme": "https"
-  }
+	"appId": "com.mymonero.official_android_application",
+	"appName": "MyMonero",
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "dist",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 1000,
+			"launchAutoHide": true,
+			"backgroundColor": "#ffffffff",
+			"androidSplashResourceName": "splash",
+			"androidScaleType": "CENTER_CROP",
+			"androidSpinnerStyle": "large",
+			"iosSpinnerStyle": "small",
+			"spinnerColor": "#999999",
+			"showSpinner": false,
+			"splashFullScreen": false,
+			"splashImmersive": true
+		}
+	},
+	"server": {
+		"hostname": "com.mymonero.android",
+		"androidScheme": "https"
+	}
 }

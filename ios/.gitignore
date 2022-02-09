@@ -1,0 +1,14 @@
+# NPM renames .gitignore to .npmignore
+# In order to prevent that, we remove the initial "."
+# And the CLI then renames it
+
+App/build
+App/Pods
+App/App/public
+App/Podfile.lock
+DerivedData
+xcuserdata
+
+# Cordova plugins for Capacitor
+capacitor-cordova-ios-plugins
+

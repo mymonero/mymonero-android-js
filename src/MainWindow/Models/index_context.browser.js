@@ -52,12 +52,15 @@ function NewHydratedContext (initialContext) {
 
   const contextKeys = Object.keys(context)
   for (const i in contextKeys) {
+    // It seems like the ES spread method used when invoking super in capacitorBrowser leads the following loop to believe that const postWholeContextInitSetupFn is defined, when it isn't
     const contextKey = contextKeys[i]
-    const instance = context[contextKey]
-    // This calls an optional function that classes can implement to get control after the whole context is set up
-    const postWholeContextInitSetupFn = instance.RuntimeContext_postWholeContextInit_setup
-    if (typeof postWholeContextInitSetupFn !== 'undefined') {
-      postWholeContextInitSetupFn.call(instance) // using 'call' so the function's "this" is instance
+    if (contextKey !== "capacitorBrowser") {
+      const instance = context[contextKey]
+      // This calls an optional function that classes can implement to get control after the whole context is set up
+      const postWholeContextInitSetupFn = instance.RuntimeContext_postWholeContextInit_setup
+      if (typeof postWholeContextInitSetupFn !== 'undefined') {
+        postWholeContextInitSetupFn.call(instance) // using 'call' so the function's "this" is instance
+      }
     }
   }
 

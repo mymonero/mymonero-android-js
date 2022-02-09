@@ -1,8 +1,9 @@
 'use strict'
 
 import FilesystemUI_Abstract from './FilesystemUI_Abstract'
-import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core'
-const { Filesystem, FileSelector } = Plugins
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+
+import { FilePicker } from 'capacitor-file-picker'
 
 class FilesytemUI extends FilesystemUI_Abstract {
   // async function to save URI to disk
@@ -11,7 +12,7 @@ class FilesytemUI extends FilesystemUI_Abstract {
       const result2 = await Filesystem.writeFile({
         path: filename,
         data,
-        directory: FilesystemDirectory.Documents
+        directory: Directory.Documents
       }).then(() => {
         console.log('Wrote file')
       })
@@ -26,8 +27,8 @@ class FilesytemUI extends FilesystemUI_Abstract {
       const result2 = await Filesystem.writeFile({
         path: filename,
         data,
-        directory: FilesystemDirectory.Documents,
-        encoding: FilesystemEncoding.UTF8
+        directory: Directory.Documents,
+        encoding: Encoding.UTF8
       }).then(() => {
         console.log('Wrote file')
       })
@@ -63,7 +64,7 @@ class FilesytemUI extends FilesystemUI_Abstract {
       // 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android D/Capacitor: Sending plugin error: {"save":false,"callbackId":"36944607","pluginId":"Filesystem","methodName":"writeFile","success":false,"error":{"message":"NOT_CREATED_DIR"}}
       console.log('Running native capacitor -- attempt to write file')
       const filename = 'MyMonero-Payment-Request-' + Date.now() + '.png'
-      const writtenFile = await self.fileWrite(filename, FilesystemEncoding.UTF8, imgData_base64String)
+      const writtenFile = await self.fileWrite(filename, Encoding.UTF8, imgData_base64String)
       console.log(writtenFile)
       fn()
     }
@@ -162,10 +163,26 @@ class FilesytemUI extends FilesystemUI_Abstract {
     // let ext = ["*"] // Allow any file type
     ext = ext.map(v => v.toLowerCase())
     const formData = new FormData()
-    const selectedFile = await FileSelector.fileSelector({
-			  multiple_selection: multiple_selection,
-			  ext: ext
-    })
+
+    FilePicker.showFilePicker({
+      fileTypes: ["image/*"],
+    }).then(
+      (fileResult) => {
+        console.log(fileResult);
+        const fileUri = fileResult.uri;
+        const fileName = fileResult.name;
+        const fileMimeType = fileResult.mimeType;
+        const fileExtension = fileResult.extension;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    // const selectedFile = await FileSelector.fileSelector({
+		// 	  multiple_selection: multiple_selection,
+		// 	  ext: ext
+    // })
 
     if (Capacitor.platform == 'android') {
       console.log('FileSelection: platform is Android')
