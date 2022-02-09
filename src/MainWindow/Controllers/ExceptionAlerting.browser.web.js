@@ -2,9 +2,7 @@
 'use strict'
 
 import Swal from 'sweetalert2'
-import { Plugins } from '@capacitor/core'
-
-const { Clipboard } = Plugins
+import { Clipboard } from '@capacitor/clipboard'
 
 class ExceptionAlerting {
   constructor (options, context) {
