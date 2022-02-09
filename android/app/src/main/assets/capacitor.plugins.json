@@ -1,0 +1,14 @@
+[
+	{
+		"pkg": "@capacitor/filesystem",
+		"classpath": "com.capacitorjs.plugins.filesystem.FilesystemPlugin"
+	},
+	{
+		"pkg": "@johnbraum/capacitor-qrscanner",
+		"classpath": "de.golbros.capacitorqrscanner.CapacitorQRScanner"
+	},
+	{
+		"pkg": "capacitor-secure-storage-plugin",
+		"classpath": "com.whitestein.securestorage.SecureStoragePlugin"
+	}
+]
