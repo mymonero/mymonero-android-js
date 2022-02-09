@@ -5,10 +5,8 @@ import commonComponents_tables from '../../MMAppUICommonComponents/tables.web'
 import commonComponents_forms from '../../MMAppUICommonComponents/forms.web'
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web'
 import { defineCustomElements } from '@ionic/pwa-elements/loader'
-import { Plugins } from '@capacitor/core'
 import Currencies from '../../CcyConversionRates/Currencies'
-
-const { Toast } = Plugins
+import { Toast } from "@capacitor/toast"
 
 class FundsRequestQRDisplayView extends View {
   constructor (options, context) {
@@ -33,7 +31,7 @@ class FundsRequestQRDisplayView extends View {
 
   setup () {
     const self = this
-    self.setup_views()
+    self.setup_views() 
     defineCustomElements(window)
   }
 
