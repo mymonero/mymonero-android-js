@@ -2,6 +2,9 @@
 
 import FilesystemUI_Abstract from './FilesystemUI_Abstract'
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+
+import { FilePicker } from 'capacitor-file-picker'
+
 class FilesytemUI extends FilesystemUI_Abstract {
   // async function to save URI to disk
   async fileWrite (filename, encoding, data) {
@@ -160,10 +163,26 @@ class FilesytemUI extends FilesystemUI_Abstract {
     // let ext = ["*"] // Allow any file type
     ext = ext.map(v => v.toLowerCase())
     const formData = new FormData()
-    const selectedFile = await FileSelector.fileSelector({
-			  multiple_selection: multiple_selection,
-			  ext: ext
-    })
+
+    FilePicker.showFilePicker({
+      fileTypes: ["image/*"],
+    }).then(
+      (fileResult) => {
+        console.log(fileResult);
+        const fileUri = fileResult.uri;
+        const fileName = fileResult.name;
+        const fileMimeType = fileResult.mimeType;
+        const fileExtension = fileResult.extension;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    // const selectedFile = await FileSelector.fileSelector({
+		// 	  multiple_selection: multiple_selection,
+		// 	  ext: ext
+    // })
 
     if (Capacitor.platform == 'android') {
       console.log('FileSelection: platform is Android')

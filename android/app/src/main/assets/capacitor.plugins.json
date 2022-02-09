@@ -1,11 +1,35 @@
 [
 	{
+		"pkg": "@capacitor/app",
+		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
+	},
+	{
+		"pkg": "@capacitor/browser",
+		"classpath": "com.capacitorjs.plugins.browser.BrowserPlugin"
+	},
+	{
+		"pkg": "@capacitor/clipboard",
+		"classpath": "com.capacitorjs.plugins.clipboard.ClipboardPlugin"
+	},
+	{
+		"pkg": "@capacitor/device",
+		"classpath": "com.capacitorjs.plugins.device.DevicePlugin"
+	},
+	{
 		"pkg": "@capacitor/filesystem",
 		"classpath": "com.capacitorjs.plugins.filesystem.FilesystemPlugin"
 	},
 	{
+		"pkg": "@capacitor/toast",
+		"classpath": "com.capacitorjs.plugins.toast.ToastPlugin"
+	},
+	{
 		"pkg": "@johnbraum/capacitor-qrscanner",
 		"classpath": "de.golbros.capacitorqrscanner.CapacitorQRScanner"
+	},
+	{
+		"pkg": "capacitor-file-picker",
+		"classpath": "com.epicshaggy.filepicker.FilePicker"
 	},
 	{
 		"pkg": "capacitor-secure-storage-plugin",

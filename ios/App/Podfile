@@ -1,4 +1,4 @@
-platform :ios, '11.0'
+platform :ios, '12.3'
 use_frameworks!
 
 # workaround to avoid Xcode caching of Pods that requires
@@ -7,13 +7,17 @@ use_frameworks!
 install! 'cocoapods', :disable_input_output_paths => true
 
 def capacitor_pods
-  # Automatic Capacitor Pod dependencies, do not delete
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
+  pod 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
+  pod 'CapacitorBrowser', :path => '../../node_modules/@capacitor/browser'
+  pod 'CapacitorClipboard', :path => '../../node_modules/@capacitor/clipboard'
+  pod 'CapacitorDevice', :path => '../../node_modules/@capacitor/device'
+  pod 'CapacitorFilesystem', :path => '../../node_modules/@capacitor/filesystem'
+  pod 'CapacitorToast', :path => '../../node_modules/@capacitor/toast'
   pod 'JohnbraumCapacitorQrscanner', :path => '../../node_modules/@johnbraum/capacitor-qrscanner'
-  pod 'CapacitorFileSelector', :path => '../../node_modules/capacitor-file-selector'
+  pod 'CapacitorFilePicker', :path => '../../node_modules/capacitor-file-picker'
   pod 'CapacitorSecureStoragePlugin', :path => '../../node_modules/capacitor-secure-storage-plugin'
-  # Do not delete
 end
 
 target 'App' do
