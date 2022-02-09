@@ -18,11 +18,10 @@ import monero_amount_format_utils from '@mymonero/mymonero-money-format'
 import jsQR from 'jsqr'
 import monero_requestURI_utils from '@mymonero/mymonero-request-utils'
 import Currencies from '../../CcyConversionRates/Currencies'
-import { Plugins } from '@capacitor/core'
 import YatMoneroLookup from '@mymonero/mymonero-yat-lookup/index.esm'
 import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint' // important: grab defined export
 
-const { CapacitorQRScanner } = Plugins
+import { CapacitorQRScanner } from '@johnbraum/capacitor-qrscanner';
 const yatMoneroLookup = YatMoneroLookup.YatMoneroLookup()
 const rateServiceDomainText = 'cryptocompare.com'
 //
