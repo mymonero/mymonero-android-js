@@ -2733,9 +2733,14 @@ div.customSelect {}
 }
 
 .ios #stack-view-stage-view {
-  top: 40px !important;
+  top: 48px !important;
+  height: 94% !important;
 }
 
-.ios .actionButtonView {
-  top: -40px !important;
+/* .ios .actionButtonView {
+
+} */
+
+.ios .emptyScreens {
+  height: calc((100% - 35px) - 80px);
 }
