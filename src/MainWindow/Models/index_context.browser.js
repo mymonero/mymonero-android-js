@@ -18,6 +18,8 @@ import WalletsList from '../../WalletsList/Controllers/WalletsListController.Ful
 import WalletAppCoordinator from '../../WalletAppCoordinator/WalletAppCoordinator'
 import ExceptionAlerting from '../Controllers/ExceptionAlerting.browser.web.js'
 
+import { Browser } from '@capacitor/browser'
+
 const txtRecordResolver = new TXTRecordResolver({})
 function NewHydratedContext (initialContext) {
   initialContext = initialContext || {}
@@ -54,16 +56,15 @@ function NewHydratedContext (initialContext) {
   for (const i in contextKeys) {
     // It seems like the ES spread method used when invoking super in capacitorBrowser leads the following loop to believe that const postWholeContextInitSetupFn is defined, when it isn't
     const contextKey = contextKeys[i]
-    if (contextKey !== "capacitorBrowser") {
       const instance = context[contextKey]
       // This calls an optional function that classes can implement to get control after the whole context is set up
       const postWholeContextInitSetupFn = instance.RuntimeContext_postWholeContextInit_setup
       if (typeof postWholeContextInitSetupFn !== 'undefined') {
         postWholeContextInitSetupFn.call(instance) // using 'call' so the function's "this" is instance
       }
-    }
   }
 
+  context.capacitorBrowser = Browser
   return context
 }
 

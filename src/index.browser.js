@@ -9,7 +9,6 @@ import MyMoneroLibAppBridge from '@mymonero/mymonero-app-bridge'
 import indexContextBrowser from './MainWindow/Models/index_context.browser'
 import { App } from '@capacitor/app'
 import { Device } from '@capacitor/device'
-import { Browser } from '@capacitor/browser'
 
 //const { App } = Plugins
 
@@ -37,7 +36,6 @@ window.BootApp = async function () { // encased in a function to prevent scope b
       HostedMoneroAPIClient_DEBUGONLY_mockSendTransactionSuccess: false,
       monero_utils: coreBridge_instance,
       deviceInfo: deviceInfo,
-      capacitorBrowser: Browser
     })
     window.MyMonero_context = context
     { // configure native UI elements
