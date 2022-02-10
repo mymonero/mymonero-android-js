@@ -14,7 +14,8 @@ class PickCreateOrUseExisting_Landing_View extends BaseView_AWalletWizardScreen 
     { // update empty state message container to accommodate
       const margin_v = self.emptyStateMessageContainerView.__EmptyStateMessageContainerView_margin_v
       self.emptyStateMessageContainerView.layer.style.height =
-				`calc(100% - ${2 * margin_v}px + 3px - ${self.actionButtonsContainerView.layer.style.height/* no'px' */})`
+        `calc(100% - ${2 * margin_v}px + 3px - ${self.actionButtonsContainerView.layer.style.height/* no'px' */})`
+      self.emptyStateMessageContainerView.layer.id = "addWalletScreen"
     }
   }
 
