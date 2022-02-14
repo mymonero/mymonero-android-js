@@ -8,9 +8,7 @@ import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndMod
 import ContactQRDisplayModalView from './ContactQRDisplayModalView.web'
 import EditContactFromContactsTabView from './EditContactFromContactsTabView.web'
 import { defineCustomElements } from '@ionic/pwa-elements/loader'
-import { Plugins } from '@capacitor/core'
-
-const { Toast } = Plugins
+import { Toast } from '@capacitor/toast'
 
 class ContactDetailsView extends View {
   constructor (options, context) {

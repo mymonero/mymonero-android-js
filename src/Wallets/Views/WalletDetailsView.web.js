@@ -19,8 +19,7 @@ import FundsRequestQRDisplayView from '../../RequestFunds/Views/FundsRequestQRDi
 import Currencies from '../../CcyConversionRates/Currencies'
 import monero_amount_format_utils from '@mymonero/mymonero-money-format'
 import { defineCustomElements } from '@ionic/pwa-elements/loader'
-import { Plugins } from '@capacitor/core'
-const { Toast } = Plugins
+import { Toast } from '@capacitor/toast'
 
 class WalletDetailsView extends View {
   constructor (options, context) {

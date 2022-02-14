@@ -9,8 +9,13 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
+    implementation project(':capacitor-app')
+    implementation project(':capacitor-clipboard')
+    implementation project(':capacitor-device')
+    implementation project(':capacitor-filesystem')
+    implementation project(':capacitor-toast')
     implementation project(':johnbraum-capacitor-qrscanner')
-    implementation project(':capacitor-file-selector')
+    implementation project(':capacitor-file-select')
     implementation project(':capacitor-secure-storage-plugin')
 
 }

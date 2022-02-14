@@ -6,9 +6,7 @@ import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndMod
 import FundsRequestCellContentsView from './FundsRequestCellContentsView.web'
 import FundsRequestQRDisplayView from './FundsRequestQRDisplayView.web'
 import { defineCustomElements } from '@ionic/pwa-elements/loader'
-import { Plugins } from '@capacitor/core'
-
-const { Toast } = Plugins
+import { Toast } from '@capacitor/toast'
 
 class FundsRequestDetailsView extends View {
   constructor (options, context) {

@@ -18,11 +18,10 @@ import monero_amount_format_utils from '@mymonero/mymonero-money-format'
 import jsQR from 'jsqr'
 import monero_requestURI_utils from '@mymonero/mymonero-request-utils'
 import Currencies from '../../CcyConversionRates/Currencies'
-import { Plugins } from '@capacitor/core'
+import { CapacitorQRScanner } from '@johnbraum/capacitor-qrscanner'
 import YatMoneroLookup from '@mymonero/mymonero-yat-lookup/index.esm'
 import { BigInteger as JSBigInt } from '@mymonero/mymonero-bigint' // important: grab defined export
 
-const { CapacitorQRScanner } = Plugins
 const yatMoneroLookup = YatMoneroLookup.YatMoneroLookup()
 const rateServiceDomainText = 'cryptocompare.com'
 //
@@ -2206,7 +2205,13 @@ class SendFundsView extends View {
 
   async startScanning () {
     const self = this
-    const result = await CapacitorQRScanner.scan()
+    let result
+    try {
+      result = await CapacitorQRScanner.scan()
+    } catch (e) {
+      if (e && e.message === 'Activity canceled') return
+      else throw e
+    }
     self._shared_didPickPossibleRequestURIStringForAutofill(result.code)
   }
 

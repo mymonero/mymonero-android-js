@@ -1,11 +1,9 @@
 
 // "use strict"
 
-import 'capacitor-secure-storage-plugin'
-import { Plugins } from '@capacitor/core' // Initialises the Secure Storage Capacitor plugin
+import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin'
 import DocumentPersister_Interface from './DocumentPersister_Interface'
 
-const { SecureStoragePlugin } = Plugins
 
 class DocumentPersister extends DocumentPersister_Interface {
   constructor (options) {

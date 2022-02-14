@@ -7,9 +7,8 @@ import RootView from './MainWindow/Views/RootView' // electron uses .web files a
 import setup_utils from './MMAppRendererSetup/renderer_setup.browser'
 import MyMoneroLibAppBridge from '@mymonero/mymonero-app-bridge'
 import indexContextBrowser from './MainWindow/Models/index_context.browser'
-import { Plugins } from '@capacitor/core'
-
-const { App, Device } = Plugins
+import { App } from '@capacitor/app'
+import { Device } from '@capacitor/device'
 
 window.BootApp = async function () { // encased in a function to prevent scope being lost/freed on mobile
   const isDebug = false
