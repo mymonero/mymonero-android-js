@@ -63,7 +63,8 @@ function write (
   CollectionName,
   plaintextDocument,
   persistencePassword,
-  fn
+  fn, 
+  migrateFromIOS = false
 ) {
   const self = persistableObject
   let _id = plaintextDocument._id
@@ -82,7 +83,7 @@ function write (
         fn(err)
         return
       }
-      if (self._id === null) {
+      if (self._id === null || migrateFromIOS === true) {
         _proceedTo_insertNewDocument(encryptedBase64String)
       } else {
         // sucessfully decrypted document

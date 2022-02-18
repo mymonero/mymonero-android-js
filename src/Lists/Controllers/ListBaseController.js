@@ -94,7 +94,8 @@ class ListBaseController extends EventEmitter {
           self._setup_didFailToBootWithError(err)
           return
         }
-        if (ids.length === 0) { // do not cause the pw to be requested yet
+        // Workaround for checking if we need to migrate -- migrationData only set if migration necessary
+        if (ids.length === 0 && typeof self.context.migrationFileData === 'undefined') { // do not cause the pw to be requested yet
           self._setup_didBoot()
           // and we don't want/need to emit that the list updated here
           return
@@ -102,8 +103,7 @@ class ListBaseController extends EventEmitter {
         __proceedTo_requestPasswordAndLoadRecords()
       }
     )
-    function __proceedTo_requestPasswordAndLoadRecords () // but do not pass in ids cause they'll get stale if we wait for pw after a Delete Everything
-    {
+    function __proceedTo_requestPasswordAndLoadRecords () { // but do not pass in ids cause they'll get stale if we wait for pw after a Delete Everything
       self.context.passwordController.WhenBootedAndPasswordObtained_PasswordAndType( // this will block until we have access to the pw
         function (obtainedPasswordString, userSelectedTypeOfPassword) {
           __proceedTo_loadAndBootAllExtantRecordsWithPassword(obtainedPasswordString)
