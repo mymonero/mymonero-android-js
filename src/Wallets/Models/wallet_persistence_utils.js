@@ -93,21 +93,45 @@ function HydrateInstance (
   )
   //
   // unpacking heights…
-  const heights = plaintextDocument.heights // no || {} because we always persist at least {}
-  self.account_scanned_height = heights.account_scanned_height
-  self.account_scanned_tx_height = heights.account_scanned_tx_height
-  self.account_scanned_block_height = heights.account_scanned_block_height
-  self.account_scan_start_height = heights.account_scan_start_height
-  self.transaction_height = heights.transaction_height
-  self.blockchain_height = heights.blockchain_height
-  //
+  // with the iOS migration, an imported wallet will fail because it stores height information differently
+  if (typeof(plaintextDocument.heights) !== 'undefined') {
+    const heights = plaintextDocument.heights // no || {} because we always persist at least {}
+    const totals = plaintextDocument.totals
+    self.account_scanned_height = heights.account_scanned_height
+    self.account_scanned_tx_height = heights.account_scanned_tx_height
+    self.account_scanned_block_height = heights.account_scanned_block_height
+    self.account_scan_start_height = heights.account_scan_start_height
+    self.transaction_height = heights.transaction_height
+    self.blockchain_height = heights.blockchain_height
+    self.total_received = new JSBigInt(totals.total_received) // persisted as string
+    self.locked_balance = new JSBigInt(totals.locked_balance) // persisted as string
+    self.total_sent = new JSBigInt(totals.total_sent) // persisted as string
+  } else {
+    console.log("iOS migrated wallet");
+    self.account_scanned_height = plaintextDocument.account_scanned_height
+    self.account_scanned_tx_height = plaintextDocument.account_scanned_tx_height
+    self.account_scanned_block_height = plaintextDocument.account_scanned_block_height
+    self.account_scan_start_height = plaintextDocument.account_scan_start_height
+    self.transaction_height = plaintextDocument.transaction_height
+    self.blockchain_height = plaintextDocument.blockchain_height  
+    self.total_received = new JSBigInt(plaintextDocument.total_received) // persisted as string
+    self.locked_balance = new JSBigInt(plaintextDocument.locked_balance) // persisted as string
+    self.total_sent = new JSBigInt(plaintextDocument.total_sent) // persisted as string
+    self.wallet_currency = plaintextDocument.currency
+    self.public_address = plaintextDocument.publicAddress
+    self.public_keys = plaintextDocument.publicKeys
+    self.swatch = plaintextDocument.swatchColorHexString
+    self.private_keys = plaintextDocument.privateKeys
+    // self.totals = {
+    //   locked_balance: "0",
+    //   total_received: "1000000",
+    //   total_sent: "0"
+    // }
+  }
   // unpacking totals -- these are stored as strings
-  const totals = plaintextDocument.totals
-  self.total_received = new JSBigInt(totals.total_received) // persisted as string
-  self.locked_balance = new JSBigInt(totals.locked_balance) // persisted as string
-  self.total_sent = new JSBigInt(totals.total_sent) // persisted as string
   //
   self.spent_outputs = plaintextDocument.spent_outputs // no || [] because we always persist at least []
+  console.log(self);
 }
 //
 //
@@ -157,7 +181,7 @@ function SaveToDisk (
     totals.total_sent = self.total_sent.toString()
   }
   //
-  if (typeof self.dateWalletFirstSavedLocally === 'undefined') {
+  if (typeof self.dateWalletFirstSavedLocally === 'undefined' || self.dateWalletFirstSavedLocally === null) {
     self.dateWalletFirstSavedLocally = new Date()
   }
   //
