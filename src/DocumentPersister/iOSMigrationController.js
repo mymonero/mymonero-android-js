@@ -282,6 +282,7 @@ class iOSMigrationController {
             this.migrationFileList = legacyFiles;
             console.log(this.migrationFileList);
             // let fileData = await this.getFileData(legacyFiles);
+            console.log(legacyFiles);
             return legacyFiles;
             this.migrationFileData = fileData;
             console.log(this);

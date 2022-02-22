@@ -94,6 +94,7 @@ class ListBaseController extends EventEmitter {
           self._setup_didFailToBootWithError(err)
           return
         }
+        console.log(self.context.iosMigrationController);
         // Workaround for checking if we need to migrate -- migrationData only set if migration necessary
         if (ids.length === 0 && typeof self.context.migrationFileData === 'undefined') { // do not cause the pw to be requested yet
           self._setup_didBoot()

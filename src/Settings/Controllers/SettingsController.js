@@ -61,16 +61,17 @@ class SettingsController extends EventEmitter {
     // TODO: Remove web
     // debug: if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
     if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
-    
+      self.context.shouldDisplayExistingPinScreenForMigration = true;
       //iosMigrationController.touchFile(); // For debugging if you're not sure which folder your simulator is running in
       let iosMigrationController = new iOSMigrationController(self.context);
       self.context.iosMigrationController = iosMigrationController;
       let didMigratePreviously = false;
+      self.context.migrationFileData = iosMigrationController.getDebugData();
       try {        
         let getDebugData = iosMigrationController.getDebugData();
         for (let key in getDebugData) {
-          console.log(key);
-          console.log(getDebugData[key]);
+          // console.log(key);
+          // console.log(getDebugData[key]);
           let fileData = {
             name: key,
             data: getDebugData[key]
@@ -96,19 +97,20 @@ class SettingsController extends EventEmitter {
       //console.log(digMigratePreviously);
       if (migrationPreviouslyPerformed !== true) {
         // Check if previously migrated. If no, we may need to migrate from the old Swift proprietary file format to the new SecureStorage persistence
-        // let migrationFiles = iOSMigrationController.getMigrationFiles();
+        let migrationFiles = await iosMigrationController.getMigrationFiles();
+        console.log(migrationFiles);
         console.log("The value of migrationFiles is false when no files are found")
         
         // if (migrationFiles !== false) {
-          console.log("Since this didn't return false, we set a context variable to denote that we should display the existing password screen")
-          self.context.shouldDisplayExistingPinScreenForMigration = true;
-          // We should now have a list of all possible files
-          //console.log(migrationFiles)
-          // let migrationFileData = await iOSMigrationController.getFileData(migrationFiles);
-          // store these files in context for once the wallet gets unlocked
-          console.log("We will be processing the in-memory values once someone logs in successfully - migration process is finalised in PasswordEntryViewController");
-          // self.context.migrationFileData = migrationFileData;
-          // self.context.migrationPerformed = false;
+        //   console.log("Since this didn't return false, we set a context variable to denote that we should display the existing password screen")
+        //   self.context.shouldDisplayExistingPinScreenForMigration = true;
+        //   // We should now have a list of all possible files
+        //   //console.log(migrationFiles)
+        //   let migrationFileData = await iOSMigrationController.getFileData(migrationFiles);
+        //   // store these files in context for once the wallet gets unlocked
+        //   console.log("We will be processing the in-memory values once someone logs in successfully - migration process is finalised in PasswordEntryViewController");
+        //   self.context.migrationFileData = migrationFileData;
+        //   self.context.migrationPerformed = false;
         // }
       }
     }

@@ -4,6 +4,7 @@ import async from 'async'
 import EventEmitter from 'events'
 import uuidV1 from 'uuid/v1'
 import symmetric_string_cryptor from '../../symmetric_cryptor/symmetric_string_cryptor'
+import iOSMigrationController from '../../DocumentPersister/iOSMigrationController'
 
 const CollectionName = 'PasswordMeta'
 const plaintextMessageToSaveForUnlockChallenges = "this is just a string that we'll use for checking whether a given password can unlock an encrypted version of this very message"
@@ -391,10 +392,11 @@ class PasswordController_Base extends EventEmitter {
     self.OnceBooted_GetNewPasswordAndTypeOrExistingPasswordFromUserAndEmitIt()
   }
 
-  OnceBooted_GetNewPasswordAndTypeOrExistingPasswordFromUserAndEmitIt () {	// This function must be called in order to initiate a password entry screen being shown to the user and to initiate any "password obtained" emits
+  async OnceBooted_GetNewPasswordAndTypeOrExistingPasswordFromUserAndEmitIt () {	// This function must be called in order to initiate a password entry screen being shown to the user and to initiate any "password obtained" emits
     const self = this
     self._executeWhenBooted(
       function () {
+        console.log("PCB Boot");
         if (self.HasUserEnteredValidPasswordYet() === true) {
           console.warn(self.constructor.name + ' asked to OnceBooted_GetNewPasswordAndTypeOrExistingPasswordFromUserAndEmitIt but already has password.')
           return // already got it
@@ -421,50 +423,128 @@ class PasswordController_Base extends EventEmitter {
             self.unguard_getNewOrExistingPassword()
             throw errStr
           }
-          self._getUserToEnterTheirExistingPassword(
-            isForChangePassword,
-            isForAuthorizingAppActionOnly,
-            customNavigationBarTitle_orNull,
-            function (didCancel_orNil, validationErr_orNil, existingPassword) {
-              if (validationErr_orNil != null) { // takes precedence over cancel
+
+          // refactored because callback hell
+          let getUserToEnterPasswordCallback = async function (didCancel_orNil, validationErr_orNil, existingPassword) {
+            if (validationErr_orNil != null) { // takes precedence over cancel
+              self.unguard_getNewOrExistingPassword()
+              self.emit(self.EventName_ErroredWhileGettingExistingPassword(), validationErr_orNil)
+              return
+            }
+            if (didCancel_orNil === true) {
+              self.emit(self.EventName_canceledWhileEnteringExistingPassword())
+              self.unguard_getNewOrExistingPassword()
+              return // just silently exit after unguarding
+            }
+
+            console.log(self.encryptedMessageForUnlockChallenge)
+            console.log(existingPassword)
+            //console.log(err)
+            // console.log(decryptedMessageForUnlockChallenge) 
+            // If we are in the process of a migration, we need to run the decryptedstring__async call against data stored in memory
+            let settingsData = await iOSMigrationController.getOldSettingsData()
+            console.log("Ok, decrypt");
+
+            let decryptionCallback = function(err, decryptedMessage) {
+              console.log("Done decryption");
+              console.log(decryptedMessage);
+              if (decryptedMessage === plaintextMessageToSaveForUnlockChallenges) {
+                console.log("Decryption matches!");
+                let doMigration = self.context.iosMigrationController.performMigration(existingPassword)
+
+                // self._didObtainPassword(existingPassword)
+                // self.unguard_getNewOrExistingPassword()
+                // self.emit(self.EventName_ObtainedCorrectExistingPassword())
+              } else {
+                // error
+                const errStr = self._new_incorrectPasswordValidationErrorMessageString()
+                const err = new Error(errStr)
                 self.unguard_getNewOrExistingPassword()
-                self.emit(self.EventName_ErroredWhileGettingExistingPassword(), validationErr_orNil)
+                self.emit(self.EventName_ErroredWhileGettingExistingPassword(), err)
                 return
               }
-              if (didCancel_orNil === true) {
-                self.emit(self.EventName_canceledWhileEnteringExistingPassword())
-                self.unguard_getNewOrExistingPassword()
-                return // just silently exit after unguarding
-              }
-              symmetric_string_cryptor.New_DecryptedString__Async(
-                self.encryptedMessageForUnlockChallenge,
-                existingPassword,
-                function (err, decryptedMessageForUnlockChallenge) {
-                  if (err) {
-                    const errStr = self._new_incorrectPasswordValidationErrorMessageString()
-                    const err_toReturn = new Error(errStr)
-                    self.unguard_getNewOrExistingPassword()
-                    self.emit(self.EventName_ErroredWhileGettingExistingPassword(), err_toReturn)
-                    return
-                  }
-                  if (decryptedMessageForUnlockChallenge !== plaintextMessageToSaveForUnlockChallenges) {
-                    const errStr = self._new_incorrectPasswordValidationErrorMessageString()
-                    const err = new Error(errStr)
-                    self.unguard_getNewOrExistingPassword()
-                    self.emit(self.EventName_ErroredWhileGettingExistingPassword(), err)
-                    return
-                  }
-                  //
-                  // hang onto pw and set state
+            }
+            
+            console.log(settingsData);
+            console.log(settingsData.data);
+            console.log(existingPassword);
+            symmetric_string_cryptor.New_DecryptedString__Async(
+              settingsData.messageAsEncryptedDataForUnlockChallenge_base64String, 
+              existingPassword, 
+              function(err, decryptedMessage) {
+                console.log("Done decryption");
+                console.log(decryptedMessage);
+                if (decryptedMessage === plaintextMessageToSaveForUnlockChallenges) {
+                  console.log("Decryption matches!");
+                  let iosMigrationController = self.context.iosMigrationController // new iOSMigrationController(self.context)
+                  let result = iosMigrationController.performMigration(existingPassword).then(result => {
+                    // if (result === true) {
+                    //   // We're now in a position to safely migrate
+                    //   console.log(`// We're now in a position to safely migrate`);
+                    //   let performMigration = iosMigrationController.migrateAllData(existingPassword).then(result => {
+                    //   console.log(result);
+                    //   }).catch(error => {
+                    //     throw error
+                    //   })
+                    // }
+                    console.log("If we're in here, iOSMigrationController has run without error")
+                  }).catch(error => {
+                    throw error;
+                  }).finally(() => {
+                    console.log("finally")
+                  })
+                  //let migrate = iOSMigrationController.migrateAllData(self.context.migrationFileData);
                   self._didObtainPassword(existingPassword)
-                  //
-                  // all done
                   self.unguard_getNewOrExistingPassword()
                   self.emit(self.EventName_ObtainedCorrectExistingPassword())
+                } else {
+                  // error
+                  const errStr = self._new_incorrectPasswordValidationErrorMessageString()
+                  const err = new Error(errStr)
+                  self.unguard_getNewOrExistingPassword()
+                  self.emit(self.EventName_ErroredWhileGettingExistingPassword(), err)
+                  return
                 }
-              )
-            }
-          )
+            });
+
+            
+
+            // symmetric_string_cryptor.New_DecryptedString__Async(
+            //   self.encryptedMessageForUnlockChallenge,
+            //   existingPassword,
+            //   function (err, decryptedMessageForUnlockChallenge) {
+            //     if (err) {
+            //       const errStr = self._new_incorrectPasswordValidationErrorMessageString()
+            //       const err_toReturn = new Error(errStr)
+            //       self.unguard_getNewOrExistingPassword()
+            //       self.emit(self.EventName_ErroredWhileGettingExistingPassword(), err_toReturn)
+            //       return
+            //     }
+            //     if (decryptedMessageForUnlockChallenge !== plaintextMessageToSaveForUnlockChallenges) {
+            //       const errStr = self._new_incorrectPasswordValidationErrorMessageString()
+            //       const err = new Error(errStr)
+            //       self.unguard_getNewOrExistingPassword()
+            //       self.emit(self.EventName_ErroredWhileGettingExistingPassword(), err)
+            //       return
+            //     }
+            //     //
+            //     // hang onto pw and set state
+            //     self._didObtainPassword(existingPassword)
+            //     //
+            //     // all done
+            //     self.unguard_getNewOrExistingPassword()
+            //     self.emit(self.EventName_ObtainedCorrectExistingPassword())
+            //   }
+            // )
+            // end NEW_DecryptedString
+          }
+
+          // This used to be callback hell, but we now pass a named function as the callback handler 
+          self._getUserToEnterTheirExistingPassword(
+            isForChangePassword, 
+            isForAuthorizingAppActionOnly, 
+            customNavigationBarTitle_orNull, 
+            getUserToEnterPasswordCallback)
         }
       }
     )
@@ -613,6 +693,9 @@ class PasswordController_Base extends EventEmitter {
     if (isForChangePassword && isForAuthorizingAppActionOnly) {
       throw 'Illegal: isForChangePassword && isForAuthorizingAppActionOnly'
     }
+
+    console.log("Holy fuckshow");
+
     self.emit(
       self.EventName_SingleObserver_getUserToEnterExistingPasswordWithCB(),
       isForChangePassword,
