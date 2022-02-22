@@ -6,7 +6,7 @@ import uuidV1 from 'uuid/v1'
 import symmetric_string_cryptor from '../../symmetric_cryptor/symmetric_string_cryptor'
 import iOSMigrationController from '../../DocumentPersister/iOSMigrationController'
 
-const CollectionName = 'PasswordMeta'
+//const CollectionName = 'PasswordMeta'
 const plaintextMessageToSaveForUnlockChallenges = "this is just a string that we'll use for checking whether a given password can unlock an encrypted version of this very message"
 const _userSelectedTypesOfPassword =
 {
@@ -44,14 +44,14 @@ class PasswordController_Base extends EventEmitter {
     //
     // first, check if any password model has been stored
     self.context.persister.AllDocuments(
-      CollectionName,
+      "PasswordMeta",
       function (err, contentStrings) {
         /* This next snippet from Settings
 
 				console.log("Settings: All Documents returned this: ")
 				console.log(contentStrings)
 				if (err) {
-					console.error("Error while fetching existing", CollectionName, err)
+					console.error("Error while fetching existing", "PasswordMeta", err)
 					throw err
 				}
 				const contentStrings_length = contentStrings.length
@@ -61,7 +61,7 @@ class PasswordController_Base extends EventEmitter {
 					return
 				}
 				if (contentStrings_length > 1) {
-					const errStr = "Error while fetching existing " + CollectionName + "... more than one record found. Selecting first."
+					const errStr = "Error while fetching existing " + "PasswordMeta" + "... more than one record found. Selecting first."
 					console.error(errStr)
 					// this is indicative of a code fault
 					throw errStr // might as well throw then
@@ -81,7 +81,7 @@ class PasswordController_Base extends EventEmitter {
 				*/
 
         if (err) {
-          console.error('Error while fetching existing', CollectionName, err)
+          console.error('Error while fetching existing', "PasswordMeta", err)
           throw err
         }
         const contentStrings_length = contentStrings.length
@@ -97,7 +97,7 @@ class PasswordController_Base extends EventEmitter {
           return
         }
         if (contentStrings_length > 1) {
-          const errStr = 'Error while fetching existing ' + CollectionName + '... more than one PasswordModel found. Selecting first.'
+          const errStr = 'Error while fetching existing ' + "PasswordMeta" + '... more than one PasswordModel found. Selecting first.'
           console.error(errStr)
           // this is indicative of a code fault
         }
@@ -694,8 +694,6 @@ class PasswordController_Base extends EventEmitter {
       throw 'Illegal: isForChangePassword && isForAuthorizingAppActionOnly'
     }
 
-    console.log("Holy fuckshow");
-
     self.emit(
       self.EventName_SingleObserver_getUserToEnterExistingPasswordWithCB(),
       isForChangePassword,
@@ -972,7 +970,7 @@ class PasswordController_Base extends EventEmitter {
       //
       const jsonString = JSON.stringify(persistableDocument)
       self.context.persister.InsertDocument(
-        CollectionName,
+        "PasswordMeta",
         _id,
         persistableDocument,
         function (err) {
@@ -989,7 +987,7 @@ class PasswordController_Base extends EventEmitter {
     }
     function _proceedTo_updateExistingDocument (persistableDocument) {
       self.context.persister.UpdateDocumentWithId(
-        CollectionName,
+        "PasswordMeta",
         self._id,
         persistableDocument,
         function (err) {
@@ -1075,7 +1073,7 @@ class PasswordController_Base extends EventEmitter {
         // 		//
         // 		// then delete pw record - after registrants in case any of them fail and user still needs to be able to delete some of them on next boot
         // 		self.context.persister.RemoveAllDocuments(
-        // 			CollectionName,
+        // 			"PasswordMeta",
         // 			function(err)
         // 			{
         // 				if (err) {

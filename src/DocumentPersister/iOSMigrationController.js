@@ -1,15 +1,17 @@
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-import { thisFork_minMixin } from '@mymonero/mymonero-sendfunds-utils';
 import symmetric_string_cryptor from '../symmetric_cryptor/symmetric_string_cryptor'
 import persistable_object_utils from "./persistable_object_utils"
 // KB: I opted for static methods since I don't want to instantialize yet another bloaty controller and attach it to context
 class iOSMigrationController {
-
-
-
-    constructor(context) {
+    /**
+     * Create an instance of this controller
+     * @constructor
+     * @param {object} context  - Instance of MyMonero's context object
+     */
+    constructor(context, debug = false) {
         this.context = context;
         // The debug data is handy for testing in browser rather than in a simulated device
+        // this.debugData mimics the data returned by this.getFileData
         this.debugData = {
             "PasswordMeta__FF4696EB-481B-43AA-BB78-FB9D2B6A0ABC.mmdbdoc_v1": {"passwordType":"PIN","messageAsEncryptedDataForUnlockChallenge_base64String":"AwFoc208pB4+GNvW6LyClf1nT3lsmsXLsF56VEVgvsjgbBkp8WG+brVtIxmZs7L9B6k5VN+34nvnHG2hKJjxt7uIXh4Uyx2NqaC7DKx7DCTxAH6GtCSfQV\/JBQVeWguuC0kCxKV+qSOhL0py0H2cgasPOV9J+GcPZWG3e01hRU1VUga6UsEeD0PsBjyYmHhmbifiOEZTo9abOp33zKMKzsdT5sFp5c8Ib1qaE\/f1M90Gw+8ue+CCS95dq2cyRbyK+Is=","_id":"FF4696EB-481B-43AA-BB78-FB9D2B6A0ABC"},
             "Contacts__ACA90CE8-AF6F-46FD-BC7E-F5F16424D929.mmdbdoc_v1": "AwFqaLt5tLbTmuFEZ8DgpisdxDvkFoAgAtJsHemZUAGEOu4OHCFijaCCbBB6kI/z1B/C0X3p75mGuEFNf825P2xC7n7oTOHNKs4BCEC0JBcc7RhKGvFBsbJmz5hzd/l/fQwB45W8Yh4xJDcm2DbhZWggx5Pn/qyYDL48eupZeeYC6jACsW0Zq+GUGORX4YNpnRpexDMnX+uWaX/0OTD10/FzG0F5cvaL3vRL6ksWFGghQqfq9fWMwUw/stnqsWkFhVVdLPG5bywZnfdnz/gVsdVfiXdVbKrY5VwPXPUEp1Kz8+TyYhfaEulwFkZvx36n5zsC4rlgnUPc1YEnujuDTMG94nGUvrkKz/bhUe7t+btUBI6dCJQTkPl+B3vgk5pj0Ome6kE041q4j2UMCag05a7TnNnmTpoUPbP5rQm6rkAWLw==",
@@ -17,77 +19,96 @@ class iOSMigrationController {
             "Wallets__8D662269-DE5A-491C-BC69-3DE43E23805C.mmdbdoc_v1": "AwHVuFxnFJJipUfyAdjAhsRCzUVAK47nwi6LtdCDhb64fHi3wCULl8BsRt1vF2eB7qivEUfMlyrC3NqeMjPF010ZgkAnXNyGrM9KY5hBfSHDaQikc+2gSmzSvz58u6io7DaVhbgDMzIwFKTxE+CjtMsJxjX1xrs1cjaEZPsL9ihE11TdOichwTlQjI1BobzUdQCKa5G8PtXVzPEr0UsR1n9Tjz3t3KLVV1kxf3/R4/4RfO56pOY0fxAdRqVPJBYuDKJTxuE39A+eNJnxk+YL2WrF5VMEQJXNl+vr8/8f7TZ+JJv1vB1eu3YK0VLEOohZtzZffRVjrVvnP87+Q27lyvon8RbMANfz4XwiZy86i/K6KiikJhGIvYE9qp6K9mxNXnaQdm/C66eyfjDdxFlUevOWJAnqnLgTz9TNs/kgAV4//9NS1LmIDUiU5Re1g+nL926cpwYtisdawz8UnVndq2+uw0XmoTFZecEQlaOAta8XTgoxAjh7JGi0R/slu8anCzLE3D5c8ee7TZG0MWDpvq4tlRTJyv38Sons3e68ILDTYvgzjXHWhQU0fxrciBn8+H2wQI+oxrGQOSKnyujHwtlNUXz66VcjDN0xV7g7kbt1FBuZKiriexbIh7yE+MQcl+G8GOB/B03qnqweNWY/V4L0FBagfxbj11zOAveS6T0Fks5PieSAkkdcY3tzxMvZvJixd+1Ot/MjSMGXGSabU4wgjsxKY4jYyud8Nhn7TEMGAximtHPhaRypwn3KNSE0eOL6ECxrBYbsIDYDVOvaPyD5aB4dTs8Y5+mAu0IxmKO3eegybLGQDsVfbTn6rF15DY2CDgQWxJ63LICwlwmCL0aBvMUVT9ozOIAbNJ+VEg+w8KMHjvcHDX506ushZyZSu0fNDZ9FZap+n5GO6sUSUJzyttp+Rx/Htg5U7W9BMI1Kj7NR6Km2qaU328NyUdd0JvN5VMMipVuE+qsaUf1ORnGsBTrYcZmj7k8n+rAfjOTsrdyCGAEN/DWUV9Q2K5vcq0Od0cDqShwBNXkgrKuXWVG1bI6KH7jT2HO523NIHaKDmhEsAt5oyIek1wScGW2Xow0UA4w4Qmo7xvlLBLOwZLyIabITTNy8z3gTp5Nt/v7sEYv/SPVwoqp91VHTh9deOmdw4PJH2F81aip9v/NL1o1jq/w1Z5QF3h24Sh9O2QoAYp5RpEFmZF1yapPOI2nXRI33toItqg6CyhW+sEH8SN9/+wNRyIJnXTKT5Tk5Qs5P59ylu1GgHiGCQb0SVYORN9wV6BBCevPbSUrb/h6pTSBz/C4xBb/0zBmfwRO/7QPeQJ3acrVfL54r2gp97/4b0QYgAOuraei/7ncnmjmE8pnsxk1HpAjRfQaHa2gmuvG1iZcwPpCAikxcm72ha+6wUOObV/a+mnQMCPBX+DbZVKtf0uON78WhxjK4+H0j+kBaDmgtFI3CkVgt/uumPFSGR784shxXZnQpanqRW8dyNPg63B5wO7FpB3oH35wT3pPZmbXGpqscEJ7cH3jypbFJyq6AImF73osvso9+keNMZnGOvjWdI49K3p5OUGylWL6uPfTKovtKIHvCCjlVrBzqARAFMaCMASI5S0wD/vbZzt5P8a7eGNBU2ei+qPbPqPfUIB2ejhLmRXUIGQjjtd9qKxJWB4TNJu6xcbeniFCrquuIswCAPIa1WjFdKX48WiRo9mt19IbNOWXMToaPYIIwbfk="            
         }
         // this.migrationFileData = {}
-        this.migrationFileData = this.debugData;
-        this.getMigrationFiles();
-        
-        console.log(this)
-        console.log(this.debugData);
-        //this.migrationFiles = {}
+        this.debug = true
+        this.migrationFileData = this.debugData
+        this.getMigrationFiles()
         this.performMigration = this.performMigration
-        this.previouslyMigrated = this.getMigratedSuccessfully();
+        this.hasPreviouslyMigrated = this.hasPreviouslyMigrated();
     }
 
+
+    /**
+    * Get debug data (mainly used for testing on web)
+    * 
+    * @desc - Write down a description for your function
+    * @param - N/A
+    * @returns - An object that mimics the key-value pairs getMigrationFiles() returns 
+    * @throws - N/A
+    */
     getDebugData() {
-        console.log("Giving debug data");
+        console.log("Returning debug data");
         return this.debugData
     }
     
-    // takes the user's password, and a fileData object. Invoked once per object when password is entered correctly
-    // see 
+    // 
+    /**
+    * Main function for inserting data into Capacitor's secure storage
+    * Takes the user's password, and a fileData object. Invoked once per object when password is entered correctly
+    * 
+    * @desc - Write down a description for your function
+    * @param - {String}     password    A user-entered password that can decrypt the data in fileData
+    * @param - {Object}     fileData    
+    * @returns - A string indicating the outcome of inserting 
+    * @throws - {Error}     err - standard JS error
+    */
     migrateDataObject(password, fileData) {
         const self = this;
         var persister = self.context.persister;
         return new Promise((resolve, reject) => {
             try {
-                // decode file
+                // For the purpose of importation, we should exclude any files that are not decryptable
                 if (fileData.name == "PutYourOldMyMoneroDataInHere.txt" || fileData.name.indexOf("PasswordMeta") !== -1) {
                     resolve("Non-decryptable");
                 }
-                console.log(`decrypting: `);
-                console.log(fileData);
+                // console.log(`decrypting: `);
+                // console.log(fileData);
                 let dataToDecrypt = fileData.data;
                 symmetric_string_cryptor.New_DecryptedString__Async(dataToDecrypt, password, (err, decryptedMessage) => {
                     if (err) {
                         console.error(err)
                         reject(err)
                     }
-                    let collectionName = fileData.name.substr(0, fileData.name.indexOf("__"));
-                    let idOffset = fileData.name.indexOf('__')
+                    let collectionName = fileData.name.substr(0, fileData.name.indexOf("__")); // Get the type of collection
+                    let idOffset = fileData.name.indexOf('__') // Determine 
                     idOffset--;
-                    // derive ID.mmdbdoc_v1
-                    let idString = fileData.name.substr(collectionName.length + 2)
-                    idString = idString.substr(0, idString.indexOf("."))
+                    
+                    let idString = fileData.name.substr(collectionName.length + 2) // derive the ID only
+                    idString = idString.substr(0, idString.indexOf(".")) // Remove the file extension
 
-                    let plaintextDocument = JSON.parse(decryptedMessage);
+                    let plaintextDocument = JSON.parse(decryptedMessage); // Parse decrypted message into JSON
                     
+                    /**
+                     * Once the write is returned, writeCallback is invoked
+                     */
                     let writeCallback = function(err) {
-                        // This arb function exists because persistable_object_utils requires a callback function
-                        // We don't need to do anything here
-                        resolve("Test");
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve("Success")
+                        }                        
                     }
-                    // console.log("Attempt to write");
-                    // console.log("persister:"); console.log(persister);
-                    // console.log("persistableObject:"); console.log(testObj);
-                    // console.log("CollectionName:"); console.log(collectionName);
-                    // console.log("plaintextDocument:"); console.log(plaintextDocument);
-                    // console.log("persistencePassword:"); console.log(password);
-                    
-                    
-                    // migrateFromIOS is optional, and set to false by default. It's used by wallet persistence to know when to modify variable names
-                    let migrateFromIOS = true;
-                    // persistable object utils requires a different "test" object for... legacy reasons...?
-                    let testObj = JSON.parse(decryptedMessage);
+                    // migrateFromIOS is optional in other classes, and set to false by default. It's used by wallet persistence to know when to modify variable names
+                    let migrateFromIOS = true; // This is required in order for persistence to be leveraged, 
+                    let testObj = JSON.parse(decryptedMessage); // persistable object utils requires a different "test" object for... legacy reasons...?
                     persistable_object_utils.write(persister, testObj, collectionName, plaintextDocument, password, writeCallback, migrateFromIOS)
 
                     
                 })       
-                // write file         
-            } catch (e) {
-                reject(e);
+            } catch (err) {
+                console.error(err);
+                reject(err);
             }
         })
     }
 
+    /**
+    * A utility function that determines if the files we're attempting to migrate are decryptable and valid JSON
+    * 
+    * @desc - Write down a description for your function
+    * @param - {String}     password    A user-entered password that can decrypt the data in fileData
+    * @returns - {Promise}  true if all files are safe 
+    * @throws - {Error}     err - standard JS error
+    */
     performMigration(password) {
         return new Promise((resolve, reject) => {
             try {
@@ -107,6 +128,14 @@ class iOSMigrationController {
         })    
     }
 
+    /**
+    * A utility function that determines if the file we're attempting to migrate is decryptable and is valid JSON
+    * 
+    * @desc - Write down a description for your function
+    * @param - {String}     password    A user-entered password that can decrypt the data in fileData
+    * @returns - {Promise}  true if all files are safe 
+    * @throws - {Error}     err - standard JS error
+    */
     isValidJSONFile(password, fileObj) {
         return new Promise((resolve, reject) => {
             if (fileObj.name.indexOf("PasswordMeta") >= 0 || fileObj.name.indexOf("Settings") >= 0) {
@@ -128,14 +157,14 @@ class iOSMigrationController {
         })
     }
 
-    // decryptFileData(password) {
-    //     return new Promise((resolve, reject) => {
-    //         for (let fileName in this.migrationFileData) {
-    //             this.migrationFileData[filename].data =
-    //         }
-    //     })
-    // }
-
+    /**
+    * Validate all files in this.migrationFileData
+    * 
+    * @desc - Write down a description for your function
+    * @param - {String}     password    A user-entered password that can decrypt the data in fileData
+    * @returns - {Promise}  true if all files are safe 
+    * @throws - {Error}     err - standard JS error
+    */
     validateFileData(password) {
         return new Promise((resolve, reject) => {
             console.log("validate file data invoked with password:" + password);
@@ -159,24 +188,103 @@ class iOSMigrationController {
               });
         })
     }
-
-    async getMigratedSuccessfully() {
-        const self = this
-        
-        function migrationCheckCallback(err, result) {
-            
-            console.log(err);
-            console.log(`err: ${err}`)
-            console.log(`result: ${result}`)
-            if (result.length > 0) {
-                return true;
+    
+    /**
+    * We don't really rename files, we attempt a copy before deleting the original if copy succeeds
+    * !!! Not confirmed working
+    * @desc - Write down a description for your function
+    * @param - {String}     password    A user-entered password that can decrypt the data in fileData
+    * @returns - {Promise}  true if all files are safe 
+    * @throws - {Error}     err - standard JS error
+    */
+   renameFile(fileObj) {
+        return new Promise((resolve, reject) => {            
+            const newName = `${fileObj.name}.old`
+            try {
+                const copy = async () => {
+                    await Filesystem.copyFile({
+                        from: fileObj.name,
+                        to: newName,
+                        directory: Directory.Documents,
+                        toDirectory: Directory.Documents
+                    }).then(async () => {
+                        await Filesystem.deleteFile({
+                            path: fileObj.name,
+                            directory: Directory.Documents
+                        })
+                    })
+                }
+                resolve(true)
+            } catch (error) {
+                console.error(error);
+                reject(error)
             }
-            return false;
-            self.didMigratePreviously = true;
-            return result;
-        }
+                        
+            Promise.all(isValidPromiseArr).then((values) => {
+                    resolve(true);
+                }).catch(error => {
+                    reject(error);
+                });
 
-        let migrationPreviouslyPerformed = this.context.persister.IdsOfAllDocuments("migratedOldIOSApp", migrationCheckCallback)
+            })
+    }
+
+    
+    /**
+    * Rename all files in this.migrationFileData
+    * !!! Not confirmed working
+    * @desc - Write down a description for your function
+    * @param - {String}     password    A user-entered password that can decrypt the data in fileData
+    * @returns - {Promise}  true if all files are safe 
+    * @throws - {Error}     err - standard JS error
+    */
+    renameAllMigratedFiles() {
+        return new Promise((resolve, reject) => {
+            console.log("renaming file data");
+            var renamePromiseArr = [];
+            var i;
+            for (let fileName in this.migrationFileData) {
+            let fileObj = {
+                name: fileName,
+                data: this.migrationFileData[fileName]
+            }
+            renamePromiseArr.push(this.renameFile(fileObj))
+            //i++;
+            Promise.all(isValidPromiseArr).then((values) => {
+                    resolve(true);
+                }).catch(error => {
+                    reject(error);
+                });
+
+            }
+        })
+    }
+
+    /**
+    * TODO: Get this working properly
+    * @desc - Determine if we have previously migrated, to safeguard against future attempts.
+    * @returns - {Promise}  true if previous migration has occurred, false otherwise
+    * @throws - {Error}     err - standard JS error
+    */
+    async hasPreviouslyMigrated() {
+        const self = this
+        return new Promise((resolve, reject) => {
+            function migrationCheckCallback(err, result) {
+            
+                console.log(err);
+                console.log(`err: ${err}`)
+                console.log(`result: ${result}`)
+                if (result.length > 0) {
+                    resolve(true);
+                }
+                resolve(false);
+                self.didMigratePreviously = true;
+                return result;
+            }
+    
+            let migrationPreviouslyPerformed = this.context.persister.IdsOfAllDocuments("migratedOldIOSApp", migrationCheckCallback)
+        })
+        
         // let hasMigrated = this.context.persister.IdsOfAllDocuments("migratedOldIOSApp", (result) => {
         //     console.log(result);
         //     console.log(hasMigrated);
@@ -185,17 +293,31 @@ class iOSMigrationController {
         // console.log(hasMigrated);
     }
 
+    /**
+    * TODO: Currently, the reload happens in order to allow us to ensure user data is "hydrated" correctly
+    * Rather than reload the app, it would be better if we could initialise all the wallets, contacts, etc
+    * @desc - Save a flag denoting that we have previously migrated.
+    * @returns - {Promise}  true if previous migration has occurred, false otherwise
+    * @throws - {Error}     err - standard JS error
+    */
     async setMigratedSuccessfully() {
         console.log(`setMigratedSuccessfully invoked`)
         this.context.persister.InsertDocument("migratedOldIOSApp", "migratedOldIOSApp", "Great success!", () => {
             console.log("Aaaaaaand we're done");
-            console.log("MyMonero needs to reload to complete importation of your data");
+            alert("MyMonero needs to reload to complete importation of your data");
             setTimeout(() => {
                 location.reload();
             }, 2000)
         })
     }
 
+    /**
+    * Used to create a promise array comprised of each file being passed as a parameter to this.migrateDataObject
+    * 
+    * @desc - invokes migrateDataObject on every file
+    * @returns - {Promise} 
+    * @throws - {Error}     err - standard JS error
+    */
     migrateAllData(password) {
         const self = this;
         return new Promise((resolve, reject) => {
@@ -218,19 +340,6 @@ class iOSMigrationController {
             Promise.all(migrationPromiseArr).then((values) => {
                 console.log("migalldata ran successfully");
                 let result = self.setMigratedSuccessfully();
-            //   try {
-            //     self.enterPasswordAndType_cb(
-            //       didCancel,
-            //       password_orNil,
-            //       passwordType_orNil
-            //     )
-            //   } catch (error) {
-            //     console.log("We're dealing with a PIN");
-            //     self.enterPassword_cb(
-            //       didCancel,
-            //       password_orNil
-            //     )  
-            //   }
                 resolve(true)
             }).catch(error => {
                 console.log("migalldata failed");
@@ -240,7 +349,13 @@ class iOSMigrationController {
         })
     }
 
-    // Used during debug to create a file that can be grepped - so we can isolate the container we need to copy old files into
+    /**
+    * Used during debug to create a file that can be grepped - so we can isolate the container we need to copy old files into
+    * 
+    * @desc - writes a file to iOS app folder
+    * @returns - {void} 
+    * @throws - {Error}     err - standard JS error
+    */
     static async touchFile() {
         const writeSecretFile = async () => {
             await Filesystem.writeFile({
@@ -253,46 +368,65 @@ class iOSMigrationController {
         let write = writeSecretFile();
     }
 
+    /**
+    * @desc - Getter for {migrationFileData}
+    * @returns - {Object}  An array of all valid decryptable files
+    * @throws - {Error}     err - standard JS error
+    */
     get _migrationFileData() {
         return this.migrationFileData
     }
 
+    /**
+    * @desc - Setter for {migrationFileData}
+    * @throws - {Error}     err - standard JS error
+    */
     set _migrationFileData(fileData) {
         this.migrationFileData = fileData;
     }
-
+    /**
+    * @desc - Retrieve all files with the extension "mmdbdoc_v1".
+    * @returns - {Array}  An array of all valid decryptable files
+    * @throws - {Error}     err - standard JS error
+    */
     async getMigrationFiles() {
         console.log("Getting MF");
-        // This function returns a list of files we can migrate. Files without mmdbdoc_v1 are automatically excluded
+        if (this.debug) {
+            console.warn("Currently in debug mode")
+            return this.getDebugData()
+        }
+        // Files without mmdbdoc_v1 are automatically excluded
         let readDirOptions = { path: "", directory: Directory.Documents }
         let fileList = await Filesystem.readdir(readDirOptions);
         let mmdbdocsPresent = false;
         let legacyFiles = [];
 
-        for (let i = 0; i < fileList.files.length; i++) {
-            if (fileList.files[i].indexOf('mmdbdoc_v1') !== -1) {
-                if (fileList.files[i].indexOf("PasswordMeta") !== -1 || fileData.name.indexOf("Settings") !== -1) {
-                    mmdbdocsPresent = true;
-                    legacyFiles.push(fileList.files[i]);
+        try {
+            for (let i = 0; i < fileList.files.length; i++) {
+                if (fileList.files[i].indexOf('mmdbdoc_v1') !== -1) {
+                    if (fileList.files[i].indexOf("PasswordMeta") !== -1 || fileData.name.indexOf("Settings") !== -1) {
+                        mmdbdocsPresent = true;
+                        legacyFiles.push(fileList.files[i]);
+                    }
                 }
             }
+        } catch (error) {
+            console.error(error);
+            throw error;
         }
 
         if (mmdbdocsPresent) {
             this.migrationFileList = legacyFiles;
             console.log(this.migrationFileList);
-            // let fileData = await this.getFileData(legacyFiles);
             console.log(legacyFiles);
             return legacyFiles;
-            this.migrationFileData = fileData;
-            console.log(this);
         }
 
         // return mmdbdocsPresent;
     }
 
     // Reads the contents of each file in the file array, and returns an object containing fileData objects
-    static async getFileData(fileArray) {
+    async getFileData(fileArray) {
         let fileData = {};
         fileArray.forEach(async (value, index) => {
             let options = {
@@ -303,7 +437,6 @@ class iOSMigrationController {
             let data = await Filesystem.readFile(options)
             fileData[value] = data;
         })
-        console.log(fileData);
         return fileData;
     }
 

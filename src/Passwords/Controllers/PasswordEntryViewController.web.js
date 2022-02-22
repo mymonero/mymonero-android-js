@@ -104,6 +104,7 @@ class PasswordEntryViewController extends EventEmitter {
     controller.on(
       controller.EventName_SingleObserver_getUserToEnterNewPasswordAndTypeWithCB(),
       function (isForChangePassword, enterPasswordAndType_cb) {
+        console.log("enternewpass")
         if (self.view === null || typeof self.view === 'undefined') {
           self.view = self._new_passwordEntryView()
         }
@@ -120,6 +121,7 @@ class PasswordEntryViewController extends EventEmitter {
     controller.on(
       controller.EventName_SingleObserver_getUserToEnterExistingPasswordWithCB(),
       function (isForChangePassword, isForAuthorizingAppActionOnly, customNavigationBarTitle_orNull, enterPassword_cb) {
+        console.log("enterexistingpass")
         const existingPasswordType = self.passwordController.userSelectedTypeOfPassword
         if (typeof existingPasswordType === 'undefined' || existingPasswordType === null || existingPasswordType.length == 0) {
           // existingPasswordType = self.passwordController.AvailableUserSelectableTypesOfPassword().FreeformStringPW // graceful fallback..? since freeform str is superset of numer. pin
@@ -147,6 +149,7 @@ class PasswordEntryViewController extends EventEmitter {
     controller.on(
       controller.EventName_SingleObserver_getUserToEnterNewPasswordAndTypeWithCB(),
       function (isForChangePassword, enterPasswordAndType_cb) {
+        console.log("!!!!!!!!!!!!!!!!!!!!");
         if (self.view === null || typeof self.view === 'undefined') {
           self.view = self._new_passwordEntryView()
         }

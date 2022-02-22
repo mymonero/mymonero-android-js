@@ -287,7 +287,6 @@ class PasswordEntryView extends StackAndModalNavigationView {
   //
   _configureWithMode (shouldAnimate, customNavigationBarTitle_orNull) {
     const self = this
-    console.log("Da fuq");
     if (typeof shouldAnimate === 'undefined') {
       shouldAnimate = false
     }
@@ -306,7 +305,6 @@ class PasswordEntryView extends StackAndModalNavigationView {
         console.log("In passwordentryview: context obj flag for migration exists");
         self.passwordEntryTaskMode = passwordEntryTaskModes.ForMigratingFromOldIOSVersion
       } 
-      console.log("Passed?");
       switch (self.passwordEntryTaskMode) {
         case passwordEntryTaskModes.ForUnlockingApp_ExistingPasswordGivenType:
         case passwordEntryTaskModes.ForChangingPassword_ExistingPasswordGivenType:

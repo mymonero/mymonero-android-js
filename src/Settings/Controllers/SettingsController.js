@@ -90,10 +90,11 @@ class SettingsController extends EventEmitter {
         didMigratePreviously = true;
       }
 
-      let migrationPreviouslyPerformed = self.context.persister.IdsOfAllDocuments("migratedSuccessfully", migrationCheckCallback)
+      let migrationPreviouslyPerformed = self.context.persister.AllDocuments("migratedSuccessfully", migrationCheckCallback)
       console.log(migrationPreviouslyPerformed);
 
       console.log("migrated previouslY?");
+      console.log(iosMigrationController);
       //console.log(digMigratePreviously);
       if (migrationPreviouslyPerformed !== true) {
         // Check if previously migrated. If no, we may need to migrate from the old Swift proprietary file format to the new SecureStorage persistence
