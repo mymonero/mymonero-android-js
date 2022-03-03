@@ -61,47 +61,42 @@ class SettingsController extends EventEmitter {
     // TODO: Remove web
     // debug: if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
     if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
-      self.context.shouldDisplayExistingPinScreenForMigration = true;
-      //iosMigrationController.touchFile(); // For debugging if you're not sure which folder your simulator is running in
       let iosMigrationController = new iOSMigrationController(self.context);
+      let hasPreviouslyMigrated = await iosMigrationController.hasPreviouslyMigrated;
+      self.context.shouldDisplayExistingPinScreenForMigration = !hasPreviouslyMigrated;
+      // iosMigrationController.touchFile(); // For debugging if you're not sure which folder your simulator is running in
       self.context.iosMigrationController = iosMigrationController;
-      let didMigratePreviously = false;
       self.context.migrationFileData = iosMigrationController.getDebugData();
-      try {        
-        let getDebugData = iosMigrationController.getDebugData();
-        for (let key in getDebugData) {
-          // console.log(key);
-          // console.log(getDebugData[key]);
-          let fileData = {
-            name: key,
-            data: getDebugData[key]
-          }
-          // console.log(fileData);
-          //let result = iosMigrationController.migrateDataObject("111111", fileData);
-        }
-      } catch (error) {
-        console.log(error);
-        console.log("errored in settings controller");
-      }
+      // try {        
+      //   let getDebugData = iosMigrationController.getDebugData();
+      //   for (let key in getDebugData) {
+      //     // console.log(key);
+      //     // console.log(getDebugData[key]);
+      //     let fileData = {
+      //       name: key,
+      //       data: getDebugData[key]
+      //     }
+      //     // console.log(fileData);
+      //     //let result = iosMigrationController.migrateDataObject("111111", fileData);
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      //   console.log("errored in settings controller");
+      // }
       // While I'm not a fan of putting this here, it's faster and cleaner than the nested callback hell that we used to use
-      function migrationCheckCallback(err, result) {
-        // console.log(`err: ${err}`)
-        // console.log(`result: ${result}`)
-        didMigratePreviously = true;
-      }
+      // function migrationCheckCallback(err, result) {
+      //   // console.log(`err: ${err}`)
+      //   // console.log(`result: ${result}`)
+        
+      // }
 
-      let migrationPreviouslyPerformed = self.context.persister.AllDocuments("migratedSuccessfully", migrationCheckCallback)
-      console.log(migrationPreviouslyPerformed);
+      let migrationPreviouslyPerformed = hasPreviouslyMigrated
+      
 
       console.log("migrated previouslY?");
-      console.log(iosMigrationController);
-      //console.log(digMigratePreviously);
-      if (migrationPreviouslyPerformed !== true) {
+      if (hasPreviouslyMigrated !== true) {
         // Check if previously migrated. If no, we may need to migrate from the old Swift proprietary file format to the new SecureStorage persistence
-        let migrationFiles = await iosMigrationController.getMigrationFiles();
-        console.log(migrationFiles);
-        console.log("The value of migrationFiles is false when no files are found")
-        
+        let migrationFiles = await iosMigrationController.getMigrationFiles();        
         // if (migrationFiles !== false) {
         //   console.log("Since this didn't return false, we set a context variable to denote that we should display the existing password screen")
         //   self.context.shouldDisplayExistingPinScreenForMigration = true;
@@ -119,7 +114,7 @@ class SettingsController extends EventEmitter {
     
     //
     // first, check if any password model has been stored
-    console.log("Storage type: " + CollectionName);
+    
     self.context.persister.AllDocuments(
       CollectionName,
       function (err, contentStrings) {
@@ -128,8 +123,7 @@ class SettingsController extends EventEmitter {
 
           throw err
         }
-        console.log("About to load settings");
-        console.log(contentStrings);
+
         const contentStrings_length = contentStrings.length
         if (contentStrings_length === 0) { //
           console.log("Looks like we have no settings");
@@ -139,7 +133,6 @@ class SettingsController extends EventEmitter {
         }
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (contentStrings_length > 1) {
-          console.log("Looks like we have settings2");
           // Version 1.1.19 and below had an issue where multiple settings objects were saved.
           // Version 1.1.20 and up will loop through this state. We'll suppress the warning Android users who have changed their default settings will encounter
           const errStr = 'Error while fetching existing ' + CollectionName + '... more than one record found. Selecting first.'

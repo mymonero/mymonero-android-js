@@ -26,7 +26,6 @@ class iOSMigrationController {
         this.hasPreviouslyMigrated = this.hasPreviouslyMigrated();
     }
 
-
     /**
     * Get debug data (mainly used for testing on web)
     * 
@@ -104,29 +103,36 @@ class iOSMigrationController {
     /**
     * A utility function that determines if the files we're attempting to migrate are decryptable and valid JSON
     * 
-    * @desc - Write down a description for your function
+    * @desc -   A utility function that manages the migration process. 
+    *           It determines if the files we're attempting to migrate are decryptable and valid JSON, then saves them
     * @param - {String}     password    A user-entered password that can decrypt the data in fileData
     * @returns - {Promise}  true if all files are safe 
     * @throws - {Error}     err - standard JS error
     */
-    performMigration(password) {
+    async performMigration(password) {
         return new Promise((resolve, reject) => {
-            try {
-                let safeToMigrate = this.validateFileData(password).then(safeToMigrate => {
-                    if (safeToMigrate === true) {
-                        try {
-                            this.migrateAllData(password)
-                            resolve(true);
-                        } catch (e) {
-                            reject(e);
-                        }
-                    }
-                });
-            } catch (error) {
-                reject(error);
-            }
-        })    
-    }
+            if (this.hasPreviouslyMigrated !== true) {
+                try {
+                        let safeToMigrate = this.validateFileData(password).then(safeToMigrate => {
+                            if (safeToMigrate === true) {
+                                try {
+                                    this.migrateAllData(password)
+                                    resolve(true);
+                                } catch (e) {
+                                    reject(e);
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        reject(error);
+                    }    
+            } else {
+                let error = "Previously migrated";
+                reject(error)
+             
+            }   
+        })
+    }    
 
     /**
     * A utility function that determines if the file we're attempting to migrate is decryptable and is valid JSON
@@ -304,10 +310,7 @@ class iOSMigrationController {
         console.log(`setMigratedSuccessfully invoked`)
         this.context.persister.InsertDocument("migratedOldIOSApp", "migratedOldIOSApp", "Great success!", () => {
             console.log("Aaaaaaand we're done");
-            alert("MyMonero needs to reload to complete importation of your data");
-            setTimeout(() => {
-                location.reload();
-            }, 2000)
+            alert("MyMonero has imported your existing information");
         })
     }
 

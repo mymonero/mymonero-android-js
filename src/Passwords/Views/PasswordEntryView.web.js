@@ -248,12 +248,14 @@ class PasswordEntryView extends StackAndModalNavigationView {
       self.enterPasswordAndType_cb = null
     }
     const animate = optl_isAnimated !== false // default true
-    self.modalParentView.DismissTopModalView(
-      animate,
-      function () {
-        self.emit(self.EventName_didDismissView())
-      }
-    )
+    if (self.modalParentView !== null) {
+      self.modalParentView.DismissTopModalView(
+        animate,
+        function () {
+          self.emit(self.EventName_didDismissView())
+        }
+      )
+    }
   }
 
   //

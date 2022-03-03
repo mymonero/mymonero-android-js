@@ -96,7 +96,7 @@ class ListBaseController extends EventEmitter {
         }
         console.log(self.context.iosMigrationController);
         // Workaround for checking if we need to migrate -- migrationData only set if migration necessary
-        if (ids.length === 0 && typeof self.context.migrationFileData === 'undefined') { // do not cause the pw to be requested yet
+        if (ids.length === 0 && typeof self.context.iosMigrationController === 'undefined') { // do not cause the pw to be requested yet
           self._setup_didBoot()
           // and we don't want/need to emit that the list updated here
           return
@@ -348,8 +348,6 @@ class ListBaseController extends EventEmitter {
     self.context.persister.IdsOfAllDocuments(
       self.override_CollectionName(),
       function (err, ids) {
-        // console.log("ListBaseController: _new_idsOfPersistedRecords invoked");
-        // console.log(ids);
         if (err) {
           console.error(err)
           fn(err)
