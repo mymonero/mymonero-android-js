@@ -398,7 +398,7 @@ class PasswordEntryView extends StackAndModalNavigationView {
     }
     let passwordType = self.passwordTypeChosenWithPasswordIfNewPassword_orUndefined(password)
     // Ensuring that, if needed, we have a password type that corresponds to the migration process
-    if (self.context.migrationFileData !== 'undefined') {
+    if (self.context.migrationFileData !== 'undefined' && self.context.iosMigrationController.migrationFilesExist) {
       console.log("Override the password for the sake of this one-time migration");
       passwordType = "FreeformStringPW"
     }

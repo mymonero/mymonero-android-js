@@ -89,14 +89,22 @@ class ListBaseController extends EventEmitter {
     const self = this
     self.records = [] // going to zero this from the start
     self._new_idsOfPersistedRecords( // now first want to check if we really want to trigger showing the PW entry screen yet (not part of onboarding til user initiates!)
-      function (err, ids) {
+      async function (err, ids) {
         if (err) {
           self._setup_didFailToBootWithError(err)
           return
         }
-        console.log(self.context.iosMigrationController);
+        let hasMigratableFiles = await self.context.iosMigrationController.hasMigratableFiles
+        let hasPreviouslyMigrated = await self.context.iosMigrationController.hasPreviouslyMigrated
+        let migrationPossible;
+        if (hasMigratableFiles && !hasPreviouslyMigrated) {
+          migrationPossible = true
+        } else {
+          migrationPossible = false
+        }
+
         // Workaround for checking if we need to migrate -- migrationData only set if migration necessary
-        if (ids.length === 0 && typeof self.context.iosMigrationController === 'undefined') { // do not cause the pw to be requested yet
+        if (ids.length === 0 && migrationPossible !== true) { // do not cause the pw to be requested yet
           self._setup_didBoot()
           // and we don't want/need to emit that the list updated here
           return

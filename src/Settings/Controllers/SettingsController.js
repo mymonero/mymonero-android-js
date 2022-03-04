@@ -61,12 +61,12 @@ class SettingsController extends EventEmitter {
     // TODO: Remove web
     // debug: if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
     if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
-      let iosMigrationController = new iOSMigrationController(self.context);
+      let iosMigrationController = new iOSMigrationController(self.context, true);
       let hasPreviouslyMigrated = await iosMigrationController.hasPreviouslyMigrated;
       self.context.shouldDisplayExistingPinScreenForMigration = !hasPreviouslyMigrated;
       // iosMigrationController.touchFile(); // For debugging if you're not sure which folder your simulator is running in
       self.context.iosMigrationController = iosMigrationController;
-      self.context.migrationFileData = iosMigrationController.getDebugData();
+      let migrationFileData = await iosMigrationController.getMigrationFiles();
       // try {        
       //   let getDebugData = iosMigrationController.getDebugData();
       //   for (let key in getDebugData) {
@@ -94,7 +94,7 @@ class SettingsController extends EventEmitter {
       
 
       console.log("migrated previouslY?");
-      if (hasPreviouslyMigrated !== true) {
+      if (!(hasPreviouslyMigrated === true)) {
         // Check if previously migrated. If no, we may need to migrate from the old Swift proprietary file format to the new SecureStorage persistence
         let migrationFiles = await iosMigrationController.getMigrationFiles();        
         // if (migrationFiles !== false) {
@@ -410,7 +410,7 @@ class SettingsController extends EventEmitter {
               }
               self._id = _id // must save it back
               console.log('✅  Saved newly inserted ' + CollectionName + ' record with _id ' + self._id + '.')
-              console.log(jsonString)
+              //console.log(jsonString)
               fn()
             }
           )
