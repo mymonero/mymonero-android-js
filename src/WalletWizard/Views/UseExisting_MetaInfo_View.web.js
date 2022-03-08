@@ -483,7 +483,6 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo {
     {
       self.isDisabledFromSubmission = true
       self.context.userIdleInWindowController.TemporarilyDisable_userIdle()
-      console.log(window.plugins);
       // if (self.context.Cordova_isMobile === true) {
       //   window.plugins.insomnia.keepAwake() // disable screen dim/off
       // }
