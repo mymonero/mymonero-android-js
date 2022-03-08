@@ -54,39 +54,6 @@ class PasswordController_Base extends EventEmitter {
     self.context.persister.AllDocuments(
       "PasswordMeta",
       function (err, contentStrings) {
-        /* This next snippet from Settings
-
-				console.log("Settings: All Documents returned this: ")
-				console.log(contentStrings)
-				if (err) {
-					console.error("Error while fetching existing", "PasswordMeta", err)
-					throw err
-				}
-				const contentStrings_length = contentStrings.length
-				if (contentStrings_length === 0) { //
-					const mocked_doc = JSON.parse(JSON.stringify(k_defaults_record)) // hamfisted copy
-					_proceedTo_loadStateFromRecord(mocked_doc)
-					return
-				}
-				if (contentStrings_length > 1) {
-					const errStr = "Error while fetching existing " + "PasswordMeta" + "... more than one record found. Selecting first."
-					console.error(errStr)
-					// this is indicative of a code fault
-					throw errStr // might as well throw then
-				}
-				var doc = {};
-				const plaintextString = contentStrings[0] // NOTE: Settings is not presently encrypted
-				// if (typeof plaintextString !== Object) {
-				// 	const doc = JSON.parse(plaintextString);
-				// } else {
-				// 	const doc = plaintextString;
-				// }
-
-				console.log(contentStrings);
-				console.log(contentStrings[0]);
-				doc = JSON.parse(contentStrings[0].value);
-
-				*/
 
         if (err) {
           console.error('Error while fetching existing', "PasswordMeta", err)
@@ -404,7 +371,6 @@ class PasswordController_Base extends EventEmitter {
     const self = this
     self._executeWhenBooted(
       function () {
-        console.log("PCB Boot");
         if (self.HasUserEnteredValidPasswordYet() === true) {
           console.warn(self.constructor.name + ' asked to OnceBooted_GetNewPasswordAndTypeOrExistingPasswordFromUserAndEmitIt but already has password.')
           return // already got it
@@ -445,19 +411,9 @@ class PasswordController_Base extends EventEmitter {
               return // just silently exit after unguarding
             }
 
-            // console.log(self.encryptedMessageForUnlockChallenge)
-            // console.log(existingPassword)
-            //console.log(err)
-            // console.log(decryptedMessageForUnlockChallenge) 
             // If we are in the process of a migration, we need to run the decryptedstring__async call against data stored in memory
-
-            
             let decryptionCallback = async function(err, decryptedMessage) {
-              console.log("Done decryption");
-              console.log(decryptedMessage);
               if (decryptedMessage === plaintextMessageToSaveForUnlockChallenges) {
-                console.log(plaintextMessageToSaveForUnlockChallenges);
-                console.log("Decryption matches!");
                 try {
                   let doMigration = await self.context.iosMigrationController.performMigration(existingPassword);
                   let walletRecords = await self.context.persister.AllDocuments("Wallets", (err, data) => {                   
@@ -487,28 +443,12 @@ class PasswordController_Base extends EventEmitter {
               self.encryptedMessageForUnlockChallenge,
               existingPassword, 
               function(err, decryptedMessage) {
-                console.log("Done decryption");
-                console.log(decryptedMessage);
+                // console.log("Done decryption");
                 if (decryptedMessage === plaintextMessageToSaveForUnlockChallenges) {
                   // console.log("Decryption matches!");
+                  
                   let iosMigrationController = self.context.iosMigrationController // new iOSMigrationController(self.context)
-                  // let result = iosMigrationController.performMigration(existingPassword).then(result => {
-                  //   // if (result === true) {
-                  //   //   // We're now in a position to safely migrate
-                  //   //   console.log(`// We're now in a position to safely migrate`);
-                  //   //   let performMigration = iosMigrationController.migrateAllData(existingPassword).then(result => {
-                  //   //   console.log(result);
-                  //   //   }).catch(error => {
-                  //   //     throw error
-                  //   //   })
-                  //   // }
-                  //   console.log("If we're in here, iOSMigrationController has run without error")
-                  // }).catch(error => {
-                  //   throw error;
-                  // }).finally(() => {
-                  //   console.log("finally")
-                  // })
-                  //let migrate = iOSMigrationController.migrateAllData(self.context.migrationFileData);
+
                   self._didObtainPassword(existingPassword)
                   self.unguard_getNewOrExistingPassword()
                   self.emit(self.EventName_ObtainedCorrectExistingPassword())
@@ -521,37 +461,6 @@ class PasswordController_Base extends EventEmitter {
                   return
                 }
             });
-
-            
-
-            // symmetric_string_cryptor.New_DecryptedString__Async(
-            //   self.encryptedMessageForUnlockChallenge,
-            //   existingPassword,
-            //   function (err, decryptedMessageForUnlockChallenge) {
-            //     if (err) {
-            //       const errStr = self._new_incorrectPasswordValidationErrorMessageString()
-            //       const err_toReturn = new Error(errStr)
-            //       self.unguard_getNewOrExistingPassword()
-            //       self.emit(self.EventName_ErroredWhileGettingExistingPassword(), err_toReturn)
-            //       return
-            //     }
-            //     if (decryptedMessageForUnlockChallenge !== plaintextMessageToSaveForUnlockChallenges) {
-            //       const errStr = self._new_incorrectPasswordValidationErrorMessageString()
-            //       const err = new Error(errStr)
-            //       self.unguard_getNewOrExistingPassword()
-            //       self.emit(self.EventName_ErroredWhileGettingExistingPassword(), err)
-            //       return
-            //     }
-            //     //
-            //     // hang onto pw and set state
-            //     self._didObtainPassword(existingPassword)
-            //     //
-            //     // all done
-            //     self.unguard_getNewOrExistingPassword()
-            //     self.emit(self.EventName_ObtainedCorrectExistingPassword())
-            //   }
-            // )
-            // end NEW_DecryptedString
           }
 
           // This used to be callback hell, but we now pass a named function as the callback handler 
@@ -970,7 +879,7 @@ class PasswordController_Base extends EventEmitter {
 				  userSelectedTypeOfPassword: self.userSelectedTypeOfPassword,
 				  encryptedMessageForUnlockChallenge: self.encryptedMessageForUnlockChallenge
 				}
-				// console.log("modelObject" , modelObject)
+
 				// insert & update fn declarations for imminent usage…
         if (self._id === null || typeof self._id === 'undefined') {
           _proceedTo_insertNewDocument(persistableDocument, self.context)
@@ -1001,7 +910,6 @@ class PasswordController_Base extends EventEmitter {
             detail: persistableDocument
           })
           document.dispatchEvent(passwordMetaSaveEvent)
-           console.log("Stuff is happening in insertnewdocument");
           let migrationResult = await context.iosMigrationController.performMigration(context.passwordController.password)
           self._didObtainPassword(self.context.passwordController.password)
           self.unguard_getNewOrExistingPassword()
@@ -1061,7 +969,6 @@ class PasswordController_Base extends EventEmitter {
         console.error('deleteEverything callbackFn failed')
         throw 'PasswordController.InitiateDeleteEverything failed'
       }
-      console.log('callbackFn called successfully')
     }
     const self = this
     if (self.hasUserSavedAPassword !== true) {

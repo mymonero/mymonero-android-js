@@ -22,21 +22,15 @@ class ExceptionAlerting {
   _startObserving () {
     const self = this
     window.onerror = function (message, file, line, col, error) {
-      console.log(error);
-      //self.alertErrMsg(error.message, 1)
-      throw e
+      self.alertErrMsg(error.message, 1)
       return false
     }
     window.addEventListener('error', function (e) {
-      console.log(e);
-      //self.alertErrMsg(e.error.message, 2)
-      throw e
+      self.alertErrMsg(e.error.message, 2)
       return false
     })
     window.addEventListener('unhandledrejection', function (e) {
-      console.log(e);
-      //self.alertErrMsg(e.reason.message, 3)
-      throw e
+      self.alertErrMsg(e.reason.message, 3)
       return false
     })
   }
@@ -67,6 +61,7 @@ class ExceptionAlerting {
       title: 'MyMonero has encountered an error',
       html: errorHtml,
       background: '#272527',
+      titleColor: '#FFFFFF',
       color: '#FFFFFF',
       text: 'Do you want to continue',
       confirmButtonColor: '#11bbec',

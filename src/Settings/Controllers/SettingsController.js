@@ -69,42 +69,17 @@ class SettingsController extends EventEmitter {
         console.log("Web");
         iosMigrationController = new iOSMigrationController(self.context, true);
       }
-      //let iosMigrationController = new iOSMigrationController(self.context, true);
-      // let iosMigrationController = new iOSMigrationController(self.context, true);
-      // let iosMigrationController = new iOSMigrationController(self.context);
+      
       let hasPreviouslyMigrated = await iosMigrationController.hasPreviouslyMigrated;
       self.context.shouldDisplayExistingPinScreenForMigration = !hasPreviouslyMigrated;
-      iosMigrationController.touchFile(); // For debugging if you're not sure which folder your simulator is running in
+      //iosMigrationController.touchFile(); // For debugging if you're not sure which folder your simulator is running in
       self.context.iosMigrationController = iosMigrationController;
       let migrationFileData = await iosMigrationController.getMigrationFiles();
-      //console.log(iosMigrationController);
-      // try {        
-      //   let getDebugData = iosMigrationController.getDebugData();
-      //   for (let key in getDebugData) {
-      //     // console.log(key);
-      //     // console.log(getDebugData[key]);
-      //     let fileData = {
-      //       name: key,
-      //       data: getDebugData[key]
-      //     }
-      //     // console.log(fileData);
-      //     //let result = iosMigrationController.migrateDataObject("111111", fileData);
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      //   console.log("errored in settings controller");
-      // }
-      // While I'm not a fan of putting this here, it's faster and cleaner than the nested callback hell that we used to use
-      // function migrationCheckCallback(err, result) {
-      //   // console.log(`err: ${err}`)
-      //   // console.log(`result: ${result}`)
-        
-      // }
-
+      
       let migrationPreviouslyPerformed = hasPreviouslyMigrated
       
 
-      console.log("migrated previouslY?");
+      // console.log("migrated previously?");
       if (!(hasPreviouslyMigrated === true)) {
         // Check if previously migrated. If no, we may need to migrate from the old Swift proprietary file format to the new SecureStorage persistence
         let migrationFiles = await iosMigrationController.getMigrationFiles();        

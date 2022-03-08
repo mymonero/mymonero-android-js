@@ -73,7 +73,7 @@ class iOSMigrationController {
     * @throws - N/A
     */
     getDebugData() {
-        console.log("Returning debug data");
+        //console.log("Returning debug data");
         return this.debugData
     }
     
@@ -214,7 +214,7 @@ class iOSMigrationController {
     */
     validateFileData(password) {
         return new Promise((resolve, reject) => {
-            console.log("validate file data invoked with password:" + password);
+            // console.log("validate file data invoked with password:" + password);
             var isValidPromiseArr = [];
             var i;
             if (this.debug == true) {
@@ -224,7 +224,7 @@ class iOSMigrationController {
                     name: fileName,
                     data: this.migrationFileData[fileName]
                   }
-                  console.log("Validate loop:");
+                //   console.log("Validate loop:");
                   isValidPromiseArr.push(this.isValidJSONFile(password, fileObj))
                   //i++;
                 }
@@ -236,7 +236,7 @@ class iOSMigrationController {
                       name: fileName,
                       data: this.migrationFileData[fileName].data
                     }
-                    console.log("Validate loop:");
+                    // console.log("Validate loop:");
                     isValidPromiseArr.push(this.isValidJSONFile(password, fileObj))
                     //i++;
                   }
@@ -301,7 +301,7 @@ class iOSMigrationController {
     */
     renameAllMigratedFiles() {
         return new Promise((resolve, reject) => {
-            console.log("renaming file data");
+            // console.log("renaming file data");
             var renamePromiseArr = [];
             var i;
             for (let fileName in this.migrationFileData) {
@@ -332,8 +332,8 @@ class iOSMigrationController {
         return new Promise((resolve, reject) => {
             function migrationCheckCallback(err, result) {
             
-                console.log(err);
-                console.log(`err: ${err}`)
+                // console.log(err);
+                // console.log(`err: ${err}`)
                 //console.log(`result: ${result}`)
                 if (result.length > 0) {
                     resolve(true);
@@ -370,7 +370,7 @@ class iOSMigrationController {
         this.justMigratedSuccessfully = true;
         console.log(`setMigratedSuccessfully invoked`)
         this.context.persister.InsertDocument("migratedOldIOSApp", "migratedOldIOSApp", "Great success!", () => {
-            console.log("Aaaaaaand we're done");
+            // console.log("Aaaaaaand we're done");
             //alert("MyMonero has imported your existing information");
         })
     }
@@ -391,7 +391,7 @@ class iOSMigrationController {
                 if (fileName.indexOf("PasswordMeta") !== -1 || fileName.indexOf("Settings") !== -1) {
                     // we don't want to migrate passwordmeta or settings
                 } else {
-                    console.log(`building migAllDataObjForPromise`);
+                    // console.log(`building migAllDataObjForPromise`);
                     let fileObj = {
                         name: fileName,
                         data: this.migrationFileData[fileName]
@@ -401,11 +401,11 @@ class iOSMigrationController {
             }
     
             Promise.all(migrationPromiseArr).then((values) => {
-                console.log("migalldata ran successfully");
+                // console.log("migalldata ran successfully");
                 let result = self.setMigratedSuccessfully();
                 resolve(true)
             }).catch(error => {
-                console.log("migalldata failed");
+                // console.log("migalldata failed");
                 reject(error)
             });
             //resolve("finishedmigrating");
@@ -421,7 +421,7 @@ class iOSMigrationController {
     */
     async touchFile() {
         const writeSecretFile = async () => {
-            console.log("Writing Touchfile")
+            // console.log("Writing Touchfile")
             await Filesystem.writeFile({
               path: 'PutYourOldMyMoneroDataInHere.txt',
               data: "We migrate data in this folder to our new app",
@@ -502,7 +502,7 @@ class iOSMigrationController {
             return fileList
             //return this.getDebugData()
         } else {
-            console.log("Running in production mode")
+            // console.log("Running in production mode")
         }
         console.log("Dir parsing started");
         // Files without mmdbdoc_v1 are automatically excluded
@@ -515,21 +515,21 @@ class iOSMigrationController {
             for (let i = 0; i < fileList.files.length; i++) {
                 if (fileList.files[i].indexOf('mmdbdoc_v1') !== -1) {
                     if (fileList.files[i].indexOf("PasswordMeta") == -1 && fileList.files[i].indexOf("Settings") == -1) {
-                        console.log("Not password and not settings")
+                        // console.log("Not password and not settings")
                         mmdbdocsPresent = true;
                         legacyFiles.push(fileList.files[i]);
                     }
                 }
             }
         } catch (error) {
-            console.log("fileListCatch");
+            // console.log("fileListCatch");
             console.error(error);
             throw error;
         }
 
         if (mmdbdocsPresent) {
-            console.log("dir parsing returned with results");
-            console.log(legacyFiles);
+            // console.log("dir parsing returned with results");
+            // console.log(legacyFiles);
             this.migrationFileList = legacyFiles;
             return legacyFiles;
         }
