@@ -422,7 +422,7 @@ class PasswordController_Base extends EventEmitter {
                     self.emit(self.EventName_ObtainedCorrectExistingPassword())
                     self.context.walletsListController.__listUpdated_records()
                     setTimeout(() => {
-                      console.log(self);
+                      
                     }, 300)
                   })
                 } catch (error) {
