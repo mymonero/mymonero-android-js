@@ -107,7 +107,7 @@ function HydrateInstance (
     self.locked_balance = new JSBigInt(totals.locked_balance) // persisted as string
     self.total_sent = new JSBigInt(totals.total_sent) // persisted as string
   } else {
-    console.log("iOS migrated wallet");
+    // ios migrated wallet mapping -- DO NOT REMOVE
     self.account_scanned_height = plaintextDocument.account_scanned_height
     self.account_scanned_tx_height = plaintextDocument.account_scanned_tx_height
     self.account_scanned_block_height = plaintextDocument.account_scanned_block_height

@@ -472,7 +472,7 @@ class DocumentPersister extends DocumentPersister_Interface {
       // console.log("We would create an index with this obj");
       // console.log(collectionObj);
       const indexPromise = SecureStoragePlugin.set({ key: collectionName, value: JSON.stringify(collectionObj) }).then(() => {
-			 	console.log("Saved successfully");
+			 	//console.log("Saved successfully");
       })
 
       // Promise to create object using its id as a key
