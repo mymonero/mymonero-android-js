@@ -3,7 +3,8 @@
 import EventEmitter from 'events'
 import uuidV1 from 'uuid/v1'
 import Currencies from '../../CcyConversionRates/Currencies'
-
+import iOSMigrationController from "../../DocumentPersister/iOSMigrationController"
+import DocumentPersister from "../../DocumentPersister/DocumentPersister.SecureStorage"
 const CollectionName = 'Settings'
 
 const k_defaults_record =
@@ -40,31 +41,82 @@ class SettingsController extends EventEmitter {
     self._tryToBoot()
   }
 
-  _tryToBoot () {	// we can afford to do this w/o any callback saying "success" because we defer execution of
+  async _tryToBoot () {	// we can afford to do this w/o any callback saying "success" because we defer execution of
     // things which would rely on boot-time info till we've booted
     const self = this
     let doSettingsCleanup = false
     const cleanupIds = []
+    // Let's check to see if iOS migration needs to take place
+
+    /* Debug code: Delete all data */
+    // function callbackFn (err, success) {
+    //   if (err !== null) {
+    //     console.error('deleteEverything callbackFn failed')
+    //     throw 'PasswordController.InitiateDeleteEverything failed'
+    //   }
+    //   console.log('callbackFn called successfully')
+    // }
+    // const deleteResponse = self.context.persister.RemoveAllData(callbackFn);
+
+    // TODO: Remove web
+    // debug: if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
+    if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
+      let iosMigrationController
+      if (self.context.deviceInfo.platform === 'ios') {
+        iosMigrationController = new iOSMigrationController(self.context);
+      } else { // web
+        iosMigrationController = new iOSMigrationController(self.context, true);
+      }
+      
+      let hasPreviouslyMigrated = await iosMigrationController.hasPreviouslyMigrated;
+      self.context.shouldDisplayExistingPinScreenForMigration = !hasPreviouslyMigrated;
+      //iosMigrationController.touchFile(); // For debugging if you're not sure which folder your simulator is running in
+      self.context.iosMigrationController = iosMigrationController;
+      let migrationFileData = await iosMigrationController.getMigrationFiles();
+      
+      let migrationPreviouslyPerformed = hasPreviouslyMigrated
+      
+
+      // console.log("migrated previously?");
+      if (!(hasPreviouslyMigrated === true)) {
+        // Check if previously migrated. If no, we may need to migrate from the old Swift proprietary file format to the new SecureStorage persistence
+        let migrationFiles = await iosMigrationController.getMigrationFiles();        
+        // if (migrationFiles !== false) {
+        //   console.log("Since this didn't return false, we set a context variable to denote that we should display the existing password screen")
+        //   self.context.shouldDisplayExistingPinScreenForMigration = true;
+        //   // We should now have a list of all possible files
+        //   //console.log(migrationFiles)
+        //   let migrationFileData = await iOSMigrationController.getFileData(migrationFiles);
+        //   // store these files in context for once the wallet gets unlocked
+        //   console.log("We will be processing the in-memory values once someone logs in successfully - migration process is finalised in PasswordEntryViewController");
+        //   self.context.migrationFileData = migrationFileData;
+        //   self.context.migrationPerformed = false;
+        // }
+      }
+    }
+
+    
     //
     // first, check if any password model has been stored
+    
     self.context.persister.AllDocuments(
       CollectionName,
       function (err, contentStrings) {
         if (err) {
           console.error('Error while fetching existing', CollectionName, err)
-
           throw err
         }
+
         const contentStrings_length = contentStrings.length
         if (contentStrings_length === 0) { //
           const mocked_doc = JSON.parse(JSON.stringify(k_defaults_record)) // hamfisted copy
           _proceedTo_loadStateFromRecord(mocked_doc)
           return
         }
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         if (contentStrings_length > 1) {
           // Version 1.1.19 and below had an issue where multiple settings objects were saved.
-          // Version 1.1.20 and up will loop through this state. We'll suppress the warning +Android users who have changed their default settings will encounter
+          // Version 1.1.20 and up will loop through this state. We'll suppress the warning Android users who have changed their default settings will encounter
           const errStr = 'Error while fetching existing ' + CollectionName + '... more than one record found. Selecting first.'
           doSettingsCleanup = true
           // We want to run self.context.persister.removeDocumentsWithIds(CollectionName, Ids, fn)
@@ -235,7 +287,7 @@ class SettingsController extends EventEmitter {
             if (err) {
               console.error('Failed to save new valuesByKey', err)
             } else {
-              console.log('📝  Successfully saved ' + self.constructor.name + ' update ', JSON.stringify(valuesByKey))
+              // console.log('📝  Successfully saved ' + self.constructor.name + ' update ', JSON.stringify(valuesByKey))
               if (didUpdate_specificAPIAddressURLAuthority) {
                 console.log('Settings: Emitted didUpdate_specificAPIAddressURLAuthority')
 
@@ -340,7 +392,7 @@ class SettingsController extends EventEmitter {
               }
               self._id = _id // must save it back
               console.log('✅  Saved newly inserted ' + CollectionName + ' record with _id ' + self._id + '.')
-              console.log(jsonString)
+              //console.log(jsonString)
               fn()
             }
           )

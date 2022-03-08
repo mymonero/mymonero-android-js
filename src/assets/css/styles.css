@@ -2744,3 +2744,11 @@ div.customSelect {}
 .ios .emptyScreens {
   height: calc((100% - 35px) - 80px);
 }
+
+/* Shift the action buttons for wallet creation on iPhone SE 2020 (and similar iOS devices) */
+@media only screen and (max-width: 376px) {
+  .ios .actionButtonView {
+    bottom: 15px !important;
+    margin-top: 16px !important;
+  }
+}

@@ -4,10 +4,7 @@ import EventEmitter from 'events'
 import PasswordEntryView from '../Views/PasswordEntryView.web'
 
 class PasswordEntryViewController extends EventEmitter {
-  constructor (
-    root_tabBarViewAndContentView,
-    passwordController // PasswordController
-  ) {
+  constructor (root_tabBarViewAndContentView, passwordController) {
     super() // must call before can use `this`
     //
     const self = this
@@ -27,16 +24,6 @@ class PasswordEntryViewController extends EventEmitter {
   }
 
   setup () {
-    const self = this
-    self.setup_startObserving()
-  }
-
-  setup_startObserving () {
-    const self = this
-    self.setup_startObserving_passwordController()
-  }
-
-  setup_startObserving_passwordController () {
     const self = this
     const controller = self.passwordController
     controller.on(
@@ -113,6 +100,21 @@ class PasswordEntryViewController extends EventEmitter {
         }
       }
     )
+
+    controller.on(
+      controller.EventName_SingleObserver_getUserToEnterNewPasswordAndTypeWithCB(),
+      function (isForChangePassword, enterPasswordAndType_cb) {
+        if (self.view === null || typeof self.view === 'undefined') {
+          self.view = self._new_passwordEntryView()
+        }
+        self.view.GetUserToEnterNewPasswordAndTypeWithCB(
+          self.root_tabBarViewAndContentView,
+          isForChangePassword,
+          enterPasswordAndType_cb
+        )
+      }
+    )
+
     //
     // supplying the password:
     controller.on(
@@ -123,7 +125,8 @@ class PasswordEntryViewController extends EventEmitter {
           // existingPasswordType = self.passwordController.AvailableUserSelectableTypesOfPassword().FreeformStringPW // graceful fallback..? since freeform str is superset of numer. pin
           throw 'existingPasswordType was missing when passwordController asked us to have the user enter their existing password (and asserting it exists)'
         }
-        if (self.view === null || typeof self.view === 'undefined') {
+        
+        if (self.view === null || typeof self.view === 'undefined' || typeof self.context.iosMigrationController !== 'undefined') {
           self.view = self._new_passwordEntryView()
         }
         self.view.GetUserToEnterExistingPasswordWithCB(

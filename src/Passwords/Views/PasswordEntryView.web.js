@@ -4,10 +4,12 @@ import View from '../../Views/View.web'
 import EnterExistingPasswordView from './EnterExistingPasswordView.web'
 import EnterNewPasswordView from './EnterNewPasswordView.web'
 import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndModalNavigationView.web'
+import iOSMigrationController from '../../DocumentPersister/iOSMigrationController'
 
 const passwordEntryTaskModes =
 {
   None: 'None',
+  ForMigratingFromOldIOSVersion: "ForMigratingFromOldIOSVersion",
   ForUnlockingApp_ExistingPasswordGivenType: 'ForUnlockingApp_ExistingPasswordGivenType',
   ForFirstEntry_NewPasswordAndType: 'ForFirstEntry_NewPasswordAndType',
   ForChangingPassword_ExistingPasswordGivenType: 'ForChangingPassword_ExistingPasswordGivenType',
@@ -86,6 +88,7 @@ class PasswordEntryView extends StackAndModalNavigationView {
         // the caller needs to pass it to a general purpose function
       case passwordEntryTaskModes.ForFirstEntry_NewPasswordAndType:
       case passwordEntryTaskModes.ForChangingPassword_NewPasswordAndType:
+      case passwordEntryTaskModes.ForMigratingFromOldIOSVersion:
         return self.context.passwordController.DetectedPasswordTypeFromPassword(withPassword) // since we're not letting the user enter their pw type with this UI, let's auto-detect
 
       case passwordEntryTaskModes.None:
@@ -160,11 +163,11 @@ class PasswordEntryView extends StackAndModalNavigationView {
     const self = this
     const shouldAnimateToNewState = isForChangePassword
     { // check legality
-      if (self.passwordEntryTaskMode !== passwordEntryTaskModes.None) {
-        if (self.passwordEntryTaskMode !== passwordEntryTaskModes.ForChangingPassword_ExistingPasswordGivenType) {
+      if (self.passwordEntryTaskMode !== passwordEntryTaskModes.None && 
+        self.passwordEntryTaskMode !== passwordEntryTaskModes.ForChangingPassword_ExistingPasswordGivenType && 
+        self.passwordEntryTaskMode !== passwordEntryTaskModes.ForMigratingFromOldIOSVersion) {
           throw 'GetUserToEnterNewPasswordAndTypeWithCB called but self.passwordEntryTaskMode not .None and not .ForChangingPassword_ExistingPasswordGivenType'
         }
-      }
     }
     { // we need to hang onto the callback for when the form is submitted
       self.enterPasswordAndType_cb = enterPasswordAndType_cb
@@ -176,6 +179,11 @@ class PasswordEntryView extends StackAndModalNavigationView {
       } else {
         taskMode = passwordEntryTaskModes.ForFirstEntry_NewPasswordAndType
       }
+
+      if (typeof(self.context.iosMigrationController) !== 'undefined') {
+        taskMode = passwordEntryTaskModes.ForMigratingFromOldIOSVersion
+      }
+
       self.passwordEntryTaskMode = taskMode
       //
       self._configureWithMode(
@@ -240,12 +248,14 @@ class PasswordEntryView extends StackAndModalNavigationView {
       self.enterPasswordAndType_cb = null
     }
     const animate = optl_isAnimated !== false // default true
-    self.modalParentView.DismissTopModalView(
-      animate,
-      function () {
-        self.emit(self.EventName_didDismissView())
-      }
-    )
+    if (self.modalParentView !== null) {
+      self.modalParentView.DismissTopModalView(
+        animate,
+        function () {
+          self.emit(self.EventName_didDismissView())
+        }
+      )
+    }
   }
 
   //
@@ -291,10 +301,16 @@ class PasswordEntryView extends StackAndModalNavigationView {
     //
     // we do not need to call self._clearValidationMessage() here because the ConfigureToBeShown() fns have the same effect
     { // transition to screen
+
+      // This value gets set in SettingsController.js 
+      if (self.context.shouldDisplayExistingPinScreenForMigration) {
+        self.passwordEntryTaskMode = passwordEntryTaskModes.ForMigratingFromOldIOSVersion
+      } 
       switch (self.passwordEntryTaskMode) {
         case passwordEntryTaskModes.ForUnlockingApp_ExistingPasswordGivenType:
         case passwordEntryTaskModes.ForChangingPassword_ExistingPasswordGivenType:
         case passwordEntryTaskModes.ForAuthorizingAppAction:
+        case passwordEntryTaskModes.ForMigratingFromOldIOSVersion:
         {
           const enterExistingPasswordView = new EnterExistingPasswordView({
             isForChangingPassword: isForChangingPassword,
@@ -321,6 +337,7 @@ class PasswordEntryView extends StackAndModalNavigationView {
         case passwordEntryTaskModes.ForFirstEntry_NewPasswordAndType:
         case passwordEntryTaskModes.ForChangingPassword_NewPasswordAndType:
         {
+
           const enterNewPasswordView = new EnterNewPasswordView({
             isForChangingPassword: isForChangingPassword
           }, self.context)
@@ -378,8 +395,13 @@ class PasswordEntryView extends StackAndModalNavigationView {
     {
       self._clearValidationMessage()
     }
+    let passwordType = self.passwordTypeChosenWithPasswordIfNewPassword_orUndefined(password)
+    // Ensuring that, if needed, we have a password type that corresponds to the migration process
+    if (self.context.migrationFileData !== 'undefined' && self.context.iosMigrationController.migrationFilesExist) {
+      // console.log("Override the password for the sake of this one-time migration");
+      passwordType = "FreeformStringPW"
+    }
     // handles validation:
-    const passwordType = self.passwordTypeChosenWithPasswordIfNewPassword_orUndefined(password)
     self._passwordController_callBack_trampoline(
       false, // didCancel?
       password,
@@ -407,14 +429,40 @@ class PasswordEntryView extends StackAndModalNavigationView {
     }
   }
 
-  _passwordController_callBack_trampoline (didCancel, password_orNil, passwordType_orNil) {
+  async _passwordController_callBack_trampoline (didCancel, password_orNil, passwordType_orNil) {
     const self = this
     //
     // NOTE: we unfortunately can't just clear the callbacks here even though this is where we use them because
     // if there's a validation error, and the user wants to try again, there would be no callback through which
     // to submit the subsequent try
     //
+
+    if (self.context.iosMigrationController !== "undefined") {
+      self.passwordEntryTaskModes = passwordEntryTaskModes.ForMigratingFromOldIOSVersion;
+    }
     switch (self.passwordEntryTaskMode) {
+      case passwordEntryTaskModes.ForMigratingFromOldIOSVersion: {
+        // Attempt to decrypt files and do migration business here
+        let migrationController = self.context.iosMigrationController;
+
+        var migrationPromiseArr = [];
+        var i;
+
+        try {
+          self.enterPasswordAndType_cb(
+            didCancel,
+            password_orNil,
+            passwordType_orNil
+          )
+        } catch (error) {
+          self.enterPassword_cb(
+            didCancel,
+            password_orNil
+          )  
+        }
+        // we don't want to free/zero the cb here - user may get pw wrong and try again
+        break
+      }
       case passwordEntryTaskModes.ForUnlockingApp_ExistingPasswordGivenType:
       case passwordEntryTaskModes.ForChangingPassword_ExistingPasswordGivenType:
       case passwordEntryTaskModes.ForAuthorizingAppAction:

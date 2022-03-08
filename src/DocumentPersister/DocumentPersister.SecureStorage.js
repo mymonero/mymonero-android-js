@@ -337,10 +337,10 @@ class DocumentPersister extends DocumentPersister_Interface {
   // Runtime - Imperatives - Interface - Overrides
   //
   __insertDocument (collectionName, id, documentToInsert, fn) {
-    console.log('SecureStorage: invoked __insertDocument')
+    // console.log('SecureStorage: invoked __insertDocument')
     const rootObject = SecureStoragePlugin.get({ key: collectionName }).then((returnData) => {
-      console.log('This document set has an index saved')
-      console.log(returnData)
+      // console.log('This document set has an index saved')
+      // console.log(returnData)
 
       const indexArray = JSON.parse(returnData.value)
 
@@ -365,7 +365,11 @@ class DocumentPersister extends DocumentPersister_Interface {
 
       indexArray.push(id)
       const indexPromise = SecureStoragePlugin.set({ key: collectionName, value: JSON.stringify(indexArray) }).then(() => {
-        console.log('Saved successfully')
+        // console.log('Saved successfully')
+        let keys = SecureStoragePlugin.keys().then(keys => {
+          // console.log("Promise output: keys");
+          // console.log(keys);
+        })
       })
 
       // Promise to create object using its id as a key
@@ -385,17 +389,17 @@ class DocumentPersister extends DocumentPersister_Interface {
 
       // console.log("We would create an object using this object and key");
       // console.log(indexArray);
-      // console.log(saveObj)
+      // console.log(saveObj)  
 
       objectPromise.then(values => {
         // console.log(values);
-        console.log('Index updated and object saved successfully')
+        // console.log('Index updated and object saved successfully')
         setTimeout(function () {
           fn(null, documentToInsert)
         })
       }).catch(error => {
-        console.log('There was an error saving the object')
-        console.log(error)
+        // console.log('There was an error saving the object')
+        // console.log(error)
         setTimeout(function () {
           fn(null, documentToInsert)
         })
@@ -468,7 +472,7 @@ class DocumentPersister extends DocumentPersister_Interface {
       // console.log("We would create an index with this obj");
       // console.log(collectionObj);
       const indexPromise = SecureStoragePlugin.set({ key: collectionName, value: JSON.stringify(collectionObj) }).then(() => {
-			 	// console.log("Saved successfully");
+			 	//console.log("Saved successfully");
       })
 
       // Promise to create object using its id as a key
@@ -770,7 +774,7 @@ class DocumentPersister extends DocumentPersister_Interface {
 
   __deleteIndex (collectionName, fn) {
     SecureStoragePlugin.remove({ key: collectionName }).then(() => {
-      console.log(`Removed collection ${collectionName}`)
+      // console.log(`Removed collection ${collectionName}`)
     })
   }
 

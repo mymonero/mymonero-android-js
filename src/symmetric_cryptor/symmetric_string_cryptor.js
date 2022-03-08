@@ -109,6 +109,7 @@ function New_DecryptedString__Async (
   password,
   fn
 ) {
+  
   Buffer.isBuffer(password) || (password = new Buffer(password, 'utf8'))
 	if (!encrypted_msg_base64_string || typeof encrypted_msg_base64_string === 'undefined') {
     console.warn('New_DecryptedString__Async was passed nil encrypted_msg_base64_string')

@@ -89,12 +89,21 @@ class ListBaseController extends EventEmitter {
     const self = this
     self.records = [] // going to zero this from the start
     self._new_idsOfPersistedRecords( // now first want to check if we really want to trigger showing the PW entry screen yet (not part of onboarding til user initiates!)
-      function (err, ids) {
+      async function (err, ids) {
         if (err) {
           self._setup_didFailToBootWithError(err)
           return
         }
-        if (ids.length === 0) { // do not cause the pw to be requested yet
+        let hasMigratableFiles = await self.context.iosMigrationController.hasMigratableFiles
+        let hasPreviouslyMigrated = await self.context.iosMigrationController.hasPreviouslyMigrated
+        let migrationPossible;
+        if (hasMigratableFiles && !hasPreviouslyMigrated) {
+          migrationPossible = true
+        } else {
+          migrationPossible = false
+        }
+        // Workaround for checking if we need to migrate -- migrationData only set if migration necessary
+        if (ids.length === 0 && migrationPossible !== true) { // do not cause the pw to be requested yet
           self._setup_didBoot()
           // and we don't want/need to emit that the list updated here
           return
@@ -102,8 +111,7 @@ class ListBaseController extends EventEmitter {
         __proceedTo_requestPasswordAndLoadRecords()
       }
     )
-    function __proceedTo_requestPasswordAndLoadRecords () // but do not pass in ids cause they'll get stale if we wait for pw after a Delete Everything
-    {
+    function __proceedTo_requestPasswordAndLoadRecords () { // but do not pass in ids cause they'll get stale if we wait for pw after a Delete Everything
       self.context.passwordController.WhenBootedAndPasswordObtained_PasswordAndType( // this will block until we have access to the pw
         function (obtainedPasswordString, userSelectedTypeOfPassword) {
           __proceedTo_loadAndBootAllExtantRecordsWithPassword(obtainedPasswordString)
@@ -119,7 +127,8 @@ class ListBaseController extends EventEmitter {
             self._setup_didFailToBootWithError(err)
             return
           }
-          if (ids.length === 0) { // do not cause the pw to be requested yet
+          let justMigratedSuccessfully = self.context.iosMigrationController.justMigratedSuccessfully
+          if (ids.length === 0 && justMigratedSuccessfully !== true) { // do not cause the pw to be requested yet
             self._setup_didBoot()
             // and we don't want/need to emit that the list updated here
             return
@@ -347,8 +356,6 @@ class ListBaseController extends EventEmitter {
     self.context.persister.IdsOfAllDocuments(
       self.override_CollectionName(),
       function (err, ids) {
-        // console.log("ListBaseController: _new_idsOfPersistedRecords invoked");
-        // console.log(ids);
         if (err) {
           console.error(err)
           fn(err)
@@ -578,7 +585,6 @@ class ListBaseController extends EventEmitter {
   passwordController_DeleteEverything (fn) {
     const self = this
     const collectionName = self.override_CollectionName()
-    // console.log(collectionName)
     self.context.persister.RemoveAllDocuments(
       collectionName,
       function (err) {
