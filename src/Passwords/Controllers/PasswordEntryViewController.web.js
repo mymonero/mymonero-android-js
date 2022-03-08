@@ -104,7 +104,6 @@ class PasswordEntryViewController extends EventEmitter {
     controller.on(
       controller.EventName_SingleObserver_getUserToEnterNewPasswordAndTypeWithCB(),
       function (isForChangePassword, enterPasswordAndType_cb) {
-        console.log("enternewpass")
         if (self.view === null || typeof self.view === 'undefined') {
           self.view = self._new_passwordEntryView()
         }
@@ -121,19 +120,15 @@ class PasswordEntryViewController extends EventEmitter {
     controller.on(
       controller.EventName_SingleObserver_getUserToEnterExistingPasswordWithCB(),
       function (isForChangePassword, isForAuthorizingAppActionOnly, customNavigationBarTitle_orNull, enterPassword_cb) {
-        console.log("enterexistingpass")
         const existingPasswordType = self.passwordController.userSelectedTypeOfPassword
         if (typeof existingPasswordType === 'undefined' || existingPasswordType === null || existingPasswordType.length == 0) {
           // existingPasswordType = self.passwordController.AvailableUserSelectableTypesOfPassword().FreeformStringPW // graceful fallback..? since freeform str is superset of numer. pin
           throw 'existingPasswordType was missing when passwordController asked us to have the user enter their existing password (and asserting it exists)'
         }
-        console.log("Mig here");
+        
         if (self.view === null || typeof self.view === 'undefined' || typeof self.context.iosMigrationController !== 'undefined') {
-        //if (self.view === null || typeof self.view === 'undefined') {
-          //console.log("migration data exists");
           self.view = self._new_passwordEntryView()
         }
-        //console.log("migration data doesn't exist");
         self.view.GetUserToEnterExistingPasswordWithCB(
           self.root_tabBarViewAndContentView,
           isForChangePassword, // this will mean false for (1) enter pw on app launch; and (2) enter pw when user idle timer kicks in… we actually want false for #2
@@ -149,7 +144,6 @@ class PasswordEntryViewController extends EventEmitter {
     controller.on(
       controller.EventName_SingleObserver_getUserToEnterNewPasswordAndTypeWithCB(),
       function (isForChangePassword, enterPasswordAndType_cb) {
-        console.log("!!!!!!!!!!!!!!!!!!!!");
         if (self.view === null || typeof self.view === 'undefined') {
           self.view = self._new_passwordEntryView()
         }

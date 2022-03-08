@@ -102,7 +102,6 @@ class ListBaseController extends EventEmitter {
         } else {
           migrationPossible = false
         }
-        console.log("migrate?");
         // Workaround for checking if we need to migrate -- migrationData only set if migration necessary
         if (ids.length === 0 && migrationPossible !== true) { // do not cause the pw to be requested yet
           self._setup_didBoot()
@@ -128,7 +127,8 @@ class ListBaseController extends EventEmitter {
             self._setup_didFailToBootWithError(err)
             return
           }
-          if (ids.length === 0) { // do not cause the pw to be requested yet
+          let justMigratedSuccessfully = self.context.iosMigrationController.justMigratedSuccessfully
+          if (ids.length === 0 && justMigratedSuccessfully !== true) { // do not cause the pw to be requested yet
             self._setup_didBoot()
             // and we don't want/need to emit that the list updated here
             return
@@ -585,7 +585,6 @@ class ListBaseController extends EventEmitter {
   passwordController_DeleteEverything (fn) {
     const self = this
     const collectionName = self.override_CollectionName()
-    // console.log(collectionName)
     self.context.persister.RemoveAllDocuments(
       collectionName,
       function (err) {

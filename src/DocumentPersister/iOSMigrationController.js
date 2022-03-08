@@ -3,7 +3,6 @@ import symmetric_string_cryptor from '../symmetric_cryptor/symmetric_string_cryp
 import persistable_object_utils from "./persistable_object_utils"
 // KB: I opted for static methods since I don't want to instantialize yet another bloaty controller and attach it to context
 
-console.log("Did this run?");
 class iOSMigrationController {
     /**
      * Create an instance of this controller
@@ -11,7 +10,7 @@ class iOSMigrationController {
      * @param {object} context  - Instance of MyMonero's context object
      */
     constructor(context, debug = false) {
-        console.log("Constructor invoked");
+        
         this.context = context;
         // The debug data is handy for testing in browser rather than in a simulated device
         // this.debugData mimics the data returned by this.getFileData
@@ -32,7 +31,7 @@ class iOSMigrationController {
                 "Wallets__8D662269-DE5A-491C-BC69-3DE43E23805C.mmdbdoc_v1",
             ]
         }
-        console.log("setup files to be called");
+        
         this.setupFiles()
         this.migrationFilesExist = null; // initialise so that this is public
 
@@ -368,7 +367,7 @@ class iOSMigrationController {
     */
     async setMigratedSuccessfully() {
         this.justMigratedSuccessfully = true;
-        console.log(`setMigratedSuccessfully invoked`)
+        //console.log(`setMigratedSuccessfully invoked`)
         this.context.persister.InsertDocument("migratedOldIOSApp", "migratedOldIOSApp", "Great success!", () => {
             // console.log("Aaaaaaand we're done");
             //alert("MyMonero has imported your existing information");
@@ -489,7 +488,7 @@ class iOSMigrationController {
     * @throws - {Error}     err - standard JS error
     */
     async getMigrationFiles() {
-        console.log("Get migration files");
+        //console.log("Get migration files");
         if (this.debug) {
             console.warn("Currently in debug mode")
             let fileList = [
@@ -504,7 +503,7 @@ class iOSMigrationController {
         } else {
             // console.log("Running in production mode")
         }
-        console.log("Dir parsing started");
+        //console.log("Dir parsing started");
         // Files without mmdbdoc_v1 are automatically excluded
         let readDirOptions = { path: "", directory: Directory.Documents }
         let fileList = await Filesystem.readdir(readDirOptions);
@@ -533,7 +532,7 @@ class iOSMigrationController {
             this.migrationFileList = legacyFiles;
             return legacyFiles;
         }
-        console.log("dir parsing returned false");
+        //console.log("dir parsing returned false");
         return false;
         // return mmdbdocsPresent;
     }

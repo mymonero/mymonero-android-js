@@ -27,10 +27,6 @@ var cryptor_settings =
 //
 // Encryption
 function New_EncryptedBase64String__Async (plaintext_msg, password, fn) {
-  console.log("encrypt64")
-  console.log(plaintext_msg);
-  console.log(password);
-  console.log(fn);
   if (typeof plaintext_msg === 'undefined') {
     return undefined
   }
@@ -113,12 +109,7 @@ function New_DecryptedString__Async (
   password,
   fn
 ) {
-  console.log("decrypt64")
-  console.log(encrypted_msg_base64_string);
-  console.log(password);
-  console.log(fn);
-
-  console.log("Buffer here?");
+  
   Buffer.isBuffer(password) || (password = new Buffer(password, 'utf8'))
 	if (!encrypted_msg_base64_string || typeof encrypted_msg_base64_string === 'undefined') {
     console.warn('New_DecryptedString__Async was passed nil encrypted_msg_base64_string')
