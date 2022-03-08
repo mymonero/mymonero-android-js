@@ -304,7 +304,6 @@ class PasswordEntryView extends StackAndModalNavigationView {
 
       // This value gets set in SettingsController.js 
       if (self.context.shouldDisplayExistingPinScreenForMigration) {
-        console.log("In passwordentryview: context obj flag for migration exists");
         self.passwordEntryTaskMode = passwordEntryTaskModes.ForMigratingFromOldIOSVersion
       } 
       switch (self.passwordEntryTaskMode) {
@@ -448,63 +447,19 @@ class PasswordEntryView extends StackAndModalNavigationView {
 
         var migrationPromiseArr = [];
         var i;
-        // for (let fileName in self.migrationController.migrationFileData) {
-        //   let fileObj = {
-        //     name: fileName,
-        //     data: self.context.migrationFileData[fileName].data
-        //   }
-        //   migrationPromiseArr.push(migrationController.migrateDataObject(password_orNil, fileObj))
-        //   //i++;
-        // }
 
-        // let doMigration = await iosMigrationController.performMigration(password_orNil);
-
-        // console.log(doMigration);
-        
-        // Promise.all(migrationPromiseArr).then((values) => {
-        //   console.log(values);
-        //   // let result = self.context.migrationController.setMigratedSuccessfully();
-        //   self.context.persister.InsertDocument("migratedOldIOSApp", "migratedOldIOSApp", "Great success!", () => {
-        //     console.log("Aaaaaaand we're done");
-        //   })
-        //   try {
-        //     self.enterPasswordAndType_cb(
-        //       didCancel,
-        //       password_orNil,
-        //       passwordType_orNil
-        //     )
-        //   } catch (error) {
-        //     console.log("We're dealing with a PIN");
-        //     self.enterPassword_cb(
-        //       didCancel,
-        //       password_orNil
-        //     )  
-        //   }
-        // });
-
-        // let migrationPromise = iOSMigrationController.migrateAllData(password_orNil, self.context.migrationFileData)
-        // .then((result) => {
-        //   console.log(result);
-        // })
-        // .catch(error => {
-        //   console.error(error.message);
-        // })
-        // if (typeof self.enterPassword_cb === 'undefined' || self.enterPassword_cb === null) {
-        //   throw 'PasswordEntryView/_passwordController_callBack_trampoline: missing enterPassword_cb for passwordEntryTaskMode: ' + self.passwordEntryTaskMode
-        // }
-          try {
-            self.enterPasswordAndType_cb(
-              didCancel,
-              password_orNil,
-              passwordType_orNil
-            )
-          } catch (error) {
-            console.log("We're dealing with a PIN");
-            self.enterPassword_cb(
-              didCancel,
-              password_orNil
-            )  
-          }
+        try {
+          self.enterPasswordAndType_cb(
+            didCancel,
+            password_orNil,
+            passwordType_orNil
+          )
+        } catch (error) {
+          self.enterPassword_cb(
+            didCancel,
+            password_orNil
+          )  
+        }
         // we don't want to free/zero the cb here - user may get pw wrong and try again
         break
       }
