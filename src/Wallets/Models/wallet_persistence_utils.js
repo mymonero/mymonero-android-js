@@ -131,7 +131,6 @@ function HydrateInstance (
   // unpacking totals -- these are stored as strings
   //
   self.spent_outputs = plaintextDocument.spent_outputs // no || [] because we always persist at least []
-  console.log(self);
 }
 //
 //

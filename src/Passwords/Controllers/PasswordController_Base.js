@@ -36,14 +36,14 @@ class PasswordController_Base extends EventEmitter {
     self.password = undefined // it's not been obtained from the user yet - we only store it in memory
     //
     self.setupAndBoot()
-    function callbackFn (err, success) {
-      if (err !== null) {
-        console.error('deleteEverything callbackFn failed')
-        throw 'PasswordController.InitiateDeleteEverything failed'
-      }
-      console.log('callbackFn called successfully')
-    }
-    const deleteResponse = self.context.persister.RemoveAllData(callbackFn);
+    // function callbackFn (err, success) {
+    //   if (err !== null) {
+    //     console.error('deleteEverything callbackFn failed')
+    //     throw 'PasswordController.InitiateDeleteEverything failed'
+    //   }
+    //   console.log('callbackFn called successfully')
+    // }
+    // const deleteResponse = self.context.persister.RemoveAllData(callbackFn);
   }
 
   setupAndBoot () {	// we can afford to do this w/o any callback saying "success" because we defer execution of

@@ -45,9 +45,7 @@ class iOSMigrationController {
     }
 
     async setupFiles() {
-        console.log("Setup files ran first?");
         let migrationFiles = await this.getMigrationFiles();
-        console.log(migrationFiles);
         if (migrationFiles !== false) {
             let migrationFileData = await this.getFileData(migrationFiles);
             this.migrationFileData = migrationFileData;
@@ -504,7 +502,7 @@ class iOSMigrationController {
             return fileList
             //return this.getDebugData()
         } else {
-            console.log("Da fuq?");
+            console.log("Running in production mode")
         }
         console.log("Dir parsing started");
         // Files without mmdbdoc_v1 are automatically excluded
@@ -515,15 +513,10 @@ class iOSMigrationController {
 
         try {
             for (let i = 0; i < fileList.files.length; i++) {
-                console.log("fileListPush");
-                console.log(legacyFiles);
                 if (fileList.files[i].indexOf('mmdbdoc_v1') !== -1) {
-                    console.log("Iteration passed");
-                    console.log(fileList.files[i]);
                     if (fileList.files[i].indexOf("PasswordMeta") == -1 && fileList.files[i].indexOf("Settings") == -1) {
                         console.log("Not password and not settings")
                         mmdbdocsPresent = true;
-                        console.log("fileInnerLoopPush");
                         legacyFiles.push(fileList.files[i]);
                     }
                 }
