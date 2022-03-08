@@ -102,7 +102,7 @@ class ListBaseController extends EventEmitter {
         } else {
           migrationPossible = false
         }
-
+        console.log("migrate?");
         // Workaround for checking if we need to migrate -- migrationData only set if migration necessary
         if (ids.length === 0 && migrationPossible !== true) { // do not cause the pw to be requested yet
           self._setup_didBoot()

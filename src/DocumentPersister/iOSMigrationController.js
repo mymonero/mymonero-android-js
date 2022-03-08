@@ -32,17 +32,14 @@ class iOSMigrationController {
                 "Wallets__8D662269-DE5A-491C-BC69-3DE43E23805C.mmdbdoc_v1",
             ]
         }
-        if (context.deviceInfo.platform === 'ios') {
-            this.migrationFileData = this.debugData
-        } else {
-            this.migrationFileData = this.debugData
-        }
         console.log("setup files to be called");
         this.setupFiles()
         this.migrationFilesExist = null; // initialise so that this is public
 
         //this.getMigrationFiles()
+        this.justMigratedSuccessfully = false;
         this.performMigration = this.performMigration
+        this.touchFile = this.touchFile
         this.hasPreviouslyMigrated = this.hasPreviouslyMigrated();
         this.hasMigratableFiles = this.hasMigratableFiles();
     }
@@ -52,7 +49,7 @@ class iOSMigrationController {
         let migrationFiles = await this.getMigrationFiles();
         console.log(migrationFiles);
         if (migrationFiles !== false) {
-            let migrationFileData = await this.getFileData(this.fileList);
+            let migrationFileData = await this.getFileData(migrationFiles);
             this.migrationFileData = migrationFileData;
             if (migrationFileData === false) {
                 this.migrationFilesExist = false;
@@ -60,6 +57,13 @@ class iOSMigrationController {
                 this.migrationFilesExist = true;
             }
         }
+        // if web do polyfill
+        // if (this.context.deviceInfo.platform === 'web') {
+        //     this.migrationFileData = this.debugData
+        // } else {
+        //     this.migrationFileData = migrationFileData
+        // }
+        // return
     }
 
     /**
@@ -95,10 +99,13 @@ class iOSMigrationController {
                 if (fileData.name == "PutYourOldMyMoneroDataInHere.txt" || fileData.name.indexOf("PasswordMeta") !== -1) {
                     resolve("Non-decryptable");
                 }
-                // console.log(`decrypting: `);
-                // console.log(fileData);
+                let stringToDecrypt = fileData.data;
                 let dataToDecrypt = fileData.data;
-                symmetric_string_cryptor.New_DecryptedString__Async(dataToDecrypt, password, (err, decryptedMessage) => {
+                if (typeof(dataToDecrypt) !== "string") {
+                    stringToDecrypt = dataToDecrypt.data
+                }
+
+                symmetric_string_cryptor.New_DecryptedString__Async(stringToDecrypt, password, (err, decryptedMessage) => {
                     if (err) {
                         console.error(err)
                         reject(err)
@@ -109,7 +116,7 @@ class iOSMigrationController {
                     
                     let idString = fileData.name.substr(collectionName.length + 2) // derive the ID only
                     idString = idString.substr(0, idString.indexOf(".")) // Remove the file extension
-
+                    
                     let plaintextDocument = JSON.parse(decryptedMessage); // Parse decrypted message into JSON
                     
                     /**
@@ -212,14 +219,29 @@ class iOSMigrationController {
             console.log("validate file data invoked with password:" + password);
             var isValidPromiseArr = [];
             var i;
-            for (let fileName in this.migrationFileData) {
-              let fileObj = {
-                name: fileName,
-                data: this.migrationFileData[fileName]
-              }
-              console.log("Validate loop:");
-              isValidPromiseArr.push(this.isValidJSONFile(password, fileObj))
-              //i++;
+            if (this.debug == true) {
+                // for web
+                for (let fileName in this.migrationFileData) {
+                  let fileObj = {
+                    name: fileName,
+                    data: this.migrationFileData[fileName]
+                  }
+                  console.log("Validate loop:");
+                  isValidPromiseArr.push(this.isValidJSONFile(password, fileObj))
+                  //i++;
+                }
+
+            } else {
+                // for ios
+                for (let fileName in this.migrationFileData) {
+                    let fileObj = {
+                      name: fileName,
+                      data: this.migrationFileData[fileName].data
+                    }
+                    console.log("Validate loop:");
+                    isValidPromiseArr.push(this.isValidJSONFile(password, fileObj))
+                    //i++;
+                  }
             }
 
             Promise.all(isValidPromiseArr).then((values) => {
@@ -347,10 +369,11 @@ class iOSMigrationController {
     * @throws - {Error}     err - standard JS error
     */
     async setMigratedSuccessfully() {
+        this.justMigratedSuccessfully = true;
         console.log(`setMigratedSuccessfully invoked`)
         this.context.persister.InsertDocument("migratedOldIOSApp", "migratedOldIOSApp", "Great success!", () => {
             console.log("Aaaaaaand we're done");
-            alert("MyMonero has imported your existing information");
+            //alert("MyMonero has imported your existing information");
         })
     }
 
@@ -398,8 +421,9 @@ class iOSMigrationController {
     * @returns - {void} 
     * @throws - {Error}     err - standard JS error
     */
-    static async touchFile() {
+    async touchFile() {
         const writeSecretFile = async () => {
+            console.log("Writing Touchfile")
             await Filesystem.writeFile({
               path: 'PutYourOldMyMoneroDataInHere.txt',
               data: "We migrate data in this folder to our new app",
@@ -491,20 +515,28 @@ class iOSMigrationController {
 
         try {
             for (let i = 0; i < fileList.files.length; i++) {
+                console.log("fileListPush");
+                console.log(legacyFiles);
                 if (fileList.files[i].indexOf('mmdbdoc_v1') !== -1) {
-                    if (fileList.files[i].indexOf("PasswordMeta") !== -1 || fileData.name.indexOf("Settings") !== -1) {
+                    console.log("Iteration passed");
+                    console.log(fileList.files[i]);
+                    if (fileList.files[i].indexOf("PasswordMeta") == -1 && fileList.files[i].indexOf("Settings") == -1) {
+                        console.log("Not password and not settings")
                         mmdbdocsPresent = true;
+                        console.log("fileInnerLoopPush");
                         legacyFiles.push(fileList.files[i]);
                     }
                 }
             }
         } catch (error) {
+            console.log("fileListCatch");
             console.error(error);
             throw error;
         }
 
         if (mmdbdocsPresent) {
             console.log("dir parsing returned with results");
+            console.log(legacyFiles);
             this.migrationFileList = legacyFiles;
             return legacyFiles;
         }
@@ -525,7 +557,7 @@ class iOSMigrationController {
                 directory: Directory.Documents,
                 encoding: Encoding.ASCII,
             }
-            let data = await Filesystem.readFile(options)
+            let data = await Filesystem.readFile(options)            
             fileData[value] = data;
         })
         return fileData;

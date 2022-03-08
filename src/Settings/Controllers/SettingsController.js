@@ -61,12 +61,23 @@ class SettingsController extends EventEmitter {
     // TODO: Remove web
     // debug: if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
     if (self.context.deviceInfo.platform === 'ios' || self.context.deviceInfo.platform === 'web') {
-      let iosMigrationController = new iOSMigrationController(self.context, true);
+      let iosMigrationController
+      if (self.context.deviceInfo.platform === 'ios') {
+        iosMigrationController = new iOSMigrationController(self.context);
+        console.log('ios')
+      } else {
+        console.log("Web");
+        iosMigrationController = new iOSMigrationController(self.context, true);
+      }
+      //let iosMigrationController = new iOSMigrationController(self.context, true);
+      // let iosMigrationController = new iOSMigrationController(self.context, true);
+      // let iosMigrationController = new iOSMigrationController(self.context);
       let hasPreviouslyMigrated = await iosMigrationController.hasPreviouslyMigrated;
       self.context.shouldDisplayExistingPinScreenForMigration = !hasPreviouslyMigrated;
-      // iosMigrationController.touchFile(); // For debugging if you're not sure which folder your simulator is running in
+      iosMigrationController.touchFile(); // For debugging if you're not sure which folder your simulator is running in
       self.context.iosMigrationController = iosMigrationController;
       let migrationFileData = await iosMigrationController.getMigrationFiles();
+      //console.log(iosMigrationController);
       // try {        
       //   let getDebugData = iosMigrationController.getDebugData();
       //   for (let key in getDebugData) {
@@ -118,6 +129,7 @@ class SettingsController extends EventEmitter {
     self.context.persister.AllDocuments(
       CollectionName,
       function (err, contentStrings) {
+        console.log(contentStrings);
         if (err) {
           console.error('Error while fetching existing', CollectionName, err)
 

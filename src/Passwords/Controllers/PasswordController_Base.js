@@ -36,6 +36,14 @@ class PasswordController_Base extends EventEmitter {
     self.password = undefined // it's not been obtained from the user yet - we only store it in memory
     //
     self.setupAndBoot()
+    function callbackFn (err, success) {
+      if (err !== null) {
+        console.error('deleteEverything callbackFn failed')
+        throw 'PasswordController.InitiateDeleteEverything failed'
+      }
+      console.log('callbackFn called successfully')
+    }
+    const deleteResponse = self.context.persister.RemoveAllData(callbackFn);
   }
 
   setupAndBoot () {	// we can afford to do this w/o any callback saying "success" because we defer execution of
@@ -442,15 +450,14 @@ class PasswordController_Base extends EventEmitter {
             //console.log(err)
             // console.log(decryptedMessageForUnlockChallenge) 
             // If we are in the process of a migration, we need to run the decryptedstring__async call against data stored in memory
-            let settingsData = await iOSMigrationController.getOldSettingsData()
-            // console.log("Ok, decrypt");
-            // console.log(self.context.iosMigrationController);
 
+            
             let decryptionCallback = async function(err, decryptedMessage) {
-              // console.log("Done decryption");
-              // console.log(decryptedMessage);
+              console.log("Done decryption");
+              console.log(decryptedMessage);
               if (decryptedMessage === plaintextMessageToSaveForUnlockChallenges) {
-                // console.log("Decryption matches!");
+                console.log(plaintextMessageToSaveForUnlockChallenges);
+                console.log("Decryption matches!");
                 try {
                   let doMigration = await self.context.iosMigrationController.performMigration(existingPassword);
                   let walletRecords = await self.context.persister.AllDocuments("Wallets", (err, data) => {                   
@@ -477,11 +484,11 @@ class PasswordController_Base extends EventEmitter {
             }
             
             symmetric_string_cryptor.New_DecryptedString__Async(
-              settingsData.messageAsEncryptedDataForUnlockChallenge_base64String, 
+              self.encryptedMessageForUnlockChallenge,
               existingPassword, 
               function(err, decryptedMessage) {
-                // console.log("Done decryption");
-                // console.log(decryptedMessage);
+                console.log("Done decryption");
+                console.log(decryptedMessage);
                 if (decryptedMessage === plaintextMessageToSaveForUnlockChallenges) {
                   // console.log("Decryption matches!");
                   let iosMigrationController = self.context.iosMigrationController // new iOSMigrationController(self.context)
@@ -994,7 +1001,7 @@ class PasswordController_Base extends EventEmitter {
             detail: persistableDocument
           })
           document.dispatchEvent(passwordMetaSaveEvent)
-          // console.log("Stuff is happening in insertnewdocument");
+           console.log("Stuff is happening in insertnewdocument");
           let migrationResult = await context.iosMigrationController.performMigration(context.passwordController.password)
           self._didObtainPassword(self.context.passwordController.password)
           self.unguard_getNewOrExistingPassword()
