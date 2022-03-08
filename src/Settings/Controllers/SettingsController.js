@@ -64,9 +64,7 @@ class SettingsController extends EventEmitter {
       let iosMigrationController
       if (self.context.deviceInfo.platform === 'ios') {
         iosMigrationController = new iOSMigrationController(self.context);
-        console.log('ios')
-      } else {
-        console.log("Web");
+      } else { // web
         iosMigrationController = new iOSMigrationController(self.context, true);
       }
       
@@ -104,21 +102,18 @@ class SettingsController extends EventEmitter {
     self.context.persister.AllDocuments(
       CollectionName,
       function (err, contentStrings) {
-        console.log(contentStrings);
         if (err) {
           console.error('Error while fetching existing', CollectionName, err)
-
           throw err
         }
 
         const contentStrings_length = contentStrings.length
         if (contentStrings_length === 0) { //
-          console.log("Looks like we have no settings");
           const mocked_doc = JSON.parse(JSON.stringify(k_defaults_record)) // hamfisted copy
           _proceedTo_loadStateFromRecord(mocked_doc)
           return
         }
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         if (contentStrings_length > 1) {
           // Version 1.1.19 and below had an issue where multiple settings objects were saved.
           // Version 1.1.20 and up will loop through this state. We'll suppress the warning Android users who have changed their default settings will encounter
