@@ -3,6 +3,9 @@ const webpack = require('webpack')
 const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
+  optimization:{
+    minimize: false // Not disabling uglify minifies code in such a way that an error is thrown on iOS.
+  },
   entry: './src/index.browser.js',
   output: {
     filename: 'bundle.js',
