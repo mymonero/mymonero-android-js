@@ -52,9 +52,19 @@ cd mymonero-android-js
 npm install
 ```
 
-To open the android app in Android studio, run the following
+To build the app
 ```bash
 npm run build
+```
+
+To build the app, update Android and open Android Studio
+```bash
+npm run build-android
+```
+
+To build the app, update iOS and open Xcode
+```bash
+npm run build-ios
 ```
 
 To run the app in a web browser, run the following
