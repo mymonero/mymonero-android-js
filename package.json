@@ -13,7 +13,8 @@
     "build-android": "npm run build; npm run update-android",
     "build-ios": "npm run build; npm run update-ios",
     "dev-ios": "(webpack --mode=development); npm run update-ios",
-    "watch": "(webpack --config webpack.config.js --watch) & (node server.js)"
+    "dev-android": "(webpack --mode=development); npm run update-android",
+    "watch": "(webpack --mode=development --config webpack.config.js --watch) & (node server.js)"
   },
   "engines": {
     "node": ">=12.4.0"

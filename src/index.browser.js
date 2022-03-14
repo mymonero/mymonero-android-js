@@ -10,8 +10,6 @@ import indexContextBrowser from './MainWindow/Models/index_context.browser'
 import { App } from '@capacitor/app'
 import { Device } from '@capacitor/device'
 
-//const { App } = Plugins
-
 window.BootApp = async function () { // encased in a function to prevent scope being lost/freed on mobile
   const isDebug = false
   const version = '1.2.1'
