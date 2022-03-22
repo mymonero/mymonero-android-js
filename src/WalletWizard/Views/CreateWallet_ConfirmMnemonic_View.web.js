@@ -303,9 +303,9 @@ class CreateWallet_ConfirmMnemonic_View extends BaseView_AWalletWizardScreen {
     }
     function ____reEnable_userIdleAndScreenSleepFromSubmissionDisable () { // factored because we would like to call this on successful submission too!
       self.context.userIdleInWindowController.ReEnable_userIdle()
-      if (self.context.Cordova_isMobile === true) {
-        window.plugins.insomnia.allowSleepAgain() // re-enable screen dim/off
-      }
+      // if (self.context.Cordova_isMobile === true) {
+      //   window.plugins.insomnia.allowSleepAgain() // re-enable screen dim/off
+      // }
     }
     function ___reEnableFormFromSubmissionDisable () {
       self.isDisabledFromSubmission = false
@@ -322,9 +322,9 @@ class CreateWallet_ConfirmMnemonic_View extends BaseView_AWalletWizardScreen {
     { // disable form
       self.isDisabledFromSubmission = true
       self.context.userIdleInWindowController.TemporarilyDisable_userIdle()
-      if (self.context.Cordova_isMobile === true) {
-        window.plugins.insomnia.keepAwake() // disable screen dim/off
-      }
+      // if (self.context.Cordova_isMobile === true) {
+      //   window.plugins.insomnia.keepAwake() // disable screen dim/off
+      // }
       //
       self.validationMessageLayer.ClearAndHideMessage()
       //
