@@ -3,7 +3,7 @@
 import FilesystemUI_Abstract from './FilesystemUI_Abstract'
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 // import { Device } from '@capacitor/device';
-import { FilePicker } from 'capacitor-file-picker'
+import { FilePicker } from '@mymonero/capacitor-file-picker'
 
 class FilesytemUI extends FilesystemUI_Abstract {
   // async function to save URI to disk
