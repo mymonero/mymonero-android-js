@@ -4,18 +4,29 @@ import FilesystemUI_Abstract from './FilesystemUI_Abstract'
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 // import { Device } from '@capacitor/device';
 import { FilePicker } from '@mymonero/capacitor-file-picker'
-
+import { Share } from '@capacitor/share'
 class FilesytemUI extends FilesystemUI_Abstract {
   // async function to save URI to disk
   async fileWrite (filename, encoding, data) {
     try {
-      const result2 = await Filesystem.writeFile({
-        path: filename,
-        data,
-        directory: Directory.Documents
-      }).then(() => {
-        console.log('Wrote file')
-      })
+      if (this.context.deviceInfo.platform == 'ios') {
+        const finalPhotoUri = await Filesystem.getUri({
+          directory: Directory.Documents,
+          path: filename,
+        });
+        Share.share({
+          title: filename,
+          text: "MyMonero payment request",
+          dialogTitle: "MyMonero payment request",
+          url: finalPhotoUri.uri
+        })
+      } else {
+        const result2 = await Filesystem.writeFile({
+          path: filename,
+          data,
+          directory: Directory.Documents
+        })
+      }
     } catch (e) {
       console.error(e.message)
       console.error('Unable to write file', e)
@@ -29,9 +40,17 @@ class FilesytemUI extends FilesystemUI_Abstract {
         data,
         directory: Directory.Documents,
         encoding: Encoding.UTF8
-      }).then(() => {
-        console.log('Wrote file')
       })
+
+      const finalPhotoUri = await Filesystem.getUri({
+        directory: Directory.Documents,
+        path: filename,
+      });
+      Share.share({
+        title: filename,
+        url: finalPhotoUri.uri
+      })
+
     } catch (e) {
       console.error(e.message)
       console.error('Unable to write file', e)
@@ -149,7 +168,7 @@ class FilesytemUI extends FilesystemUI_Abstract {
 
     try {
       let fileImageData = await FilePicker.showFilePicker({
-        fileTypes: ["image/*"]
+        fileTypes: []
       });
 
       const fileDataReadResult = await Filesystem.readFile({
