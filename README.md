@@ -1,3 +1,4 @@
+## this repo is being archived in favour of our new [mymonero-mobile](https://github.com/mymonero/mymonero-mobile) repo. any support, downloads or updates will be available there.
 # MyMonero Android Wallet 
 
 <p align="center">
