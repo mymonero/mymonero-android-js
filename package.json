@@ -18,7 +18,7 @@
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@capacitor/android": "^2.4.7",
-    "@capacitor/cli": "^2.4.7",
+    "@capacitor/cli": "^3.0.0",
     "@capacitor/core": "^2.4.7",
     "@ionic/pwa-elements": "^3.0.2",
     "@johnbraum/capacitor-qrscanner": "1.0.1",
